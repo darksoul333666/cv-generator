@@ -1,0 +1,34 @@
+{
+  "id": "cv_3",
+  "label": "Perfil liderazgo / gestión",
+  "keywords": ["liderazgo", "equipo", "scrum", "agile", "producto", "stakeholder", "roadmap", "delivery"],
+  "name": "Tu Nombre",
+  "title": "Tech Lead / Engineering Manager",
+  "email": "correo@ejemplo.com",
+  "phone": "+34 600 000 000",
+  "linkedin": "linkedin.com/in/tu-perfil",
+  "summary": "Perfil con experiencia coordinando equipos multidisciplinares y entrega de producto.",
+  "experience": [
+    {
+      "company": "Empresa C",
+      "role": "Tech Lead / Engineering Manager",
+      "period": "2019-03 – Presente",
+      "bullets": [
+        "Liderazgo de equipo de 6 personas; priorización con negocio.",
+        "Mejora de procesos ágiles y calidad de entregas."
+      ]
+    }
+  ],
+  "stack": {
+    "frontend": "",
+    "backend": "",
+    "state": "",
+    "cloud": "AWS, observabilidad",
+    "mobile": "",
+    "architecture": "Arquitectura de sistemas, seguridad",
+    "testing": "Estrategia de calidad",
+    "quality": "Code review, estándares de equipo"
+  },
+  "education": "Universidad — Grado / Máster (2015)",
+  "certifications": []
+}

@@ -1,0 +1,34 @@
+{
+  "id": "cv_2",
+  "label": "Perfil frontend / producto",
+  "keywords": ["react", "typescript", "next.js", "frontend", "ux", "figma", "accesibilidad", "web"],
+  "name": "Tu Nombre",
+  "title": "Frontend Developer",
+  "email": "correo@ejemplo.com",
+  "phone": "+34 600 000 000",
+  "linkedin": "linkedin.com/in/tu-perfil",
+  "summary": "Desarrollador frontend orientado a producto, diseño de interfaces y rendimiento web.",
+  "experience": [
+    {
+      "company": "Empresa B",
+      "role": "Frontend Developer",
+      "period": "2021-06 – Presente",
+      "bullets": [
+        "Interfaces con React y TypeScript en aplicaciones de alto tráfico.",
+        "Colaboración estrecha con diseño y métricas de conversión."
+      ]
+    }
+  ],
+  "stack": {
+    "frontend": "React, TypeScript, Next.js, CSS",
+    "backend": "",
+    "state": "Zustand, React Query (ejemplo)",
+    "cloud": "Vercel, CI básico",
+    "mobile": "",
+    "architecture": "Component-driven UI",
+    "testing": "Jest, Testing Library",
+    "quality": "ESLint, Prettier, Git"
+  },
+  "education": "Universidad — Grado en Ingeniería Informática (2020)",
+  "certifications": []
+}

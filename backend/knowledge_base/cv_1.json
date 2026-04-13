@@ -1,0 +1,34 @@
+{
+  "id": "cv_1",
+  "label": "Perfil backend / datos",
+  "keywords": ["python", "fastapi", "postgresql", "sql", "api", "docker", "aws", "etl", "datos"],
+  "name": "Tu Nombre",
+  "title": "Backend Developer / Data",
+  "email": "correo@ejemplo.com",
+  "phone": "+34 600 000 000",
+  "linkedin": "linkedin.com/in/tu-perfil",
+  "summary": "Ingeniero de software con foco en APIs, datos y despliegue en la nube. Sustituye este resumen por el de tu CV real.",
+  "experience": [
+    {
+      "company": "Empresa A",
+      "role": "Backend Developer",
+      "period": "2022-01 – Presente",
+      "bullets": [
+        "Diseño e implementación de APIs REST con Python y FastAPI.",
+        "Optimización de consultas y modelado en PostgreSQL."
+      ]
+    }
+  ],
+  "stack": {
+    "frontend": "",
+    "backend": "Python, FastAPI, PostgreSQL, SQLAlchemy",
+    "state": "",
+    "cloud": "Docker, AWS (básico)",
+    "mobile": "",
+    "architecture": "REST, diseño de servicios",
+    "testing": "pytest",
+    "quality": "Git, code review"
+  },
+  "education": "Universidad — Grado en Ingeniería Informática (2020)",
+  "certifications": []
+}
