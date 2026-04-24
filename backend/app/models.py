@@ -32,6 +32,13 @@ class StackBlock(BaseModel):
     quality: str = ""
 
 
+class TechSkills(BaseModel):
+    front: List[str] = Field(default_factory=list)
+    back: List[str] = Field(default_factory=list)
+    ux: List[str] = Field(default_factory=list)
+    test: List[str] = Field(default_factory=list)
+
+
 class CvDocument(BaseModel):
     """Perfil base (plantilla React / PDF) + metadatos para el matcher."""
 
@@ -46,6 +53,7 @@ class CvDocument(BaseModel):
     summary: str = ""
     experience: List[ExperienceItem] = Field(default_factory=list)
     stack: StackBlock = Field(default_factory=StackBlock)
+    tech_skills: TechSkills = Field(default_factory=TechSkills)
     education: str = ""
     certifications: List[str] = Field(default_factory=list)
 
@@ -58,4 +66,26 @@ class MatchResponse(BaseModel):
     match_reason: str
     cv: CvDocument
     vacancy_excerpt: str = ""
+    raw_meta: Dict[str, Any] = Field(default_factory=dict)
+
+
+class TailorRequest(BaseModel):
+    """Solicitud para perfilar un CV con IA (vacante y/o instrucciones libres)."""
+
+    vacancy_text: str = Field(default="", description="Texto completo de la oferta")
+    vacancy_url: Optional[str] = Field(default=None, description="URL opcional")
+    custom_instructions: str = Field(
+        default="",
+        description="Instrucciones del usuario para modificar el CV (tono, foco, rol, keywords, etc.)",
+    )
+    cv: CvDocument
+
+
+class TailorResponse(BaseModel):
+    cv: CvDocument
+    match_percent: float = Field(description="Estimación (0-100) del alineamiento")
+    reason: str = ""
+    notes_to_verify: List[str] = Field(default_factory=list)
+    gaps: List[str] = Field(default_factory=list)
+    reinforcement_plan: List[str] = Field(default_factory=list)
     raw_meta: Dict[str, Any] = Field(default_factory=dict)

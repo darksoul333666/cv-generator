@@ -5,6 +5,13 @@ export type Experience = {
   bullets: string[];
 };
 
+export type TechSkills = {
+  front: string[];
+  back: string[];
+  ux: string[];
+  test: string[];
+};
+
 export type CVStack = {
   frontend: string;
   backend: string;
@@ -25,6 +32,7 @@ export type CVData = {
   summary: string;
   experience: Experience[];
   stack: CVStack;
+  tech_skills: TechSkills;
   education: string;
   certifications: string[];
 };
@@ -45,8 +53,21 @@ export type MatchResponse = {
   raw_meta?: Record<string, unknown>;
 };
 
+export type TailorResponse = {
+  cv: CvProfile;
+  match_percent: number;
+  reason: string;
+  notes_to_verify: string[];
+  gaps: string[];
+  reinforcement_plan: string[];
+  raw_meta?: Record<string, unknown>;
+};
+
 export function pickCvData(profile: CvProfile): CVData {
   const { id: _i, label: _l, keywords: _k, ...data } = profile;
+  void _i;
+  void _l;
+  void _k;
   return data;
 }
 
@@ -59,4 +80,11 @@ export const emptyStack = (): CVStack => ({
   architecture: "",
   testing: "",
   quality: "",
+});
+
+export const emptyTechSkills = (): TechSkills => ({
+  front: [],
+  back: [],
+  ux: [],
+  test: [],
 });

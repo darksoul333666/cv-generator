@@ -1,34 +1,95 @@
 {
   "id": "cv_2",
-  "label": "Perfil frontend / producto",
-  "keywords": ["react", "typescript", "next.js", "frontend", "ux", "figma", "accesibilidad", "web"],
-  "name": "Tu Nombre",
-  "title": "Frontend Developer",
-  "email": "correo@ejemplo.com",
-  "phone": "+34 600 000 000",
-  "linkedin": "linkedin.com/in/tu-perfil",
-  "summary": "Desarrollador frontend orientado a producto, diseño de interfaces y rendimiento web.",
+  "label": "Mobile — React Native, fintech",
+  "keywords": [
+    "react native",
+    "typescript",
+    "mobile",
+    "fintech",
+    "payments",
+    "redux",
+    "mobx",
+    "stripe",
+    "cybersource",
+    "performance",
+    "aws",
+    "adonisjs"
+  ],
+  "name": "Jairo Antonio Camarillo Tinoco",
+  "title": "Senior React Native Developer | 6+ años",
+  "email": "jairoantoniocamarillotinoco@gmail.com",
+  "phone": "+52 271 352 9511",
+  "linkedin": "linkedin.com/in/jairo-camarillo-218aaa216",
+  "summary": "Desarrollador Senior React Native con más de 6 años construyendo aplicaciones móviles escalables, especialmente en fintech: pagos, transferencias y sistemas de alto tráfico. Enfoque fuerte en optimización de performance (reducciones de hasta ~30% en tiempos de carga) y en calidad de código mediante reducción de deuda técnica y buenas prácticas de mantenibilidad. Experiencia liderando equipos y entregando soluciones móviles de alto impacto usadas por miles de usuarios. Inglés: nivel de competencia profesional.",
   "experience": [
     {
-      "company": "Empresa B",
-      "role": "Frontend Developer",
-      "period": "2021-06 – Presente",
+      "company": "Grainchain Inc",
+      "role": "Senior Frontend Developer",
+      "period": "Jun 2025 – Abril 2026",
       "bullets": [
-        "Interfaces con React y TypeScript en aplicaciones de alto tráfico.",
-        "Colaboración estrecha con diseño y métricas de conversión."
+        "Desarrollo de dashboards financieros con Angular y Angular Material.",
+        "Optimización de tablas y vistas complejas, reduciendo tiempos de renderizado en ~35%.",
+        "Implementación de interfaces responsive mejorando usabilidad en móvil.",
+        "Gestión de i18n con ngx-translate."
+      ]
+    },
+    {
+      "company": "Lumston",
+      "role": "React Native Developer",
+      "period": "May 2023 – Jun 2025",
+      "bullets": [
+        "Desarrollo de aplicaciones móviles con React Native para clientes enterprise (Volaris, Scotiabank, Doña Tota).",
+        "Implementación de funcionalidades escalables en entornos productivos.",
+        "Definición y seguimiento de métricas de calidad de código (deuda técnica, retrabajo, mantenibilidad).",
+        "Reducción de tiempos de carga en ~30% mediante optimización de componentes y manejo de estado.",
+        "Entrega continua de features reduciendo tiempos de desarrollo en ~20%."
+      ]
+    },
+    {
+      "company": "UffPay",
+      "role": "React Native Developer (Fintech) — Freelancer",
+      "period": "Ene 2024 – Jul 2024",
+      "bullets": [
+        "Desarrollo de app fintech en React Native para pagos, transferencias y recargas.",
+        "Integración con Cybersource para procesamiento de pagos.",
+        "Desarrollo de backend con AdonisJS.",
+        "Reducción de errores en flujos de pago en ~25% mediante validaciones y mejoras en UX.",
+        "Optimización de tiempos de respuesta en APIs en ~30%."
+      ]
+    },
+    {
+      "company": "Monkey Cave",
+      "role": "Senior Frontend Developer / Technical Leader",
+      "period": "Jun 2020 – Ene 2022",
+      "bullets": [
+        "Liderazgo técnico del equipo de desarrollo.",
+        "Definición de arquitectura y stack tecnológico.",
+        "Mejora de eficiencia del equipo en ~25% mediante buenas prácticas y organización de sprints."
       ]
     }
   ],
   "stack": {
-    "frontend": "React, TypeScript, Next.js, CSS",
-    "backend": "",
-    "state": "Zustand, React Query (ejemplo)",
-    "cloud": "Vercel, CI básico",
-    "mobile": "",
-    "architecture": "Component-driven UI",
-    "testing": "Jest, Testing Library",
-    "quality": "ESLint, Prettier, Git"
+    "frontend": "React Native, TypeScript, Redux, MobX",
+    "backend": "Node.js, Express, AdonisJS, NestJS",
+    "state": "Redux, MobX",
+    "cloud": "AWS (S3, EC2, Cognito, IAM, CodePipeline)",
+    "mobile": "App Store, Play Console, CodePush, Firebase",
+    "architecture": "MVVM, Clean Architecture, CI/CD, Agile",
+    "testing": "Jest, Karma, E2E, TDD, Jasmine",
+    "quality": "SonarQube, ESLint, code reviews"
   },
-  "education": "Universidad — Grado en Ingeniería Informática (2020)",
-  "certifications": []
+  "tech_skills": {
+    "front": ["React Native", "TypeScript", "Redux", "MobX", "navegación móvil", "performance móvil"],
+    "back": ["Node.js", "Express", "AdonisJS", "NestJS", "APIs REST", "integración de pagos"],
+    "ux": ["fintech", "flujos de pago", "validaciones y feedback de error"],
+    "test": ["Jest", "Karma", "Jasmine", "E2E", "TDD"]
+  },
+  "education": "TSU en Desarrollo de Software Multiplataforma — Universidad Tecnológica del Centro de Veracruz. Egresado en 2022.",
+  "certifications": [
+    "Certificación en Machine Learning — AWS",
+    "Certificación de Desarrollador Stripe — 2024",
+    "NDG Linux Essentials — 2020",
+    "CCNA: Conmutación y Enrutamiento — 2020",
+    "Tercer lugar — Olimpiada de Programación — 2017"
+  ]
 }

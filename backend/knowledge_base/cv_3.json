@@ -1,34 +1,96 @@
 {
   "id": "cv_3",
-  "label": "Perfil liderazgo / gestión",
-  "keywords": ["liderazgo", "equipo", "scrum", "agile", "producto", "stakeholder", "roadmap", "delivery"],
-  "name": "Tu Nombre",
-  "title": "Tech Lead / Engineering Manager",
-  "email": "correo@ejemplo.com",
-  "phone": "+34 600 000 000",
-  "linkedin": "linkedin.com/in/tu-perfil",
-  "summary": "Perfil con experiencia coordinando equipos multidisciplinares y entrega de producto.",
+  "label": "Full stack — Web, móvil y APIs (inferido)",
+  "keywords": [
+    "fullstack",
+    "full stack",
+    "angular",
+    "react",
+    "next.js",
+    "react native",
+    "typescript",
+    "nodejs",
+    "adonisjs",
+    "nestjs",
+    "aws",
+    "fintech",
+    "api",
+    "stripe",
+    "ci/cd",
+    "technical lead"
+  ],
+  "name": "Jairo Antonio Camarillo Tinoco",
+  "title": "Senior Full Stack Developer (Angular · React · Next.js · Node.js | TypeScript) | 6+ años",
+  "email": "jairoantoniocamarillotinoco@gmail.com",
+  "phone": "+52 271 352 9511",
+  "linkedin": "linkedin.com/in/jairo-camarillo-218aaa216",
+  "summary": "Desarrollador full stack senior con más de 6 años llevando productos desde la interfaz hasta APIs y despliegue en la nube. Combina Angular, React y Next.js en web, React Native en móvil y Node.js (Express, AdonisJS, NestJS) en backend, con AWS y pipelines CI/CD. Trayectoria en fintech, dashboards financieros de alto tráfico e integraciones de pagos (Stripe, Cybersource, Neonet). Experiencia liderando iniciativas técnicas, definiendo arquitectura y estándares de equipo, y mejorando entrega mediante métricas de calidad y prácticas ágiles. Inglés: nivel de competencia profesional.",
   "experience": [
     {
-      "company": "Empresa C",
-      "role": "Tech Lead / Engineering Manager",
-      "period": "2019-03 – Presente",
+      "company": "Grainchain Inc",
+      "role": "Senior Frontend Developer",
+      "period": "Jun 2025 – Abril 2026",
       "bullets": [
-        "Liderazgo de equipo de 6 personas; priorización con negocio.",
-        "Mejora de procesos ágiles y calidad de entregas."
+        "End-to-end de dashboards financieros: Angular, Angular Material, NgRx y consumo de APIs.",
+        "Optimización de datos en UI (tablas/virtualización) y reducción ~35% en tiempos de renderizado.",
+        "i18n con ngx-translate; interfaces responsive; Signals y RxJS para flujos reactivos complejos.",
+        "Colaboración con backend y cloud para despliegues estables y observabilidad de errores."
+      ]
+    },
+    {
+      "company": "Lumston",
+      "role": "Full Stack / Frontend Developer",
+      "period": "May 2023 – Jun 2025",
+      "bullets": [
+        "Aplicaciones enterprise en Angular, Next.js y React; SSR, routing y performance web.",
+        "Apps móviles y flujos críticos con integración a APIs y foco en UX.",
+        "Integración de Stripe Payments en productos fintech; entrega continua ~20% más rápida.",
+        "Métricas de deuda técnica, retrabajo y mantenibilidad; reducción ~30% en tiempos de carga."
+      ]
+    },
+    {
+      "company": "UffPay",
+      "role": "Full Stack (React Native + Backend) — Freelancer",
+      "period": "Ene 2023 – Jul 2024",
+      "bullets": [
+        "Producto fintech móvil en React Native: pagos, transferencias y recargas.",
+        "Backend en AdonisJS y optimización de APIs ~30% en tiempos de respuesta.",
+        "Integraciones Neonet y Cybersource; ~25% menos errores en flujos de pago (validaciones + UX)."
+      ]
+    },
+    {
+      "company": "Monkey Cave",
+      "role": "Senior Frontend Developer / Technical Leader",
+      "period": "Ene 2020 – Ene 2023",
+      "bullets": [
+        "Liderazgo técnico: arquitectura, stack y estándares para equipos frontend/full stack.",
+        "~25% más eficiencia del equipo mediante sprints, code reviews y disciplina de testing.",
+        "Impulso de CI/CD y calidad (SonarQube, ESLint) alineado a entregas ágiles."
       ]
     }
   ],
   "stack": {
-    "frontend": "",
-    "backend": "",
-    "state": "",
-    "cloud": "AWS, observabilidad",
-    "mobile": "",
-    "architecture": "Arquitectura de sistemas, seguridad",
-    "testing": "Estrategia de calidad",
-    "quality": "Code review, estándares de equipo"
+    "frontend": "Angular, React, Next.js, React Native, TypeScript, JavaScript (ES6+), HTML5, CSS3",
+    "backend": "Node.js, Express, AdonisJS, NestJS",
+    "state": "NgRx, Redux, MobX",
+    "cloud": "AWS (S3, EC2, Cognito, IAM, CodePipeline)",
+    "mobile": "App Store, Play Console, CodePush, Firebase",
+    "architecture": "MVVM, Clean Architecture, APIs REST, CI/CD, Agile",
+    "testing": "Jest, Karma, E2E, TDD, Jasmine",
+    "quality": "SonarQube, ESLint, code reviews"
   },
-  "education": "Universidad — Grado / Máster (2015)",
-  "certifications": []
+  "tech_skills": {
+    "front": ["Angular", "React", "Next.js", "React Native", "TypeScript", "NgRx", "Redux", "MobX"],
+    "back": ["Node.js", "Express", "AdonisJS", "NestJS", "REST APIs", "integraciones de pago"],
+    "ux": ["fintech", "dashboards", "responsive", "i18n"],
+    "test": ["Jest", "Karma", "Jasmine", "E2E", "TDD"]
+  },
+  "education": "TSU en Desarrollo de Software Multiplataforma — Universidad Tecnológica del Centro de Veracruz. Egresado en 2022.",
+  "certifications": [
+    "Certificación en Machine Learning — AWS",
+    "Certificación de Desarrollador Stripe — 2024",
+    "NDG Linux Essentials — 2020",
+    "CCNA: Conmutación y Enrutamiento — 2020",
+    "Tercer lugar — Olimpiada de Programación — 2017"
+  ]
 }

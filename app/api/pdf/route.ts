@@ -2,9 +2,11 @@ import { NextResponse } from "next/server";
 import { cvTemplateToBodyHtml } from "@/lib/cv-template-html";
 import {
   emptyStack,
+  emptyTechSkills,
   pickCvData,
   type CVStack,
   type CvProfile,
+  type TechSkills,
 } from "@/lib/cv-types";
 
 export const runtime = "nodejs";
@@ -20,6 +22,18 @@ function normalizeStack(raw: unknown): CVStack {
   for (const k of Object.keys(d) as (keyof CVStack)[]) {
     const v = raw[k as string];
     if (typeof v === "string") d[k] = v;
+  }
+  return d;
+}
+
+function normalizeTechSkills(raw: unknown): TechSkills {
+  const d = emptyTechSkills();
+  if (!isRecord(raw)) return d;
+  for (const k of Object.keys(d) as (keyof TechSkills)[]) {
+    const v = raw[k as string];
+    if (Array.isArray(v)) {
+      d[k] = v.filter((s): s is string => typeof s === "string");
+    }
   }
   return d;
 }
@@ -62,6 +76,7 @@ function normalizeCvProfile(raw: unknown): CvProfile | null {
     summary: typeof raw.summary === "string" ? raw.summary : "",
     experience,
     stack: normalizeStack(raw.stack),
+    tech_skills: normalizeTechSkills(raw.tech_skills),
     education: typeof raw.education === "string" ? raw.education : "",
     certifications,
   };

@@ -7,7 +7,7 @@ const styles: Record<string, CSSProperties> = {
     padding: "40px",
     maxWidth: "800px",
     margin: "0 auto",
-    color: "#000",
+    color: "#111",
     background: "#fff",
   },
   name: {
@@ -16,35 +16,48 @@ const styles: Record<string, CSSProperties> = {
     marginBottom: "4px",
   },
   title: {
-    fontSize: "14px",
-    marginBottom: "10px",
+    fontSize: "13px",
+    marginBottom: "14px",
+    color: "#333",
   },
   contact: {
     display: "flex",
-    flexDirection: "column",
-    gap: "2px",
-    marginBottom: "20px",
-    fontSize: "12px",
+    flexWrap: "wrap",
+    gap: "10px",
+    marginBottom: "18px",
+    fontSize: "11.5px",
+    color: "#222",
   },
   section: {
-    marginBottom: "20px",
+    marginBottom: "18px",
   },
   sectionTitle: {
-    fontSize: "16px",
-    fontWeight: "bold",
-    borderBottom: "1px solid #000",
-    marginBottom: "8px",
+    fontSize: "13px",
+    fontWeight: 700,
+    letterSpacing: "0.04em",
+    textTransform: "uppercase",
+    borderBottom: "1px solid #111",
+    paddingBottom: "6px",
+    marginBottom: "10px",
   },
   job: {
     marginBottom: "12px",
   },
   jobTitle: {
-    fontSize: "14px",
-    fontWeight: "bold",
+    fontSize: "12.5px",
+    fontWeight: 700,
   },
   period: {
-    fontSize: "12px",
+    fontSize: "11px",
     marginBottom: "6px",
+    color: "#333",
+  },
+  bullets: {
+    margin: 0,
+    paddingLeft: "18px",
+  },
+  paragraph: {
+    margin: "0 0 8px",
   },
 };
 
@@ -70,7 +83,7 @@ export function CVTemplate({ data }: { data: CVData }) {
       </div>
 
       <Section title="Resumen Profesional">
-        <p>{data.summary}</p>
+        <p style={styles.paragraph}>{data.summary}</p>
       </Section>
 
       <Section title="Experiencia Profesional">
@@ -80,7 +93,7 @@ export function CVTemplate({ data }: { data: CVData }) {
               {job.company} — {job.role}
             </h3>
             <p style={styles.period}>{job.period}</p>
-            <ul>
+            <ul style={styles.bullets}>
               {job.bullets.map((b, j) => (
                 <li key={j}>{b}</li>
               ))}
@@ -90,38 +103,38 @@ export function CVTemplate({ data }: { data: CVData }) {
       </Section>
 
       <Section title="Stack Tecnológico">
-        <p>
+        <p style={styles.paragraph}>
           <strong>Frontend:</strong> {data.stack.frontend}
         </p>
-        <p>
+        <p style={styles.paragraph}>
           <strong>Backend:</strong> {data.stack.backend}
         </p>
-        <p>
+        <p style={styles.paragraph}>
           <strong>State Management:</strong> {data.stack.state}
         </p>
-        <p>
+        <p style={styles.paragraph}>
           <strong>Cloud & DevOps:</strong> {data.stack.cloud}
         </p>
-        <p>
+        <p style={styles.paragraph}>
           <strong>Mobile:</strong> {data.stack.mobile}
         </p>
-        <p>
+        <p style={styles.paragraph}>
           <strong>Architecture:</strong> {data.stack.architecture}
         </p>
-        <p>
+        <p style={styles.paragraph}>
           <strong>Testing:</strong> {data.stack.testing}
         </p>
-        <p>
+        <p style={styles.paragraph}>
           <strong>Code Quality:</strong> {data.stack.quality}
         </p>
       </Section>
 
       <Section title="Formación Académica">
-        <p>{data.education}</p>
+        <p style={styles.paragraph}>{data.education}</p>
       </Section>
 
       <Section title="Certifications and Achievements">
-        <ul>
+        <ul style={styles.bullets}>
           {data.certifications.map((c, i) => (
             <li key={i}>{c}</li>
           ))}

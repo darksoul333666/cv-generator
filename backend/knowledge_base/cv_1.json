@@ -1,34 +1,118 @@
 {
   "id": "cv_1",
-  "label": "Perfil backend / datos",
-  "keywords": ["python", "fastapi", "postgresql", "sql", "api", "docker", "aws", "etl", "datos"],
-  "name": "Tu Nombre",
-  "title": "Backend Developer / Data",
-  "email": "correo@ejemplo.com",
-  "phone": "+34 600 000 000",
-  "linkedin": "linkedin.com/in/tu-perfil",
-  "summary": "Ingeniero de software con foco en APIs, datos y despliegue en la nube. Sustituye este resumen por el de tu CV real.",
+  "label": "Frontend web — Angular, React, Next.js",
+  "keywords": [
+    "angular",
+    "react",
+    "next.js",
+    "typescript",
+    "frontend",
+    "ngrx",
+    "rxjs",
+    "dashboard",
+    "fintech",
+    "performance",
+    "i18n",
+    "angular material",
+    "ssr",
+    "responsive"
+  ],
+  "name": "Jairo Antonio Camarillo Tinoco",
+  "title": "Senior Frontend Developer (Angular | React | Next.js | TypeScript) | 6+ años",
+  "email": "jairoantoniocamarillotinoco@gmail.com",
+  "phone": "+52 271 352 9511",
+  "linkedin": "linkedin.com/in/jairo-camarillo-218aaa216",
+  "summary": "Desarrollador Senior Frontend con más de 6 años de experiencia construyendo interfaces web y móviles de alto rendimiento, especializado en Angular, React, Next.js y TypeScript. Experiencia en desarrollo de dashboards, aplicaciones fintech y sistemas de alto tráfico, con enfoque en performance, escalabilidad y experiencia de usuario. He logrado reducciones de hasta 35% en tiempos de renderizado y mejoras en mantenibilidad mediante optimización de componentes, manejo eficiente del estado y buenas prácticas de arquitectura. Experiencia colaborando con equipos multidisciplinarios y liderando iniciativas frontend de alto impacto, incluyendo integración con servicios cloud. Inglés: nivel de competencia profesional.",
   "experience": [
     {
-      "company": "Empresa A",
-      "role": "Backend Developer",
-      "period": "2022-01 – Presente",
+      "company": "Grainchain Inc",
+      "role": "Senior Frontend Developer",
+      "period": "Jun 2025 – Abril 2026",
       "bullets": [
-        "Diseño e implementación de APIs REST con Python y FastAPI.",
-        "Optimización de consultas y modelado en PostgreSQL."
+        "Desarrollo de dashboards financieros con Angular y Angular Material.",
+        "Manejo de estado con NgRx para aplicaciones escalables.",
+        "Optimización de tablas complejas y virtualización de datos, reduciendo tiempos de renderizado en ~35%.",
+        "Implementación de interfaces responsive mejorando usabilidad en dispositivos móviles.",
+        "Manejo de internacionalización (i18n) con ngx-translate.",
+        "Mejora de performance mediante lazy loading y optimización de change detection.",
+        "Uso avanzado de Signals, así como dominio de RxJS."
+      ]
+    },
+    {
+      "company": "Lumston",
+      "role": "Frontend Developer",
+      "period": "May 2023 – Jun 2025",
+      "bullets": [
+        "Desarrollo de aplicaciones móviles con Angular y Next.js para clientes enterprise (Volaris, Scotiabank, Doña Tota, Golden Corral, Viva Aerobús).",
+        "Implementación de funcionalidades escalables en entornos productivos.",
+        "Construcción de aplicaciones web usando React y Next.js (SSR, routing y optimización de performance).",
+        "Integración con APIs y mejora de experiencia de usuario en flujos críticos.",
+        "Definición y seguimiento de métricas de calidad de código (deuda técnica, retrabajo, mantenibilidad).",
+        "Integración de Stripe Payments para procesamiento de pagos en aplicaciones fintech.",
+        "Reducción de tiempos de carga en ~30% mediante optimización de componentes y manejo de estado.",
+        "Entrega continua de features reduciendo tiempos de desarrollo en ~20%."
+      ]
+    },
+    {
+      "company": "UffPay",
+      "role": "Frontend (Fintech) — Freelancer",
+      "period": "Ene 2023 – Jul 2024",
+      "bullets": [
+        "Desarrollo de app fintech en React Native para pagos, transferencias y recargas.",
+        "Integración con Neonet y Cybersource para procesamiento de pagos.",
+        "Desarrollo de backend con AdonisJS.",
+        "Reducción de errores en flujos de pago en ~25% mediante validaciones y mejoras en UX.",
+        "Optimización de tiempos de respuesta en APIs en ~30%."
+      ]
+    },
+    {
+      "company": "Monkey Cave",
+      "role": "Senior Frontend Developer / Technical Leader",
+      "period": "Ene 2020 – Ene 2023",
+      "bullets": [
+        "Liderazgo técnico en proyectos frontend.",
+        "Definición de arquitectura y estándares de desarrollo.",
+        "Mejora en eficiencia del equipo en ~25% mediante mejores prácticas y organización de sprints.",
+        "Implementación de buenas prácticas (code reviews, testing, organización de sprints)."
       ]
     }
   ],
   "stack": {
-    "frontend": "",
-    "backend": "Python, FastAPI, PostgreSQL, SQLAlchemy",
-    "state": "",
-    "cloud": "Docker, AWS (básico)",
-    "mobile": "",
-    "architecture": "REST, diseño de servicios",
-    "testing": "pytest",
-    "quality": "Git, code review"
+    "frontend": "Angular, React, Next.js, React Native, TypeScript, JavaScript (ES6+), HTML5, CSS3",
+    "backend": "Node.js, Express, AdonisJS, NestJS",
+    "state": "NgRx, Redux, MobX",
+    "cloud": "AWS (S3, EC2, Cognito, IAM, CodePipeline)",
+    "mobile": "App Store, Play Console, CodePush, Firebase",
+    "architecture": "MVVM, Clean Architecture, CI/CD, Agile",
+    "testing": "Jest, Karma, E2E, TDD, Jasmine",
+    "quality": "SonarQube, ESLint, code reviews"
   },
-  "education": "Universidad — Grado en Ingeniería Informática (2020)",
-  "certifications": []
+  "tech_skills": {
+    "front": [
+      "Angular",
+      "Angular Material",
+      "React",
+      "Next.js",
+      "TypeScript",
+      "RxJS",
+      "NgRx",
+      "Redux",
+      "MobX",
+      "i18n (ngx-translate)",
+      "SSR",
+      "lazy loading",
+      "virtualización de tablas"
+    ],
+    "back": ["Node.js", "Express", "AdonisJS", "NestJS", "REST APIs"],
+    "ux": ["Responsive design", "fintech UX", "flujos de pago"],
+    "test": ["Jest", "Karma", "Jasmine", "E2E", "TDD"]
+  },
+  "education": "TSU en Desarrollo de Software Multiplataforma — Universidad Tecnológica del Centro de Veracruz. Egresado en 2022.",
+  "certifications": [
+    "Certificación en Machine Learning — AWS",
+    "Certificación de Desarrollador Stripe — 2024",
+    "NDG Linux Essentials — 2020",
+    "CCNA: Conmutación y Enrutamiento — 2020",
+    "Tercer lugar — Olimpiada de Programación — 2017"
+  ]
 }
