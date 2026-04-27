@@ -1,4 +1,11 @@
-import type { CvProfile, MatchResponse, TailorResponse, TechSkills } from "./cv-types";
+import type {
+  CvProfile,
+  ExtensionJobSummary,
+  ExtensionOptimizeJob,
+  MatchResponse,
+  TailorResponse,
+  TechSkills,
+} from "./cv-types";
 
 const DEFAULT_API = "http://127.0.0.1:8000";
 
@@ -99,4 +106,48 @@ export async function putTechSkills(
     throw new Error(res.statusText || `Error ${res.status}`);
   }
   return res.json() as Promise<CvProfile>;
+}
+
+export async function extensionOptimize(input: {
+  vacancy_text: string;
+  vacancy_title?: string | null;
+  source_site?: string | null;
+}): Promise<ExtensionOptimizeJob> {
+  const res = await fetch(`${apiBase()}/v1/extension/optimize`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      vacancy_text: input.vacancy_text ?? "",
+      vacancy_title: input.vacancy_title?.trim() || null,
+      source_site: input.source_site?.trim() || null,
+    }),
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    let detail = res.statusText;
+    if (typeof err === "object" && err && "detail" in err) {
+      const d = (err as { detail: unknown }).detail;
+      if (typeof d === "string") detail = d;
+      else if (Array.isArray(d))
+        detail = d.map((x) => JSON.stringify(x)).join("; ");
+      else if (d != null) detail = String(d);
+    }
+    throw new Error(detail || `Error ${res.status}`);
+  }
+  return res.json() as Promise<ExtensionOptimizeJob>;
+}
+
+export async function listExtensionJobs(): Promise<{ jobs: ExtensionJobSummary[] }> {
+  const res = await fetch(`${apiBase()}/v1/extension/jobs`, { method: "GET" });
+  if (!res.ok) throw new Error(res.statusText || `Error ${res.status}`);
+  return res.json() as Promise<{ jobs: ExtensionJobSummary[] }>;
+}
+
+export async function getExtensionJob(jobId: string): Promise<ExtensionOptimizeJob> {
+  const res = await fetch(
+    `${apiBase()}/v1/extension/jobs/${encodeURIComponent(jobId)}`,
+    { method: "GET" },
+  );
+  if (!res.ok) throw new Error(res.statusText || `Error ${res.status}`);
+  return res.json() as Promise<ExtensionOptimizeJob>;
 }

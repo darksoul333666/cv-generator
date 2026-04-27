@@ -1,17 +1,21 @@
 from __future__ import annotations
 
 import logging
-import os
 import json
 from pathlib import Path
 
 from dotenv import load_dotenv
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
+from fastapi.exception_handlers import (
+    http_exception_handler as default_http_exception_handler,
+    request_validation_exception_handler,
+)
+from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 
+from .extension_routes import router as extension_router
 from .fetch_vacancy import text_from_url
-from .gemini_match import pick_best_cv_gemini
-from .gemini_tailor import tailor_cv_with_gemini
+from .llm import GEMINI_QUOTA_USER_MESSAGE, get_cv_llm_backend, is_quota_or_rate_limit
 from .matcher import load_all_cvs, pick_best_cv
 from .models import CvDocument, MatchResponse, TailorRequest, TailorResponse, TechSkills, VacancyRequest
 
@@ -22,15 +26,45 @@ logger = logging.getLogger(__name__)
 
 app = FastAPI(title="CV Generator API", version="0.1.0")
 
+
+@app.exception_handler(HTTPException)
+async def _log_http_exception(request: Request, exc: HTTPException):
+    if exc.status_code >= 400:
+        logger.warning(
+            "HTTP %s %s — detail=%s",
+            exc.status_code,
+            request.url.path,
+            exc.detail,
+        )
+    return await default_http_exception_handler(request, exc)
+
+
+@app.exception_handler(RequestValidationError)
+async def _log_validation(request: Request, exc: RequestValidationError):
+    logger.warning(
+        "Validation error %s — body no coincide con el schema: %s",
+        request.url.path,
+        exc.errors(),
+    )
+    return await request_validation_exception_handler(request, exc)
+
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://127.0.0.1:3000", "http://localhost:3000"],
-    # Next en la red local (p. ej. 192.168.x.x:3000) sin esto el navegador bloquea el fetch.
-    allow_origin_regex=r"^http://[^/]+:3000$",
+    # Next en LAN + MV3 chrome-extension:// + HTTPS de portales (Indeed, LinkedIn, etc.):
+    # un content script que hace fetch() hereda el Origin de la página, no el de la extensión.
+    allow_origin_regex=(
+        r"^http://[^/]+:3000$"
+        r"|^chrome-extension://.+$"
+        r"|^https://.+$"
+    ),
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.include_router(extension_router)
 
 def _kb_dir() -> Path:
     return Path(__file__).resolve().parent.parent / "knowledge_base"
@@ -103,21 +137,28 @@ async def match_vacancy(body: VacancyRequest) -> MatchResponse:
         "profiles_loaded": len(cvs),
     }
 
-    if os.environ.get("GEMINI_API_KEY", "").strip():
-        try:
-            chosen, score, reason = await pick_best_cv_gemini(vacancy_blob, cvs)
-            raw_meta["matcher"] = "gemini"
-            raw_meta["gemini_model"] = (
-                os.environ.get("GEMINI_MODEL") or "gemini-2.0-flash"
-            ).strip()
-        except Exception as e:
-            logger.warning("Gemini no disponible o error: %s", e, exc_info=True)
-            chosen, score, reason = pick_best_cv(vacancy_blob, cvs)
-            raw_meta["matcher"] = "keywords_fallback"
-            raw_meta["gemini_error"] = str(e)[:300]
-    else:
+    try:
+        llm = get_cv_llm_backend()
+    except ValueError as e:
+        logger.warning("LLM no disponible (config): %s", e)
         chosen, score, reason = pick_best_cv(vacancy_blob, cvs)
         raw_meta["matcher"] = "keywords"
+        raw_meta["llm_error"] = str(e)[:300]
+    else:
+        if llm.is_configured():
+            try:
+                chosen, score, reason = await llm.pick_best_cv(vacancy_blob, cvs)
+                raw_meta["matcher"] = "llm"
+                raw_meta["llm_provider"] = llm.provider_id
+                raw_meta["llm_model"] = llm.model_id
+            except Exception as e:
+                logger.warning("LLM matcher no disponible o error: %s", e, exc_info=True)
+                chosen, score, reason = pick_best_cv(vacancy_blob, cvs)
+                raw_meta["matcher"] = "keywords_fallback"
+                raw_meta["llm_error"] = str(e)[:300]
+        else:
+            chosen, score, reason = pick_best_cv(vacancy_blob, cvs)
+            raw_meta["matcher"] = "keywords"
 
     excerpt = vacancy_blob[:1200] + ("…" if len(vacancy_blob) > 1200 else "")
 
@@ -155,12 +196,26 @@ async def tailor_cv(body: TailorRequest) -> TailorResponse:
             detail="Indica texto de vacante, una URL, o instrucciones para modificar el CV.",
         )
 
-    if not os.environ.get("GEMINI_API_KEY", "").strip():
-        raise HTTPException(status_code=400, detail="Configura GEMINI_API_KEY para perfilar con IA.")
+    try:
+        llm = get_cv_llm_backend()
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e)) from e
 
-    cv_out, match_percent, reason, notes_to_verify, gaps, reinforcement_plan, meta = await tailor_cv_with_gemini(
-        vacancy_blob, body.cv
-    )
+    if not llm.is_configured():
+        raise HTTPException(
+            status_code=400,
+            detail="Configura credenciales LLM (p. ej. GEMINI_API_KEY si LLM_PROVIDER=gemini).",
+        )
+
+    try:
+        cv_out, match_percent, reason, notes_to_verify, gaps, reinforcement_plan, meta = (
+            await llm.tailor_cv(vacancy_blob, body.cv)
+        )
+    except Exception as e:
+        if is_quota_or_rate_limit(e):
+            logger.warning("[/v1/tailor] Cuota Gemini (429): %s", str(e)[:400])
+            raise HTTPException(status_code=429, detail=GEMINI_QUOTA_USER_MESSAGE) from e
+        raise
     meta.update({"vacancy_chars": len(vacancy_blob), "flow": "tailor"})
 
     return TailorResponse(

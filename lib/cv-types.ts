@@ -88,3 +88,24 @@ export const emptyTechSkills = (): TechSkills => ({
   ux: [],
   test: [],
 });
+
+/** Lista en `/extension-jobs` y respuesta de `POST /v1/extension/optimize`. */
+export type ExtensionJobSummary = {
+  id: string;
+  vacancy_title: string;
+  source_site: string;
+  created_at: string;
+  chosen_cv_id: string;
+  match_score: number;
+  tailor_match_percent: number;
+};
+
+/** Respuesta completa de POST/GET `/v1/extension/...` (incluye CV generado). */
+export type ExtensionOptimizeJob = {
+  id: string;
+  vacancy_title: string;
+  source_site: string;
+  created_at: string;
+  match: MatchResponse;
+  tailor: TailorResponse;
+};

@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "CV Generator — enviar vacante",
+  "version": "0.1.0",
+  "description": "Captura el texto de la pestaña y lo envía al API local para optimizar el CV.",
+  "permissions": ["activeTab", "scripting"],
+  "host_permissions": [
+    "http://127.0.0.1:8000/*",
+    "http://localhost:8000/*"
+  ],
+  "action": {
+    "default_title": "Enviar esta vacante al CV Generator"
+  },
+  "background": {
+    "service_worker": "background.js"
+  }
+}

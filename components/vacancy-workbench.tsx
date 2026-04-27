@@ -222,12 +222,20 @@ export function VacancyWorkbench() {
             URL o texto pegado.
           </p>
         </div>
-        <Link
-          href="/skills"
-          className="rounded-lg border border-zinc-300 bg-white px-3 py-1.5 text-sm font-medium text-zinc-900 hover:bg-zinc-100"
-        >
-          Editar skills técnicas
-        </Link>
+        <div className="flex flex-wrap gap-2">
+          <Link
+            href="/extension-jobs"
+            className="rounded-lg border border-zinc-300 bg-white px-3 py-1.5 text-sm font-medium text-zinc-900 hover:bg-zinc-100"
+          >
+            Vacantes (extensión)
+          </Link>
+          <Link
+            href="/skills"
+            className="rounded-lg border border-zinc-300 bg-white px-3 py-1.5 text-sm font-medium text-zinc-900 hover:bg-zinc-100"
+          >
+            Editar skills técnicas
+          </Link>
+        </div>
       </header>
 
       <div
@@ -494,8 +502,9 @@ export function VacancyWorkbench() {
                 <span className="font-medium text-zinc-600">
                   {String(profileMatch.raw_meta.matcher)}
                 </span>
-                {profileMatch.raw_meta.gemini_model
-                  ? ` (${String(profileMatch.raw_meta.gemini_model)})`
+                {(profileMatch.raw_meta.llm_model ??
+                  profileMatch.raw_meta.gemini_model)
+                  ? ` (${String(profileMatch.raw_meta.llm_model ?? profileMatch.raw_meta.gemini_model)})`
                   : null}
               </p>
             ) : null}
