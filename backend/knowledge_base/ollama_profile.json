@@ -1,0 +1,1078 @@
+{
+  "name": "Jairo Antonio Camarillo Tinoco",
+  "target_roles": [
+    "Senior Angular Frontend Developer",
+    "Senior Frontend Developer",
+    "Senior Full Stack Engineer",
+    "Senior React Native Developer",
+    "Technical Leader",
+    "Fullstack Developer"
+  ],
+  "contact": {
+    "email": "jairoantoniocamarillotinoco@gmail.com",
+    "phone": "+52 271 352 9511",
+    "linkedin": "linkedin.com/in/jairo-camarillo-218aaa216"
+  },
+  "years_experience": 7.2,
+  "skills": {
+    "languages": [
+      "TypeScript",
+      "JavaScript (ES6+)",
+      "HTML5",
+      "CSS3",
+      "SCSS",
+      "SQL",
+      "PHP",
+      "Java"
+    ],
+    "frontend": [
+      "Angular",
+      "Angular (14–20)",
+      "Angular Material",
+      "React",
+      "Next.js",
+      "Vue",
+      "RxJS",
+      "Signals",
+      "NgRx",
+      "Redux",
+      "MobX",
+      "Zustand",
+      "TailwindCSS",
+      "NativeWind",
+      "Bootstrap",
+      "Material UI",
+      "ngx-translate",
+      "SSR",
+      "lazy loading",
+      "virtualización de tablas",
+      "Responsive design"
+    ],
+    "backend": [
+      "Node.js",
+      "Express.js",
+      "AdonisJS",
+      "NestJS",
+      "REST APIs",
+      "Laravel",
+      "Prisma"
+    ],
+    "mobile": [
+      "React Native",
+      "Ionic",
+      "App Store",
+      "Play Console",
+      "CodePush",
+      "Firebase",
+      "React Navigation"
+    ],
+    "databases": [
+      "PostgreSQL",
+      "MongoDB",
+      "MySQL",
+      "SQL Optimization",
+      "Query Performance Tuning",
+      "Database Design",
+      "Indexing",
+      "Transactions"
+    ],
+    "cloud": [
+      "AWS S3",
+      "AWS EC2",
+      "AWS Cognito",
+      "AWS IAM",
+      "AWS CodePipeline",
+      "AWS CodeBuild",
+      "AWS Lambda",
+      "AWS API Gateway",
+      "AWS CloudFront",
+      "AWS CloudWatch",
+      "AWS EventBridge",
+      "AWS Glue",
+      "AWS Athena",
+      "Serverless",
+      "Cloudinary",
+      "Firebase Cloud Messaging"
+    ],
+    "devops": [
+      "Docker",
+      "CI/CD",
+      "GitHub Actions",
+      "AWS CodePipeline",
+      "Bitrise",
+      "Monitoring & Logging",
+      "SonarQube",
+      "ESLint",
+      "code reviews"
+    ],
+    "testing": [
+      "Jest",
+      "Karma",
+      "Jasmine",
+      "E2E",
+      "TDD",
+      "Unit Testing"
+    ],
+    "architecture": [
+      "MVVM",
+      "Clean Architecture",
+      "Microservices Architecture",
+      "Event-Driven Architecture",
+      "SOLID",
+      "Design Patterns",
+      "Agile",
+      "Scrum"
+    ],
+    "payments": [
+      "Stripe",
+      "Cybersource",
+      "Neonet",
+      "Mercado Pago",
+      "PayPal"
+    ],
+    "security": [
+      "JWT",
+      "Argon2",
+      "Helmet",
+      "IAM",
+      "Cognito"
+    ],
+    "ai": [
+      "AWS Machine Learning Fundamentals"
+    ],
+    "softSkills": [
+      "Liderazgo técnico",
+      "Manejo de personal",
+      "Gestión de proyectos",
+      "Gestión de sprints",
+      "Code reviews",
+      "Reuniones con cliente",
+      "Adaptabilidad",
+      "Innovación",
+      "Incident management / RCA",
+      "Production support"
+    ]
+  },
+  "skill_inventory": [
+    "TypeScript",
+    "JavaScript (ES6+)",
+    "HTML5",
+    "CSS3",
+    "SCSS",
+    "SQL",
+    "PHP",
+    "Java",
+    "Angular",
+    "Angular (14–20)",
+    "Angular Material",
+    "React",
+    "Next.js",
+    "Vue",
+    "RxJS",
+    "Signals",
+    "NgRx",
+    "Redux",
+    "MobX",
+    "Zustand",
+    "TailwindCSS",
+    "NativeWind",
+    "Bootstrap",
+    "Material UI",
+    "ngx-translate",
+    "SSR",
+    "lazy loading",
+    "virtualización de tablas",
+    "Responsive design",
+    "Node.js",
+    "Express.js",
+    "AdonisJS",
+    "NestJS",
+    "REST APIs",
+    "Laravel",
+    "Prisma",
+    "React Native",
+    "Ionic",
+    "App Store",
+    "Play Console",
+    "CodePush",
+    "Firebase",
+    "React Navigation",
+    "PostgreSQL",
+    "MongoDB",
+    "MySQL",
+    "SQL Optimization",
+    "Query Performance Tuning",
+    "Database Design",
+    "Indexing",
+    "Transactions",
+    "AWS S3",
+    "AWS EC2",
+    "AWS Cognito",
+    "AWS IAM",
+    "AWS CodePipeline",
+    "AWS CodeBuild",
+    "AWS Lambda",
+    "AWS API Gateway",
+    "AWS CloudFront",
+    "AWS CloudWatch",
+    "AWS EventBridge",
+    "AWS Glue",
+    "AWS Athena",
+    "Serverless",
+    "Cloudinary",
+    "Firebase Cloud Messaging",
+    "Docker",
+    "CI/CD",
+    "GitHub Actions",
+    "Bitrise",
+    "Monitoring & Logging",
+    "SonarQube",
+    "ESLint",
+    "code reviews",
+    "Jest",
+    "Karma",
+    "Jasmine",
+    "E2E",
+    "TDD",
+    "Unit Testing",
+    "MVVM",
+    "Clean Architecture",
+    "Microservices Architecture",
+    "Event-Driven Architecture",
+    "SOLID",
+    "Design Patterns",
+    "Agile",
+    "Scrum",
+    "Stripe",
+    "Cybersource",
+    "Neonet",
+    "Mercado Pago",
+    "PayPal",
+    "JWT",
+    "Argon2",
+    "Helmet",
+    "IAM",
+    "Cognito",
+    "AWS Machine Learning Fundamentals",
+    "Liderazgo técnico",
+    "Manejo de personal",
+    "Gestión de proyectos",
+    "Gestión de sprints",
+    "Reuniones con cliente",
+    "Adaptabilidad",
+    "Innovación",
+    "Incident management / RCA",
+    "Production support"
+  ],
+  "experience": [
+    {
+      "id": "exp_uffpay",
+      "company": "UffPay",
+      "positions": [
+        "Frontend (Fintech) — Freelancer",
+        "React Native Developer (Fintech) — Freelancer",
+        "Full Stack (React Native + Backend) — Freelancer"
+      ],
+      "employment_type": "freelance",
+      "dates": "Apr 2026 – Present",
+      "start_date": "2026-04",
+      "end_date": null,
+      "current": true,
+      "domain": [
+        "fintech",
+        "payments",
+        "mobile"
+      ],
+      "responsibilities": [
+        "App fintech en React Native para pagos, transferencias y recargas",
+        "Integración con Cybersource para procesamiento de pagos",
+        "Integración con Neonet para procesamiento de pagos (no en todos los CVs)",
+        "Backend con AdonisJS",
+        "Validaciones y mejoras de UX en flujos de pago"
+      ],
+      "technologies": [
+        "React Native",
+        "AdonisJS",
+        "Cybersource",
+        "Neonet",
+        "Redux"
+      ],
+      "achievements": [
+        {
+          "description": "Reducción de errores en flujos de pago mediante validaciones y UX",
+          "metric": {
+            "value": 25,
+            "unit": "percent",
+            "type": "payment_error_reduction"
+          },
+          "status": "claimed"
+        },
+        {
+          "description": "Optimización de tiempos de respuesta en APIs",
+          "metric": {
+            "value": 30,
+            "unit": "percent",
+            "type": "api_response_time_reduction"
+          },
+          "status": "claimed"
+        }
+      ],
+      "kind": "employment"
+    },
+    {
+      "id": "exp_grainchain",
+      "company": "Grainchain Inc",
+      "positions": [
+        "Senior Frontend Developer"
+      ],
+      "employment_type": "full-time",
+      "dates": "Jun 2025 – Apr 2026",
+      "start_date": "2025-06",
+      "end_date": "2026-04",
+      "current": false,
+      "domain": [
+        "fintech",
+        "financial dashboards",
+        "enterprise"
+      ],
+      "responsibilities": [
+        "Desarrollo de dashboards financieros con Angular y Angular Material",
+        "Manejo de estado con NgRx para aplicaciones escalables",
+        "Optimización de tablas complejas y virtualización de datos; uso de charts y dashboards",
+        "Interfaces responsive para usabilidad en móvil",
+        "Internacionalización (i18n) con ngx-translate",
+        "Mejora de performance con lazy loading y change detection",
+        "Uso avanzado de Signals y RxJS",
+        "Colaboración con backend y cloud para despliegues (solo knowledge_base cv_3)"
+      ],
+      "technologies": [
+        "Angular",
+        "Angular Material",
+        "NgRx",
+        "RxJS",
+        "Signals",
+        "ngx-translate"
+      ],
+      "achievements": [
+        {
+          "description": "Reducción de tiempos de renderizado en tablas/virtualización",
+          "metric": {
+            "value": 35,
+            "unit": "percent",
+            "type": "render_time_reduction"
+          },
+          "status": "claimed"
+        }
+      ],
+      "kind": "employment"
+    },
+    {
+      "id": "exp_lumston",
+      "company": "Lumston",
+      "positions": [
+        "Frontend Developer",
+        "React Native Developer",
+        "Full Stack / Frontend Developer"
+      ],
+      "employment_type": "full-time",
+      "dates": "May 2023 – Jun 2025",
+      "start_date": "2023-05",
+      "end_date": "2025-06",
+      "current": false,
+      "domain": [
+        "enterprise",
+        "airlines",
+        "banking",
+        "fintech",
+        "food service"
+      ],
+      "responsibilities": [
+        "Desarrollo de aplicaciones para clientes enterprise (Volaris, Scotiabank, Doña Tota; Golden Corral y Viva Aerobús en CVs web/fullstack)",
+        "Funcionalidades escalables en entornos productivos",
+        "Aplicaciones web con React y Next.js (SSR, routing, performance)",
+        "Integración con APIs y mejora de UX en flujos críticos",
+        "Definición y seguimiento de métricas de calidad (deuda técnica, retrabajo, mantenibilidad)",
+        "Integración de Stripe Payments en aplicaciones fintech"
+      ],
+      "technologies": [
+        "Angular",
+        "React",
+        "Next.js",
+        "React Native",
+        "Stripe"
+      ],
+      "achievements": [
+        {
+          "description": "Reducción de tiempos de carga mediante optimización de componentes y estado",
+          "metric": {
+            "value": 30,
+            "unit": "percent",
+            "type": "load_time_reduction"
+          },
+          "status": "claimed"
+        },
+        {
+          "description": "Entrega continua de features reduciendo tiempos de desarrollo",
+          "metric": {
+            "value": 20,
+            "unit": "percent",
+            "type": "development_time_reduction"
+          },
+          "status": "claimed"
+        }
+      ],
+      "kind": "employment"
+    },
+    {
+      "id": "exp_monkey_cave",
+      "company": "Monkey Cave",
+      "positions": [
+        "Senior Frontend Developer / Technical Leader",
+        "Technical Leader"
+      ],
+      "employment_type": "freelance",
+      "dates": "Jan 2022 – May 2023",
+      "start_date": "2022-01",
+      "end_date": "2023-05",
+      "current": false,
+      "domain": [
+        "software consultancy",
+        "frontend",
+        "leadership"
+      ],
+      "responsibilities": [
+        "Liderazgo técnico en proyectos frontend / del equipo de desarrollo",
+        "Definición de arquitectura, stack y estándares de desarrollo",
+        "Code reviews, testing y organización de sprints",
+        "Asignación de actividades y revisión de avances individuales (CV histórico)",
+        "Reuniones con cliente y gestión de aplicaciones en tienda (CV histórico)",
+        "Selección de tecnologías/frameworks (CV histórico)"
+      ],
+      "technologies": [],
+      "achievements": [
+        {
+          "description": "Mejora de eficiencia del equipo mediante buenas prácticas y sprints",
+          "metric": {
+            "value": 25,
+            "unit": "percent",
+            "type": "team_efficiency"
+          },
+          "status": "claimed"
+        }
+      ],
+      "kind": "employment"
+    },
+    {
+      "id": "exp_deva_software",
+      "company": "Deva Software",
+      "positions": [
+        "Fullstack Developer (React Native, NodeJS)"
+      ],
+      "employment_type": "remote",
+      "dates": "Jun 2021 – Jan 2022",
+      "start_date": "2021-06",
+      "end_date": "2022-01",
+      "current": false,
+      "domain": [
+        "software consultancy",
+        "fullstack"
+      ],
+      "responsibilities": [
+        "Código sostenible y escalable con equipos de backend, frontend, QA y DevOps",
+        "Creación de screens a partir de UX/maquetación",
+        "Desarrollo de módulos de lógica de negocio",
+        "Testing unitario",
+        "Módulos en API REST",
+        "Administración de base de datos",
+        "Despliegue a producción",
+        "Actualizaciones push/hot reloading",
+        "Servicios de envío de SMS/MAIL"
+      ],
+      "technologies": [
+        "React Native",
+        "Node.js"
+      ],
+      "achievements": [],
+      "kind": "employment"
+    },
+    {
+      "id": "exp_multiplica",
+      "company": "Multiplica",
+      "positions": [
+        "Angular Developer"
+      ],
+      "employment_type": "remote",
+      "dates": "Feb 2021 – Jun 2021",
+      "start_date": "2021-02",
+      "end_date": "2021-06",
+      "current": false,
+      "domain": [
+        "banking",
+        "lending"
+      ],
+      "responsibilities": [
+        "Dos proyectos para Compartamos Banco: captación y registro de grupos de préstamo para autorización y liberación de créditos",
+        "Integración de Redux para estado",
+        "Código bajo requerimientos y reglas de negocio",
+        "Migración de core de Angular y dependencias",
+        "Módulos de actualización en tiempo real"
+      ],
+      "technologies": [
+        "Angular",
+        "Redux"
+      ],
+      "achievements": [],
+      "kind": "employment"
+    },
+    {
+      "id": "exp_nano_degree",
+      "company": "Nano Degree",
+      "positions": [
+        "Ionic Developer"
+      ],
+      "employment_type": "remote",
+      "dates": "Jan 2020 – Feb 2021",
+      "start_date": "2020-01",
+      "end_date": "2021-02",
+      "current": false,
+      "domain": [
+        "HVAC",
+        "inventory",
+        "e-commerce",
+        "mobile"
+      ],
+      "responsibilities": [
+        "Diseño, planeación, codificación y despliegue de app móvil HVAC",
+        "Gestión de inventario, estadísticas de rentabilidad y envío de productos a e-commerce",
+        "UX/maquetación",
+        "Subida de media al servidor",
+        "Generación y lectura de códigos QR y de barras"
+      ],
+      "technologies": [
+        "Ionic"
+      ],
+      "achievements": [],
+      "kind": "employment"
+    },
+    {
+      "id": "exp_ctz",
+      "company": "Centro Tecnológico Zongolica",
+      "positions": [
+        "Mobile Developer"
+      ],
+      "employment_type": "onsite",
+      "dates": "Apr 2019 – Nov 2019",
+      "start_date": "2019-04",
+      "end_date": "2019-11",
+      "current": false,
+      "domain": [
+        "retail technology",
+        "mobile",
+        "payments"
+      ],
+      "responsibilities": [
+        "Desarrollo móvil con Ionic para clientes de distribución de tecnología",
+        "UX/maquetación y creación de proyecto Ionic",
+        "Integración de métodos de pago (Stripe, Mercado Pago, PayPal)",
+        "Autenticación vía SMS"
+      ],
+      "technologies": [
+        "Ionic",
+        "Stripe",
+        "Mercado Pago",
+        "PayPal"
+      ],
+      "achievements": [],
+      "kind": "employment"
+    }
+  ],
+  "allowed_companies": [
+    "UffPay",
+    "Grainchain Inc",
+    "Lumston",
+    "Monkey Cave",
+    "Deva Software",
+    "Multiplica",
+    "Nano Degree",
+    "Centro Tecnológico Zongolica"
+  ],
+  "projects": [
+    {
+      "name": "UffPay",
+      "type": "fintech-mobile",
+      "is_employment": false,
+      "status": "verified",
+      "description": "Aplicación nativa Android/iOS de UffPay para pagos, transferencias y recargas. El README del repo describe la app React Native, estado con Redux, tests y pipeline Bitrise. Los CVs añaden backend AdonisJS e integraciones de pago Cybersource y Neonet.",
+      "domain": [
+        "fintech",
+        "payments",
+        "mobile"
+      ],
+      "platforms": [
+        "iOS",
+        "Android"
+      ],
+      "features": [
+        "Pagos",
+        "Transferencias",
+        "Recargas",
+        "Apps nativas Android e iOS"
+      ],
+      "technologies": [
+        "React Native",
+        "Redux",
+        "TypeScript",
+        "AdonisJS",
+        "Cybersource",
+        "Neonet",
+        "Bitrise"
+      ],
+      "scale": "high-traffic fintech (claim en summaries de CV; no hay cifra de usuarios en fuentes)",
+      "relevant_when": []
+    },
+    {
+      "name": "SORTALIA",
+      "type": "personal-product",
+      "is_employment": false,
+      "status": "claimed",
+      "description": "Plataforma de sorteos de lujo (mobile + web) para explorar ediciones, comprar boletos, gestionar números, historial, notificaciones y administración básica. Descripciones y arquitectura escritas por el autor en READMEs del repo.",
+      "domain": [
+        "e-commerce",
+        "lottery/raffle",
+        "luxury",
+        "payments"
+      ],
+      "platforms": [
+        "iOS",
+        "Android",
+        "Web"
+      ],
+      "features": [
+        "Registro e inicio de sesión",
+        "Exploración de sorteos activos",
+        "Compra de boletos y asignación de números",
+        "Historial de compras y mis boletos",
+        "Notificaciones",
+        "Administración básica de sorteos",
+        "Pagos seguros (alcance descrito en README)"
+      ],
+      "technologies": [
+        "React Native",
+        "TypeScript",
+        "NativeWind",
+        "React Navigation",
+        "Zustand",
+        "Axios",
+        "Next.js",
+        "TailwindCSS",
+        "NestJS",
+        "Express.js",
+        "Node.js",
+        "PostgreSQL",
+        "Prisma",
+        "JWT",
+        "Argon2",
+        "Zod",
+        "Helmet",
+        "Firebase Cloud Messaging",
+        "Cloudinary"
+      ],
+      "scale": "MVP (según README_OBJECTIVE_PROJECT y sortalia-api README)",
+      "relevant_when": [
+        "React Native",
+        "Next.js",
+        "NestJS",
+        "PostgreSQL",
+        "Prisma",
+        "payments",
+        "authentication",
+        "mobile + web"
+      ]
+    },
+    {
+      "name": "Fatima's Bakery",
+      "type": "web-application",
+      "is_employment": false,
+      "status": "mentioned",
+      "description": "Aplicación web de gestión de ventas, pedidos y servicios para una distribuidora de alimentos con más de 40 sucursales: tickets, factura digital CFDI 3.0, pedidos, nómina, inventario de insumos y registro diario de mermas. Funciones limitadas por rol.",
+      "domain": [
+        "food distribution",
+        "POS",
+        "payroll",
+        "inventory",
+        "invoicing"
+      ],
+      "platforms": [
+        "Web"
+      ],
+      "features": [
+        "Registro de ventas e impresión de tickets",
+        "Factura digital CFDI 3.0",
+        "Registro de pedidos",
+        "Pagos de nómina",
+        "Inventario de insumos y mermas",
+        "Permisos por rol"
+      ],
+      "technologies": [],
+      "scale": "más de 40 sucursales (claim del CV histórico)",
+      "relevant_when": []
+    },
+    {
+      "name": "Hoppi get together",
+      "type": "mobile-app",
+      "is_employment": false,
+      "status": "mentioned",
+      "description": "App de estilo de vida para publicar planes (salidas, playa, senderismo), encontrarlos en el mapa, unirse, chat y teams por intereses en común.",
+      "domain": [
+        "lifestyle",
+        "social",
+        "maps"
+      ],
+      "platforms": [
+        "iOS",
+        "Android"
+      ],
+      "features": [
+        "Publicación de planes",
+        "Mapa para unirse a planes",
+        "Chat entre usuarios",
+        "Teams por intereses"
+      ],
+      "technologies": [],
+      "scale": null,
+      "relevant_when": []
+    },
+    {
+      "name": "Desansiedad",
+      "type": "mobile-app",
+      "is_employment": false,
+      "status": "mentioned",
+      "description": "App para contactar especialistas por videollamada ante cuadros de ansiedad (contexto sismos CDMX 2017, 2019, 2022), biblioteca de contenido y ejercicios de relajación.",
+      "domain": [
+        "health",
+        "telemedicine",
+        "mental health"
+      ],
+      "platforms": [
+        "iOS",
+        "Android"
+      ],
+      "features": [
+        "Videollamada con especialista",
+        "Biblioteca de contenido",
+        "Ejercicios de relajación"
+      ],
+      "technologies": [],
+      "scale": null,
+      "relevant_when": []
+    },
+    {
+      "name": "Saldo HVAC",
+      "type": "mobile-app",
+      "is_employment": false,
+      "status": "mentioned",
+      "description": "App para empresas HVAC: activos, productos y servicios, P&L semanal/mensual, inventarios por cámara/código de barras y publicación de rezago en e-commerce.",
+      "domain": [
+        "HVAC",
+        "inventory",
+        "e-commerce",
+        "analytics"
+      ],
+      "platforms": [
+        "iOS",
+        "Android"
+      ],
+      "features": [
+        "Gestión de activos, productos y servicios",
+        "Balance de ganancias y pérdidas semanal y mensual",
+        "Inventario con cámara y códigos de barra",
+        "Publicación de inventario rezagado en e-commerce"
+      ],
+      "technologies": [],
+      "scale": null,
+      "relevant_when": []
+    },
+    {
+      "name": "Pilsar",
+      "type": "pwa",
+      "is_employment": false,
+      "status": "mentioned",
+      "description": "PWA instalable (Windows, macOS, Android, iOS) con catálogo de productos de uso doméstico y pagos por transferencias u otros medios.",
+      "domain": [
+        "e-commerce",
+        "retail"
+      ],
+      "platforms": [
+        "Web",
+        "Windows",
+        "macOS",
+        "Android",
+        "iOS"
+      ],
+      "features": [
+        "Catálogo de productos",
+        "Compra por transferencias electrónicas y otros medios de pago",
+        "Instalable como PWA"
+      ],
+      "technologies": [],
+      "scale": null,
+      "relevant_when": []
+    }
+  ],
+  "personal_products_not_employment": [
+    "SORTALIA"
+  ],
+  "education": [
+    {
+      "degree": "TSU en Desarrollo de Software Multiplataforma (también referido como TSU Desarrollo y Gestión de Software / Associate's Degree in Multiplatform Software Development)",
+      "institution": "Universidad Tecnológica del Centro de Veracruz",
+      "start_date": "2019",
+      "end_date": "2022",
+      "graduation_year": 2022,
+      "status": "verified"
+    },
+    {
+      "degree": "Técnico en soporte y mantenimiento a equipo de cómputo",
+      "institution": "Centro de estudios tecnológicos industriales y de servicios 164",
+      "start_date": null,
+      "end_date": null,
+      "graduation_year": null,
+      "status": "mentioned"
+    },
+    {
+      "degree": "Técnico en Informática",
+      "institution": "Escuela Secundaria Técnica",
+      "start_date": null,
+      "end_date": null,
+      "graduation_year": null,
+      "status": "mentioned"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "AWS Machine Learning Certification",
+      "issuer": "AWS",
+      "year": null,
+      "status": "verified"
+    },
+    {
+      "name": "Stripe Developer Certification",
+      "issuer": "Stripe",
+      "year": 2024,
+      "status": "verified"
+    },
+    {
+      "name": "NDG Linux Essentials",
+      "issuer": "NDG / Cisco Networking Academy",
+      "year": 2020,
+      "status": "claimed"
+    },
+    {
+      "name": "CCNA: Switching and Routing",
+      "issuer": "Cisco",
+      "year": 2020,
+      "status": "verified"
+    },
+    {
+      "name": "IT Essentials: Hardware and Software",
+      "issuer": "Cisco",
+      "year": 2019,
+      "status": "mentioned"
+    },
+    {
+      "name": "Tercer lugar — Olimpiada de Programación",
+      "issuer": "",
+      "year": 2017,
+      "status": "verified"
+    },
+    {
+      "name": "Olimpiada de Conocimiento Nivel Media Superior — Finalista",
+      "issuer": "",
+      "year": 2016,
+      "status": "mentioned"
+    },
+    {
+      "name": "Campeonato Estatal de Ortografía — Primer lugar",
+      "issuer": "",
+      "year": 2014,
+      "status": "mentioned"
+    },
+    {
+      "name": "Olimpiada de Conocimiento Infantil — Primer lugar",
+      "issuer": "",
+      "year": 2011,
+      "status": "mentioned"
+    }
+  ],
+  "languages": [
+    {
+      "language": "English",
+      "level": "professional proficiency"
+    }
+  ],
+  "metrics": [
+    {
+      "value": 35,
+      "unit": "percent",
+      "type": "render_time_reduction",
+      "description": "Reducción de tiempos de renderizado en tablas/virtualización (Grainchain). El PDF Frontend no incluye este número en los bullets de Grainchain; sí aparece en el summary (~35%) y en CV RN / knowledge_base.",
+      "company": "Grainchain Inc",
+      "project": null
+    },
+    {
+      "value": 30,
+      "unit": "percent",
+      "type": "load_time_reduction",
+      "description": "Reducción de tiempos de carga en Lumston por optimización de componentes y estado",
+      "company": "Lumston",
+      "project": null
+    },
+    {
+      "value": 20,
+      "unit": "percent",
+      "type": "development_time_reduction",
+      "description": "Reducción de tiempos de desarrollo por entrega continua de features (Lumston)",
+      "company": "Lumston",
+      "project": null
+    },
+    {
+      "value": 25,
+      "unit": "percent",
+      "type": "payment_error_reduction",
+      "description": "Reducción de errores en flujos de pago (UffPay) por validaciones y UX",
+      "company": "UffPay",
+      "project": "UffPay"
+    },
+    {
+      "value": 30,
+      "unit": "percent",
+      "type": "api_response_time_reduction",
+      "description": "Optimización de tiempos de respuesta de APIs (UffPay)",
+      "company": "UffPay",
+      "project": "UffPay"
+    },
+    {
+      "value": 25,
+      "unit": "percent",
+      "type": "team_efficiency",
+      "description": "Mejora de eficiencia del equipo en Monkey Cave vía prácticas y sprints",
+      "company": "Monkey Cave",
+      "project": null
+    }
+  ],
+  "positioning": {
+    "Senior Angular Developer": {
+      "preferred_title": "Senior Angular Developer",
+      "priority_skills": [
+        "Angular",
+        "TypeScript",
+        "NgRx",
+        "RxJS",
+        "Signals",
+        "Angular Material",
+        "ngx-translate",
+        "Jest"
+      ],
+      "priority_companies": [
+        "Grainchain Inc",
+        "Lumston",
+        "Monkey Cave"
+      ],
+      "avoid_unless_relevant": [
+        "PHP",
+        "Laravel",
+        "Java",
+        "Ionic",
+        "Mercado Pago",
+        "PayPal",
+        "Vue"
+      ]
+    },
+    "Senior Frontend Developer": {
+      "preferred_title": "Senior Frontend Developer",
+      "priority_skills": [
+        "Angular",
+        "React",
+        "Next.js",
+        "TypeScript",
+        "TailwindCSS",
+        "Redux",
+        "NgRx",
+        "SSR"
+      ],
+      "priority_companies": [
+        "Grainchain Inc",
+        "Lumston",
+        "UffPay",
+        "Monkey Cave"
+      ],
+      "avoid_unless_relevant": [
+        "PHP",
+        "Laravel",
+        "Java",
+        "Ionic"
+      ]
+    },
+    "Senior React Native Developer": {
+      "preferred_title": "Senior React Native Developer",
+      "priority_skills": [
+        "React Native",
+        "TypeScript",
+        "Redux",
+        "MobX",
+        "Firebase",
+        "CodePush",
+        "App Store",
+        "Play Console"
+      ],
+      "priority_companies": [
+        "UffPay",
+        "Lumston",
+        "Deva Software",
+        "Monkey Cave"
+      ],
+      "avoid_unless_relevant": [
+        "Angular Material",
+        "PHP",
+        "Laravel",
+        "AWS Glue",
+        "AWS Athena"
+      ]
+    },
+    "Senior Full Stack Engineer": {
+      "preferred_title": "Senior Full Stack Engineer",
+      "priority_skills": [
+        "Angular",
+        "TypeScript",
+        "Node.js",
+        "NestJS",
+        "AdonisJS",
+        "PostgreSQL",
+        "REST APIs",
+        "Docker",
+        "AWS Lambda",
+        "AWS EC2"
+      ],
+      "priority_companies": [
+        "UffPay",
+        "Lumston",
+        "Grainchain Inc",
+        "Deva Software",
+        "Monkey Cave"
+      ],
+      "avoid_unless_relevant": [
+        "Ionic",
+        "Java"
+      ]
+    }
+  },
+  "closed_world_rules": [
+    "This profile is the ONLY source of truth about the candidate.",
+    "If a fact is not listed here, it does not exist.",
+    "Do not invent companies, titles, dates, technologies, metrics, or projects.",
+    "A skill in skill_inventory may appear in SKILLS, not automatically in EXPERIENCE.",
+    "Items in personal_products_not_employment are not jobs. Do not list them as employers.",
+    "Copy company names and dates exactly from experience[].",
+    "Only use metrics listed in metrics[] or in experience[].achievements."
+  ]
+}

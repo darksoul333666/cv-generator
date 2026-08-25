@@ -103,30 +103,22 @@ export function CVTemplate({ data }: { data: CVData }) {
       </Section>
 
       <Section title="Stack Tecnológico">
-        <p style={styles.paragraph}>
-          <strong>Frontend:</strong> {data.stack.frontend}
-        </p>
-        <p style={styles.paragraph}>
-          <strong>Backend:</strong> {data.stack.backend}
-        </p>
-        <p style={styles.paragraph}>
-          <strong>State Management:</strong> {data.stack.state}
-        </p>
-        <p style={styles.paragraph}>
-          <strong>Cloud & DevOps:</strong> {data.stack.cloud}
-        </p>
-        <p style={styles.paragraph}>
-          <strong>Mobile:</strong> {data.stack.mobile}
-        </p>
-        <p style={styles.paragraph}>
-          <strong>Architecture:</strong> {data.stack.architecture}
-        </p>
-        <p style={styles.paragraph}>
-          <strong>Testing:</strong> {data.stack.testing}
-        </p>
-        <p style={styles.paragraph}>
-          <strong>Code Quality:</strong> {data.stack.quality}
-        </p>
+        {[
+          ("Frontend", data.stack.frontend),
+          ("Backend", data.stack.backend),
+          ("State Management", data.stack.state),
+          ("Cloud & DevOps", data.stack.cloud),
+          ("Mobile", data.stack.mobile),
+          ("Architecture", data.stack.architecture),
+          ("Testing", data.stack.testing),
+          ("Code Quality", data.stack.quality),
+        ]
+          .filter(([, value]) => Boolean(value?.trim()))
+          .map(([label, value]) => (
+            <p key={label} style={styles.paragraph}>
+              <strong>{label}:</strong> {value}
+            </p>
+          ))}
       </Section>
 
       <Section title="Formación Académica">

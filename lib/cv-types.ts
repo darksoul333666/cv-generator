@@ -12,6 +12,19 @@ export type TechSkills = {
   test: string[];
 };
 
+export type {
+  Conflict as MasterConflict,
+  Experience as MasterExperience,
+  MasterProfile,
+  MasterSkillKind,
+  MasterSkills,
+} from "./master-profile";
+
+export {
+  emptyMasterSkills,
+  MASTER_SKILL_KINDS,
+} from "./master-profile";
+
 export type CVStack = {
   frontend: string;
   backend: string;

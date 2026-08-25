@@ -15,6 +15,248 @@
 "description": "OS management tools that can be used for patch management, patch compliance, and configuration management on VM instances.",
 "discoveryVersion": "v1",
 "documentationLink": "https://cloud.google.com/compute/docs/osconfig/rest",
+"endpoints": [
+{
+"description": "Regional Endpoint",
+"endpointUrl": "https://osconfig.africa-south1.rep.googleapis.com/",
+"location": "africa-south1"
+},
+{
+"description": "Regional Endpoint",
+"endpointUrl": "https://osconfig.asia-east1.rep.googleapis.com/",
+"location": "asia-east1"
+},
+{
+"description": "Regional Endpoint",
+"endpointUrl": "https://osconfig.asia-east2.rep.googleapis.com/",
+"location": "asia-east2"
+},
+{
+"description": "Regional Endpoint",
+"endpointUrl": "https://osconfig.asia-northeast1.rep.googleapis.com/",
+"location": "asia-northeast1"
+},
+{
+"description": "Regional Endpoint",
+"endpointUrl": "https://osconfig.asia-northeast2.rep.googleapis.com/",
+"location": "asia-northeast2"
+},
+{
+"description": "Regional Endpoint",
+"endpointUrl": "https://osconfig.asia-northeast3.rep.googleapis.com/",
+"location": "asia-northeast3"
+},
+{
+"description": "Regional Endpoint",
+"endpointUrl": "https://osconfig.asia-south1.rep.googleapis.com/",
+"location": "asia-south1"
+},
+{
+"description": "Regional Endpoint",
+"endpointUrl": "https://osconfig.asia-south2.rep.googleapis.com/",
+"location": "asia-south2"
+},
+{
+"description": "Regional Endpoint",
+"endpointUrl": "https://osconfig.asia-southeast1.rep.googleapis.com/",
+"location": "asia-southeast1"
+},
+{
+"description": "Regional Endpoint",
+"endpointUrl": "https://osconfig.asia-southeast2.rep.googleapis.com/",
+"location": "asia-southeast2"
+},
+{
+"description": "Regional Endpoint",
+"endpointUrl": "https://osconfig.asia-southeast3.rep.googleapis.com/",
+"location": "asia-southeast3"
+},
+{
+"description": "Regional Endpoint",
+"endpointUrl": "https://osconfig.australia-southeast1.rep.googleapis.com/",
+"location": "australia-southeast1"
+},
+{
+"description": "Regional Endpoint",
+"endpointUrl": "https://osconfig.australia-southeast2.rep.googleapis.com/",
+"location": "australia-southeast2"
+},
+{
+"description": "Regional Endpoint",
+"endpointUrl": "https://osconfig.europe-central2.rep.googleapis.com/",
+"location": "europe-central2"
+},
+{
+"description": "Regional Endpoint",
+"endpointUrl": "https://osconfig.europe-north1.rep.googleapis.com/",
+"location": "europe-north1"
+},
+{
+"description": "Regional Endpoint",
+"endpointUrl": "https://osconfig.europe-north2.rep.googleapis.com/",
+"location": "europe-north2"
+},
+{
+"description": "Regional Endpoint",
+"endpointUrl": "https://osconfig.europe-southwest1.rep.googleapis.com/",
+"location": "europe-southwest1"
+},
+{
+"description": "Regional Endpoint",
+"endpointUrl": "https://osconfig.europe-west1.rep.googleapis.com/",
+"location": "europe-west1"
+},
+{
+"description": "Regional Endpoint",
+"endpointUrl": "https://osconfig.europe-west10.rep.googleapis.com/",
+"location": "europe-west10"
+},
+{
+"description": "Regional Endpoint",
+"endpointUrl": "https://osconfig.europe-west12.rep.googleapis.com/",
+"location": "europe-west12"
+},
+{
+"description": "Regional Endpoint",
+"endpointUrl": "https://osconfig.europe-west15.rep.googleapis.com/",
+"location": "europe-west15"
+},
+{
+"description": "Regional Endpoint",
+"endpointUrl": "https://osconfig.europe-west2.rep.googleapis.com/",
+"location": "europe-west2"
+},
+{
+"description": "Regional Endpoint",
+"endpointUrl": "https://osconfig.europe-west3.rep.googleapis.com/",
+"location": "europe-west3"
+},
+{
+"description": "Regional Endpoint",
+"endpointUrl": "https://osconfig.europe-west4.rep.googleapis.com/",
+"location": "europe-west4"
+},
+{
+"description": "Regional Endpoint",
+"endpointUrl": "https://osconfig.europe-west6.rep.googleapis.com/",
+"location": "europe-west6"
+},
+{
+"description": "Regional Endpoint",
+"endpointUrl": "https://osconfig.europe-west8.rep.googleapis.com/",
+"location": "europe-west8"
+},
+{
+"description": "Regional Endpoint",
+"endpointUrl": "https://osconfig.europe-west9.rep.googleapis.com/",
+"location": "europe-west9"
+},
+{
+"description": "Regional Endpoint",
+"endpointUrl": "https://osconfig.me-central1.rep.googleapis.com/",
+"location": "me-central1"
+},
+{
+"description": "Regional Endpoint",
+"endpointUrl": "https://osconfig.me-central2.rep.googleapis.com/",
+"location": "me-central2"
+},
+{
+"description": "Regional Endpoint",
+"endpointUrl": "https://osconfig.me-west1.rep.googleapis.com/",
+"location": "me-west1"
+},
+{
+"description": "Regional Endpoint",
+"endpointUrl": "https://osconfig.northamerica-northeast1.rep.googleapis.com/",
+"location": "northamerica-northeast1"
+},
+{
+"description": "Regional Endpoint",
+"endpointUrl": "https://osconfig.northamerica-northeast2.rep.googleapis.com/",
+"location": "northamerica-northeast2"
+},
+{
+"description": "Regional Endpoint",
+"endpointUrl": "https://osconfig.northamerica-south1.rep.googleapis.com/",
+"location": "northamerica-south1"
+},
+{
+"description": "Regional Endpoint",
+"endpointUrl": "https://osconfig.southamerica-east1.rep.googleapis.com/",
+"location": "southamerica-east1"
+},
+{
+"description": "Regional Endpoint",
+"endpointUrl": "https://osconfig.southamerica-west1.rep.googleapis.com/",
+"location": "southamerica-west1"
+},
+{
+"description": "Regional Endpoint",
+"endpointUrl": "https://osconfig.us-central1.rep.googleapis.com/",
+"location": "us-central1"
+},
+{
+"description": "Regional Endpoint",
+"endpointUrl": "https://osconfig.us-central2.rep.googleapis.com/",
+"location": "us-central2"
+},
+{
+"description": "Regional Endpoint",
+"endpointUrl": "https://osconfig.us-central6.rep.googleapis.com/",
+"location": "us-central6"
+},
+{
+"description": "Regional Endpoint",
+"endpointUrl": "https://osconfig.us-east1.rep.googleapis.com/",
+"location": "us-east1"
+},
+{
+"description": "Regional Endpoint",
+"endpointUrl": "https://osconfig.us-east4.rep.googleapis.com/",
+"location": "us-east4"
+},
+{
+"description": "Regional Endpoint",
+"endpointUrl": "https://osconfig.us-east5.rep.googleapis.com/",
+"location": "us-east5"
+},
+{
+"description": "Regional Endpoint",
+"endpointUrl": "https://osconfig.us-east7.rep.googleapis.com/",
+"location": "us-east7"
+},
+{
+"description": "Regional Endpoint",
+"endpointUrl": "https://osconfig.us-south1.rep.googleapis.com/",
+"location": "us-south1"
+},
+{
+"description": "Regional Endpoint",
+"endpointUrl": "https://osconfig.us-west1.rep.googleapis.com/",
+"location": "us-west1"
+},
+{
+"description": "Regional Endpoint",
+"endpointUrl": "https://osconfig.us-west2.rep.googleapis.com/",
+"location": "us-west2"
+},
+{
+"description": "Regional Endpoint",
+"endpointUrl": "https://osconfig.us-west3.rep.googleapis.com/",
+"location": "us-west3"
+},
+{
+"description": "Regional Endpoint",
+"endpointUrl": "https://osconfig.us-west4.rep.googleapis.com/",
+"location": "us-west4"
+},
+{
+"description": "Regional Endpoint",
+"endpointUrl": "https://osconfig.us-west8.rep.googleapis.com/",
+"location": "us-west8"
+}
+],
 "fullyEncodeReservedExpansion": true,
 "icons": {
 "x16": "http://www.google.com/images/icons/product/search-16.gif",
@@ -689,7 +931,7 @@
 }
 }
 },
-"revision": "20260223",
+"revision": "20260611",
 "rootUrl": "https://osconfig.googleapis.com/",
 "schemas": {
 "AptRepository": {
@@ -1073,138 +1315,6 @@
 "description": "Googet patching is performed by running `googet update`.",
 "id": "GooSettings",
 "properties": {},
-"type": "object"
-},
-"GoogleCloudOsconfigCommonV1__OperationMetadata": {
-"description": "Represents the metadata of a generic long-running operation.",
-"id": "GoogleCloudOsconfigCommonV1__OperationMetadata",
-"properties": {
-"apiVersion": {
-"description": "Output only. API version used to start the operation.",
-"readOnly": true,
-"type": "string"
-},
-"createTime": {
-"description": "Output only. The time the operation was created.",
-"format": "google-datetime",
-"readOnly": true,
-"type": "string"
-},
-"endTime": {
-"description": "Output only. The time the operation finished running.",
-"format": "google-datetime",
-"readOnly": true,
-"type": "string"
-},
-"requestedCancellation": {
-"description": "Output only. Identifies whether the user has requested cancellation of the operation. Operations that have successfully been cancelled have Operation.error value with a google.rpc.Status.code of 1, corresponding to `Code.CANCELLED`.",
-"readOnly": true,
-"type": "boolean"
-},
-"statusMessage": {
-"description": "Output only. Human-readable status of the operation, if any.",
-"readOnly": true,
-"type": "string"
-},
-"target": {
-"description": "Output only. Server-defined resource path for the target of the operation.",
-"readOnly": true,
-"type": "string"
-},
-"verb": {
-"description": "Output only. Name of the verb executed by the operation.",
-"readOnly": true,
-"type": "string"
-}
-},
-"type": "object"
-},
-"GoogleCloudOsconfigCommonV1alpha__OperationMetadata": {
-"description": "Represents the metadata of a generic long-running operation.",
-"id": "GoogleCloudOsconfigCommonV1alpha__OperationMetadata",
-"properties": {
-"apiVersion": {
-"description": "Output only. API version used to start the operation.",
-"readOnly": true,
-"type": "string"
-},
-"createTime": {
-"description": "Output only. The time the operation was created.",
-"format": "google-datetime",
-"readOnly": true,
-"type": "string"
-},
-"endTime": {
-"description": "Output only. The time the operation finished running.",
-"format": "google-datetime",
-"readOnly": true,
-"type": "string"
-},
-"requestedCancellation": {
-"description": "Output only. Identifies whether the user has requested cancellation of the operation. Operations that have successfully been cancelled have Operation.error value with a google.rpc.Status.code of 1, corresponding to `Code.CANCELLED`.",
-"readOnly": true,
-"type": "boolean"
-},
-"statusMessage": {
-"description": "Output only. Human-readable status of the operation, if any.",
-"readOnly": true,
-"type": "string"
-},
-"target": {
-"description": "Output only. Server-defined resource path for the target of the operation.",
-"readOnly": true,
-"type": "string"
-},
-"verb": {
-"description": "Output only. Name of the verb executed by the operation.",
-"readOnly": true,
-"type": "string"
-}
-},
-"type": "object"
-},
-"GoogleCloudOsconfigCommonV1main__OperationMetadata": {
-"description": "Represents the metadata of a generic long-running operation.",
-"id": "GoogleCloudOsconfigCommonV1main__OperationMetadata",
-"properties": {
-"apiVersion": {
-"description": "Output only. API version used to start the operation.",
-"readOnly": true,
-"type": "string"
-},
-"createTime": {
-"description": "Output only. The time the operation was created.",
-"format": "google-datetime",
-"readOnly": true,
-"type": "string"
-},
-"endTime": {
-"description": "Output only. The time the operation finished running.",
-"format": "google-datetime",
-"readOnly": true,
-"type": "string"
-},
-"requestedCancellation": {
-"description": "Output only. Identifies whether the user has requested cancellation of the operation. Operations that have successfully been cancelled have Operation.error value with a google.rpc.Status.code of 1, corresponding to `Code.CANCELLED`.",
-"readOnly": true,
-"type": "boolean"
-},
-"statusMessage": {
-"description": "Output only. Human-readable status of the operation, if any.",
-"readOnly": true,
-"type": "string"
-},
-"target": {
-"description": "Output only. Server-defined resource path for the target of the operation.",
-"readOnly": true,
-"type": "string"
-},
-"verb": {
-"description": "Output only. Name of the verb executed by the operation.",
-"readOnly": true,
-"type": "string"
-}
-},
 "type": "object"
 },
 "GoogleCloudOsconfigV1__OSPolicyAssignmentOperationMetadata": {

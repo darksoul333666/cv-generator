@@ -4,11 +4,15 @@ from __future__ import annotations
 
 import json
 import re
-from typing import Any
+from typing import Any, Optional
+
+
+def strip_think_blocks(text: str) -> str:
+    return re.sub(r"<think>[\s\S]*?</think>", "", text or "", flags=re.IGNORECASE).strip()
 
 
 def strip_json_fence(text: str) -> str:
-    text = (text or "").strip()
+    text = strip_think_blocks(text or "").strip()
     m = re.match(r"^```(?:json)?\s*(.*?)```\s*$", text, re.DOTALL | re.IGNORECASE)
     if m:
         return m.group(1).strip()
@@ -37,30 +41,72 @@ def response_text(response: Any) -> str:
         return ""
 
 
+def close_truncated_json(text: str) -> str:
+    """Cierra comillas, arrays y objetos si el modelo cortó el JSON a mitad."""
+    s = text.strip()
+    i = s.find("{")
+    if i < 0:
+        return s
+    s = s[i:]
+    stack: list[str] = []
+    in_str = False
+    escape = False
+    for ch in s:
+        if in_str:
+            if escape:
+                escape = False
+            elif ch == "\\":
+                escape = True
+            elif ch == '"':
+                in_str = False
+            continue
+        if ch == '"':
+            in_str = True
+        elif ch == "{":
+            stack.append("}")
+        elif ch == "[":
+            stack.append("]")
+        elif ch in "}]" and stack and stack[-1] == ch:
+            stack.pop()
+    if in_str:
+        s += '"'
+    s = s.rstrip()
+    if s.endswith(","):
+        s = s[:-1]
+    while stack:
+        s += stack.pop()
+    return s
+
+
 def parse_json_object(raw: str, *, context: str = "modelo") -> dict:
     """
     Parsea un único objeto JSON. Reintenta con el subcadena entre el primer { y el último }.
+    Si el modelo cortó la salida, cierra brackets y comillas.
     """
     text = strip_json_fence(raw).strip()
     if not text:
         raise ValueError(
             f"Respuesta vacía del {context} (¿max_output_tokens insuficiente o contenido bloqueado?)."
         )
-    try:
-        data = json.loads(text)
+    candidates = [text]
+    i = text.find("{")
+    j = text.rfind("}")
+    if i >= 0 and j > i:
+        candidates.append(text[i : j + 1])
+    if i >= 0:
+        candidates.append(close_truncated_json(text[i:]))
+
+    last_err: Optional[json.JSONDecodeError] = None
+    for blob in candidates:
+        try:
+            data = json.loads(blob)
+        except json.JSONDecodeError as e:
+            last_err = e
+            continue
         if isinstance(data, dict):
             return data
+        last_err = None
         raise ValueError(f"Se esperaba un objeto JSON, no {type(data).__name__}")
-    except json.JSONDecodeError as e:
-        i = text.find("{")
-        j = text.rfind("}")
-        if i >= 0 and j > i:
-            try:
-                data = json.loads(text[i : j + 1])
-                if isinstance(data, dict):
-                    return data
-            except json.JSONDecodeError:
-                pass
-        raise ValueError(
-            f"JSON inválido del {context}: {e}. Primeros 200 caracteres: {text[:200]!r}"
-        ) from e
+    raise ValueError(
+        f"JSON inválido del {context}: {last_err}. Primeros 200 caracteres: {text[:200]!r}"
+    )

@@ -39,6 +39,24 @@ class TechSkills(BaseModel):
     test: List[str] = Field(default_factory=list)
 
 
+class MasterSkills(BaseModel):
+    """Categorías del JSON maestro que alimenta /skills."""
+
+    languages: List[str] = Field(default_factory=list)
+    frontend: List[str] = Field(default_factory=list)
+    backend: List[str] = Field(default_factory=list)
+    mobile: List[str] = Field(default_factory=list)
+    databases: List[str] = Field(default_factory=list)
+    cloud: List[str] = Field(default_factory=list)
+    devops: List[str] = Field(default_factory=list)
+    testing: List[str] = Field(default_factory=list)
+    architecture: List[str] = Field(default_factory=list)
+    payments: List[str] = Field(default_factory=list)
+    security: List[str] = Field(default_factory=list)
+    ai: List[str] = Field(default_factory=list)
+    softSkills: List[str] = Field(default_factory=list)
+
+
 class CvDocument(BaseModel):
     """Perfil base (plantilla React / PDF) + metadatos para el matcher."""
 

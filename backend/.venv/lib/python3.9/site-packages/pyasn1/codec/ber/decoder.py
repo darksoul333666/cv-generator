@@ -36,6 +36,10 @@ SubstrateUnderrunError = error.SubstrateUnderrunError
 # Maximum number of continuation octets (high-bit set) allowed per OID arc.
 # 20 octets allows up to 140-bit integers, supporting UUID-based OIDs
 MAX_OID_ARC_CONTINUATION_OCTETS = 20
+
+# Maximum number of octets in a long-form tag ID (20 octets = up to
+# 140-bit tag IDs, matching the OID arc limit)
+MAX_TAG_OCTETS = 20
 MAX_NESTING_DEPTH = 100
 
 # Maximum number of bytes in a BER length field (8 bytes = up to 2^64-1)
@@ -423,14 +427,14 @@ class ObjectIdentifierPayloadDecoder(AbstractSimplePayloadDecoder):
         if not chunk:
             raise error.PyAsn1Error('Empty substrate')
 
-        oid = ()
+        oid = []
         index = 0
         substrateLen = len(chunk)
         while index < substrateLen:
             subId = chunk[index]
             index += 1
             if subId < 128:
-                oid += (subId,)
+                oid.append(subId)
             elif subId > 128:
                 # Construct subid from a number of octets
                 nextSubId = subId
@@ -446,11 +450,11 @@ class ObjectIdentifierPayloadDecoder(AbstractSimplePayloadDecoder):
                     subId = (subId << 7) + (nextSubId & 0x7F)
                     if index >= substrateLen:
                         raise error.SubstrateUnderrunError(
-                            'Short substrate for sub-OID past %s' % (oid,)
+                            'Short substrate for sub-OID past %s' % (tuple(oid),)
                         )
                     nextSubId = chunk[index]
                     index += 1
-                oid += ((subId << 7) + nextSubId,)
+                oid.append((subId << 7) + nextSubId)
             elif subId == 128:
                 # ASN.1 spec forbids leading zeros (0x80) in OID
                 # encoding, tolerating it opens a vulnerability. See
@@ -460,15 +464,17 @@ class ObjectIdentifierPayloadDecoder(AbstractSimplePayloadDecoder):
 
         # Decode two leading arcs
         if 0 <= oid[0] <= 39:
-            oid = (0,) + oid
+            oid.insert(0, 0)
         elif 40 <= oid[0] <= 79:
-            oid = (1, oid[0] - 40) + oid[1:]
+            oid[0] -= 40
+            oid.insert(0, 1)
         elif oid[0] >= 80:
-            oid = (2, oid[0] - 80) + oid[1:]
+            oid[0] -= 80
+            oid.insert(0, 2)
         else:
             raise error.PyAsn1Error('Malformed first OID octet: %s' % chunk[0])
 
-        yield self._createComponent(asn1Spec, tagSet, oid, **options)
+        yield self._createComponent(asn1Spec, tagSet, tuple(oid), **options)
 
 
 class RelativeOIDPayloadDecoder(AbstractSimplePayloadDecoder):
@@ -488,14 +494,14 @@ class RelativeOIDPayloadDecoder(AbstractSimplePayloadDecoder):
         if not chunk:
             raise error.PyAsn1Error('Empty substrate')
 
-        reloid = ()
+        reloid = []
         index = 0
         substrateLen = len(chunk)
         while index < substrateLen:
             subId = chunk[index]
             index += 1
             if subId < 128:
-                reloid += (subId,)
+                reloid.append(subId)
             elif subId > 128:
                 # Construct subid from a number of octets
                 nextSubId = subId
@@ -511,11 +517,11 @@ class RelativeOIDPayloadDecoder(AbstractSimplePayloadDecoder):
                     subId = (subId << 7) + (nextSubId & 0x7F)
                     if index >= substrateLen:
                         raise error.SubstrateUnderrunError(
-                            'Short substrate for sub-OID past %s' % (reloid,)
+                            'Short substrate for sub-OID past %s' % (tuple(reloid),)
                         )
                     nextSubId = chunk[index]
                     index += 1
-                reloid += ((subId << 7) + nextSubId,)
+                reloid.append((subId << 7) + nextSubId)
             elif subId == 128:
                 # ASN.1 spec forbids leading zeros (0x80) in OID
                 # encoding, tolerating it opens a vulnerability. See
@@ -523,7 +529,7 @@ class RelativeOIDPayloadDecoder(AbstractSimplePayloadDecoder):
                 # page 7
                 raise error.PyAsn1Error('Invalid octet 0x80 in RELATIVE-OID encoding')
 
-        yield self._createComponent(asn1Spec, tagSet, reloid, **options)
+        yield self._createComponent(asn1Spec, tagSet, tuple(reloid), **options)
 
 
 class RealPayloadDecoder(AbstractSimplePayloadDecoder):
@@ -1633,7 +1639,7 @@ class SingleItemDecoder(object):
 
                     if tagId == 0x1F:
                         isShortTag = False
-                        lengthOctetIdx = 0
+                        tagOctetCount = 0
                         tagId = 0
 
                         while True:
@@ -1647,7 +1653,12 @@ class SingleItemDecoder(object):
                                 )
 
                             integerTag = ord(integerByte)
-                            lengthOctetIdx += 1
+                            tagOctetCount += 1
+                            if tagOctetCount > MAX_TAG_OCTETS:
+                                raise error.PyAsn1Error(
+                                    'Tag ID octet count exceeds limit (%d)' % (
+                                        MAX_TAG_OCTETS,)
+                                )
                             tagId <<= 7
                             tagId |= (integerTag & 0x7F)
 

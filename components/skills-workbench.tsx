@@ -1,17 +1,38 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { listCvs, putTechSkills } from "@/lib/api";
-import { emptyTechSkills, type CvProfile, type TechSkills } from "@/lib/cv-types";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { ExperienceEditor } from "@/components/experience-editor";
+import {
+  getMasterProfile,
+  putMasterPatch,
+  putMasterValidation,
+  type ExperiencePatchItem,
+} from "@/lib/api";
+import {
+  emptyMasterSkills,
+  MASTER_SKILL_KINDS,
+  type MasterProfile,
+  type MasterSkillKind,
+  type MasterSkills,
+} from "@/lib/cv-types";
+import { validateMasterProfile } from "@/lib/master-profile.schema";
+import { contactFieldDisplay } from "@/lib/master-profile-utils";
 
-type SkillKind = keyof TechSkills;
-
-const LABELS: Record<SkillKind, string> = {
-  front: "Front",
-  back: "Back",
-  ux: "UX",
-  test: "Test",
+const LABELS: Record<MasterSkillKind, string> = {
+  languages: "Lenguajes",
+  frontend: "Frontend",
+  backend: "Backend",
+  mobile: "Mobile",
+  databases: "Bases de datos",
+  cloud: "Cloud",
+  devops: "DevOps",
+  testing: "Testing",
+  architecture: "Arquitectura",
+  payments: "Pagos",
+  security: "Security",
+  ai: "AI",
+  softSkills: "Soft skills",
 };
 
 function normalizeSkill(s: string): string {
@@ -32,44 +53,62 @@ function uniqNormalized(items: string[]): string[] {
   return out;
 }
 
+function normalizeMasterSkills(skills: MasterSkills | undefined): MasterSkills {
+  const empty = emptyMasterSkills();
+  if (!skills) return empty;
+  const next = { ...empty };
+  for (const kind of MASTER_SKILL_KINDS) {
+    next[kind] = uniqNormalized(skills[kind] ?? []);
+  }
+  return next;
+}
+
+const IMPACT_CLASS: Record<string, string> = {
+  critical: "bg-red-100 text-red-800",
+  high: "bg-amber-100 text-amber-900",
+  medium: "bg-zinc-100 text-zinc-700",
+  low: "bg-zinc-50 text-zinc-500",
+};
+
 export function SkillsWorkbench() {
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const [cvs, setCvs] = useState<CvProfile[]>([]);
-  const [selectedId, setSelectedId] = useState<string>("");
-
-  const selected = useMemo(
-    () => cvs.find((c) => c.id === selectedId) ?? null,
-    [cvs, selectedId],
+  const [profile, setProfile] = useState<MasterProfile | null>(null);
+  const [schemaErrors, setSchemaErrors] = useState<string[]>([]);
+  const [draft, setDraft] = useState<MasterSkills>(emptyMasterSkills());
+  const [inputs, setInputs] = useState<Record<MasterSkillKind, string>>(
+    () =>
+      Object.fromEntries(MASTER_SKILL_KINDS.map((k) => [k, ""])) as Record<
+        MasterSkillKind,
+        string
+      >,
   );
+  const experienceDraftRef = useRef<ExperiencePatchItem[] | null>(null);
 
-  const [draft, setDraft] = useState<TechSkills>(emptyTechSkills());
-  const [inputs, setInputs] = useState<Record<SkillKind, string>>({
-    front: "",
-    back: "",
-    ux: "",
-    test: "",
-  });
+  const onExperienceDraftChange = useCallback((items: ExperiencePatchItem[]) => {
+    experienceDraftRef.current = items;
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
     setLoading(true);
     setError(null);
-    listCvs()
+    getMasterProfile()
       .then((data) => {
         if (cancelled) return;
-        setCvs(data);
-        const first = data[0]?.id ?? "";
-        setSelectedId((prev) => prev || first);
+        setProfile(data);
+        const checked = validateMasterProfile(data);
+        setSchemaErrors(checked.ok ? [] : checked.errors);
+        setDraft(normalizeMasterSkills(data.skills));
       })
       .catch((e) => {
         if (cancelled) return;
-        const msg = e instanceof Error ? e.message : "Error cargando perfiles";
+        const msg = e instanceof Error ? e.message : "Error cargando perfil maestro";
         setError(
           msg === "Failed to fetch"
-            ? "No se pudo conectar con el backend (http://127.0.0.1:8000). En la carpeta backend, ejecuta: uvicorn app.main:app --reload --port 8000"
+            ? "No se pudo conectar con el backend (http://127.0.0.1:8000)."
             : msg,
         );
       })
@@ -82,23 +121,21 @@ export function SkillsWorkbench() {
     };
   }, []);
 
-  useEffect(() => {
-    if (!selected) return;
-    setDraft(selected.tech_skills ?? emptyTechSkills());
-  }, [selected]);
+  const addSkill = useCallback(
+    (kind: MasterSkillKind) => {
+      const raw = inputs[kind] ?? "";
+      const next = normalizeSkill(raw);
+      if (!next) return;
+      setDraft((prev) => ({
+        ...prev,
+        [kind]: uniqNormalized([...(prev[kind] ?? []), next]),
+      }));
+      setInputs((p) => ({ ...p, [kind]: "" }));
+    },
+    [inputs],
+  );
 
-  const addSkill = useCallback((kind: SkillKind) => {
-    const raw = inputs[kind] ?? "";
-    const next = normalizeSkill(raw);
-    if (!next) return;
-    setDraft((prev) => ({
-      ...prev,
-      [kind]: uniqNormalized([...(prev[kind] ?? []), next]),
-    }));
-    setInputs((p) => ({ ...p, [kind]: "" }));
-  }, [inputs]);
-
-  const removeSkill = useCallback((kind: SkillKind, value: string) => {
+  const removeSkill = useCallback((kind: MasterSkillKind, value: string) => {
     setDraft((prev) => ({
       ...prev,
       [kind]: (prev[kind] ?? []).filter((x) => x !== value),
@@ -106,118 +143,182 @@ export function SkillsWorkbench() {
   }, []);
 
   const onSave = useCallback(async () => {
-    if (!selected) return;
     setSaving(true);
     setError(null);
     try {
-      const updated = await putTechSkills(selected.id, {
-        front: uniqNormalized(draft.front ?? []),
-        back: uniqNormalized(draft.back ?? []),
-        ux: uniqNormalized(draft.ux ?? []),
-        test: uniqNormalized(draft.test ?? []),
+      const updated = await putMasterPatch({
+        skills: normalizeMasterSkills(draft),
+        experience: experienceDraftRef.current ?? undefined,
       });
-      setCvs((prev) => prev.map((c) => (c.id === updated.id ? updated : c)));
+      setProfile(updated);
+      const checked = validateMasterProfile(updated);
+      setSchemaErrors(checked.ok ? [] : checked.errors);
+      setDraft(normalizeMasterSkills(updated.skills));
     } catch (e) {
       setError(e instanceof Error ? e.message : "Error guardando skills");
     } finally {
       setSaving(false);
     }
-  }, [draft, selected]);
+  }, [draft]);
+
+  const onResolve = useCallback(async (field: string, resolvedValue: string) => {
+    setSaving(true);
+    setError(null);
+    try {
+      const updated = await putMasterValidation({ field, resolvedValue });
+      setProfile(updated);
+      const checked = validateMasterProfile(updated);
+      setSchemaErrors(checked.ok ? [] : checked.errors);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Error guardando validación");
+    } finally {
+      setSaving(false);
+    }
+  }, []);
+
+  const conflicts = (profile?.conflicts ?? []).filter((c) => !c.userValidated);
+  const contact = profile?.profile.contact;
 
   return (
-    <div className="mx-auto flex w-full max-w-5xl flex-col gap-8 px-4 py-10">
+    <div className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-4 py-10">
       <header className="flex flex-wrap items-end justify-between gap-3">
         <div className="space-y-1">
           <h1 className="text-2xl font-semibold tracking-tight text-zinc-900">
-            Experiencia + skills técnicas
+            Skills
           </h1>
           <p className="max-w-2xl text-sm leading-relaxed text-zinc-600">
-            Consume tus perfiles desde el backend (JSON en{" "}
-            <code className="rounded bg-zinc-100 px-1">
-              backend/knowledge_base
-            </code>
-            ) y permite editar/añadir skills por tipo.
+            Edita experiencia y skills del perfil que usa Ollama para generar el CV.
           </p>
         </div>
-        <Link
-          href="/"
-          className="rounded-lg border border-zinc-300 bg-white px-3 py-1.5 text-sm font-medium text-zinc-900 hover:bg-zinc-100"
-        >
-          Volver al generador
-        </Link>
-      </header>
-
-      <section className="rounded-xl border border-zinc-200 bg-white p-6 shadow-sm">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-          <label className="flex flex-1 flex-col gap-1.5 text-sm">
-            <span className="font-medium text-zinc-800">Perfil</span>
-            <select
-              value={selectedId}
-              onChange={(e) => setSelectedId(e.target.value)}
-              className="rounded-lg border border-zinc-300 bg-white px-3 py-2 text-zinc-900 outline-none ring-zinc-400 focus:ring-2"
-              disabled={loading}
-            >
-              {cvs.map((c) => (
-                <option key={c.id} value={c.id}>
-                  {c.label || c.id}
-                </option>
-              ))}
-            </select>
-          </label>
+        <div className="flex items-center gap-2">
           <button
             type="button"
             onClick={onSave}
-            disabled={!selected || saving}
+            disabled={!profile || saving}
             className="rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-zinc-800 disabled:opacity-60"
           >
-            {saving ? "Guardando…" : "Guardar skills"}
+            {saving ? "Guardando…" : "Guardar cambios"}
           </button>
+          <Link
+            href="/"
+            className="rounded-lg border border-zinc-300 bg-white px-3 py-1.5 text-sm font-medium text-zinc-900 hover:bg-zinc-100"
+          >
+            Volver al generador
+          </Link>
         </div>
+      </header>
 
-        {error ? (
-          <p className="mt-4 rounded-md bg-red-50 px-3 py-2 text-sm text-red-800" role="alert">
-            {error}
-          </p>
-        ) : null}
+      {error ? (
+        <p className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-800" role="alert">
+          {error}
+        </p>
+      ) : null}
 
-        {selected ? (
-          <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
-            <div className="rounded-xl border border-zinc-200 bg-zinc-50/80 p-5">
-              <h2 className="text-base font-semibold text-zinc-900">
-                Experiencia ({selected.experience.length})
-              </h2>
-              <div className="mt-3 space-y-4 text-sm">
-                {selected.experience.map((ex, i) => (
-                  <div key={i} className="rounded-lg border border-zinc-200 bg-white p-4">
-                    <p className="font-medium text-zinc-900">
-                      {ex.company} — {ex.role}
-                    </p>
-                    {ex.period ? (
-                      <p className="mt-0.5 text-xs text-zinc-500">{ex.period}</p>
-                    ) : null}
-                    {ex.bullets?.length ? (
-                      <ul className="mt-2 list-disc pl-5 text-sm text-zinc-700">
-                        {ex.bullets.map((b, j) => (
-                          <li key={j}>{b}</li>
-                        ))}
-                      </ul>
-                    ) : (
-                      <p className="mt-2 text-xs text-zinc-500">Sin bullets.</p>
-                    )}
-                  </div>
+      {loading && !profile ? (
+        <p className="text-sm text-zinc-600">Cargando perfil maestro…</p>
+      ) : null}
+
+      {profile ? (
+        <>
+          <section className="rounded-xl border border-zinc-200 bg-white p-6 shadow-sm">
+            <p className="text-lg font-semibold text-zinc-900">
+              {profile.profile.fullName}
+            </p>
+            <p className="mt-1 text-sm text-zinc-600">
+              {profile.profile.professionalTitles.join(" · ")}
+            </p>
+            <p className="mt-3 text-sm leading-relaxed text-zinc-700">
+              {profile.profile.summary}
+            </p>
+            <p className="mt-3 text-xs text-zinc-500">
+              {contact
+                ? [
+                    contactFieldDisplay(contact.email),
+                    contactFieldDisplay(contact.phone),
+                    contactFieldDisplay(contact.linkedin),
+                    contactFieldDisplay(contact.location),
+                  ].join(" · ")
+                : null}
+            </p>
+            {profile.yearsOfExperience ? (
+              <p className="mt-2 text-xs text-amber-800">
+                Años de experiencia:{" "}
+                {profile.yearsOfExperience.value ?? "sin calcular"} ·{" "}
+                {profile.yearsOfExperience.status}
+                {profile.yearsOfExperience.sourceValues?.length
+                  ? ` · candidatos: ${profile.yearsOfExperience.sourceValues.join(", ")}`
+                  : ""}
+              </p>
+            ) : null}
+          </section>
+
+          {schemaErrors.length ? (
+            <section className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-900">
+              <p className="font-medium">El JSON maestro no pasó validación Zod</p>
+              <ul className="mt-2 list-disc pl-5 text-xs">
+                {schemaErrors.slice(0, 12).map((e) => (
+                  <li key={e}>{e}</li>
                 ))}
-                {!selected.experience.length ? (
-                  <p className="text-sm text-zinc-600">Este perfil no tiene experiencia cargada.</p>
-                ) : null}
-              </div>
-            </div>
+              </ul>
+            </section>
+          ) : null}
+
+          {conflicts.length ? (
+            <section className="rounded-xl border border-amber-200 bg-amber-50 p-6">
+              <h2 className="text-base font-semibold text-amber-950">
+                Conflictos por validar ({conflicts.length})
+              </h2>
+              <ul className="mt-3 space-y-2 text-sm text-amber-950">
+                {conflicts.map((c) => (
+                  <li key={c.id || c.field} className="rounded-lg border border-amber-200 bg-white/70 p-3">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <p className="font-medium">{c.field}</p>
+                      <span
+                        className={`rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide ${
+                          IMPACT_CLASS[c.impact] ?? IMPACT_CLASS.medium
+                        }`}
+                      >
+                        {c.impact}
+                      </span>
+                    </div>
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      {c.values.map((v) => (
+                        <button
+                          key={v}
+                          type="button"
+                          disabled={saving}
+                          onClick={() => onResolve(c.field, v)}
+                          className="rounded-full border border-amber-300 bg-white px-2.5 py-1 text-xs hover:bg-amber-100 disabled:opacity-50"
+                          title="Validar este valor"
+                        >
+                          Usar: {v}
+                        </button>
+                      ))}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
+
+          <section className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)]">
+            <ExperienceEditor
+              profile={profile}
+              onDraftChange={onExperienceDraftChange}
+              onError={setError}
+              onSaved={(updated) => {
+                setProfile(updated);
+                const checked = validateMasterProfile(updated);
+                setSchemaErrors(checked.ok ? [] : checked.errors);
+              }}
+            />
 
             <div className="rounded-xl border border-zinc-200 bg-white p-5">
               <h2 className="text-base font-semibold text-zinc-900">
-                Skills técnicas (por tipo)
+                Skills del JSON maestro
               </h2>
               <div className="mt-4 grid gap-4">
-                {(Object.keys(LABELS) as SkillKind[]).map((kind) => (
+                {MASTER_SKILL_KINDS.map((kind) => (
                   <div key={kind} className="rounded-lg border border-zinc-200 p-4">
                     <div className="flex items-center justify-between gap-3">
                       <p className="text-sm font-medium text-zinc-900">
@@ -257,7 +358,7 @@ export function SkillsWorkbench() {
                             addSkill(kind);
                           }
                         }}
-                        placeholder="Ej: React, FastAPI, Figma, Playwright…"
+                        placeholder={`Agregar a ${LABELS[kind]}…`}
                         className="w-full rounded-lg border border-zinc-300 px-3 py-2 text-sm text-zinc-900 outline-none ring-zinc-400 focus:ring-2"
                       />
                       <button
@@ -272,14 +373,9 @@ export function SkillsWorkbench() {
                 ))}
               </div>
             </div>
-          </div>
-        ) : loading ? (
-          <p className="mt-6 text-sm text-zinc-600">Cargando perfiles…</p>
-        ) : (
-          <p className="mt-6 text-sm text-zinc-600">No hay perfiles disponibles.</p>
-        )}
-      </section>
+          </section>
+        </>
+      ) : null}
     </div>
   );
 }
-

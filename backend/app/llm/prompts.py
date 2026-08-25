@@ -22,6 +22,20 @@ chosen_cv_id DEBE ser exactamente uno de estos valores: {allowed_ids_repr}
 """
 
 
+def build_ollama_optimizer_prompt(vacancy_text: str, master_profile: dict) -> str:
+    """Entrada que espera el Modelfile de cv-optimizer: vacante + perfil maestro."""
+    vacancy_snip = vacancy_text[:8000]
+    return (
+        "Maximize ATS match for this job.\n"
+        "Put every important technology from the JOB DESCRIPTION into skills, keywords and summary, even if it is not in the master profile. The candidate will learn those tools.\n"
+        "Keep companies, job titles, dates and metrics exactly from the master profile. Do not invent employers or numbers.\n\n"
+        "JOB DESCRIPTION\n"
+        f"{vacancy_snip}\n\n"
+        "CANDIDATE MASTER PROFILE\n"
+        f"{json.dumps(master_profile, ensure_ascii=False, separators=(',', ':'))}"
+    )
+
+
 def build_tailor_prompt(vacancy_text: str, cv_json: dict) -> str:
     vacancy_snip = vacancy_text[:16000]
     return f"""Eres un asistente experto en optimización de CV para ATS.

@@ -70,6 +70,7 @@ export function cvTemplateToBodyHtml(data: CVData): string {
     ["Code Quality", s.quality],
   ];
   for (const [label, val] of stackRows) {
+    if (!val?.trim()) continue;
     parts.push(
       `<p style="margin:0 0 8px;"><strong>${esc(label)}:</strong> ${esc(val)}</p>`,
     );

@@ -1,8 +1,14 @@
 from __future__ import annotations
 
+from contextlib import contextmanager
+import fcntl
 import logging
 import json
+import os
 from pathlib import Path
+
+from pydantic import BaseModel
+from typing import List, Optional
 
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Request
@@ -17,7 +23,25 @@ from .extension_routes import router as extension_router
 from .fetch_vacancy import text_from_url
 from .llm import GEMINI_QUOTA_USER_MESSAGE, get_cv_llm_backend, is_quota_or_rate_limit
 from .matcher import load_all_cvs, pick_best_cv
-from .models import CvDocument, MatchResponse, TailorRequest, TailorResponse, TechSkills, VacancyRequest
+from .vacancy_pipeline import run_full_optimize_pipeline
+from .compact_master import export_ollama_profile, load_ollama_profile
+from .career_kb import (
+    ExperienceEditItem,
+    ExperienceEditsIn,
+    UserValidationIn,
+    apply_experience_edits,
+    apply_user_validation,
+    sync_skill_catalog,
+)
+from .models import (
+    CvDocument,
+    MasterSkills,
+    MatchResponse,
+    TailorRequest,
+    TailorResponse,
+    TechSkills,
+    VacancyRequest,
+)
 
 load_dotenv(Path(__file__).resolve().parent.parent / ".env")
 
@@ -77,6 +101,62 @@ def _kb_path_for(cv_id: str) -> Path:
     return _kb_dir() / f"{safe}.json"
 
 
+def _master_profile_path() -> Path:
+    return _kb_dir() / "master_profile.json"
+
+
+@contextmanager
+def _locked_master():
+    lock_path = _kb_dir() / ".master_profile.lock"
+    with open(lock_path, "a+", encoding="utf-8") as fh:
+        fcntl.flock(fh.fileno(), fcntl.LOCK_EX)
+        try:
+            yield
+        finally:
+            fcntl.flock(fh.fileno(), fcntl.LOCK_UN)
+
+
+def _load_master_profile() -> dict:
+    p = _master_profile_path()
+    if not p.exists():
+        raise HTTPException(status_code=404, detail="Perfil maestro no encontrado")
+    return json.loads(p.read_text(encoding="utf-8"))
+
+
+def _save_master_profile(raw: dict) -> None:
+    path = _master_profile_path()
+    tmp = path.with_name(path.name + ".tmp")
+    tmp.write_text(
+        json.dumps(raw, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    os.replace(tmp, path)
+    export_ollama_profile(raw)
+
+
+def _skills_empty(skills: Optional[dict]) -> bool:
+    if not skills:
+        return True
+    return all(not (skills.get(key) or []) for key in skills)
+
+
+def _apply_skills(raw: dict, skills: MasterSkills) -> None:
+    dumped = skills.model_dump()
+    existing = raw.get("skills") or {}
+    if _skills_empty(dumped) and not _skills_empty(existing):
+        raise HTTPException(
+            status_code=400,
+            detail="Rechazado: el payload de skills está vacío y borraría el perfil.",
+        )
+    raw["skills"] = dumped
+    sync_skill_catalog(raw, dumped)
+
+
+class MasterProfilePatchIn(BaseModel):
+    skills: Optional[MasterSkills] = None
+    experience: Optional[List[ExperienceEditItem]] = None
+
+
 @app.get("/health")
 def health() -> dict[str, str]:
     return {"status": "ok"}
@@ -109,6 +189,79 @@ def put_tech_skills(cv_id: str, skills: TechSkills) -> CvDocument:
         encoding="utf-8",
     )
     return CvDocument.model_validate(raw)
+
+
+@app.get("/v1/master-profile")
+def get_master_profile() -> dict:
+    return _load_master_profile()
+
+
+@app.get("/v1/master-profile/ollama")
+def get_ollama_profile() -> dict:
+    """Perfil compacto que consume el modelo Ollama cv-optimizer."""
+    return load_ollama_profile()
+
+
+@app.put("/v1/master-profile/skills")
+def put_master_skills(skills: MasterSkills) -> dict:
+    with _locked_master():
+        raw = _load_master_profile()
+        _apply_skills(raw, skills)
+        _save_master_profile(raw)
+        return raw
+
+
+@app.put("/v1/master-profile/validations")
+def put_master_validation(body: UserValidationIn) -> dict:
+    with _locked_master():
+        raw = _load_master_profile()
+        apply_user_validation(raw, body.field.strip(), body.resolvedValue.strip())
+        _save_master_profile(raw)
+        return raw
+
+
+@app.put("/v1/master-profile/experience")
+def put_master_experience(body: ExperienceEditsIn) -> dict:
+    if not body.items:
+        raise HTTPException(status_code=400, detail="items vacío")
+    with _locked_master():
+        raw = _load_master_profile()
+        apply_experience_edits(raw, body.items)
+        _save_master_profile(raw)
+        return raw
+
+
+@app.put("/v1/master-profile")
+def put_master_profile_patch(body: MasterProfilePatchIn) -> dict:
+    if body.skills is None and not body.experience:
+        raise HTTPException(status_code=400, detail="Nada que guardar")
+    with _locked_master():
+        raw = _load_master_profile()
+        if body.experience:
+            apply_experience_edits(raw, body.experience)
+        if body.skills is not None:
+            _apply_skills(raw, body.skills)
+        _save_master_profile(raw)
+        return raw
+
+
+@app.post("/v1/optimize", response_model=TailorResponse)
+async def optimize_cv(body: VacancyRequest) -> TailorResponse:
+    text = (body.vacancy_text or "").strip()
+    if not text:
+        raise HTTPException(status_code=400, detail="Pega el texto de la vacante.")
+    try:
+        _, tailored = await run_full_optimize_pipeline(text, None)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e)) from e
+    except RuntimeError as e:
+        raise HTTPException(status_code=400, detail=str(e)) from e
+    except Exception as e:
+        if is_quota_or_rate_limit(e):
+            logger.warning("[/v1/optimize] Cuota LLM (429): %s", str(e)[:400])
+            raise HTTPException(status_code=429, detail=GEMINI_QUOTA_USER_MESSAGE) from e
+        raise
+    return tailored
 
 
 @app.post("/v1/match", response_model=MatchResponse)
