@@ -10,6 +10,7 @@ import type {
   TailorResponse,
   TechSkills,
 } from "./cv-types";
+import { splitVacancyMeta } from "./vacancy-meta";
 
 export type ExperiencePatchItem = {
   id: string;
@@ -26,10 +27,15 @@ export function apiBase(): string {
 }
 
 export async function optimizeCv(vacancyText: string): Promise<TailorResponse> {
+  const meta = splitVacancyMeta(vacancyText);
   const res = await fetch(`${apiBase()}/v1/optimize`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ vacancy_text: vacancyText }),
+    body: JSON.stringify({
+      vacancy_text: meta.text,
+      company_name: meta.companyName,
+      vacancy_url: meta.vacancyUrl,
+    }),
   });
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
@@ -262,5 +268,29 @@ export async function getCvHistoryItem(id: string): Promise<HistoryDetail> {
     { method: "GET" },
   );
   if (!res.ok) throw new Error(res.statusText || `Error ${res.status}`);
+  return res.json() as Promise<HistoryDetail>;
+}
+
+export async function renameCvHistoryItem(
+  id: string,
+  cvName: string,
+): Promise<HistoryDetail> {
+  const res = await fetch(
+    `${apiBase()}/v1/history/${encodeURIComponent(id)}`,
+    {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ cv_name: cvName.trim() }),
+    },
+  );
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    let detail = res.statusText;
+    if (typeof err === "object" && err && "detail" in err) {
+      const d = (err as { detail: unknown }).detail;
+      if (typeof d === "string") detail = d;
+    }
+    throw new Error(detail || `Error ${res.status}`);
+  }
   return res.json() as Promise<HistoryDetail>;
 }

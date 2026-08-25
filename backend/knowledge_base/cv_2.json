@@ -69,7 +69,8 @@
     }
   ],
   "stack": {
-    "frontend": "React Native, TypeScript, Redux, MobX",
+    "frontend": "React Native, TypeScript, JavaScript (ES6+), HTML5",
+    "styling": "CSS3, NativeWind, TailwindCSS",
     "backend": "Node.js, Express, AdonisJS, NestJS",
     "state": "Redux, MobX",
     "cloud": "AWS (S3, EC2, Cognito, IAM, CodePipeline)",

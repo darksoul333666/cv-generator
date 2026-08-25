@@ -1,17 +1,30 @@
 {
   "manifest_version": 3,
-  "name": "CV Generator — enviar vacante",
-  "version": "0.1.0",
-  "description": "Captura el texto de la pestaña y lo envía al API local para optimizar el CV.",
+  "name": "CV Generator — copiar vacante",
+  "version": "0.2.0",
+  "description": "Copia al portapapeles solo el contenido útil de la vacante (Indeed, LinkedIn y otros).",
   "permissions": ["activeTab", "scripting"],
-  "host_permissions": [
-    "http://127.0.0.1:8000/*",
-    "http://localhost:8000/*"
-  ],
   "action": {
-    "default_title": "Enviar esta vacante al CV Generator"
+    "default_title": "Copiar vacante al portapapeles"
   },
   "background": {
     "service_worker": "background.js"
-  }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*.indeed.com/*",
+        "https://indeed.com/*",
+        "https://*.linkedin.com/*",
+        "https://linkedin.com/*",
+        "https://*.glassdoor.com/*",
+        "https://*.computrabajo.com/*",
+        "https://*.computrabajo.com.mx/*",
+        "https://*.occ.com.mx/*",
+        "https://occ.com.mx/*"
+      ],
+      "js": ["extract.js", "content.js"],
+      "run_at": "document_idle"
+    }
+  ]
 }

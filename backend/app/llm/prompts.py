@@ -32,7 +32,7 @@ def build_ollama_optimizer_prompt(
         f"Write the entire CV in {lang}. Do not mix languages. Company names stay exactly as in the master profile.\n"
         "target_role, summary, bullets and skill names must all be in that language.\n"
         "Maximize ATS match for this job.\n"
-        "Put every important technology from the JOB DESCRIPTION into skills, keywords and summary, even if it is not in the master profile. The candidate will learn those tools.\n"
+        "Put skills in the JSON only as a hint of which master-profile tools matter for this job. Do not invent tools that are not in the master profile.\n"
         "Keep companies, job titles, dates and metrics exactly from the master profile. Do not invent employers or numbers.\n\n"
         "JOB DESCRIPTION\n"
         f"{vacancy_snip}\n\n"

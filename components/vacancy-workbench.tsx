@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
-import { optimizeCv } from "@/lib/api";
+import { optimizeCv, renameCvHistoryItem } from "@/lib/api";
+import { defaultCvSaveName, pdfDownloadName } from "@/lib/cv-filename";
 import { pickCvData, type TailorResponse } from "@/lib/cv-types";
 import { downloadCvPdfWithPuppeteer } from "@/lib/pdf-client";
 import { CVTemplate } from "./cv-template";
@@ -14,6 +15,7 @@ export function VacancyWorkbench() {
   const [elapsed, setElapsed] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<TailorResponse | null>(null);
+  const [cvName, setCvName] = useState("");
 
   useEffect(() => {
     if (!generating) {
@@ -29,6 +31,16 @@ export function VacancyWorkbench() {
 
   const canGenerate = Boolean(text.trim());
 
+  const persistName = useCallback(async (name: string, savedId?: string | null) => {
+    const trimmed = name.trim();
+    if (!trimmed || !savedId) return;
+    try {
+      await renameCvHistoryItem(savedId, trimmed);
+    } catch {
+      /* el PDF igual usa el nombre local */
+    }
+  }, []);
+
   const onGenerate = useCallback(async () => {
     if (!text.trim()) {
       setError("Pega la descripción de la vacante.");
@@ -37,9 +49,14 @@ export function VacancyWorkbench() {
     setError(null);
     setGenerating(true);
     setResult(null);
+    setCvName("");
     try {
       const tailored = await optimizeCv(text.trim());
       setResult(tailored);
+      setCvName(
+        tailored.cv_name?.trim() ||
+          defaultCvSaveName(tailored.cv.name, tailored.cv.label),
+      );
     } catch (err) {
       setError(err instanceof Error ? err.message : "Error al generar el CV");
     } finally {
@@ -50,13 +67,14 @@ export function VacancyWorkbench() {
   const onDownload = useCallback(async () => {
     const cv = result?.cv;
     if (!cv) return;
-    const safe = cv.name.replace(/\s+/g, "_");
+    const name = cvName.trim() || defaultCvSaveName(cv.name, cv.label);
+    await persistName(name, result.saved_id);
     try {
-      await downloadCvPdfWithPuppeteer(cv, `CV_${safe}.pdf`);
+      await downloadCvPdfWithPuppeteer(cv, pdfDownloadName(name));
     } catch (e) {
       setError(e instanceof Error ? e.message : "Error al generar PDF");
     }
-  }, [result]);
+  }, [result, cvName, persistName]);
 
   return (
     <div className="mx-auto flex w-full max-w-5xl flex-col gap-10 px-4 py-10">
@@ -113,9 +131,42 @@ export function VacancyWorkbench() {
         <section className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
           <div className="space-y-3 rounded-xl border border-zinc-200 bg-zinc-50/80 p-5 text-sm">
             <h2 className="text-base font-semibold text-zinc-900">CV para esta vacante</h2>
+            <label className="flex flex-col gap-1">
+              <span className="text-xs font-medium uppercase tracking-wide text-zinc-500">
+                Nombre del CV
+              </span>
+              <input
+                type="text"
+                value={cvName}
+                onChange={(e) => setCvName(e.target.value)}
+                onBlur={() => persistName(cvName, result.saved_id)}
+                className="rounded-lg border border-zinc-300 bg-white px-3 py-1.5 text-sm text-zinc-900 outline-none ring-zinc-400 focus:ring-2"
+              />
+            </label>
+            <p className="text-zinc-700">
+              <span className="font-medium">Perfil:</span> {result.cv.label || result.cv.title}
+            </p>
             <p className="text-zinc-700">
               <span className="font-medium">Match:</span> {result.match_percent.toFixed(0)}%
             </p>
+            {result.company_name ? (
+              <p className="text-zinc-700">
+                <span className="font-medium">Empresa:</span> {result.company_name}
+              </p>
+            ) : null}
+            {result.vacancy_url ? (
+              <p className="truncate text-zinc-700">
+                <span className="font-medium">Vacante:</span>{" "}
+                <a
+                  href={result.vacancy_url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="underline hover:text-zinc-900"
+                >
+                  {result.vacancy_url}
+                </a>
+              </p>
+            ) : null}
             {result.reason ? (
               <p className="text-zinc-600">{result.reason}</p>
             ) : null}

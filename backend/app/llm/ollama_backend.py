@@ -19,7 +19,8 @@ from ..locale_util import (
     freelance_suffix,
 )
 from ..matcher import pick_best_cv
-from ..models import CvDocument, ExperienceItem, StackBlock, TechSkills
+from ..models import CvDocument, ExperienceItem
+from ..skill_stack import build_stack_from_master, stack_to_tech_skills, vacancy_skill_keywords
 from .parse_json import parse_json_object
 from .prompts import build_ollama_optimizer_prompt
 
@@ -139,7 +140,7 @@ class OllamaCvLlmBackend:
             vacancy_text, profile_for_prompt(master), locale
         )
         data = self._chat_sync(prompt)
-        cv_out = _ollama_result_to_cv(data, cv, master, locale)
+        cv_out = _ollama_result_to_cv(data, cv, master, locale, vacancy_text)
         match_percent = float(data.get("match_score") or 0)
         if match_percent <= 10:
             match_percent *= 10
@@ -176,168 +177,6 @@ def _company_index(master: dict) -> dict[str, dict]:
     return index
 
 
-def _skill_index(master: dict) -> dict[str, str]:
-    index: dict[str, str] = {}
-    for name in master.get("skill_inventory") or []:
-        key = _norm(name)
-        if key:
-            index[key] = str(name)
-    for values in (master.get("skills") or {}).values():
-        if not isinstance(values, list):
-            continue
-        for name in values:
-            key = _norm(name)
-            if key and key not in index:
-                index[key] = str(name)
-    return index
-
-
-def _coerce_skill_list(selected: Any) -> list[str]:
-    """Normaliza skills del modelo: lista, string CSV u objeto {name}."""
-    if selected is None:
-        return []
-    if isinstance(selected, str):
-        return [p.strip() for p in selected.replace(";", ",").split(",") if p.strip()]
-    if isinstance(selected, dict):
-        nested: list[Any] = []
-        for key, val in selected.items():
-            if isinstance(val, list):
-                nested.extend(val)
-            elif isinstance(val, str) and len(val.strip()) > 1:
-                nested.append(val)
-            elif key:
-                nested.append(key)
-        return _coerce_skill_list(nested)
-    if isinstance(selected, list):
-        out: list[str] = []
-        for item in selected:
-            if isinstance(item, str) and item.strip():
-                out.append(item.strip())
-            elif isinstance(item, dict):
-                name = item.get("name") or item.get("skill") or item.get("technology")
-                if name and str(name).strip():
-                    out.append(str(name).strip())
-        return out
-    return []
-
-
-def _keep_listed_skills(selected: Any, master: dict) -> list[str]:
-    """Skills del modelo + vacante. No se descartan techs que el candidato va a aprender."""
-    inventory = _skill_index(master)
-    kept: list[str] = []
-    seen: set[str] = set()
-    for raw in _coerce_skill_list(selected):
-        name = str(raw).strip()
-        key = _norm(name)
-        if not name or key in seen or len(name) < 2:
-            continue
-        seen.add(key)
-        kept.append(inventory.get(key) or name)
-    return kept[:16]
-
-
-def _append_unique(dest: list[str], skill: str) -> None:
-    key = _norm(skill)
-    if key and key not in {_norm(x) for x in dest}:
-        dest.append(skill)
-
-
-def _stack_from_skills(kept: list[str], master: dict) -> StackBlock:
-    cats = master.get("skills") or {}
-    frontend: list[str] = []
-    backend: list[str] = []
-    state: list[str] = []
-    cloud: list[str] = []
-    mobile: list[str] = []
-    architecture: list[str] = []
-    testing: list[str] = []
-    quality: list[str] = []
-
-    master_map = {
-        "frontend": {_norm(x) for x in (cats.get("frontend") or [])},
-        "backend": {_norm(x) for x in (cats.get("backend") or []) + (cats.get("databases") or [])},
-        "mobile": {_norm(x) for x in (cats.get("mobile") or [])},
-        "cloud": {_norm(x) for x in (cats.get("cloud") or []) + (cats.get("devops") or [])},
-        "architecture": {_norm(x) for x in (cats.get("architecture") or [])},
-        "testing": {_norm(x) for x in (cats.get("testing") or [])},
-        "ai": {_norm(x) for x in (cats.get("ai") or [])},
-        "languages": {_norm(x) for x in (cats.get("languages") or [])},
-    }
-    state_keys = {"redux", "ngrx", "zustand", "react query", "tanstack query", "rxjs", "mobx"}
-
-    for skill in kept:
-        key = _norm(skill)
-        if key in state_keys:
-            _append_unique(state, skill)
-            continue
-        if key in master_map["frontend"] or key in master_map["languages"]:
-            _append_unique(frontend, skill)
-            continue
-        if key in master_map["backend"]:
-            _append_unique(backend, skill)
-            continue
-        if key in master_map["mobile"]:
-            _append_unique(mobile, skill)
-            continue
-        if key in master_map["cloud"]:
-            _append_unique(cloud, skill)
-            continue
-        if key in master_map["architecture"]:
-            _append_unique(architecture, skill)
-            continue
-        if key in master_map["testing"]:
-            _append_unique(testing, skill)
-            continue
-        if key in master_map["ai"] or any(tok in key for tok in ("copilot", "cursor", "chatgpt", "claude")):
-            _append_unique(quality, skill)
-            continue
-        if any(tok in key for tok in ("react native", "ionic", "android", "ios")):
-            _append_unique(mobile, skill)
-        elif any(tok in key for tok in ("mongo", "postgres", "mysql", "node", "nest", "express", "adonis", "prisma", "graphql", "apollo", "laravel")):
-            _append_unique(backend, skill)
-            if "graphql" in key or "apollo" in key:
-                _append_unique(frontend, skill)
-        elif any(tok in key for tok in ("aws", "docker", "firebase", "s3", "ci/cd", "ci cd")):
-            _append_unique(cloud, skill)
-        else:
-            _append_unique(frontend, skill)
-
-    return StackBlock(
-        frontend=", ".join(frontend),
-        backend=", ".join(backend),
-        state=", ".join(state),
-        cloud=", ".join(cloud),
-        mobile=", ".join(mobile),
-        architecture=", ".join(architecture),
-        testing=", ".join(testing),
-        quality=", ".join(quality),
-    )
-
-
-def _split_into_tech_skills(kept: list[str], master: dict) -> TechSkills:
-    cats = master.get("skills") or {}
-    buckets = {
-        "front": {_norm(x) for x in (cats.get("frontend") or []) + (cats.get("mobile") or []) + (cats.get("languages") or [])},
-        "back": {_norm(x) for x in (cats.get("backend") or []) + (cats.get("databases") or []) + (cats.get("payments") or [])},
-        "ux": {_norm(x) for x in (cats.get("softSkills") or [])},
-        "test": {_norm(x) for x in (cats.get("testing") or []) + (cats.get("devops") or []) + (cats.get("cloud") or [])},
-    }
-    out = TechSkills()
-    for skill in kept:
-        key = _norm(skill)
-        if key in buckets["front"]:
-            out.front.append(skill)
-        elif key in buckets["back"]:
-            out.back.append(skill)
-        elif key in buckets["test"]:
-            out.test.append(skill)
-        elif key in buckets["ux"]:
-            out.ux.append(skill)
-        else:
-            out.front.append(skill)
-    return out
-
-
 def _contact(master: dict) -> dict[str, str]:
     contact = master.get("contact") or {}
     return {
@@ -348,7 +187,7 @@ def _contact(master: dict) -> dict[str, str]:
 
 
 def _ollama_result_to_cv(
-    data: dict, base: CvDocument, master: dict, locale: str = "es"
+    data: dict, base: CvDocument, master: dict, locale: str = "es", vacancy_text: str = ""
 ) -> CvDocument:
     companies = _company_index(master)
     allowed = {_norm(c) for c in (master.get("allowed_companies") or companies.keys())}
@@ -389,16 +228,20 @@ def _ollama_result_to_cv(
             )
         )
 
-    kept_skills = _keep_listed_skills(data.get("skills") or [], master)
     contact = _contact(master)
     title = str(data.get("target_role") or base.title or "").strip()
     summary = str(data.get("summary") or "").strip()
-    keywords = [str(k).strip() for k in (data.get("keywords") or []) if str(k).strip()][:15]
+    stack = build_stack_from_master(master, vacancy_text)
+    keywords = vacancy_skill_keywords(
+        master,
+        vacancy_text,
+        [str(k).strip() for k in (data.get("keywords") or []) if str(k).strip()],
+    ) or base.keywords
 
     return CvDocument(
         id=base.id,
         label=base.label,
-        keywords=keywords or base.keywords,
+        keywords=keywords,
         name=str(master.get("name") or base.name),
         title=title or base.title,
         email=contact["email"] or base.email,
@@ -406,8 +249,8 @@ def _ollama_result_to_cv(
         linkedin=contact["linkedin"] or base.linkedin,
         summary=summary or base.summary,
         experience=experience or base.experience,
-        stack=_stack_from_skills(kept_skills, master),
-        tech_skills=_split_into_tech_skills(kept_skills, master),
+        stack=stack,
+        tech_skills=stack_to_tech_skills(stack),
         education=education_line(master, locale) or base.education,
         certifications=cert_names(master, locale) or base.certifications,
         locale=locale,

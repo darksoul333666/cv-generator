@@ -27,6 +27,7 @@ export {
 
 export type CVStack = {
   frontend: string;
+  styling: string;
   backend: string;
   state: string;
   cloud: string;
@@ -76,6 +77,9 @@ export type TailorResponse = {
   reinforcement_plan: string[];
   raw_meta?: Record<string, unknown>;
   saved_id?: string | null;
+  cv_name?: string | null;
+  company_name?: string | null;
+  vacancy_url?: string | null;
 };
 
 export type HistorySummary = {
@@ -84,6 +88,9 @@ export type HistorySummary = {
   created_at: string;
   match_percent: number;
   target_role: string;
+  cv_name?: string;
+  company_name?: string;
+  vacancy_url?: string | null;
 };
 
 export type HistoryDetail = {
@@ -94,6 +101,9 @@ export type HistoryDetail = {
   match_percent: number;
   reason: string;
   cv: CvProfile;
+  cv_name?: string;
+  company_name?: string;
+  vacancy_url?: string | null;
 };
 
 export function pickCvData(profile: CvProfile): CVData {
@@ -106,6 +116,7 @@ export function pickCvData(profile: CvProfile): CVData {
 
 export const emptyStack = (): CVStack => ({
   frontend: "",
+  styling: "",
   backend: "",
   state: "",
   cloud: "",

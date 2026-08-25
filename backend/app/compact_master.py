@@ -99,6 +99,29 @@ def _unique_skills(skills: dict) -> list[str]:
     return out
 
 
+def _skill_aliases(raw: dict) -> dict[str, list[str]]:
+    out: dict[str, list[str]] = {}
+    source = raw.get("skillAliases") or {}
+    if not isinstance(source, dict):
+        return out
+    for key, val in source.items():
+        if isinstance(val, dict):
+            canon = str(val.get("canonical") or key).strip()
+            aliases = [str(a).strip() for a in (val.get("aliases") or []) if str(a).strip()]
+        elif isinstance(val, list):
+            canon = str(key).strip()
+            aliases = [str(a).strip() for a in val if str(a).strip()]
+        else:
+            continue
+        if not canon:
+            continue
+        bucket = out.setdefault(canon, [])
+        for alias in aliases:
+            if alias not in bucket:
+                bucket.append(alias)
+    return out
+
+
 def build_ollama_profile(raw: dict) -> dict:
     """Hechos usables por el modelo. Omite inferred/conflicted y metadatos internos."""
     profile = raw.get("profile") or {}
@@ -257,6 +280,7 @@ def build_ollama_profile(raw: dict) -> dict:
         }
 
     inventory = _unique_skills(skills)
+    skill_aliases = _skill_aliases(raw)
 
     return {
         "name": profile.get("fullName"),
@@ -265,6 +289,7 @@ def build_ollama_profile(raw: dict) -> dict:
         "years_experience": years,
         "skills": skills,
         "skill_inventory": inventory,
+        "skill_aliases": skill_aliases,
         "experience": experience_out,
         "allowed_companies": allowed_companies,
         "projects": projects_out,

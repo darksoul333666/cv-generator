@@ -78,7 +78,8 @@
     }
   ],
   "stack": {
-    "frontend": "Angular, React, Next.js, React Native, TypeScript, JavaScript (ES6+), HTML5, CSS3",
+    "frontend": "Angular, React, Next.js, React Native, Vue, TypeScript, JavaScript (ES6+), HTML5",
+    "styling": "CSS3, TailwindCSS, Bootstrap, Angular Material, Material UI",
     "backend": "Node.js, Express, AdonisJS, NestJS",
     "state": "NgRx, Redux, MobX",
     "cloud": "AWS (S3, EC2, Cognito, IAM, CodePipeline)",

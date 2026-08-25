@@ -8,6 +8,7 @@ from .llm import get_cv_llm_backend
 from .llm.settings import tailor_missing_key_message
 from .matcher import load_all_cvs, pick_best_cv
 from .models import CvDocument, MatchResponse, TailorResponse
+from .vacancy_clean import parse_pasted_vacancy
 
 
 async def vacancy_blob_from_text_and_url(
@@ -68,16 +69,27 @@ async def run_tailor_optimize(vacancy_blob: str, base_cv: CvDocument) -> TailorR
 
 async def run_full_optimize_pipeline(
     vacancy_text: str,
-    vacancy_url: Optional[str],
+    vacancy_url: Optional[str] = None,
+    company_name: Optional[str] = None,
 ) -> Tuple[MatchResponse, TailorResponse]:
-    """Match por keywords + tailor con el perfil maestro. Educación y certs se copian del master."""
-    blob = await vacancy_blob_from_text_and_url(vacancy_text, vacancy_url)
+    """Match por keywords + tailor. Empresa y URL no entran al modelo: solo historial local."""
+    parsed = parse_pasted_vacancy(vacancy_text or "")
+    blob = (parsed["text"] or "").strip()
+    if not blob:
+        raise ValueError("Pega el texto de la vacante.")
+    stored_url = (vacancy_url or parsed["url"] or "").strip() or None
+    company = (company_name or parsed["company"] or "").strip()
     match_resp = await run_match_for_blob(blob)
     tailored = await run_tailor_optimize(blob, match_resp.cv)
     record = append_generated_cv(
         vacancy_title=vacancy_title_from_text(blob),
         vacancy_text=blob,
         tailor=tailored,
+        company_name=company,
+        vacancy_url=stored_url,
     )
     tailored.saved_id = record.id
+    tailored.cv_name = record.cv_name
+    tailored.company_name = record.company_name or None
+    tailored.vacancy_url = record.vacancy_url
     return match_resp, tailored

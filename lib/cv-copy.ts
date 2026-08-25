@@ -9,12 +9,14 @@ export type CvCopy = {
   education: string;
   certifications: string;
   frontend: string;
+  styling: string;
   backend: string;
   architecture: string;
   cloud: string;
   mobile: string;
   testing: string;
   quality: string;
+  state: string;
 };
 
 const COPY: Record<CvLocale, CvCopy> = {
@@ -25,12 +27,14 @@ const COPY: Record<CvLocale, CvCopy> = {
     education: "EDUCATION",
     certifications: "CERTIFICATIONS & ACHIEVEMENTS",
     frontend: "Frontend",
+    styling: "Styling",
     backend: "Backend & APIs",
     architecture: "Architecture",
     cloud: "Cloud & DevOps",
     mobile: "Mobile",
     testing: "Testing",
     quality: "Code Quality",
+    state: "State Management",
   },
   es: {
     summary: "RESUMEN PROFESIONAL",
@@ -39,12 +43,14 @@ const COPY: Record<CvLocale, CvCopy> = {
     education: "FORMACIÓN ACADÉMICA",
     certifications: "CERTIFICACIONES Y LOGROS",
     frontend: "Frontend",
+    styling: "Styling",
     backend: "Backend y APIs",
     architecture: "Arquitectura",
     cloud: "Cloud y DevOps",
     mobile: "Móvil",
     testing: "Testing",
     quality: "Calidad de código",
+    state: "Gestión de estado",
   },
 };
 

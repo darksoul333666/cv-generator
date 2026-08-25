@@ -12,6 +12,7 @@ from typing import Any, Optional
 from pydantic import BaseModel, ConfigDict
 
 from .models import CvDocument, TailorResponse
+from .vacancy_clean import suggested_cv_name
 
 _MAX_ITEMS = 100
 _LOCK = RLock()
@@ -29,6 +30,9 @@ class GeneratedCvRecord(BaseModel):
     match_percent: float = 0
     reason: str = ""
     cv: CvDocument
+    cv_name: str = ""
+    company_name: str = ""
+    vacancy_url: Optional[str] = None
 
 
 class GeneratedCvSummary(BaseModel):
@@ -37,6 +41,9 @@ class GeneratedCvSummary(BaseModel):
     created_at: str
     match_percent: float
     target_role: str = ""
+    cv_name: str = ""
+    company_name: str = ""
+    vacancy_url: Optional[str] = None
 
 
 def vacancy_title_from_text(text: str, explicit: Optional[str] = None) -> str:
@@ -98,6 +105,9 @@ def list_generated_summaries() -> list[GeneratedCvSummary]:
             created_at=r.created_at,
             match_percent=r.match_percent,
             target_role=r.cv.title or "",
+            cv_name=r.cv_name or "",
+            company_name=r.company_name or "",
+            vacancy_url=r.vacancy_url,
         )
         for r in records
     ]
@@ -118,7 +128,13 @@ def append_generated_cv(
     vacancy_title: str,
     vacancy_text: str,
     tailor: TailorResponse,
+    cv_name: str = "",
+    company_name: str = "",
+    vacancy_url: Optional[str] = None,
 ) -> GeneratedCvRecord:
+    name = (cv_name or "").strip() or suggested_cv_name(
+        tailor.cv.name, tailor.cv.label
+    )
     record = GeneratedCvRecord(
         id=str(uuid.uuid4()),
         vacancy_title=vacancy_title.strip() or "Vacante sin título",
@@ -127,9 +143,31 @@ def append_generated_cv(
         match_percent=tailor.match_percent,
         reason=tailor.reason or "",
         cv=tailor.cv,
+        cv_name=name[:200],
+        company_name=(company_name or "").strip()[:200],
+        vacancy_url=(vacancy_url or "").strip()[:2000] or None,
     )
     with _LOCK:
         raw_list = _load_raw()
         merged = [record.model_dump(mode="json")] + raw_list
         _save_raw(merged[:_MAX_ITEMS])
     return record
+
+
+def update_generated_cv_name(item_id: str, cv_name: str) -> Optional[GeneratedCvRecord]:
+    name = (cv_name or "").strip()[:200]
+    if not name:
+        return None
+    jid = item_id.strip()
+    with _LOCK:
+        raw_list = _load_raw()
+        for i, item in enumerate(raw_list):
+            if item.get("id") == jid:
+                item["cv_name"] = name
+                raw_list[i] = item
+                _save_raw(raw_list)
+                try:
+                    return GeneratedCvRecord.model_validate(item)
+                except Exception:
+                    return None
+    return None

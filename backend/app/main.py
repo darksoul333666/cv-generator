@@ -19,7 +19,7 @@ from fastapi.exception_handlers import (
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 
-from .cv_history import get_generated_cv, list_generated_summaries
+from .cv_history import get_generated_cv, list_generated_summaries, update_generated_cv_name
 from .extension_routes import router as extension_router
 from .fetch_vacancy import text_from_url
 from .llm import GEMINI_QUOTA_USER_MESSAGE, get_cv_llm_backend, is_quota_or_rate_limit
@@ -42,6 +42,7 @@ from .models import (
     CvDocument,
     HistoryDetailOut,
     HistoryListResponse,
+    HistoryRenameIn,
     HistorySummaryOut,
     MasterSkills,
     MatchResponse,
@@ -259,7 +260,11 @@ async def optimize_cv(body: VacancyRequest) -> TailorResponse:
     if not text:
         raise HTTPException(status_code=400, detail="Pega el texto de la vacante.")
     try:
-        _, tailored = await run_full_optimize_pipeline(text, None)
+        _, tailored = await run_full_optimize_pipeline(
+            text,
+            vacancy_url=body.vacancy_url,
+            company_name=body.company_name,
+        )
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e)) from e
     except RuntimeError as e:
@@ -306,6 +311,28 @@ async def get_cv_history_item(item_id: str) -> HistoryDetailOut:
         match_percent=record.match_percent,
         reason=record.reason,
         cv=record.cv,
+        cv_name=record.cv_name or "",
+        company_name=record.company_name or "",
+        vacancy_url=record.vacancy_url,
+    )
+
+
+@app.patch("/v1/history/{item_id}", response_model=HistoryDetailOut)
+async def rename_cv_history_item(item_id: str, body: HistoryRenameIn) -> HistoryDetailOut:
+    record = update_generated_cv_name(item_id, body.cv_name)
+    if record is None:
+        raise HTTPException(status_code=404, detail="No hay un CV guardado con ese id.")
+    return HistoryDetailOut(
+        id=record.id,
+        vacancy_title=record.vacancy_title,
+        vacancy_text=record.vacancy_text,
+        created_at=record.created_at,
+        match_percent=record.match_percent,
+        reason=record.reason,
+        cv=record.cv,
+        cv_name=record.cv_name or "",
+        company_name=record.company_name or "",
+        vacancy_url=record.vacancy_url,
     )
 
 

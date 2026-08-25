@@ -6,11 +6,16 @@ from pydantic import BaseModel, ConfigDict, Field
 
 
 class VacancyRequest(BaseModel):
-    """Entrada desde el front: texto de vacante y/o URL (el backend puede extraer texto de la URL)."""
+    """Texto de la vacante para el modelo. Empresa y URL son metadatos locales, no van al LLM."""
 
-    vacancy_text: str = Field(default="", description="Texto completo de la oferta")
+    vacancy_text: str = Field(default="", description="Descripción de la oferta (sin empresa/URL)")
     vacancy_url: Optional[str] = Field(
-        default=None, description="URL opcional para extraer texto en servidor"
+        default=None,
+        description="URL de la vacante: solo se guarda en historial, no se envía al modelo",
+    )
+    company_name: Optional[str] = Field(
+        default=None,
+        description="Nombre de la empresa: solo se guarda en historial, no se envía al modelo",
     )
 
 
@@ -23,6 +28,7 @@ class ExperienceItem(BaseModel):
 
 class StackBlock(BaseModel):
     frontend: str = ""
+    styling: str = ""
     backend: str = ""
     state: str = ""
     cloud: str = ""
@@ -112,6 +118,12 @@ class TailorResponse(BaseModel):
         default=None,
         description="Id en el historial local si este CV se guardó al generar",
     )
+    cv_name: Optional[str] = Field(
+        default=None,
+        description="Nombre con el que se guarda/descarga el PDF",
+    )
+    company_name: Optional[str] = Field(default=None)
+    vacancy_url: Optional[str] = Field(default=None)
 
 
 class ExtensionVacancyIn(BaseModel):
@@ -164,6 +176,9 @@ class HistorySummaryOut(BaseModel):
     created_at: str
     match_percent: float
     target_role: str = ""
+    cv_name: str = ""
+    company_name: str = ""
+    vacancy_url: Optional[str] = None
 
 
 class HistoryDetailOut(BaseModel):
@@ -174,6 +189,13 @@ class HistoryDetailOut(BaseModel):
     match_percent: float
     reason: str = ""
     cv: CvDocument
+    cv_name: str = ""
+    company_name: str = ""
+    vacancy_url: Optional[str] = None
+
+
+class HistoryRenameIn(BaseModel):
+    cv_name: str = Field(..., min_length=1, max_length=200)
 
 
 class HistoryListResponse(BaseModel):

@@ -138,7 +138,7 @@ class GeminiCvLlmBackend:
                 response = model.generate_content(prompt, generation_config=cfg)
                 raw = response_text(response)
                 data = parse_json_object(raw, context="gemini")
-                cv_out = _ollama_result_to_cv(data, cv, master, locale)
+                cv_out = _ollama_result_to_cv(data, cv, master, locale, vacancy_text)
                 match_percent = float(data.get("match_score") or 0)
                 if match_percent <= 10:
                     match_percent *= 10

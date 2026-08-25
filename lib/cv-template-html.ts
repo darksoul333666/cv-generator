@@ -64,13 +64,14 @@ export function cvTemplateToBodyHtml(data: CVData): string {
     parts.push(`</ul></div>`);
   }
 
-  const architecture = [s.architecture, s.state].filter((x) => x?.trim()).join(", ");
   const skillRows: [string, string][] = [
     [copy.frontend, s.frontend],
+    [copy.styling, s.styling],
     [copy.backend, s.backend],
-    [copy.architecture, architecture],
+    [copy.state, s.state],
     [copy.cloud, s.cloud],
     [copy.mobile, s.mobile],
+    [copy.architecture, s.architecture],
     [copy.testing, s.testing],
     [copy.quality, s.quality],
   ];

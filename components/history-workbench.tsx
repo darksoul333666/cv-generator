@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { getCvHistoryItem, listCvHistory } from "@/lib/api";
+import { getCvHistoryItem, listCvHistory, renameCvHistoryItem } from "@/lib/api";
+import { defaultCvSaveName, pdfDownloadName } from "@/lib/cv-filename";
 import { pickCvData, type HistoryDetail, type HistorySummary } from "@/lib/cv-types";
 import { downloadCvPdfWithPuppeteer } from "@/lib/pdf-client";
 import { CVTemplate } from "./cv-template";
@@ -23,6 +24,7 @@ export function HistoryWorkbench() {
   const [items, setItems] = useState<HistorySummary[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(requestedId);
   const [detail, setDetail] = useState<HistoryDetail | null>(null);
+  const [cvName, setCvName] = useState("");
   const [loadingList, setLoadingList] = useState(true);
   const [loadingDetail, setLoadingDetail] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -59,7 +61,12 @@ export function HistoryWorkbench() {
     setError(null);
     getCvHistoryItem(selectedId)
       .then((item) => {
-        if (!cancelled) setDetail(item);
+        if (cancelled) return;
+        setDetail(item);
+        setCvName(
+          item.cv_name?.trim() ||
+            defaultCvSaveName(item.cv.name, item.cv.label),
+        );
       })
       .catch((err) => {
         if (!cancelled) {
@@ -75,16 +82,33 @@ export function HistoryWorkbench() {
     };
   }, [selectedId]);
 
+  const persistName = useCallback(async (name: string, id?: string | null) => {
+    const trimmed = name.trim();
+    if (!trimmed || !id) return;
+    try {
+      const updated = await renameCvHistoryItem(id, trimmed);
+      setItems((prev) =>
+        prev.map((item) =>
+          item.id === id ? { ...item, cv_name: updated.cv_name } : item,
+        ),
+      );
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "No se pudo guardar el nombre");
+    }
+  }, []);
+
   const onDownload = useCallback(async () => {
     const cv = detail?.cv;
     if (!cv) return;
-    const safe = cv.name.replace(/\s+/g, "_");
+    const name =
+      cvName.trim() || defaultCvSaveName(cv.name, cv.label);
+    await persistName(name, detail.id);
     try {
-      await downloadCvPdfWithPuppeteer(cv, `CV_${safe}.pdf`);
+      await downloadCvPdfWithPuppeteer(cv, pdfDownloadName(name));
     } catch (e) {
       setError(e instanceof Error ? e.message : "Error al generar PDF");
     }
-  }, [detail]);
+  }, [detail, cvName, persistName]);
 
   const selected = useMemo(
     () => items.find((item) => item.id === selectedId) || null,
@@ -139,10 +163,24 @@ export function HistoryWorkbench() {
                         : "bg-zinc-50 text-zinc-800 hover:bg-zinc-100"
                     }`}
                   >
-                    <span className="line-clamp-2 font-medium">{item.vacancy_title}</span>
-                    <span className={`mt-1 block text-xs ${active ? "text-zinc-300" : "text-zinc-500"}`}>
+                    <span className="line-clamp-2 font-medium">
+                      {item.cv_name || item.vacancy_title}
+                    </span>
+                    {item.company_name ? (
+                      <span className={`mt-1 block text-xs ${active ? "text-zinc-300" : "text-zinc-700"}`}>
+                        {item.company_name}
+                      </span>
+                    ) : null}
+                    {item.vacancy_url ? (
+                      <span
+                        className={`mt-0.5 block truncate text-[11px] ${active ? "text-zinc-400" : "text-zinc-500"}`}
+                        title={item.vacancy_url}
+                      >
+                        {item.vacancy_url}
+                      </span>
+                    ) : null}
+                    <span className={`mt-1 block text-xs ${active ? "text-zinc-400" : "text-zinc-500"}`}>
                       {formatWhen(item.created_at)}
-                      {item.target_role ? ` · ${item.target_role}` : ""}
                     </span>
                   </button>
                 </li>
@@ -156,11 +194,41 @@ export function HistoryWorkbench() {
             ) : detail ? (
               <>
                 <div className="space-y-3 rounded-xl border border-zinc-200 bg-zinc-50/80 p-5 text-sm">
+                  <label className="flex flex-col gap-1">
+                    <span className="text-xs font-medium uppercase tracking-wide text-zinc-500">
+                      Nombre del CV
+                    </span>
+                    <input
+                      type="text"
+                      value={cvName}
+                      onChange={(e) => setCvName(e.target.value)}
+                      onBlur={() => persistName(cvName, detail.id)}
+                      className="rounded-lg border border-zinc-300 bg-white px-3 py-1.5 text-sm text-zinc-900 outline-none ring-zinc-400 focus:ring-2"
+                    />
+                  </label>
                   <h2 className="text-base font-semibold text-zinc-900">
                     {detail.vacancy_title}
                   </h2>
                   {selected ? (
                     <p className="text-xs text-zinc-500">{formatWhen(detail.created_at)}</p>
+                  ) : null}
+                  {detail.company_name ? (
+                    <p className="text-zinc-700">
+                      <span className="font-medium">Empresa:</span> {detail.company_name}
+                    </p>
+                  ) : null}
+                  {detail.vacancy_url ? (
+                    <p className="truncate text-zinc-700">
+                      <span className="font-medium">Vacante:</span>{" "}
+                      <a
+                        href={detail.vacancy_url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="underline hover:text-zinc-900"
+                      >
+                        {detail.vacancy_url}
+                      </a>
+                    </p>
                   ) : null}
                   <p className="text-zinc-700">
                     <span className="font-medium">Match:</span>{" "}
