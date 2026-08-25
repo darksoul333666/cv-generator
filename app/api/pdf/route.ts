@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import { cvTemplateToBodyHtml } from "@/lib/cv-template-html";
+import { cvLocale } from "@/lib/cv-copy";
+import { clearSandboxPuppeteerCache, resolveChromeExecutable } from "@/lib/launch-chrome";
 import {
   emptyStack,
   emptyTechSkills,
@@ -79,20 +81,21 @@ function normalizeCvProfile(raw: unknown): CvProfile | null {
     tech_skills: normalizeTechSkills(raw.tech_skills),
     education: typeof raw.education === "string" ? raw.education : "",
     certifications,
+    locale: raw.locale === "en" || raw.locale === "es" ? raw.locale : undefined,
   };
   return profile;
 }
 
-function buildHtml(markup: string): string {
+function buildHtml(markup: string, locale: "en" | "es" = "es"): string {
   return `<!DOCTYPE html>
-<html lang="es">
+<html lang="${locale}">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     * { box-sizing: border-box; }
     html, body { margin: 0; padding: 0; background: #fff; }
-    @page { size: A4; margin: 14mm; }
+    @page { size: letter; margin: 0; }
   </style>
 </head>
 <body>${markup}</body>
@@ -118,11 +121,14 @@ export async function POST(request: Request) {
 
   const data = pickCvData(profile);
   const markup = cvTemplateToBodyHtml(data);
-  const html = buildHtml(markup);
+  const html = buildHtml(markup, cvLocale(data));
 
+  clearSandboxPuppeteerCache();
+  const executablePath = resolveChromeExecutable();
   const puppeteer = await import("puppeteer");
   const browser = await puppeteer.default.launch({
     headless: true,
+    ...(executablePath ? { executablePath } : { channel: "chrome" as const }),
     args: ["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage"],
   });
 
@@ -130,7 +136,7 @@ export async function POST(request: Request) {
     const page = await browser.newPage();
     await page.setContent(html, { waitUntil: "networkidle0", timeout: 30_000 });
     const pdf = await page.pdf({
-      format: "A4",
+      format: "Letter",
       printBackground: true,
       preferCSSPageSize: true,
       margin: { top: "0", right: "0", bottom: "0", left: "0" },

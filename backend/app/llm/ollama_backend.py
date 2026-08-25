@@ -11,6 +11,13 @@ from typing import Any, Dict, List, Tuple
 import httpx
 
 from ..compact_master import load_ollama_profile, profile_for_prompt
+from ..locale_util import (
+    cert_names,
+    detect_vacancy_locale,
+    education_line,
+    format_period,
+    freelance_suffix,
+)
 from ..matcher import pick_best_cv
 from ..models import CvDocument, ExperienceItem, StackBlock, TechSkills
 from .parse_json import parse_json_object
@@ -127,15 +134,16 @@ class OllamaCvLlmBackend:
         self, vacancy_text: str, cv: CvDocument
     ) -> Tuple[CvDocument, float, str, List[str], List[str], List[str], Dict[str, Any]]:
         master = load_ollama_profile()
-        prompt = build_ollama_optimizer_prompt(vacancy_text, profile_for_prompt(master))
+        locale = detect_vacancy_locale(vacancy_text)
+        prompt = build_ollama_optimizer_prompt(
+            vacancy_text, profile_for_prompt(master), locale
+        )
         data = self._chat_sync(prompt)
-        cv_out = _ollama_result_to_cv(data, cv, master)
+        cv_out = _ollama_result_to_cv(data, cv, master, locale)
         match_percent = float(data.get("match_score") or 0)
         if match_percent <= 10:
             match_percent *= 10
         match_percent = max(0.0, min(100.0, match_percent))
-        missing = data.get("missing_requirements") or []
-        gaps = _as_gap_strings(missing)
         reason = str(data.get("target_role") or cv_out.title or "CV optimizado con Ollama")
         raw_meta: Dict[str, Any] = {
             "llm_provider": self.provider_id,
@@ -143,8 +151,9 @@ class OllamaCvLlmBackend:
             "source": "master_profile",
             "keywords": data.get("keywords") or [],
             "attempts": 1,
+            "locale": locale,
         }
-        return cv_out, match_percent, reason, [], gaps, [], raw_meta
+        return cv_out, match_percent, reason, [], [], [], raw_meta
 
     async def tailor_cv(
         self, vacancy_text: str, cv: CvDocument
@@ -152,20 +161,6 @@ class OllamaCvLlmBackend:
         if not self.is_configured():
             raise RuntimeError("Ollama no configurado (OLLAMA_HOST / OLLAMA_MODEL)")
         return await asyncio.to_thread(self._tailor_cv_sync, vacancy_text, cv)
-
-
-def _as_gap_strings(missing: Any) -> list[str]:
-    out: list[str] = []
-    if not isinstance(missing, list):
-        return out
-    for item in missing:
-        if isinstance(item, str) and item.strip():
-            out.append(item.strip())
-        elif isinstance(item, dict):
-            skill = str(item.get("skill") or item.get("requirement") or "").strip()
-            if skill:
-                out.append(skill)
-    return out[:50]
 
 
 def _norm(text: str) -> str:
@@ -197,15 +192,44 @@ def _skill_index(master: dict) -> dict[str, str]:
     return index
 
 
-def _keep_listed_skills(selected: list[Any], master: dict) -> list[str]:
+def _coerce_skill_list(selected: Any) -> list[str]:
+    """Normaliza skills del modelo: lista, string CSV u objeto {name}."""
+    if selected is None:
+        return []
+    if isinstance(selected, str):
+        return [p.strip() for p in selected.replace(";", ",").split(",") if p.strip()]
+    if isinstance(selected, dict):
+        nested: list[Any] = []
+        for key, val in selected.items():
+            if isinstance(val, list):
+                nested.extend(val)
+            elif isinstance(val, str) and len(val.strip()) > 1:
+                nested.append(val)
+            elif key:
+                nested.append(key)
+        return _coerce_skill_list(nested)
+    if isinstance(selected, list):
+        out: list[str] = []
+        for item in selected:
+            if isinstance(item, str) and item.strip():
+                out.append(item.strip())
+            elif isinstance(item, dict):
+                name = item.get("name") or item.get("skill") or item.get("technology")
+                if name and str(name).strip():
+                    out.append(str(name).strip())
+        return out
+    return []
+
+
+def _keep_listed_skills(selected: Any, master: dict) -> list[str]:
     """Skills del modelo + vacante. No se descartan techs que el candidato va a aprender."""
     inventory = _skill_index(master)
     kept: list[str] = []
     seen: set[str] = set()
-    for raw in selected:
+    for raw in _coerce_skill_list(selected):
         name = str(raw).strip()
         key = _norm(name)
-        if not name or key in seen:
+        if not name or key in seen or len(name) < 2:
             continue
         seen.add(key)
         kept.append(inventory.get(key) or name)
@@ -314,30 +338,6 @@ def _split_into_tech_skills(kept: list[str], master: dict) -> TechSkills:
     return out
 
 
-def _education_line(master: dict) -> str:
-    for item in master.get("education") or []:
-        degree = str(item.get("degree") or "")
-        if "también referido" in degree.lower():
-            degree = degree.split("(")[0].strip()
-        institution = item.get("institution") or ""
-        year = item.get("graduation_year") or item.get("end_date") or ""
-        parts = [p for p in (degree, institution, str(year) if year else "") if p]
-        if parts:
-            return " — ".join(parts)
-    return ""
-
-
-def _cert_names(master: dict) -> list[str]:
-    names: list[str] = []
-    for item in master.get("certifications") or []:
-        name = str(item.get("name") or "").strip()
-        year = item.get("year")
-        if not name:
-            continue
-        names.append(f"{name} ({year})" if year else name)
-    return names
-
-
 def _contact(master: dict) -> dict[str, str]:
     contact = master.get("contact") or {}
     return {
@@ -347,7 +347,9 @@ def _contact(master: dict) -> dict[str, str]:
     }
 
 
-def _ollama_result_to_cv(data: dict, base: CvDocument, master: dict) -> CvDocument:
+def _ollama_result_to_cv(
+    data: dict, base: CvDocument, master: dict, locale: str = "es"
+) -> CvDocument:
     companies = _company_index(master)
     allowed = {_norm(c) for c in (master.get("allowed_companies") or companies.keys())}
     personal = {_norm(n) for n in (master.get("personal_products_not_employment") or [])}
@@ -361,7 +363,12 @@ def _ollama_result_to_cv(data: dict, base: CvDocument, master: dict) -> CvDocume
         if not company or key not in allowed or key in personal:
             continue
         source = companies.get(key) or {}
-        period = str(source.get("dates") or raw.get("dates") or "").strip()
+        period = format_period(
+            source.get("start_date"),
+            source.get("end_date"),
+            bool(source.get("current")),
+            locale,
+        ) or str(source.get("dates") or raw.get("dates") or "").strip()
         position = str(raw.get("position") or "").strip()
         known_roles = [_norm(r) for r in (source.get("positions") or [])]
         if position and known_roles and _norm(position) not in known_roles:
@@ -369,6 +376,9 @@ def _ollama_result_to_cv(data: dict, base: CvDocument, master: dict) -> CvDocume
             known_blob = " ".join(known_roles)
             if not any(tok in known_blob for tok in _norm(position).split() if len(tok) > 3):
                 position = (source.get("positions") or [position])[0]
+        suffix = freelance_suffix(source.get("employment_type"), locale)
+        if suffix and "freelance" not in _norm(position):
+            position = f"{position}{suffix}" if position else suffix.strip(" —")
         bullets = [str(b).strip() for b in (raw.get("bullets") or []) if str(b).strip()]
         experience.append(
             ExperienceItem(
@@ -398,6 +408,7 @@ def _ollama_result_to_cv(data: dict, base: CvDocument, master: dict) -> CvDocume
         experience=experience or base.experience,
         stack=_stack_from_skills(kept_skills, master),
         tech_skills=_split_into_tech_skills(kept_skills, master),
-        education=_education_line(master) or base.education,
-        certifications=_cert_names(master) or base.certifications,
+        education=education_line(master, locale) or base.education,
+        certifications=cert_names(master, locale) or base.certifications,
+        locale=locale,
     )

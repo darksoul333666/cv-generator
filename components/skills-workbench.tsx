@@ -187,7 +187,7 @@ export function SkillsWorkbench() {
             Skills
           </h1>
           <p className="max-w-2xl text-sm leading-relaxed text-zinc-600">
-            Edita experiencia y skills del perfil que usa Ollama para generar el CV.
+            Edita experiencia y skills del perfil que usa el generador de CV.
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -199,6 +199,12 @@ export function SkillsWorkbench() {
           >
             {saving ? "Guardando…" : "Guardar cambios"}
           </button>
+          <Link
+            href="/historial"
+            className="rounded-lg border border-zinc-300 bg-white px-3 py-1.5 text-sm font-medium text-zinc-900 hover:bg-zinc-100"
+          >
+            Historial
+          </Link>
           <Link
             href="/"
             className="rounded-lg border border-zinc-300 bg-white px-3 py-1.5 text-sm font-medium text-zinc-900 hover:bg-zinc-100"

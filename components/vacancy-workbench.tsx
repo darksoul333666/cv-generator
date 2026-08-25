@@ -66,16 +66,24 @@ export function VacancyWorkbench() {
             Generar CV
           </h1>
           <p className="max-w-2xl text-sm leading-relaxed text-zinc-600">
-            Pega la vacante. Ollama arma el CV con tu perfil maestro, sin inventar
-            experiencia.
+            Pega la vacante. El CV se arma con tu perfil maestro; formación y
+            certificaciones salen fijas, sin mandarlas al modelo.
           </p>
         </div>
-        <Link
-          href="/skills"
-          className="rounded-lg border border-zinc-300 bg-white px-3 py-1.5 text-sm font-medium text-zinc-900 hover:bg-zinc-100"
-        >
-          Skills
-        </Link>
+        <div className="flex items-center gap-2">
+          <Link
+            href="/historial"
+            className="rounded-lg border border-zinc-300 bg-white px-3 py-1.5 text-sm font-medium text-zinc-900 hover:bg-zinc-100"
+          >
+            Historial
+          </Link>
+          <Link
+            href="/skills"
+            className="rounded-lg border border-zinc-300 bg-white px-3 py-1.5 text-sm font-medium text-zinc-900 hover:bg-zinc-100"
+          >
+            Skills
+          </Link>
+        </div>
       </header>
 
       <section className="flex flex-col gap-4 rounded-xl border border-zinc-200 bg-white p-6 shadow-sm">
@@ -111,15 +119,17 @@ export function VacancyWorkbench() {
             {result.reason ? (
               <p className="text-zinc-600">{result.reason}</p>
             ) : null}
-            {result.gaps?.length ? (
-              <div>
-                <p className="text-xs font-medium text-zinc-700">La vacante pide y no está en tu perfil:</p>
-                <ul className="mt-1 list-disc pl-5 text-xs text-zinc-600">
-                  {result.gaps.slice(0, 8).map((g, i) => (
-                    <li key={i}>{g}</li>
-                  ))}
-                </ul>
-              </div>
+            {result.saved_id ? (
+              <p className="text-xs text-zinc-500">
+                Guardado en{" "}
+                <Link
+                  href={`/historial?id=${encodeURIComponent(result.saved_id)}`}
+                  className="underline hover:text-zinc-800"
+                >
+                  historial
+                </Link>{" "}
+                con la vacante, para revisarlo si hay entrevista.
+              </p>
             ) : null}
             <button
               type="button"

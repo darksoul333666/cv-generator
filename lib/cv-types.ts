@@ -48,6 +48,7 @@ export type CVData = {
   tech_skills: TechSkills;
   education: string;
   certifications: string[];
+  locale?: "en" | "es";
 };
 
 /** Perfil en knowledge base: datos del template + metadatos para el matcher. */
@@ -74,6 +75,25 @@ export type TailorResponse = {
   gaps: string[];
   reinforcement_plan: string[];
   raw_meta?: Record<string, unknown>;
+  saved_id?: string | null;
+};
+
+export type HistorySummary = {
+  id: string;
+  vacancy_title: string;
+  created_at: string;
+  match_percent: number;
+  target_role: string;
+};
+
+export type HistoryDetail = {
+  id: string;
+  vacancy_title: string;
+  vacancy_text: string;
+  created_at: string;
+  match_percent: number;
+  reason: string;
+  cv: CvProfile;
 };
 
 export function pickCvData(profile: CvProfile): CVData {

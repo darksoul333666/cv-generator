@@ -345,9 +345,6 @@ def profile_for_prompt(compact: dict) -> dict:
         "experience": experience,
         "projects": projects,
         "not_employment": compact.get("personal_products_not_employment") or [],
-        "education": compact.get("education") or [],
-        "certifications": compact.get("certifications") or [],
-        "languages": compact.get("languages") or [],
         "metrics": metrics,
     }
 

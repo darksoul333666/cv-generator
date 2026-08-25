@@ -3,21 +3,23 @@
 from __future__ import annotations
 
 import asyncio
-import json
 import logging
 import os
 from typing import Any, Dict, List, Optional, Tuple
 
 import google.generativeai as genai
 
+from ..compact_master import load_ollama_profile, profile_for_prompt
+from ..locale_util import detect_vacancy_locale
 from ..models import CvDocument
+from .ollama_backend import _ollama_result_to_cv
 from .parse_json import parse_json_object, response_text
-from .prompts import build_matcher_prompt, build_tailor_prompt
-from .schemas import MatcherOut, TailorEnvelopeOut
+from .prompts import build_matcher_prompt, build_ollama_optimizer_prompt
+from .schemas import MatcherOut, OptimizerOut, gemini_response_schema
 
 logger = logging.getLogger(__name__)
 
-_DEFAULT_MODEL = "gemini-2.0-flash"
+_DEFAULT_MODEL = "gemini-3.6-flash"
 
 
 class GeminiCvLlmBackend:
@@ -27,12 +29,12 @@ class GeminiCvLlmBackend:
 
     @classmethod
     def from_env(cls) -> GeminiCvLlmBackend:
-        # ``LLM_MODEL`` opcional: mismo nombre de modelo para cuando añadas otros proveedores.
-        model = (
-            os.environ.get("LLM_MODEL", "").strip()
-            or os.environ.get("GEMINI_MODEL", "").strip()
-            or _DEFAULT_MODEL
-        ).strip()
+        llm_model = os.environ.get("LLM_MODEL", "").strip()
+        gemini_model = os.environ.get("GEMINI_MODEL", "").strip()
+        if llm_model.lower().startswith("gemini"):
+            model = llm_model
+        else:
+            model = gemini_model or _DEFAULT_MODEL
         return cls(os.environ.get("GEMINI_API_KEY", "").strip(), model)
 
     @property
@@ -69,7 +71,7 @@ class GeminiCvLlmBackend:
             temperature=0.1,
             max_output_tokens=512,
             response_mime_type="application/json",
-            response_schema=MatcherOut,
+            response_schema=gemini_response_schema(MatcherOut),
         )
 
         last_err: Optional[Exception] = None
@@ -117,48 +119,44 @@ class GeminiCvLlmBackend:
     ) -> Tuple[CvDocument, float, str, List[str], List[str], List[str], Dict[str, Any]]:
         genai.configure(api_key=self._api_key)
         model = genai.GenerativeModel(self._model_name)
-
-        cv_json = cv.model_dump()
-        prompt = build_tailor_prompt(vacancy_text, cv_json)
+        master = load_ollama_profile()
+        locale = detect_vacancy_locale(vacancy_text)
+        prompt = build_ollama_optimizer_prompt(
+            vacancy_text, profile_for_prompt(master), locale
+        )
 
         cfg = genai.GenerationConfig(
-            temperature=0.25,
+            temperature=0.2,
             max_output_tokens=8192,
             response_mime_type="application/json",
-            response_schema=TailorEnvelopeOut,
+            response_schema=gemini_response_schema(OptimizerOut),
         )
 
         last_err: Optional[Exception] = None
-        for attempt in range(1, 4):
+        for attempt in range(1, 3):
             try:
                 response = model.generate_content(prompt, generation_config=cfg)
                 raw = response_text(response)
-                parsed = parse_json_object(raw, context="tailor")
-                out = TailorEnvelopeOut.model_validate(parsed)
-                match_percent = float(out.match_percent)
-                reason = out.reason.strip()
-                notes_to_verify = [str(x) for x in (out.notes_to_verify or [])][:50]
-                gaps = [str(x) for x in (out.gaps or [])][:50]
-                reinforcement_plan = [str(x) for x in (out.reinforcement_plan or [])][:50]
-                cv_out = CvDocument.model_validate(out.cv)
+                data = parse_json_object(raw, context="gemini")
+                cv_out = _ollama_result_to_cv(data, cv, master, locale)
+                match_percent = float(data.get("match_score") or 0)
+                if match_percent <= 10:
+                    match_percent *= 10
+                match_percent = max(0.0, min(100.0, match_percent))
+                reason = str(data.get("target_role") or cv_out.title or "CV optimizado con Gemini")
                 raw_meta: Dict[str, Any] = {
                     "llm_provider": self.provider_id,
                     "llm_model": self._model_name,
+                    "source": "master_profile",
+                    "keywords": data.get("keywords") or [],
                     "attempts": attempt,
+                    "locale": locale,
                 }
-                return (
-                    cv_out,
-                    match_percent,
-                    reason,
-                    notes_to_verify,
-                    gaps,
-                    reinforcement_plan,
-                    raw_meta,
-                )
+                return cv_out, match_percent, reason, [], [], [], raw_meta
             except Exception as e:
                 last_err = e
                 logger.warning(
-                    "Gemini tailor JSON inválido (intento %s/3): %s",
+                    "Gemini tailor JSON inválido (intento %s/2): %s",
                     attempt,
                     str(e)[:220],
                 )

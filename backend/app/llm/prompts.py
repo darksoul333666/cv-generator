@@ -22,10 +22,15 @@ chosen_cv_id DEBE ser exactamente uno de estos valores: {allowed_ids_repr}
 """
 
 
-def build_ollama_optimizer_prompt(vacancy_text: str, master_profile: dict) -> str:
+def build_ollama_optimizer_prompt(
+    vacancy_text: str, master_profile: dict, locale: str = "en"
+) -> str:
     """Entrada que espera el Modelfile de cv-optimizer: vacante + perfil maestro."""
     vacancy_snip = vacancy_text[:8000]
+    lang = "Spanish" if locale == "es" else "English"
     return (
+        f"Write the entire CV in {lang}. Do not mix languages. Company names stay exactly as in the master profile.\n"
+        "target_role, summary, bullets and skill names must all be in that language.\n"
         "Maximize ATS match for this job.\n"
         "Put every important technology from the JOB DESCRIPTION into skills, keywords and summary, even if it is not in the master profile. The candidate will learn those tools.\n"
         "Keep companies, job titles, dates and metrics exactly from the master profile. Do not invent employers or numbers.\n\n"
@@ -44,8 +49,9 @@ maximizando claridad y alineación, pero SIN INVENTAR hechos no verificables (no
 
 Reglas:
 - Mantén company/role/period EXACTOS tal cual; solo puedes mejorar bullets (re-escritura) y añadir bullets nuevos SI los marcas como [VALIDAR].
-- Puedes ajustar summary, title, stack, certifications (si agregas algo no verificable, márcalo como [VALIDAR]).
+- Puedes ajustar summary, title y stack (si agregas algo no verificable, márcalo como [VALIDAR]). Educación y certificaciones no se reescriben: salen fijas del perfil maestro.
 - Campo title (titular bajo el nombre): cuando haya oferta, reescríbelo para alinearlo al TÍTULO DEL PUESTO de la vacante en redacción, orden de palabras y mayúsculas/minúsculas lo más fiel posible al anuncio (ej.: «Frontend Senior», «Senior Frontend», «Senior Frontend Developer»), siempre que encaje con el nivel y dominio reales del candidato según su experiencia; no subas de nivel (no inventes «Principal»/«Staff» si no está sustentado). Si la oferta usa varias formas, elige la del encabezado o la más repetida.
+- Idioma: todo el CV (summary, title, bullets, skills) en el mismo idioma de la vacante. No mezcles español e inglés.
 - Si el contexto son solo instrucciones (sin oferta formal), prioriza esas instrucciones para tono, foco y keywords.
 - Cuando el contexto incluya una oferta, prioriza el léxico EXACTO de la oferta para skills/herramientas que ya poseas (ej.: oferta «NEXT» vs CV «Next.js» → usa la forma de la oferta donde encaje); unifica sinónimos hacia el término del anuncio cuando sea la misma competencia (ej.: «Scrum» + oferta pide «metodologías ágiles» → «Metodologías ágiles (Scrum)» o el wording del anuncio).
 - Evita emojis. (El template visual los añade en contact, no pongas más).
@@ -57,15 +63,11 @@ CONTEXTO (vacante, URL y/o instrucciones):
 CV ACTUAL (JSON):
 {json.dumps(cv_json, ensure_ascii=False)}
 
-Además, crea un gap report y un plan de refuerzo para cerrar brechas rápidamente.
-
 Formato de salida (exacto):
 {{
   "match_percent": 0-100,
   "reason": "breve en español",
   "notes_to_verify": ["..."],
-  "gaps": ["brecha concreta vs vacante (skills/responsabilidades faltantes)", "..."],
-  "reinforcement_plan": ["acciones concretas para aprender/practicar/demostrar (rápidas)", "..."],
   "cv": <CvDocument JSON con misma estructura>
 }}
 """

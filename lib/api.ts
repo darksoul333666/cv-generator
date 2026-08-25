@@ -2,6 +2,8 @@ import type {
   CvProfile,
   ExtensionJobSummary,
   ExtensionOptimizeJob,
+  HistoryDetail,
+  HistorySummary,
   MasterProfile,
   MasterSkills,
   MatchResponse,
@@ -246,4 +248,19 @@ export async function getExtensionJob(jobId: string): Promise<ExtensionOptimizeJ
   );
   if (!res.ok) throw new Error(res.statusText || `Error ${res.status}`);
   return res.json() as Promise<ExtensionOptimizeJob>;
+}
+
+export async function listCvHistory(): Promise<{ items: HistorySummary[] }> {
+  const res = await fetch(`${apiBase()}/v1/history`, { method: "GET" });
+  if (!res.ok) throw new Error(res.statusText || `Error ${res.status}`);
+  return res.json() as Promise<{ items: HistorySummary[] }>;
+}
+
+export async function getCvHistoryItem(id: string): Promise<HistoryDetail> {
+  const res = await fetch(
+    `${apiBase()}/v1/history/${encodeURIComponent(id)}`,
+    { method: "GET" },
+  );
+  if (!res.ok) throw new Error(res.statusText || `Error ${res.status}`);
+  return res.json() as Promise<HistoryDetail>;
 }

@@ -19,11 +19,16 @@ from fastapi.exception_handlers import (
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 
+from .cv_history import get_generated_cv, list_generated_summaries
 from .extension_routes import router as extension_router
 from .fetch_vacancy import text_from_url
 from .llm import GEMINI_QUOTA_USER_MESSAGE, get_cv_llm_backend, is_quota_or_rate_limit
-from .matcher import load_all_cvs, pick_best_cv
-from .vacancy_pipeline import run_full_optimize_pipeline
+from .matcher import load_all_cvs
+from .vacancy_pipeline import (
+    vacancy_blob_from_text_and_url,
+    run_full_optimize_pipeline,
+    run_match_for_blob,
+)
 from .compact_master import export_ollama_profile, load_ollama_profile
 from .career_kb import (
     ExperienceEditItem,
@@ -35,6 +40,9 @@ from .career_kb import (
 )
 from .models import (
     CvDocument,
+    HistoryDetailOut,
+    HistoryListResponse,
+    HistorySummaryOut,
     MasterSkills,
     MatchResponse,
     TailorRequest,
@@ -266,62 +274,38 @@ async def optimize_cv(body: VacancyRequest) -> TailorResponse:
 
 @app.post("/v1/match", response_model=MatchResponse)
 async def match_vacancy(body: VacancyRequest) -> MatchResponse:
-    vacancy_parts: list[str] = []
-    if body.vacancy_text and body.vacancy_text.strip():
-        vacancy_parts.append(body.vacancy_text.strip())
-
-    if body.vacancy_url and body.vacancy_url.strip():
-        try:
-            fetched = await text_from_url(body.vacancy_url.strip())
-            vacancy_parts.append(fetched)
-        except Exception as e:
-            raise HTTPException(status_code=400, detail=f"No se pudo leer la URL: {e!s}") from e
-
-    vacancy_blob = "\n\n".join(vacancy_parts).strip()
-    if not vacancy_blob:
-        raise HTTPException(
-            status_code=400,
-            detail="Indica texto de la vacante o una URL válida.",
-        )
-
-    cvs = load_all_cvs()
-    raw_meta: dict = {
-        "vacancy_chars": len(vacancy_blob),
-        "profiles_loaded": len(cvs),
-    }
-
     try:
-        llm = get_cv_llm_backend()
+        vacancy_blob = await vacancy_blob_from_text_and_url(
+            body.vacancy_text or "",
+            body.vacancy_url,
+        )
     except ValueError as e:
-        logger.warning("LLM no disponible (config): %s", e)
-        chosen, score, reason = pick_best_cv(vacancy_blob, cvs)
-        raw_meta["matcher"] = "keywords"
-        raw_meta["llm_error"] = str(e)[:300]
-    else:
-        if llm.is_configured():
-            try:
-                chosen, score, reason = await llm.pick_best_cv(vacancy_blob, cvs)
-                raw_meta["matcher"] = "llm"
-                raw_meta["llm_provider"] = llm.provider_id
-                raw_meta["llm_model"] = llm.model_id
-            except Exception as e:
-                logger.warning("LLM matcher no disponible o error: %s", e, exc_info=True)
-                chosen, score, reason = pick_best_cv(vacancy_blob, cvs)
-                raw_meta["matcher"] = "keywords_fallback"
-                raw_meta["llm_error"] = str(e)[:300]
-        else:
-            chosen, score, reason = pick_best_cv(vacancy_blob, cvs)
-            raw_meta["matcher"] = "keywords"
+        raise HTTPException(status_code=400, detail=str(e)) from e
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"No se pudo leer la URL: {e!s}") from e
+    return await run_match_for_blob(vacancy_blob)
 
-    excerpt = vacancy_blob[:1200] + ("…" if len(vacancy_blob) > 1200 else "")
 
-    return MatchResponse(
-        chosen_cv_id=chosen.id,
-        match_score=score,
-        match_reason=reason,
-        cv=chosen,
-        vacancy_excerpt=excerpt,
-        raw_meta=raw_meta,
+@app.get("/v1/history", response_model=HistoryListResponse)
+async def list_cv_history() -> HistoryListResponse:
+    return HistoryListResponse(
+        items=[HistorySummaryOut.model_validate(i.model_dump()) for i in list_generated_summaries()]
+    )
+
+
+@app.get("/v1/history/{item_id}", response_model=HistoryDetailOut)
+async def get_cv_history_item(item_id: str) -> HistoryDetailOut:
+    record = get_generated_cv(item_id)
+    if record is None:
+        raise HTTPException(status_code=404, detail="No hay un CV guardado con ese id.")
+    return HistoryDetailOut(
+        id=record.id,
+        vacancy_title=record.vacancy_title,
+        vacancy_text=record.vacancy_text,
+        created_at=record.created_at,
+        match_percent=record.match_percent,
+        reason=record.reason,
+        cv=record.cv,
     )
 
 

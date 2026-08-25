@@ -74,6 +74,7 @@ class CvDocument(BaseModel):
     tech_skills: TechSkills = Field(default_factory=TechSkills)
     education: str = ""
     certifications: List[str] = Field(default_factory=list)
+    locale: str = "es"
 
     model_config = {"extra": "ignore"}
 
@@ -107,6 +108,10 @@ class TailorResponse(BaseModel):
     gaps: List[str] = Field(default_factory=list)
     reinforcement_plan: List[str] = Field(default_factory=list)
     raw_meta: Dict[str, Any] = Field(default_factory=dict)
+    saved_id: Optional[str] = Field(
+        default=None,
+        description="Id en el historial local si este CV se guardó al generar",
+    )
 
 
 class ExtensionVacancyIn(BaseModel):
@@ -151,4 +156,26 @@ class ExtensionOptimizeResponse(BaseModel):
 
 class ExtensionJobListResponse(BaseModel):
     jobs: List[ExtensionJobSummaryOut]
+
+
+class HistorySummaryOut(BaseModel):
+    id: str
+    vacancy_title: str
+    created_at: str
+    match_percent: float
+    target_role: str = ""
+
+
+class HistoryDetailOut(BaseModel):
+    id: str
+    vacancy_title: str
+    vacancy_text: str
+    created_at: str
+    match_percent: float
+    reason: str = ""
+    cv: CvDocument
+
+
+class HistoryListResponse(BaseModel):
+    items: List[HistorySummaryOut]
 
