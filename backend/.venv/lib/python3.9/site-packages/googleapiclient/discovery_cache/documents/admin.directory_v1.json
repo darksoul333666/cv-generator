@@ -3890,7 +3890,7 @@
 "users": {
 "methods": {
 "createGuest": {
-"description": "Create a guest user with access to a [subset of Workspace capabilities](https://support.google.com/a/answer/16558545). This feature is currently in Alpha. Please reach out to support if you are interested in trying this feature.",
+"description": "Create a guest user with access to a [subset of Workspace capabilities](https://support.google.com/a/answer/16558545). This feature is currently in Open Beta.",
 "flatPath": "admin/directory/v1/users:createGuest",
 "httpMethod": "POST",
 "id": "directory.users.createGuest",
@@ -4729,7 +4729,7 @@
 }
 }
 },
-"revision": "20260227",
+"revision": "20260531",
 "rootUrl": "https://admin.googleapis.com/",
 "schemas": {
 "Alias": {
@@ -6429,11 +6429,11 @@ false
 "id": "DirectoryUsersCreateGuestRequest",
 "properties": {
 "customer": {
-"description": "Optional. Immutable ID of the Google Workspace account.",
+"description": "Optional. Immutable ID of the Google Workspace account. Only required when request is created by a service account. Defaults to the authenticated user's customer ID otherwise.",
 "type": "string"
 },
 "primaryGuestEmail": {
-"description": "Immutable. External email of the guest user being created.",
+"description": "Required. External email of the guest user being created.",
 "type": "string"
 }
 },
@@ -8008,6 +8008,11 @@ false
 "readOnly": true,
 "type": "array"
 },
+"archivalTime": {
+"description": "Output only. User's account archival time. (Read-only)",
+"readOnly": true,
+"type": "string"
+},
 "archived": {
 "description": "Indicates if user is archived.",
 "type": "boolean"
@@ -8210,6 +8215,11 @@ false
 },
 "suspensionReason": {
 "description": "Output only. Has the reason a user account is suspended either by the administrator or by Google at the time of suspension. The property is returned only if the `suspended` property is `true`.",
+"readOnly": true,
+"type": "string"
+},
+"suspensionTime": {
+"description": "Output only. User's account suspension time. (Read-only)",
 "readOnly": true,
 "type": "string"
 },
@@ -8491,7 +8501,7 @@ false
 "id": "UserLocation",
 "properties": {
 "area": {
-"description": "Textual location. This is most useful for display purposes to concisely describe the location. For example 'Mountain View, CA', 'Near Seattle', 'US-NYC-9TH 9A209A.''",
+"description": "Required. Textual location. This is most useful for display purposes to concisely describe the location. For example 'Mountain View, CA', 'Near Seattle', 'US-NYC-9TH 9A209A.''",
 "type": "string"
 },
 "buildingId": {

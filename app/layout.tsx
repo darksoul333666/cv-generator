@@ -14,8 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "CV Generator",
-  description:
-    "Genera CV en local a partir de tus perfiles base y una oferta de empleo.",
+  description: "Pega una vacante y genera un CV con tu perfil maestro.",
 };
 
 export default function RootLayout({

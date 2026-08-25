@@ -485,13 +485,15 @@
 "freeBusyReader",
 "owner",
 "reader",
-"writer"
+"writer",
+"writerWithoutPrivateAccess"
 ],
 "enumDescriptions": [
 "The user can read free/busy information.",
 "The user can read and modify events and access control lists.",
 "The user can read events that are not private.",
-"The user can read and modify events."
+"The user can read and modify events.",
+"The user can read and modify events that aren't private. The user can read free/busy information about private events. The user can't modify private events."
 ],
 "location": "query",
 "type": "string"
@@ -613,13 +615,15 @@
 "freeBusyReader",
 "owner",
 "reader",
-"writer"
+"writer",
+"writerWithoutPrivateAccess"
 ],
 "enumDescriptions": [
 "The user can read free/busy information.",
 "The user can read and modify events and access control lists.",
 "The user can read events that are not private.",
-"The user can read and modify events."
+"The user can read and modify events.",
+"The user can read and modify events that aren't private. The user can read free/busy information about private events. The user can't modify private events."
 ],
 "location": "query",
 "type": "string"
@@ -1890,7 +1894,7 @@
 }
 }
 },
-"revision": "20260225",
+"revision": "20260614",
 "rootUrl": "https://www.googleapis.com/",
 "schemas": {
 "Acl": {
@@ -2848,6 +2852,11 @@
 "description": "Number of additional guests. Optional. The default is 0.",
 "format": "int32",
 "type": "integer"
+},
+"asyncOperation": {
+"default": "",
+"description": "If present, indicates the status of an asynchronous operation ongoing for this attendee (e.g. listing of members of large attendee groups). Read-only. The default is to not be present.\nPossible values are:  \n- \"inProgress\" - The asynchronous operation is in progress. \n- (not present) - Otherwise.",
+"type": "string"
 },
 "comment": {
 "description": "The attendee's response comment. Optional.",

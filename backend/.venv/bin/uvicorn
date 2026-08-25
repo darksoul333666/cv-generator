@@ -1,4 +1,4 @@
-#!/Users/jairocamarillo/cv-generator/cv-generator/backend/.venv/bin/python3
+#!/Users/jairocamarillo/Desktop/cv-generator/backend/.venv/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys
