@@ -1,0 +1,1517 @@
+<!DOCTYPE html>
+<html lang="es" prefix="og: http://ogp.me/ns#">
+<head>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.8/ace.js" defer="defer"></script>
+<meta charset="utf-8">
+<meta content="width=device-width,minimum-scale=1,initial-scale=1,maximum-scale=6" name="viewport">
+
+<title>Senior Back-end Engineer (Node.js / TypeScript / AWS) en BC Tecnología - Remoto (teletrabajo) | Get on Board</title>
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<script type="text/javascript">window.NREUM||(NREUM={});NREUM.info={"beacon":"bam.nr-data.net","errorBeacon":"bam.nr-data.net","licenseKey":"2ba73ec316","applicationID":"6775324","transactionName":"Jl4LQENYDVldEx5bVwdCSkdZWBY=","queueTime":1,"applicationTime":140,"agent":""}</script>
+<script type="text/javascript">(window.NREUM||(NREUM={})).init={ajax:{deny_list:["bam.nr-data.net"]},feature_flags:["soft_nav"]};(window.NREUM||(NREUM={})).loader_config={xpid:"VQYDU15WCBAGU1ZXBAMD",licenseKey:"2ba73ec316",applicationID:"6775324",browserID:"6775332"};;/*! For license information please see nr-loader-full-1.321.0.min.js.LICENSE.txt */
+(()=>{var e={8122(e,t,r){"use strict";r.d(t,{a:()=>i});var n=r(944);function i(e,t){try{if(!e||"object"!=typeof e)return(0,n.R)(3);if(!t||"object"!=typeof t)return(0,n.R)(4);const r=Object.create(Object.getPrototypeOf(t),Object.getOwnPropertyDescriptors(t)),s=0===Object.keys(r).length?e:r;for(let a in s)if(void 0!==e[a])try{if(null===e[a]){r[a]=null;continue}Array.isArray(e[a])&&Array.isArray(t[a])?r[a]=Array.from(new Set([...e[a],...t[a]])):e[a]instanceof Map||e[a]instanceof Set||e[a]instanceof Date||e[a]instanceof RegExp?r[a]=e[a]:"object"==typeof e[a]&&null!==t[a]&&"object"==typeof t[a]?r[a]=i(e[a],t[a]):r[a]=e[a]}catch(e){r[a]||(0,n.R)(1,e)}return r}catch(e){(0,n.R)(2,e)}}},2555(e,t,r){"use strict";r.d(t,{f:()=>a});var n=r(384),i=r(8122);const s={beacon:n.NT.beacon,errorBeacon:n.NT.errorBeacon,licenseKey:void 0,applicationID:void 0,sa:void 0,queueTime:void 0,applicationTime:void 0,ttGuid:void 0,user:void 0,account:void 0,product:void 0,extra:void 0,jsAttributes:{},userAttributes:void 0,atts:void 0,transactionName:void 0,tNamePlain:void 0};function a(e){try{return!!e.licenseKey&&!!e.errorBeacon&&!!e.applicationID}catch(e){return!1}}r.d(t,["D",0,e=>(0,i.a)(e,s)])},7699(e,t,r){"use strict";var n=r(860);const i={[n.K7.logging]:!0,[n.K7.genericEvents]:!0,[n.K7.jserrors]:!0,[n.K7.ajax]:!0};r.d(t,["It",0,1e6,"KC",0,i,"qh",0,"SESSION_ERROR"])},9324(e,t,r){"use strict";r.d(t,["A",0,"@newrelic/rrweb","x",0,"1.321.0"])},981(e,t,r){"use strict";r.d(t,["R",0,{AJAX:"AjaxRequest",PA:"PageAction",UA:"UserAction",BP:"BrowserPerformance",WS:"WebSocket",SPV:"SecurityPolicyViolation",JSE:"JavaScriptError",LOG:"Log",PVE:"PageView",PVT:"PageViewTiming",SR:"SessionReplay",ST:"SessionTrace",BI:"BrowserInteraction"}])},9752(e,t,r){"use strict";const n="newrelic-iframe-",i=n+"timing-update",s=n+"api",a=n+"api-response",o=n+"vitals-update",c=n+"ajax";r.d(t,["$8",0,o,"Gi",0,a,"KU",0,c,"Pl",0,n,"cS",0,s,"cr",0,i])},6154(e,t,r){"use strict";var n=r(1863);const i="undefined"!=typeof window&&!!window.document,s="undefined"!=typeof WorkerGlobalScope&&("undefined"!=typeof self&&self instanceof WorkerGlobalScope&&self.navigator instanceof WorkerNavigator||"undefined"!=typeof globalThis&&globalThis instanceof WorkerGlobalScope&&globalThis.navigator instanceof WorkerNavigator),a=i?window:"undefined"!=typeof WorkerGlobalScope&&("undefined"!=typeof self&&self instanceof WorkerGlobalScope&&self||"undefined"!=typeof globalThis&&globalThis instanceof WorkerGlobalScope&&globalThis),o=Boolean("hidden"===a?.document?.visibilityState),c=""+a?.location,d=/iPad|iPhone|iPod/.test(a.navigator?.userAgent),u=d&&"undefined"==typeof SharedWorker,l=(()=>{const e=a.navigator?.userAgent?.match(/Firefox[/\s](\d+\.\d+)/);return Array.isArray(e)&&e.length>=2?+e[1]:0})(),f=Date.now()-(0,n.t)();r.d(t,["OF",0,d,"RI",0,i,"WN",0,f,"bv",0,s,"gm",0,a,"lR",0,l,"m",0,c,"mw",0,o,"sb",0,u,"zk",0,()=>{const e=a?.performance?.getEntriesByType?.("navigation")?.[0];if(e&&e.responseStart>0&&e.responseStart<a.performance.now())return e}])},7295(e,t,r){"use strict";r.d(t,{Xv:()=>a,gX:()=>i,iW:()=>s});var n=[];function i(e){if(!e||s(e))return!1;if(0===n.length)return!0;if("*"===n[0].hostname)return!1;for(var t=0;t<n.length;t++){var r=n[t];if(r.hostname.test(e.hostname)&&r.pathname.test(e.pathname))return!1}return!0}function s(e){return void 0===e.hostname}function a(e){if(n=[],e&&e.length)for(var t=0;t<e.length;t++){let r=e[t];if(!r)continue;if("*"===r)return void(n=[{hostname:"*"}]);0===r.indexOf("http://")?r=r.substring(7):0===r.indexOf("https://")&&(r=r.substring(8));const i=r.indexOf("/");let s,a;i>0?(s=r.substring(0,i),a=r.substring(i)):(s=r,a="*");let[c]=s.split(":");n.push({hostname:o(c),pathname:o(a,!0)})}}function o(e,t=!1){const r=e.replace(/[.+?^${}()|[\]\\]/g,e=>"\\"+e).replace(/\*/g,".*?");return new RegExp((t?"^":"")+r+"$")}},3241(e,t,r){"use strict";r.d(t,{W:()=>i});var n=r(6154);function i(e={}){try{n.gm.dispatchEvent(new CustomEvent("newrelic",{detail:e}))}catch(e){}}},1687(e,t,r){"use strict";r.d(t,{Ak:()=>o,Ze:()=>d,x3:()=>c});var n=r(3241),i=r(3606),s=r(860),a=r(2646);function o(e,t){if(!e)return;const r={staged:!1,priority:s.P3[t]||0};e.runtime.drainRegistry.get(t)||e.runtime.drainRegistry.set(t,r)}function c(e,t){if(!e)return;const r=e.runtime.drainRegistry;r&&(r.get(t)&&r.delete(t),l(e,t,!1),r.size&&u(e))}function d(e,t="feature",r=!1){if(e){if(!e.runtime.drainRegistry.get(t)||r)return l(e,t);e.runtime.drainRegistry.get(t).staged=!0,u(e)}}function u(e){if(!e)return;const t=Array.from(e.runtime.drainRegistry);t.every(([e,t])=>t.staged)&&(t.sort((e,t)=>e[1].priority-t[1].priority),t.forEach(([t])=>{e.runtime.drainRegistry.delete(t),l(e,t)}))}function l(e,t,r=!0){if(!e)return;const s=e.ee,o=i.i.handlers;if(s&&!s.aborted&&s.backlog&&o){if((0,n.W)({type:"lifecycle",name:"drain",feature:t}),r){const e=s.backlog[t],r=o[t];if(r){for(let t=0;e&&t<e.length;++t)f(e[t],r);Object.entries(r).forEach(([e,t])=>{Object.values(t||{}).forEach(t=>{t[0]?.on&&t[0].context()instanceof a.y&&!t[0].listeners(e).includes(t[1])&&t[0].on(e,t[1])})})}}s.isolatedBacklog||delete o[t],s.backlog[t]=null,s.emit("drain-"+t,[])}}function f(e,t){var r=e[1];Object.values(t[r]||{}).forEach(t=>{var r=e[0];if(t[0]===r){var n=t[1],i=e[3],s=e[2];n.apply(i,s)}})}},7836(e,t,r){"use strict";var n=r(384),i=r(8990),s=r(2646),a=r(5607);const o="nr@context:".concat(a.W),c=function e(t,r){var n={},a={},u={},l=!1;try{l=16===r.length&&d.initializedAgents?.[r]?.runtime.isolatedBacklog}catch(e){}var f={on:p,addEventListener:p,removeEventListener:function(e,t){var r=n[e];if(!r)return;for(var i=0;i<r.length;i++)r[i]===t&&r.splice(i,1)},emit:function(e,r,n,i,s){!1!==s&&(s=!0);if(c.aborted&&!i)return;t&&s&&t.emit(e,r,n);var o=h(n);g(e).forEach(e=>{e.apply(o,r)});var d=v()[a[e]];d&&d.push([f,e,r,o]);return o},get:m,listeners:g,context:h,buffer:function(e,t){const r=v();if(t=t||"feature",f.aborted)return;Object.entries(e||{}).forEach(([e,n])=>{a[n]=t,t in r||(r[t]=[])})},abort:function(){f._aborted=!0,Object.keys(f.backlog).forEach(e=>{delete f.backlog[e]})},isBuffering:function(e){return!!v()[a[e]]},debugId:r,backlog:l?{}:t&&"object"==typeof t.backlog?t.backlog:{},isolatedBacklog:l};return Object.defineProperty(f,"aborted",{get:()=>{let e=f._aborted||!1;return e||(t&&(e=t.aborted),e)}}),f;function h(e){return e&&e instanceof s.y?e:e?(0,i.I)(e,o,()=>new s.y(o)):new s.y(o)}function p(e,t){n[e]=g(e).concat(t)}function g(e){return n[e]||[]}function m(t){return u[t]=u[t]||e(f,t)}function v(){return f.backlog}}(void 0,"globalEE"),d=(0,n.Zm)();d.ee||(d.ee=c),r.d(t,["P",0,o,"ee",0,c])},2646(e,t,r){"use strict";r.d(t,{y:()=>n});class n{constructor(e){this.contextId=e}}},9908(e,t,r){"use strict";r.d(t,{d:()=>n,p:()=>i});var n=r(7836).ee.get("handle");function i(e,t,r,i,s){s?(s.buffer([e],i),s.emit(e,t,r)):(n.buffer([e],i),n.emit(e,t,r))}},3606(e,t,r){"use strict";r.d(t,{i:()=>s});var n=r(9908);s.on=a;var i=s.handlers={};function s(e,t,r,s){a(s||n.d,i,e,t,r)}function a(e,t,r,i,s){s||(s="feature"),e||(e=n.d);var a=t[s]=t[s]||{};(a[r]=a[r]||[]).push([e,i])}},3878(e,t,r){"use strict";function n(e,t){return{capture:e,passive:!1,signal:t}}function i(e,t,r=!1,i){window.addEventListener(e,t,n(r,i))}function s(e,t,r=!1,i){document.addEventListener(e,t,n(r,i))}r.d(t,{DD:()=>s,jT:()=>n,sp:()=>i})},5607(e,t,r){"use strict";const n=(0,r(9566).bz)();r.d(t,["W",0,n])},9566(e,t,r){"use strict";r.d(t,{LA:()=>a,ZF:()=>o,bz:()=>s,el:()=>c});var n=r(6154);function i(e,t){return e?15&e[t]:16*Math.random()|0}function s(){const e=n.gm?.crypto||n.gm?.msCrypto;let t,r=0;return e&&e.getRandomValues&&(t=e.getRandomValues(new Uint8Array(30))),"xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".split("").map(e=>"x"===e?i(t,r++).toString(16):"y"===e?(3&i()|8).toString(16):e).join("")}function a(e){const t=n.gm?.crypto||n.gm?.msCrypto;let r,s=0;t&&t.getRandomValues&&(r=t.getRandomValues(new Uint8Array(e)));const a=[];for(var o=0;o<e;o++)a.push(i(r,s++).toString(16));return a.join("")}function o(){return a(16)}function c(){return a(32)}},2614(e,t,r){"use strict";r.d(t,["BB",0,18e5,"Wt",0,"NRBA_SESSION::","g",0,{OFF:0,FULL:1,ERROR:2},"iL",0,{SAME_TAB:"same-tab",CROSS_TAB:"cross-tab"},"tS",0,{STARTED:"session-started",PAUSE:"session-pause",RESET:"session-reset",RESUME:"session-resume",UPDATE:"session-update"},"wk",0,144e5])},733(e,t,r){"use strict";function n(e,t){return function(e){let t=2166136261;for(let r=0;r<e.length;r++)t^=e.charCodeAt(r),t=Math.imul(t,16777619);return(t>>>0).toString(16).padStart(8,"0")}("".concat(String(e),":").concat(String(t)))}r.d(t,{Y:()=>n})},1863(e,t,r){"use strict";function n(){return Math.floor(performance.now())}r.d(t,{t:()=>n})},9119(e,t,r){"use strict";r.d(t,{L:()=>s});var n=/([^?#]*)[^#]*(#[^?]*|$).*/,i=/([^?#]*)().*/;function s(e,t){return e?e.replace(t?n:i,"$1$2"):e}},7485(e,t,r){"use strict";r.d(t,{D:()=>i});var n=r(6154);function i(e){if(0===(e||"").indexOf("data:"))return{protocol:"data"};try{const t=new URL(e,location.href),r={port:t.port,hostname:t.hostname,pathname:t.pathname,search:t.search,protocol:t.protocol.slice(0,t.protocol.indexOf(":")),sameOrigin:t.protocol===n.gm?.location?.protocol&&t.host===n.gm?.location?.host};return r.port&&""!==r.port||("http:"===t.protocol&&(r.port="80"),"https:"===t.protocol&&(r.port="443")),r.pathname&&""!==r.pathname?r.pathname.startsWith("/")||(r.pathname="/".concat(r.pathname)):r.pathname="/",r}catch(e){return{}}}},7866(e,t,r){"use strict";r.d(t,["Nc",0,/^\s*at Function code \(Function code:\d+:\d+\)\s*/i,"cn",0,/^\s*(?:([^@]*)(?:\(.*?\))?@)?((?:file|http|https|chrome|safari-extension).*?):(\d+)(?::(\d+))?\s*$/i,"fL",0,/^\s*at .+ \(eval at \S+ \((?:(?:file|http|https):[^)]+)?\)(?:, [^:]*:\d+:\d+)?\)$/i,"h3",0,/function (.+?)\s*\(/,"hB",0,/^\s*at (?:((?:\[object object\])?(?:[^(]*\([^)]*\))*[^()]*(?: \[as \S+\])?) )?\(?((?:file|http|https|chrome-extension):.*?)?:(\d+)(?::(\d+))?\)?\s*$/i])},944(e,t,r){"use strict";r.d(t,{R:()=>i});var n=r(3241);function i(e,t){"function"==typeof console.debug&&(console.debug("New Relic Warning: https://github.com/newrelic/newrelic-browser-agent/blob/main/docs/warning-codes.md#".concat(e),t),(0,n.W)({drained:null,type:"data",name:"warn",feature:"warn",data:{code:e,secondary:t}}))}},8990(e,t,r){"use strict";r.d(t,{I:()=>i});var n=Object.prototype.hasOwnProperty;function i(e,t,r){if(n.call(e,t))return e[t];var i=r();if(Object.defineProperty&&Object.keys)try{return Object.defineProperty(e,t,{value:i,writable:!0,enumerable:!1}),i}catch(e){}return e[t]=i,i}},6389(e,t,r){"use strict";function n(e,t=500,r={}){const n=r?.leading||!1;let i;return(...r)=>{n&&void 0===i&&(e.apply(this,r),i=setTimeout(()=>{i=clearTimeout(i)},t)),n||(clearTimeout(i),i=setTimeout(()=>{e.apply(this,r)},t))}}function i(e){let t=!1;return(...r)=>{t||(t=!0,e.apply(this,r))}}r.d(t,{J:()=>i,s:()=>n})},1910(e,t,r){"use strict";r.d(t,{i:()=>s});var n=r(944);const i=new Map;function s(...e){return e.every(e=>{if(i.has(e))return i.get(e);const t="function"==typeof e?e.toString():"",r=t.includes("[native code]"),s=t.includes("nrWrapper");return r||s||(0,n.R)(64,e?.name||t),i.set(e,r),r})}},3304(e,t,r){"use strict";r.d(t,{A:()=>i});var n=r(7836);function i(e){try{return JSON.stringify(e,(()=>{const e=new WeakSet;return(t,r)=>{if("object"==typeof r&&null!==r){if(e.has(r))return;e.add(r)}return r}})())??""}catch(e){try{n.ee.emit("internal-error",[e])}catch(e){}return""}}},9232(e,t,r){"use strict";r.d(t,["f",0,{MFE:"MFE",BA:"BA"}])},5718(e,t,r){"use strict";r.d(t,{AZ:()=>m,Qr:()=>E,QL:()=>v});var n=r(6154),i=r(1863),s=r(9119),a=r(7866);class o{dom=new c;performance=new c;constructor(e){this.url=e,this.claimedBy=new Set}get script(){const e=Math.max(this.dom.start,this.performance.end);return{start:e,end:Math.max(this.dom.end,this.performance.end,e)}}}class c{start=0;end=0;value=void 0}function d(e=()=>{},t){return{get:()=>void 0!==t?t:e(),set:e=>{t=e}}}let u;try{u=m(v())[0]}catch(e){u=m(e)[0]}const l=e=>"script"===e.initiatorType||["link","fetch"].includes(e.initiatorType)&&(0,s.L)(e.name).endsWith(".js"),f=new Map;let h=[];function p(e){return f.get(e)}function g(e){const t=p(e);if(t)return t;const r=new o(e);if(f.set(e,r),f.size>1e3){const e=f.keys().next().value;f.delete(e)}return r}if(n.gm.MutationObserver&&n.gm.document){new MutationObserver(e=>{e.forEach(e=>{e.addedNodes.forEach(e=>{if("SCRIPT"===e.nodeName&&e.src){const t=g((0,s.L)(e.src));t.dom.start=(0,i.t)(),t.dom.value=e;const r=()=>{t.dom.end=(0,i.t)()};["load","error"].forEach(t=>e.addEventListener(t,r,{once:!0}))}})})}).observe(n.gm.document,{childList:!0,subtree:!0})}if(n.gm.PerformanceObserver?.supportedEntryTypes.includes("resource")){new PerformanceObserver(e=>{e.getEntries().filter(l).forEach(e=>{const t=g((0,s.L)(e.name));t.performance.start=Math.floor(e.startTime),t.performance.end=Math.floor(e.responseEnd),t.performance.value=e;const r=[];h.forEach(({test:t,addedAt:n},s)=>{(t(e)||(0,i.t)()-n>1e4)&&r.push(s)}),h=h.filter((e,t)=>!r.includes(t))})}).observe({type:"resource",buffered:!0})}function m(e){if(!e||"string"!=typeof e)return[];const t=new Set,r=e.split("\n");for(const e of r){const r=e.match(a.cn)||e.match(a.hB)||e.match(a.fL);if(r&&r[2])t.add((0,s.L)(r[2]));else{const r=e.match(/\(([^)]+\.js):\d+:\d+\)/)||e.match(/^\s+at\s+([^\s(]+\.js):\d+:\d+/);r&&r[1]&&t.add((0,s.L)(r[1]))}}return[...t]}function v(){let e;try{const t=Error.stackTraceLimit;Error.stackTraceLimit=50,e=(new Error).stack,Error.stackTraceLimit=t}catch(t){e=(new Error).stack}return e}function y(e,t){return(0,s.L)(e.name)===t}function b(e,t){e.fetchStart=Math.floor(t.startTime),e.fetchEnd=Math.floor(t.responseEnd),e.asset=t.name,e.type=t.initiatorType}function E(e){const t=e?.id,r={registeredAt:(0,i.t)(),reportedAt:void 0,fetchStart:0,fetchEnd:0,scriptStart:0,scriptEnd:0,asset:void 0,type:"unknown"},a=v();if(!a)return r;const o=n.gm.performance?.getEntriesByType("navigation")?.[0]?.name||"";try{const e=m(a),c=(e.length>1?e.filter(e=>u!==e):e)[0];if(!c)return r;if(o.includes(c))return r.asset=(0,s.L)(o),r.type="inline",r;r.correlation=p(c);const l=r.correlation?.performance.value||n.gm.performance?.getEntriesByType("resource")?.find(e=>y(e,c));if(l)b(r,l);else{(function(e){if(!e||!n.gm.document)return!1;try{const t=n.gm.document.querySelectorAll('link[rel="preload"][as="script"]');for(const r of t)if((0,s.L)(r.href)===e)return!0}catch(e){}return!1})(c)&&(r.asset=c,r.type="preload"),function(e,t){n.gm.PerformanceObserver?.supportedEntryTypes?.includes("resource")&&h.push({addedAt:(0,i.t)(),test:r=>!!y(r,t)&&(b(e,r),!0)})}(r,c)}const f=r.correlation,g=!!t&&!!f?.claimedBy.has(t);f&&t&&f.claimedBy.add(t);const v=()=>{const e=f?.script.start;if(!g||!e)return!1;return r.registeredAt-e>1e4};Object.defineProperty(r,"scriptStart",d(()=>v()?r.registeredAt:f?.script.start??r.fetchEnd)),Object.defineProperty(r,"scriptEnd",d(()=>v()?r.registeredAt:f?.script.end??r.registeredAt))}catch(e){}return r}},5732(e,t,r){"use strict";r.d(t,{$5:()=>f,B5:()=>l,M$:()=>s,Ms:()=>o,NG:()=>a,Ux:()=>d,YA:()=>u,yx:()=>c});var n=r(5718),i=r(9232);function s(e){return e?.type===i.f.MFE}function a(e,t){if(!p(e,t))return;const r=t.runtime.registeredEntities;return r?.find(t=>t.metadata.target.iframeInterfaceId===e)}function o(e,t){if(!p(e,t))return[];const r=t.runtime.registeredEntities;return r?.filter(t=>String(t.metadata.target.id)===String(e)).map(e=>e.metadata.target)||[]}function c(e,t){if(!p(e,t))return[];const r=t.runtime.registeredEntities,n=r?.filter(t=>t.metadata.timings?.asset?.endsWith(e));return function(e){if(!e?.length)return e||[];const t=new Map,r=[];for(const n of e){const e=n.metadata?.timings?.asset;if(!e){r.push(n);continue}const i="".concat(e,"::").concat(n.metadata?.target?.id),s=t.get(i);if(s){if(s.metadata.target?.blocked&&!n.metadata.target?.blocked){const e=r.indexOf(s);-1!==e&&(r[e]=n),t.set(i,n)}}else t.set(i,n),r.push(n)}return r}(n).map(e=>e.metadata.target)}function d(e,t){return h(t)?s(e)?e.attributes:t.agentRef.runtime.v2Target.attributes:{}}function u(e,t){return l(e,t)?{"child.id":e.id,"child.type":e.type,...d(void 0,t)}:{}}function l(e,t){return s(e)&&!!h(t)&&t.agentRef.init.api.register.duplicate_data_to_container}function f(e){if(!e?.runtime)return[];if(!p(!0,e)||!e.runtime.registeredEntities?.length)return[e.runtime.v2Target];const t=[];try{var r=(0,n.AZ)((0,n.QL)());let i=r.length-1;for(;r[i];)t.push(...c(r[i--],e))}catch(e){}const i=function(e){const t=new Set,r=[];for(const n of e){const e=n?.instance;t.has(e)||(t.add(e),r.push(n))}return r}(t);return i.length||i.push(e.runtime.v2Target),i}function h(e){return 2===e?.harvestEndpointVersion}function p(e,t){return!!e&&!!t?.init.api.register.enabled}},5289(e,t,r){"use strict";r.d(t,{GG:()=>a,Qr:()=>c,sB:()=>o});var n=r(3878),i=r(6389);function s(){return"undefined"==typeof document||"complete"===document.readyState}function a(e,t){if(s())return e();const r=(0,i.J)(e),a=setInterval(()=>{s()&&(clearInterval(a),r())},500);(0,n.sp)("load",r,t)}function o(e){if(s())return e();(0,n.DD)("DOMContentLoaded",e)}function c(e){if(s())return e();(0,n.sp)("popstate",e)}},384(e,t,r){"use strict";r.d(t,{Zm:()=>c,bQ:()=>u,dV:()=>d,pV:()=>l});var n=r(6154),i=r(1863),s=r(944),a=r(1910);const o={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net"};function c(){return n.gm.NREUM||(n.gm.NREUM={}),void 0===n.gm.newrelic&&(n.gm.newrelic=n.gm.NREUM),n.gm.NREUM}function d(){let e=c();return e.o||(e.o={ST:n.gm.setTimeout,SI:n.gm.setImmediate||n.gm.setInterval,CT:n.gm.clearTimeout,XHR:n.gm.XMLHttpRequest,REQ:n.gm.Request,EV:n.gm.Event,PR:n.gm.Promise,MO:n.gm.MutationObserver,FETCH:n.gm.fetch,WS:n.gm.WebSocket},(0,a.i)(...Object.values(e.o))),e}function u(e,t){let r=c();r.initializedAgents??={},t.initializedAt={ms:(0,i.t)(),date:new Date},r.initializedAgents[e]=t,2===Object.keys(r.initializedAgents).length&&(0,s.R)(69)}function l(){return function(){let e=c();const t=e.info||{};e.info={beacon:o.beacon,errorBeacon:o.errorBeacon,...t}}(),function(){let e=c();const t=e.init||{};e.init={...t}}(),d(),function(){let e=c();const t=e.loader_config||{};e.loader_config={...t}}(),c()}r.d(t,["NT",0,o])},2843(e,t,r){"use strict";r.d(t,{G:()=>s,u:()=>i});var n=r(3878);function i(e,t=!1,r,i){(0,n.DD)("visibilitychange",function(){if(t)return void("hidden"===document.visibilityState&&e());e(document.visibilityState)},r,i)}function s(e,t,r){(0,n.sp)("pagehide",e,t,r)}},8139(e,t,r){"use strict";r.d(t,{u:()=>f});var n=r(7836),i=r(3434),s=r(8990),a=r(6154);const o={},c=a.gm.XMLHttpRequest,d="addEventListener",u="removeEventListener",l="nr@wrapped:".concat(n.P);function f(e,t){var r=function(e){return(e||n.ee).get("events")}(e);if(o[r.debugId]++)return r;o[r.debugId]=1;var f=(0,i.YM)(r,!0,t);function p(e){f.inPlace(e,[d,u],"-",g)}function g(e,t){return e[1]}return"getPrototypeOf"in Object&&(a.RI&&h(document,p),c&&h(c.prototype,p),h(a.gm,p)),r.on(d+"-start",function(e,t){var r=e[1];if(null!==r&&("function"==typeof r||"object"==typeof r)&&"newrelic"!==e[0]){var n=(0,s.I)(r,l,function(){var e={object:function(){if("function"!=typeof r.handleEvent)return;return r.handleEvent.apply(r,arguments)},function:r}[typeof r];return e?f(e,"fn-",null,e.name||"anonymous"):r});this.wrapped=e[1]=n}}),r.on(u+"-start",function(e){e[1]=this.wrapped||e[1]}),r}function h(e,t,...r){let n=e;for(;"object"==typeof n&&!Object.prototype.hasOwnProperty.call(n,d);)n=Object.getPrototypeOf(n);n&&t(n,...r)}},3434(e,t,r){"use strict";r.d(t,{YM:()=>d});var n=r(7836),i=r(5607),s=r(5732);const a="nr@original:".concat(i.W);var o=Object.prototype.hasOwnProperty,c=!1;function d(e,t,r){return e||(e=n.ee),i.inPlace=function(e,t,r,n,s,a){r||(r="");const o="-"===r.charAt(0);for(let c=0;c<t.length;c++){const d=t[c],u=e[d];l(u)||(e[d]=i(u,o?d+r:r,n,d,s,a))}},i.flag=a,i;function i(t,n,i,c,f,h){return l(t)?t:(n||(n=""),nrWrapper[a]=t,function(e,t,r){if(Object.defineProperty&&Object.keys)try{return Object.keys(e).forEach(function(r){Object.defineProperty(t,r,{get:function(){return e[r]},set:function(t){return e[r]=t,t}})}),t}catch(e){u([e],r)}for(var n in e)o.call(e,n)&&(t[n]=e[n])}(t,nrWrapper,e),nrWrapper);function nrWrapper(){var a,o,l,p;let g,m;try{o=this,a=[...arguments],m=h?(0,s.$5)(r):[r?.runtime?.v2Target],l="function"==typeof i?i(a,o):i||{}}catch(t){u([t,"",[a,o,c],l],e)}d(n+"start",[a,o,c,m],l,f);const v=performance.now();let y;try{return p=t.apply(o,a),y=performance.now(),p}catch(e){throw y=performance.now(),d(n+"err",[a,o,e,m],l,f),g=e,g}finally{const e=y-v,t={start:v,end:y,duration:e,isLongTask:e>=50,methodName:c,thrownError:g};t.isLongTask&&d("long-task",[t,o,m],l,f),d(n+"end",[a,o,p,m],l,f)}}}function d(r,n,i,s){if(!c||t){var a=c;c=!0;try{e.emit(r,n,i,t,s)}catch(t){u([t,r,n,i],e)}c=a}}}function u(e,t){t||(t=n.ee);try{t.emit("internal-error",e)}catch(e){}}function l(e){return!(e&&"function"==typeof e&&e.apply&&!e[a])}r.d(t,["Jt",0,a])},9300(e,t,r){"use strict";const n=r(860).K7.ajax;r.d(t,["TZ",0,n,"f5",0,"ajaxRequest.id","mo",0,{NONE:"none",FAILURES:"failures",ALL:"all"}])},3333(e,t,r){"use strict";var n=r(981);const i=r(860).K7.genericEvents,s=[n.R.PA,n.R.UA,n.R.BP];r.d(t,["$v",0,{RESOURCES:"experimental.resources",REGISTER:"register"},"TZ",0,i,"Zp",0,["auxclick","click","copy","keydown","paste","scrollend"],"kd",0,s,"qN",0,["focus","blur"]])},6774(e,t,r){"use strict";const n=r(860).K7.jserrors;r.d(t,["T",0,n])},993(e,t,r){"use strict";const n=r(860).K7.logging;r.d(t,["A$",0,{OFF:0,ERROR:1,WARN:2,INFO:3,DEBUG:4,TRACE:5},"TZ",0,n,"p_",0,{ERROR:"ERROR",WARN:"WARN",INFO:"INFO",DEBUG:"DEBUG",TRACE:"TRACE"}])},3785(e,t,r){"use strict";r.d(t,{R:()=>c,b:()=>d});var n=r(9908),i=r(1863),s=r(860),a=r(3969),o=r(993);function c(e,t,r={},c=o.p_.INFO,d=!0,u,l=(0,i.t)()){(0,n.p)(a.xV,["API/logging/".concat(c.toLowerCase(),"/called")],void 0,s.K7.metrics,e),(0,n.p)("log",[l,t,r,c,d,u],void 0,s.K7.logging,e)}function d(e){return"string"==typeof e&&Object.values(o.p_).some(t=>t===e.toUpperCase().trim())}},3969(e,t,r){"use strict";const n=r(860).K7.metrics;r.d(t,["TZ",0,n,"XG",0,"storeEventMetrics","xV",0,"storeSupportabilityMetrics"])},6630(e,t,r){"use strict";const n=r(860).K7.pageViewEvent;r.d(t,["T",0,n])},782(e,t,r){"use strict";const n=r(860).K7.pageViewTiming;r.d(t,["T",0,n])},6344(e,t,r){"use strict";var n=r(2614);const i=r(860).K7.sessionReplay,s={[n.g.ERROR]:15e3,[n.g.FULL]:3e5,[n.g.OFF]:0};r.d(t,["Qb",0,{API:"api",RESUME:"resume",SWITCH_TO_FULL:"switchToFull",INITIALIZE:"initialize",PRELOAD:"preload"},"TZ",0,i,"Vh",0,"errorDuringReplay","_s",0,{DomContentLoaded:0,Load:1,FullSnapshot:2,IncrementalSnapshot:3,Meta:4,Custom:5},"bc",0,{RESET:{message:"Session was reset",sm:"Reset"},IMPORT:{message:"Recorder failed to import",sm:"Import"},TOO_MANY:{message:"429: Too Many Requests",sm:"Too-Many"},TOO_BIG:{message:"Payload was too large",sm:"Too-Big"},CROSS_TAB:{message:"Session Entity was set to OFF on another tab",sm:"Cross-Tab"},ENTITLEMENTS:{message:"Session Replay is not allowed and will not be started",sm:"Entitlement"}},"yP",0,s])},5270(e,t,r){"use strict";r.d(t,{Aw:()=>a,SR:()=>s,rF:()=>o});var n=r(384),i=r(7767);function s(e){return!!(0,n.dV)().o.MO&&(0,i.V)(e)&&!0===e?.session_trace.enabled}function a(e){return!0===e?.session_replay.preload&&s(e)}function o(e,t){try{if("string"==typeof t?.type&&"password"===t.type.toLowerCase())return"*".repeat(e?.length||0);if(void 0!==t?.dataset?.nrUnmask||t?.classList?.contains("nr-unmask"))return e}catch(e){}return"string"==typeof e?e.replace(/[\S]/g,"*"):"*".repeat(e?.length||0)}},3738(e,t,r){"use strict";const n=r(860).K7.sessionTrace,i="-start",s="-end",a="fn"+i,o="fn"+s;r.d(t,["He",0,"bstResource","Kp",0,s,"Lc",0,o,"Rz",0,"pushState","TZ",0,n,"bD",0,"resource","bc",0,{CROSS_TAB:{message:"Session Entity was set to OFF on another tab"},ENTITLEMENTS:{message:"Session Trace is not allowed and will not be started"},RESET:{message:"Session was reset"},SESSION_CHANGED:{message:"Session identifier changed unexpectedly"}},"d3",0,i,"uP",0,a])},4234(e,t,r){"use strict";r.d(t,{W:()=>i});var n=r(1687);class i{constructor(e,t){this.agentRef=e,this.ee=e?.ee,this.featureName=t,this.blocked=!1}deregisterDrain(){(0,n.x3)(this.agentRef,this.featureName)}}},7767(e,t,r){"use strict";var n=r(6154);r.d(t,["V",0,e=>n.RI&&!0===e?.privacy.cookies_enabled])},8362(e,t,r){"use strict";r.d(t,{d:()=>s});var n=r(9566),i=r(1741);class s extends i.W{agentIdentifier=(0,n.LA)(16)}},1741(e,t,r){"use strict";r.d(t,{W:()=>s});var n=r(944),i=r(4261);class s{#e(e,...t){if(this[e]!==s.prototype[e])return this[e](...t);(0,n.R)(35,e)}addPageAction(e,t){return this.#e(i.hG,e,t)}register(e){return this.#e(i.eY,e)}recordCustomEvent(e,t){return this.#e(i.fF,e,t)}setPageViewName(e,t){return this.#e(i.Fw,e,t)}setCustomAttribute(e,t,r){return this.#e(i.cD,e,t,r)}noticeError(e,t){return this.#e(i.o5,e,t)}setUserId(e,t=!1){return this.#e(i.Dl,e,t)}setApplicationVersion(e){return this.#e(i.nb,e)}setErrorHandler(e){return this.#e(i.bt,e)}addRelease(e,t){return this.#e(i.k6,e,t)}log(e,t){return this.#e("log",e,t)}start(){return this.#e("start")}finished(e){return this.#e(i.BL,e)}recordReplay(){return this.#e(i.CH)}pauseReplay(){return this.#e(i.Tb)}addToTrace(e){return this.#e(i.U2,e)}setCurrentRouteName(e){return this.#e(i.PA,e)}interaction(e){return this.#e(i.dT,e)}wrapLogger(e,t,r){return this.#e(i.Wb,e,t,r)}measure(e,t){return this.#e(i.V1,e,t)}consent(e){return this.#e(i.Pv,e)}}},4261(e,t,r){"use strict";r.d(t,["BL",0,"finished","CH",0,"recordReplay","Dl",0,"setUserId","Fw",0,"setPageViewName","PA",0,"setCurrentRouteName","Pv",0,"consent","Tb",0,"pauseReplay","U2",0,"addToTrace","V1",0,"measure","Wb",0,"wrapLogger","bt",0,"setErrorHandler","cD",0,"setCustomAttribute","dT",0,"interaction","eY",0,"register","fF",0,"recordCustomEvent","hG",0,"addPageAction","k6",0,"addRelease","nb",0,"setApplicationVersion","o5",0,"noticeError"])},1738(e,t,r){"use strict";r.d(t,{U:()=>l,Y:()=>u});var n=r(3241),i=r(9908),s=r(1863),a=r(944),o=r(3969),c=r(8362),d=r(860);function u(e,t,r,s){const u=s||r;!u||u[e]&&u[e]!==c.d.prototype[e]||(u[e]=function(){(0,i.p)(o.xV,["API/"+e+"/called"],void 0,d.K7.metrics,r.ee),(0,n.W)({drained:!!r.runtime?.activatedFeatures,type:"data",name:"api",feature:"api-"+e,data:{}});try{return t.apply(this,arguments)}catch(e){(0,a.R)(23,e)}})}function l(e,t,r,n,a){const o=e.info;null===r?delete o.jsAttributes[t]:o.jsAttributes[t]=r,(a||null===r)&&(0,i.p)("api-"+n,[(0,s.t)(),t,r],void 0,"session",e.ee)}},8374(e,t,r){r.nc=(()=>{try{return document?.currentScript?.nonce}catch(e){}return""})()},860(e,t,r){"use strict";const n="events",i="jserrors",s="browser/blobs",a="browser/logs",o={ajax:"ajax",genericEvents:"generic_events",jserrors:i,logging:"logging",metrics:"metrics",pageAction:"page_action",pageViewEvent:"page_view_event",pageViewTiming:"page_view_timing",sessionReplay:"session_replay",sessionTrace:"session_trace",softNav:"soft_navigations"},c={[o.pageViewEvent]:1,[o.pageViewTiming]:2,[o.metrics]:3,[o.jserrors]:4,[o.softNav]:5,[o.ajax]:6,[o.sessionTrace]:7,[o.sessionReplay]:8,[o.logging]:9,[o.genericEvents]:10},d={[o.pageViewEvent]:"rum",[o.pageViewTiming]:n,[o.ajax]:n,[o.softNav]:n,[o.metrics]:i,[o.jserrors]:i,[o.sessionTrace]:s,[o.sessionReplay]:s,[o.logging]:a,[o.genericEvents]:"ins"};r.d(t,["$J",0,d,"K7",0,o,"P3",0,c,"XX",0,i,"Yy",0,a,"df",0,s,"hg",0,"connect"])}};const t={};function r(n){const i=t[n];if(void 0!==i)return i.exports;const s=t[n]={exports:{}};return e[n](s,s.exports,r),s.exports}r.m=e,r.d=(e,t)=>{if(Array.isArray(t))for(var n=0;n<t.length;){var i=t[n++],s=t[n++];r.o(e,i)?0===s&&n++:0===s?Object.defineProperty(e,i,{enumerable:!0,value:t[n++]}):Object.defineProperty(e,i,{enumerable:!0,get:s})}else for(var i in t)r.o(t,i)&&!r.o(e,i)&&Object.defineProperty(e,i,{enumerable:!0,get:t[i]})},r.f={},r.e=e=>Promise.all(Object.keys(r.f).reduce((t,n)=>(r.f[n](e,t),t),[])),r.u=e=>({95:"nr-full-compressor",222:"nr-full-recorder",649:"nr-full-iframe-message-handler",891:"nr-full"}[e]+"-1.321.0.min.js"),r.o=(e,t)=>Object.prototype.hasOwnProperty.call(e,t),(()=>{const e={},t="NRBA-1.321.0.PROD:";r.l=(n,i,s,a)=>{if(e[n])return void e[n].push(i);let o,c;if(void 0!==s){const e=document.getElementsByTagName("script");for(var d=0;d<e.length;d++){const r=e[d];if(r.getAttribute("src")==n||r.getAttribute("data-webpack")==t+s){o=r;break}}}if(!o){c=!0;var u={891:"sha512-L5YHbAcWhmVHfTPF2YlH9Y/RBhMma1zObgNiUzdTdGbyyud2nHpRcQVT7j9/JavVyEBsGKTTXwNDOIQAILp9ig==",222:"sha512-2YlU/SDEidTzPiMDYwwDC8MhfXFiB97xWp9EXa4BKt1Nu3yB9mkmwqsw4yPSoQ816SuQ4DkPN3nyIW0iL8c7Vw==",95:"sha512-NRCwbHnM3TGDHK/Fk+elaG1O8UzL7uEqEYr9F/sr0oIoExJjB3XoqbBBvi62zKv4YHtYv5QR1ClvOa6BvZ6iMw==",649:"sha512-K1GYDNyZdCdyz4+6ZIH3mFsFHASpezWt9XhqUw/rDn7gJiIr+N3dG+sTZNZHRlgBrBziqYJ6vr83Vz2yDxaw7A=="};o=document.createElement("script"),o.charset="utf-8",r.nc&&o.setAttribute("nonce",r.nc),o.setAttribute("data-webpack",t+s),o.src=n,0!==o.src.indexOf(window.location.origin+"/")&&(o.crossOrigin="anonymous"),u[a]&&(o.integrity=u[a])}e[n]=[i];const l=(t,r)=>{o.onerror=o.onload=null,clearTimeout(f);const i=e[n];if(delete e[n],o.parentNode?.removeChild(o),i?.forEach(e=>e(r)),t)return t(r)},f=setTimeout(l.bind(null,void 0,{type:"timeout",target:o}),12e4);o.onerror=l.bind(null,o.onerror),o.onload=l.bind(null,o.onload),c&&document.head.appendChild(o)}})(),r.r=e=>{Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},r.p="https://js-agent.newrelic.com/",(()=>{const e={85:0,959:0};r.f.j=(t,n)=>{let i=r.o(e,t)?e[t]:void 0;if(0!==i)if(i)n.push(i[2]);else{const s=new Promise((r,n)=>i=e[t]=[r,n]);n.push(i[2]=s);const a=r.p+r.u(t),o=new Error,c=n=>{if(r.o(e,t)&&(i=e[t],0!==i&&(e[t]=void 0),i)){const e=n&&("load"===n.type?"missing":n.type),r=n&&n.target&&n.target.src;o.message="Loading chunk "+t+" failed: ("+e+": "+r+")",o.name="ChunkLoadError",o.type=e,o.request=r,i[1](o)}};r.l(a,c,"chunk-"+t,t)}};const t=(t,n)=>{let[i,s,a]=n;var o,c,d=0;if(i.some(t=>0!==e[t])){for(o in s)r.o(s,o)&&(r.m[o]=s[o]);if(a)a(r)}for(t&&t(n);d<i.length;d++)c=i[d],r.o(e,c)&&e[c]&&e[c][0](),e[c]=0},n=self["webpackChunk:NRBA-1.321.0.PROD"]=self["webpackChunk:NRBA-1.321.0.PROD"]||[];n.forEach(t.bind(null,0)),n.push=t.bind(null,n.push.bind(n))})(),(()=>{"use strict";r(8374);var e=r(8362),t=r(860);const n=Object.values(t.K7);var i=r(384),s=r(1741);var a=r(2555),o=r(3333),c=r(9300);const d=e=>{if(!e||"string"!=typeof e)return!1;try{document.createDocumentFragment().querySelector(e)}catch{return!1}return!0};var u=r(2614),l=r(944),f=r(8122);const h="[data-nr-mask]",p=e=>(0,f.a)(e,(()=>{const e={feature_flags:[],experimental:{register:!1,resources:!1,iframe_bridge:!1,iframe_domains:[]},mask_selector:"*",block_selector:"[data-nr-block]",mask_input_options:{color:!1,date:!1,"datetime-local":!1,email:!1,month:!1,number:!1,range:!1,search:!1,tel:!1,text:!1,time:!1,url:!1,week:!1,textarea:!1,select:!1,password:!0}};return{ajax:{deny_list:void 0,block_internal:!0,enabled:!0,autoStart:!0,capture_payloads:c.mo.NONE},api:{register:{get enabled(){return e.feature_flags.includes(o.$v.REGISTER)||e.experimental.register},set enabled(t){e.experimental.register=t},duplicate_data_to_container:!1,get allow_iframe_bridge(){return e.feature_flags.includes(o.$v.IFRAME_BRIDGE)||e.experimental.iframe_bridge},set allow_iframe_bridge(t){e.experimental.iframe_bridge=t},get iframe_domains(){return e.experimental.iframe_domains},set iframe_domains(t){Array.isArray(t)?e.experimental.iframe_domains=t:(0,l.R)(1,t)}}},browser_consent_mode:{enabled:!1},distributed_tracing:{enabled:void 0,exclude_newrelic_header:void 0,cors_use_newrelic_header:void 0,cors_use_tracecontext_headers:void 0,allowed_origins:void 0},get feature_flags(){return e.feature_flags},set feature_flags(t){e.feature_flags=t},generic_events:{enabled:!0,autoStart:!0},harvest:{interval:30},jserrors:{enabled:!0,autoStart:!0},logging:{enabled:!0,autoStart:!0},metrics:{enabled:!0,autoStart:!0},obfuscate:void 0,page_action:{enabled:!0},page_view_event:{enabled:!0,autoStart:!0},page_view_timing:{enabled:!0,autoStart:!0},performance:{capture_marks:!1,capture_measures:!1,capture_detail:!0,resources:{get enabled(){return e.feature_flags.includes(o.$v.RESOURCES)||e.experimental.resources},set enabled(t){e.experimental.resources=t},asset_types:[],first_party_domains:[],ignore_newrelic:!0}},privacy:{cookies_enabled:!0},proxy:{assets:void 0,beacon:void 0},session:{expiresMs:u.wk,inactiveMs:u.BB},session_replay:{autoStart:!0,enabled:!1,preload:!1,sampling_rate:10,error_sampling_rate:100,collect_fonts:!1,inline_images:!1,fix_stylesheets:!0,mask_all_inputs:!0,get mask_text_selector(){return e.mask_selector},set mask_text_selector(t){d(t)?e.mask_selector="".concat(t,",").concat(h):""===t||null===t?e.mask_selector=h:(0,l.R)(5,t)},get block_class(){return"nr-block"},get ignore_class(){return"nr-ignore"},get mask_text_class(){return"nr-mask"},get block_selector(){return e.block_selector},set block_selector(t){d(t)?e.block_selector+=",".concat(t):""!==t&&(0,l.R)(6,t)},get mask_input_options(){return e.mask_input_options},set mask_input_options(t){t&&"object"==typeof t?e.mask_input_options={...t,password:!0}:(0,l.R)(7,t)}},session_trace:{enabled:!0,autoStart:!0},soft_navigations:{enabled:!0,autoStart:!0},ssl:void 0,user_actions:{enabled:!0,elementAttributes:["id","className","tagName","type"]},web_sockets:{enabled:!1}}})());var g=r(6154),m=r(9324);let v=0;const y={buildEnv:"PROD",distMethod:"CDN",version:m.x,originTime:g.WN},b={consented:!1},E={activatedFeatures:void 0,appMetadata:{},configured:!1,get consented(){return this.session?.state?.consent||b.consented},set consented(e){b.consented=e},customTransaction:void 0,denyList:[],disabled:!1,drainRegistry:new Map,connector:void 0,harvester:void 0,v2Target:void 0,isolatedBacklog:!1,isRecording:!1,loaderType:void 0,maxBytes:3e4,obfuscator:void 0,onerror:void 0,ptid:void 0,releaseIds:{},session:void 0,timeKeeper:void 0,registeredEntities:[],jsAttributesMetadata:{bytes:0},get harvestCount(){return++v},listeningForIframeMessages:!1};var w=r(9232);var R=r(7836),T=r(3241);const A={accountID:void 0,trustKey:void 0,agentID:void 0,licenseKey:void 0,applicationID:void 0,xpid:void 0};var x=r(9908),S=r(9752);function _(e,t={},n,o){let{init:c,info:d,loader_config:u,runtime:l={},exposed:h=!0}=t;if(!d){const e=(0,i.pV)();c=e.init,d=e.info,u=e.loader_config}var m;e.init=p(c||{}),e.loader_config=(m=u||{},(0,f.a)(m,A)),d.jsAttributes??={},g.bv&&(d.jsAttributes.isWorker=!0),e.info=(0,a.D)(d);const v=e.init;e.runtime??=(e=>{const t=(0,f.a)(e,E),r=Object.keys(y).reduce((e,t)=>(e[t]={value:y[t],writable:!1,configurable:!0,enumerable:!0},e),{});return Object.defineProperties(t,r)})(l),e.runtime.v2Target??={type:w.f.BA,instance:e.agentIdentifier,get id(){return e.runtime.appMetadata?.agents?.[0]?.entityGuid},get attributes(){return{"entity.guid":this.id,appId:e.info.applicationID}}},v.proxy.assets&&(e=>{const t=e.startsWith("http");e+="/",r.p=t?e:"https://"+e})(v.proxy.assets),e.runtime.configured||(Object.defineProperty(e,"beacons",{get:()=>[e.info.beacon,e.info.errorBeacon,e.init.proxy.assets,e.init.proxy.beacon].filter(Boolean)}),Object.defineProperty(e.runtime,"denyList",{get:()=>[...e.init.ajax.deny_list||[],...e.init.ajax.block_internal?e.beacons:[]]}),e.runtime.ptid=e.agentIdentifier,function(e){const t=(0,i.pV)();Object.getOwnPropertyNames(s.W.prototype).forEach(r=>{const n=s.W.prototype[r];if("function"!=typeof n||"constructor"===n)return;let i=t[r];e[r]&&!1!==e.exposed&&"micro-agent"!==e.runtime?.loaderType&&(t[r]=(...t)=>{const n=e[r](...t);return i?i(...t):n})})}(e),e.runtime.loaderType=n,e.ee=R.ee.get(e.agentIdentifier),e.exposed=h,(0,T.W)({drained:!!e.runtime.activatedFeatures,type:"lifecycle",name:"initialize",feature:void 0,data:e.config}),e.init.api.register.allow_iframe_bridge&&g.gm.addEventListener("message",t=>{"string"==typeof t.data?.type&&t.data.type.startsWith(S.Pl)&&(0,x.p)("iframe-message",[t],void 0,"IFRAME",e.ee)}),e.runtime.configured=!0)}var O=r(1863),k=r(4261),L=r(1738);var P=r(1687),N=r(4234),j=r(5289),M=r(5270),C=r(7767),I=r(6389),D=r(7699);const B=new WeakSet,H=new WeakMap;class W extends N.W{constructor(e,t){super(e,t),this.abortHandler=void 0,this.featAggregate=void 0,this.loadedSuccessfully=void 0,this.onAggregateImported=new Promise(e=>{this.loadedSuccessfully=e}),this.deferred=Promise.resolve(),!1===e.init[this.featureName].autoStart?this.deferred=new Promise((t,r)=>{this.ee.on("manual-start-all",(0,I.J)(()=>{(0,P.Ak)(e,this.featureName),t()}))}):(0,P.Ak)(e,t)}importAggregator(e,t,n={}){if(this.featAggregate)return;const i=async()=>{if(await this.deferred,this.#t(e),!(0,a.f)(e.info))return(0,l.R)(43),e.ee.abort(),void this.loadedSuccessfully(!1);try{await async function(e,t,n){if(H.has(e))return H.get(e);const i=(async()=>{if((0,C.V)(e.init))try{const{setupAgentSession:t}=await r.e(891).then(r.bind(r,8766));t(e)}catch(e){(0,l.R)(20,e),t.emit("internal-error",[e]),(0,x.p)(D.qh,[e],void 0,n,t)}if(e.init.api.register.allow_iframe_bridge)try{const{setupIframeMFEMessageListener:t}=await r.e(649).then(r.bind(r,6417));t(e)}catch(e){(0,l.R)(23,e)}const[{Connector:i},{Harvester:s}]=await Promise.all([r.e(891).then(r.bind(r,6589)),r.e(891).then(r.bind(r,5237))]);e.runtime.connector=new i(e),e.runtime.harvester=new s(e);const a=Object.values(e.features).filter(t=>e.runtime.drainRegistry.has(t.featureName));Promise.all(a.map(e=>e.onAggregateImported)).then(()=>e.runtime.harvester.startTimer())})();H.set(e,i),await i}(e,this.ee,this.featureName)}catch(e){return(0,l.R)(79,e),this.ee.abort(),void this.loadedSuccessfully(!1)}try{if(!this.#r(this.featureName,e.runtime.session,e.init))return this.abortHandler?.(),(0,P.Ze)(this.agentRef,this.featureName),void this.loadedSuccessfully(!1);const{Aggregate:r}=await t();this.featAggregate=new r(e,n),e.runtime.harvester.initializedAggregates.push(this.featAggregate),this.loadedSuccessfully(!0)}catch(e){(0,l.R)(34,e),this.abortHandler?.(),(0,P.Ze)(this.agentRef,this.featureName,!0),this.loadedSuccessfully(!1)}};g.RI?(0,j.GG)(()=>i(),!0):i()}#r(e,r,n){if(this.blocked)return!1;switch(e){case t.K7.sessionReplay:return(0,M.SR)(n)&&!!r;case t.K7.sessionTrace:return!!r;default:return!0}}#t(e){if(!B.has(e)&&(B.add(e),!(0,a.f)(e.info))){const t=(0,i.pV)();let r={...t.info?.jsAttributes};try{r={...r,...e.info?.jsAttributes}}catch(e){}_(e,{...t,info:{...t.info,jsAttributes:r},runtime:e.runtime},e.runtime.loaderType)}}}var K=r(6630);class F extends W{static featureName=K.T;constructor(e){var t;super(e,K.T),this.setupInspectionEvents(),t=e,(0,L.Y)(k.Fw,function(e,r){"string"==typeof e&&("/"!==e.charAt(0)&&(e="/"+e),t.runtime.customTransaction=(r||"http://custom.transaction")+e,(0,x.p)("api-"+k.Fw,[(0,O.t)()],void 0,void 0,t.ee))},t),this.importAggregator(e,()=>e.init.feature_flags.includes("rum_v2")?r.e(891).then(r.bind(r,908)):r.e(891).then(r.bind(r,7927)))}setupInspectionEvents(){const e=(e,t)=>{e&&(0,T.W)({timeStamp:e.timeStamp,loaded:"complete"===e.target.readyState,type:"window",name:t,data:e.target.location+""})};(0,j.sB)(t=>{e(t,"DOMContentLoaded")}),(0,j.GG)(t=>{e(t,"load")}),(0,j.Qr)(t=>{e(t,"navigate")}),this.ee.on(u.tS.UPDATE,(e,t)=>{(0,T.W)({type:"lifecycle",name:"session",data:t})})}}class U extends e.d{constructor(e){var t;(super(),g.gm)?(this.features={},(0,i.bQ)(this.agentIdentifier,this),this.desiredFeatures=new Set(e.features||[]),this.desiredFeatures.add(F),_(this,e,e.loaderType||"agent"),t=this,(0,L.Y)(k.cD,function(e,r,n=!1){if("string"==typeof e){if(["string","number","boolean"].includes(typeof r)||null===r)return(0,L.U)(t,e,r,k.cD,n);(0,l.R)(40,typeof r)}else(0,l.R)(39,typeof e)},t),function(e){(0,L.Y)(k.Dl,function(t,r=!1){if("string"!=typeof t&&null!==t)return void(0,l.R)(41,typeof t);const n=e.info.jsAttributes["enduser.id"];r&&null!=n&&n!==t?(0,x.p)("api-setUserIdAndResetSession",[t],void 0,"session",e.ee):(0,L.U)(e,"enduser.id",t,k.Dl,!0)},e)}(this),function(e){(0,L.Y)(k.nb,function(t){if("string"==typeof t||null===t)return(0,L.U)(e,"application.version",t,k.nb,!1);(0,l.R)(42,typeof t)},e)}(this),function(e){(0,L.Y)("start",function(){e.ee.emit("manual-start-all")},e)}(this),function(e){(0,L.Y)(k.Pv,function(t=!0){if("boolean"==typeof t){if((0,x.p)("api-"+k.Pv,[t],void 0,"session",e.ee),e.runtime.consented=t,t){const t=e.features.page_view_event;t.onAggregateImported.then(e=>{const r=t.featAggregate;e&&!r.sentRum&&r.sendRum?.()})}}else(0,l.R)(65,typeof t)},e)}(this),this.run()):(0,l.R)(21)}get config(){return{info:this.info,init:this.init,loader_config:this.loader_config,runtime:this.runtime}}get api(){return this}run(){try{const e=function(e){const t={};return n.forEach(r=>{t[r]=!!e[r]?.enabled}),t}(this.init),r=[...this.desiredFeatures],i=this.init.feature_flags.includes("rum_v2");r.sort((e,r)=>t.P3[e.featureName]-t.P3[r.featureName]),r.forEach(r=>{if(!e[r.featureName]&&(i||r.featureName!==t.K7.pageViewEvent))return;const n=function(e){switch(e){case t.K7.ajax:return[t.K7.jserrors];case t.K7.sessionTrace:return[t.K7.ajax,t.K7.pageViewEvent];case t.K7.sessionReplay:return[t.K7.sessionTrace];case t.K7.pageViewTiming:return[t.K7.pageViewEvent];default:return[]}}(r.featureName).filter(e=>!(e in this.features));n.length>0&&(0,l.R)(36,{targetFeature:r.featureName,missingDependencies:n}),this.features[r.featureName]=new r(this)})}catch(e){(0,l.R)(22,e);for(const e in this.features)this.features[e].abortHandler?.();const t=(0,i.Zm)();delete t.initializedAgents[this.agentIdentifier]?.features,delete this.sharedAggregator;return t.ee.get(this.agentIdentifier).abort(),!1}}}var V=r(2843),z=r(782);class G extends W{static featureName=z.T;constructor(e){super(e,z.T),g.RI&&((0,V.u)(()=>(0,x.p)("docHidden",[(0,O.t)()],void 0,z.T,this.ee),!0),(0,V.G)(()=>(0,x.p)("winPagehide",[(0,O.t)()],void 0,z.T,this.ee)),this.importAggregator(e,()=>r.e(891).then(r.bind(r,9018))))}}var q=r(3969);class Y extends W{static featureName=q.TZ;constructor(e){super(e,q.TZ),this.importAggregator(e,()=>r.e(891).then(r.bind(r,6555)))}}var Z=r(6774),X=r(3878),J=r(3304);class Q{constructor(e,t,r,n,i){this.name="UncaughtError",this.message="string"==typeof e?e:(0,J.A)(e),this.sourceURL=t,this.line=r,this.column=n,this.__newrelic=i}}function ee(e){return ne(e)?e:new Q(void 0!==e?.message?e.message:e,e?.filename||e?.sourceURL,e?.lineno||e?.line,e?.colno||e?.col,e?.__newrelic,e?.cause)}function te(e){const t="Unhandled Promise Rejection: ";if(!e?.reason)return;if(ne(e.reason)){try{e.reason.message.startsWith(t)||(e.reason.message=t+e.reason.message)}catch(e){}return ee(e.reason)}const r=ee(e.reason);return(r.message||"").startsWith(t)||(r.message=t+r.message),r}function re(e){if(e.error instanceof SyntaxError&&!/:\d+$/.test(e.error.stack?.trim())){const t=new Q(e.message,e.filename,e.lineno,e.colno,e.error.__newrelic,e.cause);return t.name=SyntaxError.name,t}return ne(e.error)?e.error:ee(e)}function ne(e){return e instanceof Error&&!!e.stack}function ie(e,r,n,i,s=(0,O.t)()){"string"==typeof e&&(e=new Error(e)),(0,x.p)("err",[e,s,!1,r,n.runtime.isRecording,void 0,i],void 0,t.K7.jserrors,n.ee),(0,x.p)("uaErr",[],void 0,t.K7.genericEvents,n.ee)}var se=r(993),ae=r(3785);function oe(e,{customAttributes:t={},level:r=se.p_.INFO}={},n,i,s=(0,O.t)()){(0,ae.R)(n.ee,e,t,r,!1,i,s)}function ce(e,r,n,i,s=(0,O.t)()){(0,x.p)("api-"+k.hG,[s,e,r,i],void 0,t.K7.genericEvents,n.ee)}function de(e,r,n,i,s=(0,O.t)()){const{start:a,end:o,customAttributes:c}=r||{},d={customAttributes:c||{}};if("object"!=typeof d.customAttributes||"string"!=typeof e||0===e.length)return void(0,l.R)(57);const u=(e,t)=>null==e?t:"number"==typeof e?e:e instanceof PerformanceMark?e.startTime:Number.NaN;if(d.start=u(a,0),d.end=u(o,s),Number.isNaN(d.start)||Number.isNaN(d.end))(0,l.R)(57);else{if(d.duration=d.end-d.start,!(d.duration<0))return(0,x.p)("api-"+k.V1,[d,e,i],void 0,t.K7.genericEvents,n.ee),d;(0,l.R)(58)}}function ue(e,r={},n,i,s=(0,O.t)()){(0,x.p)("api-"+k.fF,[s,e,r,i],void 0,t.K7.genericEvents,n.ee)}var le=r(5718);const fe=(e,t)=>e?.nrMfeId===t.id&&(!e?.nrMfeObserved||e?.nrMfeObserved===t.instance),he=e=>{try{return g.gm.CSS.escape(e)}catch(t){return e}},pe=(e,t={})=>{const r=t.id,n=t.instance;if(!e||!r||!n)return!1;try{let r=1===e.nodeType?e:e.parentElement;for(;r?.tagName;){if(fe(r.dataset,t))return r.dataset.nrMfeObserved=n,!0;r=r.parentNode}}catch(e){}return!1},ge=(e,t)=>{const r=g.gm.document?.querySelectorAll('[data-nr-mfe-id="'.concat(he(e.id),'"]')),n=(Array.from(r)||[]).find(t=>fe(t.dataset,e));let i=!!n;i&&(n.dataset.nrMfeObserved??=e.instance);const s=new g.gm.MutationObserver(r=>{r.forEach(r=>{r.addedNodes.forEach(r=>{const n=1===r.nodeType?r:null;!i&&fe(n?.dataset,e)&&(s.disconnect(),s.observe(n,{childList:!0,subtree:!0}),i=!0,n.dataset.nrMfeObserved=e.instance),(e=>{try{return e?.textContent?.trim()||["img","video","canvas","svg"].includes(e?.nodeName?.toLowerCase())}catch(e){return!1}})(r)&&(i||pe(r,e))&&t(r,s)})})});return s.observe(n||g.gm.document,{childList:!0,subtree:!0}),s},me=(e,t,r)=>{try{const n=new g.gm.PerformanceObserver(e=>{e.getEntries().forEach(r)});return n.observe(t),e.push(n),n}catch(e){return null}};function ve(e,t){let r,n,i=!1;const s=e=>null==e?e:e-(t?.scriptStart||t?.registeredAt||0),a={fcp:{get value(){const e=s(r);return e>1e4?void 0:e},set value(e){i||(r=e)}},lcp:{get value(){if(void 0!==a.fcp.value)return s(n)},set value(e){i||(n=e)}},cls:{value:void 0},inp:{value:void 0},disconnect:()=>{}};if(!(e&&g.RI&&g.gm.MutationObserver&&g.gm.PerformanceObserver))return a;const o=[];setTimeout(()=>{r||a.disconnect()},1e4);const c=()=>{if(!i){if(null==r){const e=(0,O.t)();if(s(e)>1e4)return void a.disconnect();r=e}n??=(0,O.t)(),a.cls.value??=0}},d=ge(e,(e,t)=>{c(),t.disconnect()});o.push(d);let u=0,l=null;const f=new Set;try{l=new g.gm.ResizeObserver(e=>{i||e.forEach(e=>{try{const t=e.contentRect.width*e.contentRect.height;t>u&&(u=t,a.lcp.value=(0,O.t)()),l.unobserve(e.target)}catch(e){}})})}catch(e){}const h=ge(e,e=>{if(c(),l)try{const t=1===e.nodeType?e:e.parentElement;t&&!f.has(t)&&(f.add(t),"IMG"===t.tagName?t.complete?l.observe(t):t.addEventListener("load",()=>{l.observe(t)},{once:!0}):"VIDEO"===t.tagName?t.readyState>=2?l.observe(t):t.addEventListener("loadeddata",()=>{l.observe(t)},{once:!0}):l.observe(t))}catch(e){}});l&&o.push(l),o.push(h),me(o,{type:"layout-shift",buffered:!0},t=>{i||t.hadRecentInput||(t.sources||[]).some(r=>!!pe(r.node,e)&&(c(),a.cls.value+=t.value,!0))}),me(o,{type:"event",buffered:!0,durationThreshold:40},t=>{!i&&t.interactionId&&pe(t.target,e)&&(void 0===a.inp.value||t.duration>a.inp.value)&&(c(),a.inp.value=t.duration)});const p=["pointerdown","keydown"],m=()=>{p.forEach(e=>{g.gm.removeEventListener(e,v,{passive:!0})})};a.disconnect=()=>{i=!0,o.forEach(e=>{try{e?.disconnect()}catch(e){}}),m(),["visibilitychange","pagehide"].forEach(e=>{g.gm.removeEventListener(e,a.disconnect,{once:!0,passive:!0})})};const v=t=>{pe(t?.target,e)&&((()=>{try{h?.disconnect(),l?.disconnect()}catch(e){}})(),m())};p.forEach(e=>{g.gm.addEventListener(e,v,{passive:!0})}),["visibilitychange","pagehide"].forEach(e=>{g.gm.addEventListener(e,a.disconnect,{once:!0,passive:!0})});const y=g.gm.document?.querySelectorAll('[data-nr-mfe-id="'.concat(he(e.id),'"]'));return Array.from(y||[]).some(t=>fe(t.dataset,e))&&c(),a}var ye=r(9566),be=r(9119);const Ee=["name","id","type"],we=new Map([[ce,"addPageAction"],[oe,"log"],[de,"measure"],[ie,"noticeError"],[ue,"recordCustomEvent"]]),Re={experimental:(0,I.J)(()=>(0,l.R)(54,"newrelic.register")),disabled:(0,I.J)(()=>(0,l.R)(55)),invalidTarget:(0,I.J)(e=>(0,l.R)(48,e)),deregistered:(0,I.J)(()=>(0,l.R)(68))};function Te(e){(0,L.Y)(k.eY,function(t){return Ae(e,t)},e)}function Ae(e,r){Re.experimental(),r||={},r.instance=(0,ye.LA)(8),r.type=w.f.MFE,r.licenseKey||=e.info.licenseKey,r.blocked=!1,("object"!=typeof r.tags||null===r.tags||Array.isArray(r.tags))&&(r.tags={}),r.parent??={get id(){return e.runtime.appMetadata.agents?.[0].entityGuid},type:w.f.BA};const n=(0,le.Qr)(r),i=ve(r,n),s=(0,be.L)(""+location),a={};Object.prototype.hasOwnProperty.call(r,"attributes")||Object.defineProperty(r,"attributes",{get:()=>({...a,"source.id":r.id,"source.name":r.name,"source.type":r.type,"parent.type":r.parent?.type||w.f.BA,"parent.id":r.parent?.id})}),Object.entries(r.tags).forEach(([e,t])=>{Ee.includes(e)||(a["source.".concat(e)]=t)});let o=()=>{};const c=e.runtime.registeredEntities,d=e=>{r.blocked=!0,o=e};function u(e){return"string"==typeof e&&!!e.trim()&&e.trim().length<501}e.init.api.register.enabled||d(Re.disabled),u(r.id)&&u(r.name)||d(()=>Re.invalidTarget(r));const f={addPageAction:(t,n={})=>m(ce,[t,{...a,...n},e],r),deregister:()=>{p(),d(Re.deregistered)},log:(t,n={})=>m(oe,[t,{...n,customAttributes:{...a,...n.customAttributes||{}}},e],r),measure:(t,n={})=>m(de,[t,{...n,customAttributes:{...a,...n.customAttributes||{}}},e],r),noticeError:(t,n={})=>m(ie,[t,{...a,...n},e],r),recordCustomEvent:(t,n={})=>m(ue,[t,{...a,...n},e],r),setApplicationVersion:e=>g("application.version",e),setCustomAttribute:(e,t)=>g(e,t),setUserId:e=>g("enduser.id",e),metadata:{get customAttributes(){return a},target:r,timings:n,vitals:i,events:{latestTimestamp:void 0}}},h=()=>(r.blocked&&o(),r.blocked);function p(){if(n.reportedAt)return;n.reportedAt=(0,O.t)(),i.disconnect(),n.fcp=i.fcp,n.lcp=i.lcp,n.cls=i.cls,n.inp=i.inp;const e=n.fetchEnd-n.fetchStart,t=n.scriptEnd-n.scriptStart,r={assetUrl:n.asset,assetType:n.type,registerUrl:s,deregisterUrl:(0,be.L)(""+location),pageUrl:void 0,currentUrl:void 0,timeAlive:n.reportedAt-n.registeredAt,timeToBeRequested:n.fetchStart,timeToExecute:t,timeToFetch:e,timeToLoad:e+t,timeToRegister:n.registeredAt,...i.fcp.value>=0&&{"vitals.fcp.value":i.fcp.value},...i.lcp.value>=0&&{"vitals.lcp.value":i.lcp.value},...i.cls.value>=0&&{"vitals.cls.value":i.cls.value},...i.inp.value>=0&&{"vitals.inp.value":i.inp.value}};f.recordCustomEvent("MicroFrontEndTiming",r)}h()||(c.push(f),(0,V.G)(p));const g=(e,t)=>{h()||(a[e]=t)},m=(r,n,i)=>{if(h()&&r!==Ae)return;const s=f.metadata.events.latestTimestamp??(0,O.t)();f.metadata.events.latestTimestamp=void 0;const a=we.get(r)||"unknown";(0,x.p)(q.xV,["API/register/".concat(a,"/called")],void 0,t.K7.metrics,e.ee);try{return r(...n,i,s)}catch(e){(0,l.R)(50,e)}};return f}class xe extends W{static featureName=Z.T;constructor(e){var t;super(e,Z.T),t=e,(0,L.Y)(k.o5,(e,r)=>ie(e,r,t),t),function(e){(0,L.Y)(k.bt,function(t){e.runtime.onerror=t},e)}(e),function(e){let t=0;(0,L.Y)(k.k6,function(e,r){++t>10||(this.runtime.releaseIds[e.slice(-200)]=(""+r).slice(-200))},e)}(e),Te(e);try{this.removeOnAbort=new AbortController}catch(e){}this.ee.on("internal-error",(t,r)=>{this.abortHandler&&(0,x.p)("ierr",[ee(t),(0,O.t)(),!0,{},e.runtime.isRecording,r],void 0,this.featureName,this.ee)}),g.gm.addEventListener("unhandledrejection",t=>{this.abortHandler&&(0,x.p)("err",[te(t),(0,O.t)(),!1,{unhandledPromiseRejection:1},e.runtime.isRecording],void 0,this.featureName,this.ee)},(0,X.jT)(!1,this.removeOnAbort?.signal)),g.gm.addEventListener("error",t=>{this.abortHandler&&(0,x.p)("err",[re(t),(0,O.t)(),!1,{},e.runtime.isRecording],void 0,this.featureName,this.ee)},(0,X.jT)(!1,this.removeOnAbort?.signal)),this.abortHandler=this.#n,this.importAggregator(e,()=>r.e(891).then(r.bind(r,9377)))}#n(){this.removeOnAbort?.abort(),this.abortHandler=void 0}}var Se=r(8990);let _e=1;function Oe(e){const t=typeof e;return!e||"object"!==t&&"function"!==t?-1:e===g.gm?0:(0,Se.I)(e,"nr@id",function(){return _e++})}function ke(e){if("string"==typeof e)return e.length;if("object"==typeof e){if("undefined"!=typeof ArrayBuffer&&e instanceof ArrayBuffer&&e.byteLength)return e.byteLength;if("undefined"!=typeof Blob&&e instanceof Blob&&e.size)return e.size;if(!("undefined"!=typeof FormData&&e instanceof FormData))try{return(0,J.A)(e).length}catch(e){return}}}var Le=r(8139),Pe=r(3434),Ne=r(5732);const je={},Me=["open","send","setRequestHeader"];function Ce(e,t){var r=e||R.ee;const n=function(e){return(e||R.ee).get("xhr")}(r);if(void 0===g.gm.XMLHttpRequest)return n;if(je[n.debugId]++)return n;je[n.debugId]=1,(0,Le.u)(r,t);var i=(0,Pe.YM)(n,void 0,t),s=g.gm.XMLHttpRequest,a=g.gm.MutationObserver,o=g.gm.Promise,c=g.gm.setInterval,d="readystatechange",u=["onload","onerror","onabort","onloadstart","onloadend","onprogress","ontimeout"],f=[],h=g.gm.XMLHttpRequest=function(e){const r=new s(e),a=n.context(r);a.targets=(0,Ne.$5)(t);try{n.emit("new-xhr",[r],a),r.addEventListener(d,(o=a,function(){var e=this;e.readyState>3&&!o.resolved&&(o.resolved=!0,n.emit("xhr-resolved",[],e)),i.inPlace(e,u,"fn-",E)}),(0,X.jT)(!1))}catch(e){(0,l.R)(15,e);try{n.emit("internal-error",[e])}catch(e){}}var o;return r};function p(e,t){i.inPlace(t,["onreadystatechange"],"fn-",E)}if(function(e,t){for(var r in e)t[r]=e[r]}(s,h),h.prototype=s.prototype,i.inPlace(h.prototype,Me,"-xhr-",E),n.on("send-xhr-start",function(e,t){p(e,t),function(e){f.push(e),a&&(m?m.then(b):c?c(b):(v=-v,y.data=v))}(t)}),n.on("open-xhr-start",p),a){var m=o&&o.resolve();if(!c&&!o){var v=1,y=document.createTextNode(v);new a(b).observe(y,{characterData:!0})}}else r.on("fn-end",function(e){e[0]&&e[0].type===d||b()});function b(){for(var e=0;e<f.length;e++)p(0,f[e]);f.length&&(f=[])}function E(e,t){return t}return n}var Ie="fetch-",De=Ie+"body-",Be=["arrayBuffer","blob","json","text","formData"],He=g.gm.Request,We=g.gm.Response,Ke="prototype";const Fe={};function Ue(e,t){const r=function(e){return(e||R.ee).get("fetch")}(e);if(!(He&&We&&g.gm.fetch))return r;if(Fe[r.debugId]++)return r;function n(e,n,i){var s=e[n];"function"==typeof s&&(e[n]=function(){var e=[...arguments];const n={},a=(0,Ne.$5)(t);var o;r.emit(i+"before-start",[e],n),n[R.P]&&n[R.P].dt&&(o=n[R.P].dt);var c=s.apply(this,e);return r.emit(i+"start",[e,o],c),c.then(function(e){return r.emit(i+"end",[null,e,a],c),e},function(e){throw r.emit(i+"end",[e,void 0,a],c),e})})}return Fe[r.debugId]=1,Be.forEach(e=>{n(He[Ke],e,De),n(We[Ke],e,De)}),n(g.gm,"fetch",Ie),r.on(Ie+"end",function(e,n,i){var s=this;if(s.targets=i||[t.runtime.v2Target],n){var a=n.headers.get("content-length");null!==a&&(s.rxSize=a),r.emit(Ie+"done",[null,n],s)}else r.emit(Ie+"done",[e],s)}),r}var Ve=r(7485);class ze{constructor(e){this.agentRef=e}generateTracePayload(e){const t=this.agentRef.loader_config;if(!this.shouldGenerateTrace(e)||!t)return null;var r=(t.accountID||"").toString()||null,n=(t.agentID||"").toString()||null,i=(t.trustKey||"").toString()||null;if(!r||!n)return null;var s=(0,ye.ZF)(),a=(0,ye.el)(),o=Date.now(),c={spanId:s,traceId:a,timestamp:o};return(e.sameOrigin||this.isAllowedOrigin(e)&&this.useTraceContextHeadersForCors())&&(c.traceContextParentHeader=this.generateTraceContextParentHeader(s,a),c.traceContextStateHeader=this.generateTraceContextStateHeader(s,o,r,n,i)),(e.sameOrigin&&!this.excludeNewrelicHeader()||!e.sameOrigin&&this.isAllowedOrigin(e)&&this.useNewrelicHeaderForCors())&&(c.newrelicHeader=this.generateTraceHeader(s,a,o,r,n,i)),c}generateTraceContextParentHeader(e,t){return"00-"+t+"-"+e+"-01"}generateTraceContextStateHeader(e,t,r,n,i){return i+"@nr=0-1-"+r+"-"+n+"-"+e+"----"+t}generateTraceHeader(e,t,r,n,i,s){if(!("function"==typeof g.gm?.btoa))return null;var a={v:[0,1],d:{ty:"Browser",ac:n,ap:i,id:e,tr:t,ti:r}};return s&&n!==s&&(a.d.tk=s),btoa((0,J.A)(a))}shouldGenerateTrace(e){return this.agentRef.init?.distributed_tracing?.enabled&&this.isAllowedOrigin(e)}isAllowedOrigin(e){var t=!1;const r=this.agentRef.init?.distributed_tracing;if(e.sameOrigin)t=!0;else if(r?.allowed_origins instanceof Array)for(var n=0;n<r.allowed_origins.length;n++){var i=(0,Ve.D)(r.allowed_origins[n]);if(e.hostname===i.hostname&&e.protocol===i.protocol&&e.port===i.port){t=!0;break}}return t}excludeNewrelicHeader(){var e=this.agentRef.init?.distributed_tracing;return!!e&&!!e.exclude_newrelic_header}useNewrelicHeaderForCors(){var e=this.agentRef.init?.distributed_tracing;return!!e&&!1!==e.cors_use_newrelic_header}useTraceContextHeadersForCors(){var e=this.agentRef.init?.distributed_tracing;return!!e&&!!e.cors_use_tracecontext_headers}}var Ge=r(7295);function qe(e){return"string"==typeof e?e:e instanceof(0,i.dV)().o.REQ?e.url:g.gm?.URL&&e instanceof URL?e.href:void 0}function Ye(e,t){var r=(0,Ve.D)(t),n=e.params||e;n.hostname=r.hostname,n.port=r.port,n.protocol=r.protocol,n.host=r.hostname+":"+r.port,n.pathname=r.pathname,e.parsedOrigin=r,e.sameOrigin=r.sameOrigin}var Ze=["load","error","abort","timeout"],$e=Ze.length,Xe=(0,i.dV)().o.REQ,Je=(0,i.dV)().o.XHR;const Qe="X-NewRelic-App-Data",et="internal-error";class tt extends W{static featureName=c.TZ;constructor(e){super(e,c.TZ),this.dt=new ze(e),this.handler=(e,t,r,n)=>(0,x.p)(e,t,r,n,this.ee);try{const e={xmlhttprequest:"xhr",fetch:"fetch",beacon:"beacon"};g.gm?.performance?.getEntriesByType("resource").forEach(r=>{if(r.initiatorType in e&&0!==r.responseStatus){const n={status:r.responseStatus},i={rxSize:r.transferSize,duration:Math.floor(r.duration),cbTime:0};Ye(n,r.name),this.handler("xhr",[n,i,r.startTime,r.responseEnd,e[r.initiatorType]],void 0,t.K7.ajax)}})}catch(e){}Ue(this.ee,e),Ce(this.ee,e),function(e,r,n,i){const s=[c.mo.ALL,c.mo.FAILURES].includes(e.init.ajax?.capture_payloads);function a(e){var t=this;t.totalCbs=0,t.called=0,t.cbTime=0,t.end=A,t.ended=!1,t.xhrGuids={},t.lastSize=null,t.loadCaptureCalled=!1,t.params=this.params||{},t.metrics=this.metrics||{},t.latestLongtaskEnd=0,e.addEventListener("load",function(r){_(t,e)},(0,X.jT)(!1)),g.lR||e.addEventListener("progress",function(e){t.lastSize=e.loaded},(0,X.jT)(!1))}function o(e){this.params={method:e[0]},Ye(this,e[1]),this.metrics={}}function d(t,r){e.loader_config.xpid&&this.sameOrigin&&r.setRequestHeader("X-NewRelic-ID",e.loader_config.xpid);var n=i.generateTracePayload(this.parsedOrigin);if(n){var s=!1;n.newrelicHeader&&(r.setRequestHeader("newrelic",n.newrelicHeader),s=!0),n.traceContextParentHeader&&(r.setRequestHeader("traceparent",n.traceContextParentHeader),n.traceContextStateHeader&&r.setRequestHeader("tracestate",n.traceContextStateHeader),s=!0),s&&(this.dt=n)}}function u(e,t){s&&e.length>=2&&(this.requestHeaders??={},this.requestHeaders[e[0].toLowerCase()]=e[1])}function l(e,t){var n=this.metrics,i=e[0],s=this;if(n&&i){var a=ke(i);a&&(n.txSize=a)}this.startTime=(0,O.t)(),this.requestBody=i,this.listener=function(e){try{"abort"!==e.type||s.loadCaptureCalled||(s.params.aborted=!0),("load"!==e.type||s.called===s.totalCbs&&(s.onloadCalled||"function"!=typeof t.onload)&&"function"==typeof s.end)&&s.end(t)}catch(e){try{r.emit(et,[e])}catch(e){}}};for(var o=0;o<$e;o++)t.addEventListener(Ze[o],this.listener,(0,X.jT)(!1))}function f(e,t,r){this.cbTime+=e,t?this.onloadCalled=!0:this.called+=1,this.called!==this.totalCbs||!this.onloadCalled&&"function"==typeof r.onload||"function"!=typeof this.end||this.end(r)}function h(e,t){var r=""+Oe(e)+!!t;this.xhrGuids&&!this.xhrGuids[r]&&(this.xhrGuids[r]=!0,this.totalCbs+=1)}function p(e,t){var r=""+Oe(e)+!!t;this.xhrGuids&&this.xhrGuids[r]&&(delete this.xhrGuids[r],this.totalCbs-=1)}function m(){this.endTime=(0,O.t)()}function v(e,t){t instanceof Je&&"load"===e[0]&&r.emit("xhr-load-added",[e[1],e[2]],t)}function y(e,t){t instanceof Je&&"load"===e[0]&&r.emit("xhr-load-removed",[e[1],e[2]],t)}function b(e,t,r){t instanceof Je&&("onload"===r&&(this.onload=!0),("load"===(e[0]&&e[0].type)||this.onload)&&(this.xhrCbStart=(0,O.t)()))}function E(e,t){this.xhrCbStart&&r.emit("xhr-cb-time",[(0,O.t)()-this.xhrCbStart,this.onload,t],t)}function w(e){var t,r=e[1]||{};if("string"==typeof e[0]?0===(t=e[0]).length&&g.RI&&(t=""+g.gm.location.href):e[0]&&e[0].url?t=e[0].url:g.gm?.URL&&e[0]&&e[0]instanceof URL?t=e[0].href:"function"==typeof e[0].toString&&(t=e[0].toString()),"string"==typeof t&&0!==t.length){t&&(this.parsedOrigin=(0,Ve.D)(t),this.sameOrigin=this.parsedOrigin.sameOrigin);var n=i.generateTracePayload(this.parsedOrigin);if(n&&(n.newrelicHeader||n.traceContextParentHeader))if(e[0]&&e[0].headers)o(e[0].headers,n)&&(this.dt=n);else{var s={};for(var a in r)s[a]=r[a];s.headers=new Headers(r.headers||{}),o(s.headers,n)&&(this.dt=n),e.length>1?e[1]=s:e.push(s)}}function o(e,t){var r=!1;return t.newrelicHeader&&(e.set("newrelic",t.newrelicHeader),r=!0),t.traceContextParentHeader&&(e.set("traceparent",t.traceContextParentHeader),t.traceContextStateHeader&&e.set("tracestate",t.traceContextStateHeader),r=!0),r}}function R(e,t){this.params={},this.metrics={},this.startTime=(0,O.t)(),this.dt=t;let[r,n={}]=e;Ye(this,qe(r));const i=(""+(r&&r instanceof Xe&&r.method||n.method||"GET")).toUpperCase();this.params.method=i,this.txSize=ke(n.body||r?.body)||0;try{var a=n.headers||r?.headers;if(s&&a)if(this.requestHeaders??={},a instanceof Headers)a.forEach(function(e,t){this.requestHeaders[t.toLowerCase()]=e}.bind(this));else if("object"==typeof a)for(var o in a)this.requestHeaders[o.toLowerCase()]=a[o]}catch(e){}this.requestBody=n.body||r?.body}function T(e,t){if(this.endTime=(0,O.t)(),this.params||(this.params={}),(0,Ge.iW)(this.params))return;this.params.status=t?t.status:0;const n=()=>{const e=+this.rxSize,t=null==this.rxSize||isNaN(e)?void 0:e,r={txSize:this.txSize,rxSize:t,duration:this.endTime-this.startTime},n=[this.params,r,this.startTime,this.endTime,"fetch"];this.targets.forEach(e=>S(n,this,e))};t&&s?t.clone().text().then(e=>{this.responseBody=e,this.rxSize&&"0"!==this.rxSize&&0!==this.rxSize||void 0===e||0===this.params.status||(this.rxSize=ke(e)),t?.headers&&(this.responseHeaders={},t.headers.forEach(function(e,t){this.responseHeaders[t.toLowerCase()]=e}.bind(this)))}).catch(e=>{r.emit(et,[e])}).finally(()=>{n()}):n()}function A(e){const t=this.params,n=this.metrics;if(this.ended)return;this.ended=!0;for(let t=0;t<$e;t++)e.removeEventListener(Ze[t],this.listener,!1);if(t.aborted)return;if((0,Ge.iW)(t))return;if(n.duration=this.endTime-this.startTime,this.loadCaptureCalled||4!==e.readyState?null==t.status&&(t.status=0):_(this,e),n.cbTime=this.cbTime,s){try{this.responseBody=e.responseText}catch(t){this.responseBody=e.response}if((!n.rxSize||0===n.rxSize)&&void 0!==this.responseBody&&0!==t.status){const e=ke(this.responseBody);void 0!==e&&(n.rxSize=e)}try{this.responseHeaders=function(e){const t={};return e?(e.split("\r\n").forEach(function(e){const r=e.indexOf(": ");if(r>0){const n=e.substring(0,r),i=e.substring(r+2);t[n.toLowerCase()]=i}}),t):t}(e.getAllResponseHeaders())}catch(e){r.emit(et,[e])}}const i=[t,n,this.startTime,this.endTime,"xhr"];this.targets.forEach(e=>S(i,this,e))}function S(e,r,i){n("xhr",[...e,i],r,t.K7.ajax)}function _(e,n){e.params.status=n.status;var i=function(e,t){var r=e.responseType;return"json"===r&&null!==t?t:"arraybuffer"===r||"blob"===r||"json"===r?ke(e.response):"text"===r||""===r||void 0===r?ke(e.responseText):void 0}(n,e.lastSize);if(void 0!==i&&0!==n.status&&(e.metrics.rxSize=i),e.sameOrigin&&n.getAllResponseHeaders().indexOf(Qe)>=0){var s=n.getResponseHeader(Qe);s&&((0,x.p)("sm",["Ajax/CrossApplicationTracing/Header/Seen"],void 0,t.K7.metrics,r),e.params.cat=s.split(", ").pop())}e.loadCaptureCalled=!0}r.on("new-xhr",a),r.on("open-xhr-start",o),r.on("open-xhr-end",d),r.on("send-xhr-start",l),r.on("setRequestHeader-xhr-start",u),r.on("xhr-cb-time",f),r.on("xhr-load-added",h),r.on("xhr-load-removed",p),r.on("xhr-resolved",m),r.on("addEventListener-end",v),r.on("removeEventListener-end",y),r.on("fn-end",E),r.on("fetch-before-start",w),r.on("fetch-start",R),r.on("fn-start",b),r.on("fetch-done",T)}(e,this.ee,this.handler,this.dt),this.importAggregator(e,()=>r.e(891).then(r.bind(r,3845)))}}const rt={},nt=["pushState","replaceState"];function it(e,t){const r=function(e){return(e||R.ee).get("history")}(e);return!g.RI||rt[r.debugId]++||(rt[r.debugId]=1,(0,Pe.YM)(r,void 0,t).inPlace(window.history,nt,"-")),r}var st=r(3738);function at(e){(0,L.Y)(k.BL,function(r=Date.now()){const n=r-g.WN;n<0&&(0,l.R)(62,r),(0,x.p)(q.XG,[k.BL,{time:n}],void 0,t.K7.metrics,e.ee),e.addToTrace({name:k.BL,start:r,origin:"nr"}),(0,x.p)("api-"+k.hG,[n,k.BL],void 0,t.K7.genericEvents,e.ee)},e)}const{He:ot,bD:ct,d3:dt,Kp:ut,TZ:lt,Lc:ft,uP:ht,Rz:pt}=st;class gt extends W{static featureName=lt;constructor(e){var n;super(e,lt),n=e,(0,L.Y)(k.U2,function(e){if(!(e&&"object"==typeof e&&e.name&&e.start))return;const r={n:e.name,s:e.start-g.WN,e:(e.end||e.start)-g.WN,o:e.origin||"",t:"api"};r.s<0||r.e<0||r.e<r.s?(0,l.R)(61,{start:r.s,end:r.e}):(0,x.p)("bstApi",[r],void 0,t.K7.sessionTrace,n.ee)},n),at(e);if(!(0,C.V)(e.init))return void this.deregisterDrain();const i=this.ee;let s;it(i,e),this.eventsEE=(0,Le.u)(i,e),this.eventsEE.on(ht,function(e,t){this.bstStart=(0,O.t)()}),this.eventsEE.on(ft,function(e,r){(0,x.p)("bst",[e[0],r,this.bstStart,(0,O.t)()],void 0,t.K7.sessionTrace,i)}),i.on(pt+dt,function(e){this.time=(0,O.t)(),this.startPath=location.pathname+location.hash}),i.on(pt+ut,function(e){(0,x.p)("bstHist",[location.pathname+location.hash,this.startPath,this.time],void 0,t.K7.sessionTrace,i)});try{s=new PerformanceObserver(e=>{const r=e.getEntries();(0,x.p)(ot,[r],void 0,t.K7.sessionTrace,i)}),s.observe({type:ct,buffered:!0})}catch(e){}this.importAggregator(e,()=>r.e(891).then(r.bind(r,6974)),{resourceObserver:s})}}var mt=r(733),vt=r(6344);class yt extends W{static featureName=vt.TZ;#i;recorder;constructor(e){var n;let i;super(e,vt.TZ),n=e,(0,L.Y)(k.CH,function(){(0,x.p)(k.CH,[],void 0,t.K7.sessionReplay,n.ee)},n),function(e){(0,L.Y)(k.Tb,function(){(0,x.p)(k.Tb,[],void 0,t.K7.sessionReplay,e.ee)},e)}(e);const s="".concat(u.Wt).concat((0,mt.Y)(e.info.licenseKey,e.info.applicationID));try{i=JSON.parse(localStorage.getItem(s))}catch(e){}(0,M.SR)(e.init)&&this.ee.on(k.CH,()=>this.#s()),this.#a(i)&&this.importRecorder().then(e=>{e.startRecording(vt.Qb.PRELOAD,i?.sessionReplayMode)}),this.abortHandler=this.#n,this.importAggregator(this.agentRef,()=>r.e(891).then(r.bind(r,6167)),this),this.ee.on("err",e=>{this.blocked||this.agentRef.runtime.isRecording&&(this.errorNoticed=!0,(0,x.p)(vt.Vh,[e],void 0,this.featureName,this.ee))})}#a(e){return e&&(e.sessionReplayMode===u.g.FULL||e.sessionReplayMode===u.g.ERROR)||(0,M.Aw)(this.agentRef.init)}importRecorder(){return this.recorder?Promise.resolve(this.recorder):(this.#i??=Promise.all([r.e(891),r.e(222)]).then(r.bind(r,4866)).then(({Recorder:e})=>(this.recorder=new e(this),this.recorder)).catch(e=>{throw this.ee.emit("internal-error",[e]),this.blocked=!0,e}),this.#i)}#s(){this.blocked||(this.featAggregate?this.featAggregate.mode!==u.g.FULL&&this.featAggregate.initializeRecording(u.g.FULL,!0,vt.Qb.API):this.importRecorder().then(()=>{this.recorder.startRecording(vt.Qb.API,u.g.FULL)}))}#n(){this.recorder?.stopRecording()}}var bt=r(981);const Et={},wt=new Set;function Rt(e){return"string"==typeof e?{type:"string",size:(new TextEncoder).encode(e).length}:e instanceof ArrayBuffer?{type:"ArrayBuffer",size:e.byteLength}:e instanceof Blob?{type:"Blob",size:e.size}:e instanceof DataView?{type:"DataView",size:e.byteLength}:ArrayBuffer.isView(e)?{type:"TypedArray",size:e.byteLength}:{type:"unknown",size:0}}class Tt{constructor(e,t){this.timestamp=(0,O.t)(),this.currentUrl=(0,be.L)(window.location.href),this.socketId=(0,ye.LA)(8),this.requestedUrl=(0,be.L)(e),this.requestedProtocols=Array.isArray(t)?t.join(","):t||"",this.openedAt=void 0,this.protocol=void 0,this.extensions=void 0,this.binaryType=void 0,this.messageOrigin=void 0,this.messageCount=0,this.messageBytes=0,this.messageBytesMin=0,this.messageBytesMax=0,this.messageTypes=void 0,this.sendCount=0,this.sendBytes=0,this.sendBytesMin=0,this.sendBytesMax=0,this.sendTypes=void 0,this.closedAt=void 0,this.closeCode=void 0,this.closeReason="unknown",this.closeWasClean=void 0,this.connectedDuration=0,this.hasErrors=void 0}}class At extends W{static featureName=o.TZ;constructor(e){super(e,o.TZ);const n=e.init.feature_flags.includes("websockets")||e.init.web_sockets?.enabled,s=!e.init.feature_flags.includes("no_spv"),a=[e.init.page_action.enabled,e.init.performance.capture_marks,e.init.performance.capture_measures,e.init.performance.resources.enabled,e.init.user_actions.enabled,n,s];var c;let d;if(c=e,(0,L.Y)(k.hG,(e,t)=>ce(e,t,c),c),function(e){(0,L.Y)(k.fF,(t,r)=>ue(t,r,e),e)}(e),at(e),Te(e),function(e){(0,L.Y)(k.V1,(t,r)=>de(t,r,e),e)}(e),this.removeOnAbort=new AbortController,this.abortHandler=()=>{this.removeOnAbort.abort(),this.abortHandler=void 0},n){const u=function(e,t){if(!(0,i.dV)().o.WS)return e;const r=e.get("websockets");if(Et[r.debugId]++)return r;Et[r.debugId]=1,(0,V.G)(()=>{const e=(0,O.t)();wt.forEach(t=>{t.nrData.closedAt=e,t.nrData.closeCode=1001,t.nrData.closeReason="Page navigating away",t.nrData.closeWasClean=!1,t.nrData.openedAt&&(t.nrData.connectedDuration=e-t.nrData.openedAt),r.emit("ws",[t.nrData,t.targets],t)})});class n extends WebSocket{static name=bt.R.WS;static toString(){return"function WebSocket() { [native code] }"}toString(){return"[object WebSocket]"}get[Symbol.toStringTag](){return n.name}#o(e){(e.__newrelic??={}).socketId=this.nrData.socketId,this.nrData.hasErrors??=!0}constructor(...e){super(...e),this.nrData=new Tt(e[0],e[1]),this.targets=(0,Ne.$5)(t),this.addEventListener("open",()=>{this.nrData.openedAt=(0,O.t)(),["protocol","extensions","binaryType"].forEach(e=>{this.nrData[e]=this[e]}),wt.add(this)}),this.addEventListener("message",e=>{const{type:t,size:r}=Rt(e.data);this.nrData.messageOrigin??=(0,be.L)(e.origin),this.nrData.messageCount++,this.nrData.messageBytes+=r,this.nrData.messageBytesMin=Math.min(this.nrData.messageBytesMin||1/0,r),this.nrData.messageBytesMax=Math.max(this.nrData.messageBytesMax,r),(this.nrData.messageTypes??"").includes(t)||(this.nrData.messageTypes=this.nrData.messageTypes?"".concat(this.nrData.messageTypes,",").concat(t):t)}),this.addEventListener("close",e=>{this.nrData.closedAt=(0,O.t)(),this.nrData.closeCode=e.code,e.reason&&(this.nrData.closeReason=e.reason),this.nrData.closeWasClean=e.wasClean,this.nrData.connectedDuration=this.nrData.closedAt-this.nrData.openedAt,wt.delete(this),r.emit("ws",[this.nrData,this.targets],this)})}addEventListener(e,t,...r){const n=this,i="function"==typeof t?function(...e){try{return t.apply(this,e)}catch(e){throw n.#o(e),e}}:t?.handleEvent?{handleEvent:function(...e){try{return t.handleEvent.apply(t,e)}catch(e){throw n.#o(e),e}}}:t;return super.addEventListener(e,i,...r)}send(e){if(this.readyState===WebSocket.OPEN){const{type:t,size:r}=Rt(e);this.nrData.sendCount++,this.nrData.sendBytes+=r,this.nrData.sendBytesMin=Math.min(this.nrData.sendBytesMin||1/0,r),this.nrData.sendBytesMax=Math.max(this.nrData.sendBytesMax,r),(this.nrData.sendTypes??"").includes(t)||(this.nrData.sendTypes=this.nrData.sendTypes?"".concat(this.nrData.sendTypes,",").concat(t):t)}try{return super.send(e)}catch(e){throw this.#o(e),e}}close(...e){try{super.close(...e)}catch(e){throw this.#o(e),e}}}return g.gm.WebSocket=n,r}(this.ee,e);u.on("ws",(e,t)=>{(0,x.p)("ws-complete",[e,t],void 0,this.featureName,this.ee)})}if(s&&g.gm.addEventListener("securitypolicyviolation",e=>{(0,x.p)("spv",[e],void 0,t.K7.genericEvents,this.ee)},(0,X.jT)(!1,this.removeOnAbort.signal)),g.RI){if(Ue(this.ee,e),Ce(this.ee,e),d=it(this.ee,e),e.init.user_actions.enabled){function l(t){const r=(0,Ve.D)(t);return e.beacons.includes(r.hostname+":"+r.port)}function f(){d.emit("navChange")}o.Zp.forEach(e=>(0,X.sp)(e,e=>(0,x.p)("ua",[e],void 0,this.featureName,this.ee),!0)),o.qN.forEach(e=>{const t=(0,I.s)(e=>{(0,x.p)("ua",[e],void 0,this.featureName,this.ee)},500,{leading:!0});(0,X.sp)(e,t)}),g.gm.addEventListener("error",()=>{(0,x.p)("uaErr",[],void 0,t.K7.genericEvents,this.ee)},(0,X.jT)(!1,this.removeOnAbort.signal)),this.ee.on("open-xhr-start",(e,r)=>{l(e[1])||r.addEventListener("readystatechange",()=>{2===r.readyState&&(0,x.p)("uaXhr",[],void 0,t.K7.genericEvents,this.ee)},(0,X.jT)(void 0,this.removeOnAbort.signal))}),this.ee.on("fetch-start",e=>{e.length>=1&&!l(qe(e[0]))&&(0,x.p)("uaXhr",[],void 0,t.K7.genericEvents,this.ee)}),d.on("pushState-end",f),d.on("replaceState-end",f),window.addEventListener("hashchange",f,(0,X.jT)(!0,this.removeOnAbort.signal)),window.addEventListener("popstate",f,(0,X.jT)(!0,this.removeOnAbort.signal))}if(e.init.performance.resources.enabled&&g.gm.PerformanceObserver?.supportedEntryTypes.includes("resource")){new PerformanceObserver(e=>{e.getEntries().forEach(e=>{(0,x.p)("browserPerformance.resource",[e],void 0,this.featureName,this.ee)})}).observe({type:"resource",buffered:!0})}}a.some(e=>e)?this.importAggregator(e,()=>r.e(891).then(r.bind(r,8019))):this.deregisterDrain()}}var xt=r(2646);const St=new Map;function _t(e,t,r,n,i=!0,s){if("object"!=typeof t||!t||"string"!=typeof r||!r||"function"!=typeof t[r])return(0,l.R)(29);const a=function(e){return(e||R.ee).get("logger")}(e),o=(0,Pe.YM)(a,void 0,s),c=new xt.y(R.P);c.level=n.level,c.customAttributes=n.customAttributes,c.autoCaptured=i;const d=t[r]?.[Pe.Jt]||t[r];return St.set(d,c),o.inPlace(t,[r],"wrap-logger-",()=>St.get(d),void 0,!0),a}var Ot=r(1910);class kt extends W{static featureName=se.TZ;constructor(e){var t;super(e,se.TZ),t=e,(0,L.Y)("log",(e,r)=>oe(e,r,t),t),function(e){(0,L.Y)(k.Wb,(t,r,{customAttributes:n={},level:i=se.p_.INFO}={})=>{_t(e.ee,t,r,{customAttributes:n,level:i},!1,e)},e)}(e),Te(e);const n=this.ee;["log","error","warn","info","debug","trace"].forEach(t=>{(0,Ot.i)(g.gm.console[t]),_t(n,g.gm.console,t,{level:"log"===t?"info":t},void 0,e)}),this.ee.on("wrap-logger-end",function([t],r,i,s=[e.runtime.v2Target]){const{level:a,customAttributes:o,autoCaptured:c}=this;s.forEach(e=>{(0,ae.R)(n,t,o,a,c,e)})}),this.importAggregator(e,()=>r.e(891).then(r.bind(r,5288)))}}new U({features:[F,G,gt,yt,tt,Y,xe,At,kt],loaderType:"pro"})})()})();</script>
+<meta content="https://www.getonbrd.com/empleos/programacion/senior-backend-engineer-node-js-typescript-aws-bc-tecnologia-remote" property="og:url">
+<meta content="website" property="og:type">
+<meta content="Senior Back-end Engineer (Node.js / TypeScript / AWS) en BC Tecnología - Remoto (teletrabajo)" property="og:title">
+<meta content="Get on Board" property="og:site_name">
+<meta content="Trabajo remoto Full time: Experiencia senior en Node.js, TypeScript y NestJS.Experiencia diseñando y construyendo soluciones es" name="description" property="og:description">
+<meta content="https://www.getonbrd.com/og_previews/job/senior-backend-engineer-node-js-typescript-aws-bc-tecnologia-remote.jpg" name="image" property="og:image">
+<meta content="1200" property="og:image:width">
+<meta content="630" property="og:image:height">
+<meta content="https://www.getonbrd.com/og_previews/job/senior-backend-engineer-node-js-typescript-aws-bc-tecnologia-remote.jpg" itemprop="image">
+<meta content="summary_large_image" name="twitter:card">
+<meta content="@getonbrd" name="twitter:site">
+<meta content="Senior Back-end Engineer (Node.js / TypeScript / AWS) en BC Tecnología - Remoto (teletrabajo)" name="twitter:title">
+<meta content="Trabajo remoto Full time: Experiencia senior en Node.js, TypeScript y NestJS.Experiencia diseñando y construyendo soluciones es" name="twitter:description">
+<meta content="https://www.getonbrd.com/og_previews/job/senior-backend-engineer-node-js-typescript-aws-bc-tecnologia-remote.jpg" name="twitter:image">
+<meta content="https://www.getonbrd.com/og_previews/job/senior-backend-engineer-node-js-typescript-aws-bc-tecnologia-remote.jpg" name="twitter:image:src">
+<link href="https://d2dgum4gsvdsrq.cloudfront.net/assets/icon192-64920e83a21d9477c8d163577f6cd2f6691c9bcd0499e37325dcb1246709e3e8.png" rel="icon" sizes="192x192">
+<meta content="#005267" name="theme-color">
+
+<meta content="https://d2dgum4gsvdsrq.cloudfront.net/assets/favicons/favicon-445f577d3363bc7e7201330b517676b367b2999f658f1a0544e7a66a52ae58a9.png" id="favicon-normal">
+<meta content="https://d2dgum4gsvdsrq.cloudfront.net/assets/favicons/favicon-notification-59d5b91481cd69b4cba9d0d02050925b0d1495d404d80cde115b15a50e8cb0bb.png" id="favicon-notification">
+<link href="https://d2dgum4gsvdsrq.cloudfront.net/assets/favicons/favicon-445f577d3363bc7e7201330b517676b367b2999f658f1a0544e7a66a52ae58a9.png" rel="shortcut icon">
+<link href="https://d2dgum4gsvdsrq.cloudfront.net/assets/icon152-a69f309a6db7112b2a416c885a9959a22c1fab81e700d49df6adc7062bbad18c.png" rel="apple-touch-icon-precomposed">
+
+<meta content="1bhpo069adwtbo7k7ah9nbkxp70zl8" name="facebook-domain-verification">
+<link color="#0093d3" href="https://d2dgum4gsvdsrq.cloudfront.net/assets/logos/getonbrd-isotipo-9d53a18d4cfa6dd2069835574b0ad05ec69791fce057c1aa4c2cf940726a0d9f.svg" rel="mask-icon">
+
+<link href="https://www.getonbrd.com/empleos/programacion/senior-backend-engineer-node-js-typescript-aws-bc-tecnologia-remote" itemprop="url" rel="canonical">
+
+<link rel="stylesheet" href="https://d2dgum4gsvdsrq.cloudfront.net/assets/application-55555818852f53cc4181f4412da19a8379395a568330c603ff0451f43e97647b.css" media="all" data-turbo-track="reload" />
+<link rel="stylesheet" href="https://d2dgum4gsvdsrq.cloudfront.net/assets/white_theme-49d10abd53a198d5b56829a766c8470a79bcd71fa15127e82dd877cc7d16c568.css" media="all" id="stylesheet-theme" data-turbo-track="reload" />
+<script>
+  (function() {
+    try {
+      var paramPreference = null;
+      if (window.URLSearchParams) {
+        var params = new URLSearchParams(window.location.search);
+        if (params.has('dark_mode')) paramPreference = params.get('dark_mode');
+      } else {
+        var paramMatch = window.location.search.match(/(?:^|[?&])dark_mode=([^&]+)/);
+        if (paramMatch) paramPreference = decodeURIComponent(paramMatch[1].replace(/\+/g, ' '));
+      }
+  
+      var cookieMatch = document.cookie.match(/(?:^|; )dark_mode=([^;]+)/);
+      var cookiePreference = cookieMatch ? decodeURIComponent(cookieMatch[1]) : null;
+      var preference = paramPreference || cookiePreference;
+  
+      if (preference === 'true') preference = 'dark';
+      if (preference === 'false') preference = 'light';
+      if (preference !== 'dark' && preference !== 'light' && preference !== 'system') {
+        preference = 'system';
+      }
+  
+      var isDark = preference === 'dark';
+      if (preference === 'system') {
+        isDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      }
+  
+      var themeStylesheet = document.getElementById('stylesheet-theme');
+      if (themeStylesheet) {
+        themeStylesheet.setAttribute('href', isDark ? 'https://d2dgum4gsvdsrq.cloudfront.net/assets/dark_theme-85dae2b1d301edbaf2f29464618ff4f13a825050a4a2a7dc98d09611849239bc.css' : 'https://d2dgum4gsvdsrq.cloudfront.net/assets/white_theme-49d10abd53a198d5b56829a766c8470a79bcd71fa15127e82dd877cc7d16c568.css');
+      }
+  
+      if (isDark) {
+        document.documentElement.classList.add('dark-theme');
+      } else {
+        document.documentElement.classList.remove('dark-theme');
+      }
+    } catch (e) {
+      if (!true) {
+        console.error(e);
+      }
+    }
+  })();
+</script>
+
+<noscript id="gb-deferred-styles">
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+</noscript>
+
+<noscript data-controller="behaviors--i18n-settings" data-default-locale="en" data-locale="es"></noscript>
+<meta name="csrf-param" content="authenticity_token" />
+<meta name="csrf-token" content="4REcqj-XGyGYo-yA4wud7rVE_KMm7Vvhtcub8tr98hF6q2slJhlYmk0alKVLoY2Z4VFNSUWOEzoCGV_1dcV2gA" />
+<script>
+  (function() {
+    addEventListener('error', function(e) {
+      var t = e.target;
+      if (!t || t.tagName !== 'SCRIPT' || !t.src || t.src.indexOf('/vite/assets/') === -1) return;
+      try {
+        if (sessionStorage.getItem('viteAssetReloaded')) return;
+        sessionStorage.setItem('viteAssetReloaded', String(Date.now()));
+        location.reload();
+      } catch (_) {}
+    }, true);
+  })();
+</script>
+<script id="gob-runtime-config" type="application/json">
+{"assetHost":"https://d2dgum4gsvdsrq.cloudfront.net","baseUrl":"https://www.getonbrd.com","bugsnagApiKey":"abf1c4c53c6bcbe0a738d0a08277c612","environment":"production"}
+</script>
+
+
+
+<script src="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/globals-BrkrNwyU.js" crossorigin="" type="module"></script><link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/chunk-aaZP10Y1.js" as="script" crossorigin="">
+<link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/runtime_config-xUx9bvN7.js" as="script" crossorigin="">
+<link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/_getTag-DG2EXD0p.js" as="script" crossorigin="">
+<link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/_defineProperty-H0PzBQQO.js" as="script" crossorigin="">
+<link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/toString-CPPzjpQ9.js" as="script" crossorigin="">
+<link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/_baseIteratee-rbix8qVd.js" as="script" crossorigin="">
+<link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/_createCompounder-9OijxFBX.js" as="script" crossorigin="">
+<link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/_baseAssignValue-DRCL8y5H.js" as="script" crossorigin="">
+<link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/_assignValue-CCCey_vK.js" as="script" crossorigin="">
+<link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/_arrayIncludes-2VLN53VR.js" as="script" crossorigin="">
+<link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/_arrayIncludesWith-C67ebhCt.js" as="script" crossorigin="">
+<link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/toFinite-BXvBrrfn.js" as="script" crossorigin="">
+<link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/noop-MMiCVRVl.js" as="script" crossorigin="">
+<link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/range-CCGzOzi5.js" as="script" crossorigin="">
+<link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/_baseFlatten-5JS5cdZx.js" as="script" crossorigin="">
+<link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/_overRest-RuFo1gcv.js" as="script" crossorigin="">
+<link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/_baseRest-C-C-H3PH.js" as="script" crossorigin="">
+<link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/sortBy-Q2Kmmsx_.js" as="script" crossorigin="">
+<link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/_hasUnicode-GHFDW6qB.js" as="script" crossorigin="">
+<link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/_stringToArray-ohmuXvKB.js" as="script" crossorigin="">
+<link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/capitalize-D5jfiTV4.js" as="script" crossorigin="">
+<link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/isEqual-Dw1I54LP.js" as="script" crossorigin="">
+<link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/toInteger-DgDokRMZ.js" as="script" crossorigin="">
+<link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/uniq-0GsyB1fr.js" as="script" crossorigin="">
+<link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/runtime_globals-CyfplvHU.js" as="script" crossorigin="">
+<script src="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/es-D82kjGKu.js" crossorigin="" type="module"></script><link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/en-B0T2yzVB.js" as="script" crossorigin="">
+<link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/es-Bo3LnVDi.js" as="script" crossorigin="">
+<link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/chunk-aaZP10Y1.js" as="script" crossorigin="">
+<link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/runtime_config-xUx9bvN7.js" as="script" crossorigin="">
+<link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/_getTag-DG2EXD0p.js" as="script" crossorigin="">
+<link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/_defineProperty-H0PzBQQO.js" as="script" crossorigin="">
+<link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/toString-CPPzjpQ9.js" as="script" crossorigin="">
+<link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/_baseIteratee-rbix8qVd.js" as="script" crossorigin="">
+<link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/_createCompounder-9OijxFBX.js" as="script" crossorigin="">
+<link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/_baseAssignValue-DRCL8y5H.js" as="script" crossorigin="">
+<link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/_assignValue-CCCey_vK.js" as="script" crossorigin="">
+<link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/_arrayIncludes-2VLN53VR.js" as="script" crossorigin="">
+<link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/_arrayIncludesWith-C67ebhCt.js" as="script" crossorigin="">
+<link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/toFinite-BXvBrrfn.js" as="script" crossorigin="">
+<link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/noop-MMiCVRVl.js" as="script" crossorigin="">
+<link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/range-CCGzOzi5.js" as="script" crossorigin="">
+<link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/_baseFlatten-5JS5cdZx.js" as="script" crossorigin="">
+<link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/_overRest-RuFo1gcv.js" as="script" crossorigin="">
+<link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/_baseRest-C-C-H3PH.js" as="script" crossorigin="">
+<link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/sortBy-Q2Kmmsx_.js" as="script" crossorigin="">
+<link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/_hasUnicode-GHFDW6qB.js" as="script" crossorigin="">
+<link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/_stringToArray-ohmuXvKB.js" as="script" crossorigin="">
+<link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/capitalize-D5jfiTV4.js" as="script" crossorigin="">
+<link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/isEqual-Dw1I54LP.js" as="script" crossorigin="">
+<link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/toInteger-DgDokRMZ.js" as="script" crossorigin="">
+<link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/uniq-0GsyB1fr.js" as="script" crossorigin="">
+<link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/runtime_globals-CyfplvHU.js" as="script" crossorigin="">
+<script src="https://d2dgum4gsvdsrq.cloudfront.net/assets/application-a1786485836efeef194c495d5d1ae1f784a7e6ce140e1f6a6853a50b89406c29.js" defer="defer" data-turbo-track="reload"></script>
+<script src="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/application-7eB_Pidq.js" crossorigin="" type="module"></script><link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/chunk-aaZP10Y1.js" as="script" crossorigin="">
+<link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/preload-helper-D_2hIm_N.js" as="script" crossorigin="">
+<link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/custom_element_definition_guard-FY2ubIOV.js" as="script" crossorigin="">
+<link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/init_turbo-CoYhOhGu.js" as="script" crossorigin="">
+<link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/register_controllers-ypMeTlLB.js" as="script" crossorigin="">
+<link rel="modulepreload" href="https://d2dgum4gsvdsrq.cloudfront.net/vite/assets/stimulus-84EaoaBe.js" as="script" crossorigin="">
+
+
+
+
+
+<script type="text/javascript">
+  if(typeof ga === 'undefined') {
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'G-QT8F9LD9HL', {});
+  }
+    ga('require', 'linkid', 'linkid.js');
+    ga('send', 'pageview', window.location.pathname + window.location.search);
+</script>
+</head>
+<body class="dashboard perma jobs-show" data-controller="behaviors--initialize-page components--modal" data-placeholder-avatar="https://d2dgum4gsvdsrq.cloudfront.net/assets/avatar-dcd1795ffcfa6ab30fad7cd41b0f6b4286ecf488ebe5c464ba363aafd94c9f99.png">
+<!-- / Google Tag Manager (noscript) -->
+<noscript>
+<iframe height="0" src="https://www.googletagmanager.com/ns.html?id=GTM-KBFZH82" style="display:none;visibility:hidden" width="0"></iframe>
+</noscript>
+<!-- / End Google Tag Manager (noscript) -->
+
+<div>
+
+</div>
+
+<header class="gb-header gb-header--main" data-controller="behaviors--pride-logo">
+<div class="gb-header__container">
+<div class="gb-header__brand">
+<button class="header_sidebar-trigger hide-on-desktop js-toggle-sidenav cursor-pointer" type="button">
+<i class="icon icon-sidebar-left color-hierarchy1"></i>
+</button>
+<a href="/" class="gb-logo js-gb-logo" aria-label="Get on Board">
+  <span class="hide-on-small-mobile logo-pride absolute" style="display:none">
+    <img width="15" height="22" alt="Get on Board" src="https://d2dgum4gsvdsrq.cloudfront.net/assets/iso-getonbrd-pride-6cb858ae55de36861969ae7872482cca96c6ed4bf7e41867eb663deac8139391.png" />
+  </span>
+  <span class="hide-on-small-mobile logo-regular">
+    <svg viewBox="0 0 399 64" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <g id="gb-main-desktop-logo" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="logo-gob">
+          <g id="iso-gob">
+              <path d="M24.3857543,23.2130392 C30.4093379,16.5235478 41.357099,20.8671553 41.357099,29.9356672 L41.357099,54.0027662 C41.357099,59.4952577 36.9844403,63.9507577 31.5870461,63.9507577 L9.9157628,63.9507577 C1.4110256,63.9507577 -3.02858703,53.6580102 2.71424403,47.2801382 L24.3857543,23.2130392 Z M32.717773,29.9356672 C32.717773,28.8809727 31.4490529,28.3843788 30.7543208,29.1558242 L9.08303754,53.2229232 C8.41508703,53.9648635 8.93483106,55.1559625 9.9157628,55.1559625 L31.5870461,55.1559625 C32.210058,55.1559625 32.717773,54.6412116 32.717773,54.0027662 L32.717773,29.9356672 Z" fill="#00C4F5"></path>
+              <path d="M20.7459573,15.2023993 C14.1649539,15.2023993 8.7743686,20.6835427 8.7743686,27.5151126 C8.7743686,34.3464556 14.1649539,39.8278259 20.7459573,39.8278259 C27.3271877,39.8278259 32.717773,34.3464556 32.717773,27.5151126 C32.717773,20.6835427 27.3271877,15.2023993 20.7459573,15.2023993 Z M0.135042662,27.5151126 C0.135042662,15.8891877 9.33224232,6.4076041 20.7459573,6.4076041 C32.1598993,6.4076041 41.357099,15.8891877 41.357099,27.5151126 C41.357099,39.1410375 32.1598993,48.6226212 20.7459573,48.6226212 C9.33224232,48.6226212 0.135042662,39.1410375 0.135042662,27.5151126 Z" fill="#FF7777"></path>
+              <path d="M12.4865666,36.4277014 L6.64750341,42.9122457 C8.78639761,44.9680717 11.3547048,46.562256 14.2024027,47.5375137 L21.1510853,39.8207901 C21.0167235,39.8255563 20.8816809,39.8278259 20.7461843,39.8278259 C17.5525956,39.8278259 14.6395324,38.5370904 12.4865666,36.4277014 Z M32.5818225,29.3784744 C32.6714727,28.7711229 32.717773,28.1490188 32.717773,27.5151126 C32.717773,24.7010051 31.8031143,22.1159027 30.2672594,20.0487287 C35.4061433,19.369884 40.7645,22.997198 41.3114795,28.9313584 C40.8909181,35.4213498 37.6013242,41.1244625 32.717773,44.700029 L32.717773,29.9356672 C32.717773,29.7259539 32.6676143,29.5384829 32.5818225,29.3784744 Z" fill="#005267"></path>
+          </g>
+
+          <path d="M96.0516468,45.9070154 C96.0516468,51.8139403 94.5743481,56.2871433 91.6199778,59.3261706 C88.7075956,62.4080939 84.2545922,63.948942 78.2611945,63.948942 C75.5176724,63.948942 72.8163652,63.6280171 70.157273,62.9859403 C67.4981809,62.3865324 65.0501638,61.1881706 62.8132218,59.390401 L68.0680836,51.428785 C69.5453823,52.6700427 71.0857765,53.6546058 72.6897201,54.3822474 C74.3358788,55.1098891 76.1297901,55.4737099 78.071227,55.4737099 C80.9836092,55.4737099 83.1150137,54.7460683 84.4656672,53.290785 C85.8585358,51.8781706 86.5550836,50.0590666 86.5550836,47.8332457 L86.5550836,44.8155529 L86.4284386,44.8155529 C85.3308481,46.3137321 83.959314,47.3838601 82.3131553,48.0259369 C80.7092116,48.6251177 79.189698,48.9247082 77.7546143,48.9247082 C75.4754573,48.9247082 73.4073754,48.5395529 71.5501416,47.7690154 C69.6931348,46.9558089 68.0891911,45.8430119 66.7385375,44.4303976 C65.430099,42.9751143 64.4171655,41.2629096 63.6995102,39.2940102 C62.9820819,37.324884 62.6232543,35.1632935 62.6232543,32.8092389 C62.6232543,30.7545478 62.9398669,28.7427526 63.5728652,26.7738532 C64.2483055,24.804727 65.1768089,23.0711877 66.3586024,21.5732355 C67.5826109,20.0750563 69.0599096,18.8764676 70.7904983,17.9776962 C72.5208601,17.036029 74.4836314,16.5650819 76.6783584,16.5650819 C78.0290119,16.5650819 79.2530205,16.7148771 80.350384,17.0144676 C81.4899625,17.314058 82.5031229,17.6994403 83.3894113,18.1701604 C84.2756997,18.6411075 85.03557,19.176058 85.6685683,19.7754659 C86.3017935,20.3317509 86.8081468,20.8882628 87.1880819,21.4447747 L87.314727,21.4447747 L87.314727,17.3356195 L96.0516468,17.3356195 L96.0516468,45.9070154 Z M72.1200444,32.7450085 C72.1200444,33.7722406 72.309785,34.7568038 72.6897201,35.698471 C73.0696553,36.5972423 73.597116,37.4104488 74.2725563,38.1383174 C74.9899846,38.8230631 75.79207,39.3795751 76.6783584,39.8076263 C77.6068618,40.2356775 78.6200222,40.4497031 79.7173857,40.4497031 C80.7725341,40.4497031 81.7643601,40.2356775 82.6928635,39.8076263 C83.6215939,39.3795751 84.4234522,38.8230631 85.0988925,38.1383174 C85.8163208,37.4104488 86.365116,36.5972423 86.7448242,35.698471 C87.1247594,34.7568038 87.314727,33.7722406 87.314727,32.7450085 C87.314727,31.7175495 87.1247594,30.7545478 86.7448242,29.8557765 C86.365116,28.9138823 85.8163208,28.1006758 85.0988925,27.41593 C84.4234522,26.6882884 83.6215939,26.110442 82.6928635,25.6823908 C81.7643601,25.2543396 80.7725341,25.040314 79.7173857,25.040314 C78.6200222,25.040314 77.6068618,25.2543396 76.6783584,25.6823908 C75.79207,26.110442 74.9899846,26.6882884 74.2725563,27.41593 C73.597116,28.1006758 73.0696553,28.9138823 72.6897201,29.8557765 C72.309785,30.7545478 72.1200444,31.7175495 72.1200444,32.7450085 Z" fill=#2B353B fill-rule="nonzero"></path>
+          <path d="M131.498643,43.146244 C129.97913,45.1151433 128.0588,46.634884 125.737428,47.704785 C123.415829,48.774913 121.010027,49.3100904 118.519795,49.3100904 C116.156208,49.3100904 113.919266,48.9247082 111.808742,48.1543976 C109.74066,47.3838601 107.925642,46.2923976 106.36414,44.8797833 C104.844626,43.4245 103.641725,41.6909608 102.75521,39.6791655 C101.868922,37.6673703 101.425664,35.420215 101.425664,32.9374727 C101.425664,30.4549573 101.868922,28.207802 102.75521,26.1960068 C103.641725,24.1842116 104.844626,22.4720068 106.36414,21.0593925 C107.925642,19.6041092 109.74066,18.4913123 111.808742,17.7207747 C113.919266,16.9502372 116.156208,16.5650819 118.519795,16.5650819 C120.714522,16.5650819 122.698401,16.9502372 124.471205,17.7207747 C126.285997,18.4913123 127.80551,19.6041092 129.029519,21.0593925 C130.295742,22.4720068 131.266461,24.1842116 131.941901,26.1960068 C132.617114,28.207802 132.954834,30.4549573 132.954834,32.9374727 L132.954834,35.9551655 L110.922454,35.9551655 C111.302389,37.7958311 112.125355,39.2724488 113.391578,40.3854727 C114.657802,41.4556007 116.219531,41.9905512 118.076765,41.9905512 C119.638266,41.9905512 120.946705,41.6480648 122.001853,40.9633191 C123.099444,40.2356775 124.049055,39.3153447 124.850913,38.2023208 L131.498643,43.146244 Z M123.458044,29.4061638 C123.500259,27.7797509 122.972799,26.388471 121.875435,25.2327782 C120.777845,24.0770853 119.364096,23.4992389 117.633507,23.4992389 C116.578358,23.4992389 115.649628,23.6705956 114.84777,24.0128549 C114.045911,24.3553413 113.349363,24.804727 112.75858,25.3612389 C112.209785,25.8748549 111.766527,26.4955973 111.429034,27.2232389 C111.133529,27.9082116 110.964669,28.6358532 110.922454,29.4061638 L123.458044,29.4061638 Z" fill="#2B353B" fill-rule="nonzero"></path>
+          <path d="M158.419795,25.040314 L150.062811,25.040314 L150.062811,35.4415495 C150.062811,36.2976519 150.105026,37.0895239 150.189456,37.8171655 C150.273886,38.5021382 150.463853,39.1013191 150.759131,39.6149352 C151.054637,40.1285512 151.497894,40.5352679 152.088677,40.8348584 C152.721903,41.0917799 153.544869,41.2200137 154.557802,41.2200137 C155.064382,41.2200137 155.718715,41.1773447 156.520573,41.0917799 C157.364647,40.9633191 157.997872,40.7063976 158.419795,40.3212423 L158.419795,48.3468618 C157.364647,48.732244 156.267283,48.9889386 155.127705,49.1173993 C153.988126,49.2458601 152.869655,49.3100904 151.772292,49.3100904 C150.168348,49.3100904 148.691049,49.1387338 147.340396,48.7964744 C145.989742,48.4539881 144.807949,47.9188106 143.795015,47.1911689 C142.782082,46.4208584 141.979997,45.4362952 141.389213,44.2377065 C140.840418,43.0393447 140.56602,41.5838345 140.56602,39.8718567 L140.56602,25.040314 L134.488193,25.040314 L134.488193,17.3356195 L140.56602,17.3356195 L140.56602,8.08984983 L150.062811,8.08984983 L150.062811,17.3356195 L158.419795,17.3356195 L158.419795,25.040314 Z" fill="#2B353B" fill-rule="nonzero"></path>
+          <path d="M160.840123,32.9374727 C160.840123,30.4549573 161.283154,28.207802 162.169669,26.1960068 C163.055957,24.1842116 164.258858,22.4720068 165.778372,21.0593925 C167.340101,19.6041092 169.154892,18.4913123 171.223201,17.7207747 C173.333498,16.9502372 175.570667,16.5650819 177.934254,16.5650819 C180.297841,16.5650819 182.513676,16.9502372 184.581985,17.7207747 C186.692282,18.4913123 188.5073,19.6041092 190.026587,21.0593925 C191.588316,22.4720068 192.812324,24.1842116 193.69884,26.1960068 C194.585128,28.207802 195.028386,30.4549573 195.028386,32.9374727 C195.028386,35.420215 194.585128,37.6673703 193.69884,39.6791655 C192.812324,41.6909608 191.588316,43.4245 190.026587,44.8797833 C188.5073,46.2923976 186.692282,47.3838601 184.581985,48.1543976 C182.513676,48.9247082 180.297841,49.3100904 177.934254,49.3100904 C175.570667,49.3100904 173.333498,48.9247082 171.223201,48.1543976 C169.154892,47.3838601 167.340101,46.2923976 165.778372,44.8797833 C164.258858,43.4245 163.055957,41.6909608 162.169669,39.6791655 C161.283154,37.6673703 160.840123,35.420215 160.840123,32.9374727 Z M170.336913,32.9374727 C170.336913,35.2917543 170.991019,37.1964232 172.299457,38.6519334 C173.650111,40.1072167 175.528452,40.8348584 177.934254,40.8348584 C180.340056,40.8348584 182.197063,40.1072167 183.505502,38.6519334 C184.856155,37.1964232 185.531596,35.2917543 185.531596,32.9374727 C185.531596,30.5834181 184.856155,28.6785222 183.505502,27.2232389 C182.197063,25.7679556 180.340056,25.040314 177.934254,25.040314 C175.528452,25.040314 173.650111,25.7679556 172.299457,27.2232389 C170.991019,28.6785222 170.336913,30.5834181 170.336913,32.9374727 Z" fill="#2B353B" fill-rule="nonzero"></path>
+          <path d="M199.354744,17.3356195 L208.471826,17.3356195 L208.471826,21.5732355 L208.598925,21.5732355 C208.893976,20.9738276 209.316126,20.3746468 209.865375,19.7754659 C210.414625,19.176058 211.068276,18.6411075 211.828601,18.1701604 C212.588925,17.6994403 213.453652,17.314058 214.422782,17.0144676 C215.394181,16.7148771 216.449556,16.5650819 217.588908,16.5650819 C219.99471,16.5650819 221.937509,16.9502372 223.415034,17.7207747 C224.89029,18.4484164 226.031911,19.4756485 226.833089,20.802698 C227.677389,22.1295205 228.247065,23.69193 228.542116,25.4896997 C228.837167,27.2874693 228.984693,29.2350341 228.984693,31.3323942 L228.984693,48.5395529 L219.488584,48.5395529 L219.488584,33.2586246 C219.488584,32.3596263 219.445461,31.4395205 219.361485,30.4976263 C219.320631,29.5132901 219.129983,28.6142918 218.791809,27.8010853 C218.496758,26.9878788 218.011058,26.3244676 217.33698,25.8106246 C216.703754,25.2970085 215.775478,25.040314 214.549881,25.040314 C213.326553,25.040314 212.334727,25.2756741 211.574403,25.7466212 C210.814078,26.1744454 210.223976,26.7738532 209.801826,27.5441638 C209.422799,28.2720324 209.168601,29.1065734 209.041502,30.0482406 C208.916672,30.9899078 208.853123,31.974471 208.853123,33.0017031 L208.853123,48.5395529 L199.354744,48.5395529 L199.354744,17.3356195 Z" fill="#2B353B" fill-rule="nonzero"></path>
+          <path d="M235.330563,0 L244.826672,0 L244.826672,20.6742372 L244.953771,20.6742372 C246.05227,19.176058 247.443549,18.1274915 249.13215,17.5280836 C250.863874,16.8860068 252.720427,16.5650819 254.704078,16.5650819 C256.898805,16.5650819 258.862031,17.036029 260.591485,17.9776962 C262.323208,18.8764676 263.778038,20.0963908 264.960512,21.6372389 C266.18384,23.178314 267.112116,24.9547491 267.745341,26.9663174 C268.421689,28.9354437 268.759863,31.0114693 268.759863,33.1943942 C268.759863,35.5486758 268.401263,37.7102662 267.681792,39.6791655 C266.96459,41.6480648 265.931911,43.3602696 264.581485,44.8155529 C263.271911,46.2281672 261.689983,47.3409642 259.83116,48.1543976 C257.974608,48.9247082 255.90698,49.3100904 253.628276,49.3100904 C252.529778,49.3100904 251.497099,49.1602952 250.5257,48.8604778 C249.5543,48.5608874 248.646451,48.1757321 247.80215,47.704785 C247.000973,47.2340648 246.283771,46.7204488 245.650546,46.1639369 C245.060444,45.564756 244.574744,44.9869096 244.193447,44.4303976 L244.066348,44.4303976 L244.066348,48.5395529 L235.330563,48.5395529 L235.330563,0 Z M244.066348,32.9374727 C244.066348,35.2917543 244.72227,37.1964232 246.029573,38.6519334 C247.38,40.1072167 249.259249,40.8348584 251.665051,40.8348584 C254.070853,40.8348584 255.927406,40.1072167 257.23698,38.6519334 C258.587406,37.1964232 259.261485,35.2917543 259.261485,32.9374727 C259.261485,30.5834181 258.587406,28.6785222 257.23698,27.2232389 C255.927406,25.7679556 254.070853,25.040314 251.665051,25.040314 C249.259249,25.040314 247.38,25.7679556 246.029573,27.2232389 C244.72227,28.6785222 244.066348,30.5834181 244.066348,32.9374727 Z" fill="#2B353B" fill-rule="nonzero"></path>
+          <path d="M271.916911,32.9374727 C271.916911,30.4549573 272.359488,28.207802 273.246911,26.1960068 C274.132065,24.1842116 275.334966,22.4720068 276.855614,21.0593925 C278.417116,19.6041092 280.232816,18.4913123 282.300444,17.7207747 C284.411195,16.9502372 286.646775,16.5650819 289.011724,16.5650819 C291.374403,16.5650819 293.591826,16.9502372 295.659454,17.7207747 C297.770205,18.4913123 299.583635,19.6041092 301.104283,21.0593925 C302.665785,22.4720068 303.889113,24.1842116 304.776536,26.1960068 C305.661689,28.207802 306.104266,30.4549573 306.104266,32.9374727 C306.104266,35.420215 305.661689,37.6673703 304.776536,39.6791655 C303.889113,41.6909608 302.665785,43.4245 301.104283,44.8797833 C299.583635,46.2923976 297.770205,47.3838601 295.659454,48.1543976 C293.591826,48.9247082 291.374403,49.3100904 289.011724,49.3100904 C286.646775,49.3100904 284.411195,48.9247082 282.300444,48.1543976 C280.232816,47.3838601 278.417116,46.2923976 276.855614,44.8797833 C275.334966,43.4245 274.132065,41.6909608 273.246911,39.6791655 C272.359488,37.6673703 271.916911,35.420215 271.916911,32.9374727 Z M281.41302,32.9374727 C281.41302,35.2917543 282.068942,37.1964232 283.376246,38.6519334 C284.726672,40.1072167 286.605922,40.8348584 289.011724,40.8348584 C291.417526,40.8348584 293.274078,40.1072167 294.583652,38.6519334 C295.934078,37.1964232 296.608157,35.2917543 296.608157,32.9374727 C296.608157,30.5834181 295.934078,28.6785222 294.583652,27.2232389 C293.274078,25.7679556 291.417526,25.040314 289.011724,25.040314 C286.605922,25.040314 284.726672,25.7679556 283.376246,27.2232389 C282.068942,28.6785222 281.41302,30.5834181 281.41302,32.9374727 Z" fill="#2B353B" fill-rule="nonzero"></path>
+          <path d="M329.742406,44.6230887 L329.615307,44.6230887 C328.559932,46.2923976 327.145956,47.4907594 325.373379,48.218628 C323.643925,48.9462696 321.807799,49.3100904 319.865,49.3100904 C318.430597,49.3100904 317.037048,49.0960648 315.686621,48.6680137 C314.379317,48.2826314 313.21727,47.6834505 312.205017,46.870244 C311.192765,46.0570375 310.391587,45.0511399 309.799215,43.8525512 C309.209113,42.6539625 308.914061,41.2629096 308.914061,39.6791655 C308.914061,37.8813959 309.229539,36.3618823 309.862765,35.1206246 C310.539113,33.8791399 311.424266,32.8519078 312.522765,32.0387014 C313.662116,31.2254949 314.948993,30.6047526 316.383396,30.1767014 C317.820068,29.7057543 319.295324,29.3634949 320.815973,29.1494693 C322.377474,28.9354437 323.918549,28.8069829 325.436928,28.764087 C326.99843,28.7214181 328.435102,28.7000836 329.742406,28.7000836 C329.742406,26.9878788 329.129608,25.6394949 327.90628,24.6549317 C326.723805,23.6276997 325.309829,23.1140836 323.664352,23.1140836 C322.10285,23.1140836 320.668447,23.45657 319.358874,24.1413157 C318.092423,24.7833925 316.953072,25.6823908 315.940819,26.8380836 L310.875017,21.5732355 C312.647594,19.9036997 314.717491,18.662442 317.080171,17.8492355 C319.445119,16.9931331 321.891775,16.5650819 324.424676,16.5650819 C327.209505,16.5650819 329.490478,16.9289027 331.263055,17.6565444 C333.076485,18.3415171 334.513157,19.3687491 335.566263,20.7384676 C336.664761,22.108186 337.425085,23.7988294 337.847235,25.8106246 C338.269386,27.7797509 338.480461,30.069802 338.480461,32.6807782 L338.480461,48.5395529 L329.742406,48.5395529 L329.742406,44.6230887 Z M327.400154,34.8637031 C326.682952,34.8637031 325.775102,34.906599 324.678874,34.9921638 C323.623498,35.0348328 322.588549,35.2061894 321.576297,35.5057799 C320.604898,35.8053703 319.760597,36.254756 319.043396,36.8541638 C318.367048,37.4533447 318.031143,38.2881126 318.031143,39.3582406 C318.031143,40.5139334 318.514573,41.3698089 319.485973,41.9263208 C320.457372,42.4828328 321.469625,42.7610887 322.525,42.7610887 C323.453276,42.7610887 324.3407,42.632628 325.185,42.3757065 C326.070154,42.1190119 326.850904,41.7551911 327.527253,41.284244 C328.201331,40.8135239 328.730154,40.214116 329.109181,39.4864744 C329.531331,38.7588328 329.742406,37.9027304 329.742406,36.9183942 L329.742406,34.8637031 L327.400154,34.8637031 Z" fill="#2B353B" fill-rule="nonzero"></path>
+          <path d="M343.171775,17.3356195 L352.667884,17.3356195 L352.667884,22.3435461 L352.794983,22.3435461 C353.807235,20.4175427 355.010137,18.9835939 356.403686,18.0419266 C357.797235,17.0573635 359.547116,16.5650819 361.657867,16.5650819 C362.207116,16.5650819 362.756365,16.5864164 363.305614,16.6293123 C363.852594,16.6722082 364.36099,16.757773 364.823993,16.8860068 L364.823993,25.6823908 C364.149915,25.4683652 363.473567,25.31857 362.797218,25.2327782 C362.163993,25.1045444 361.489915,25.040314 360.772713,25.040314 C358.957014,25.040314 357.522611,25.2970085 356.467235,25.8106246 C355.41186,26.3244676 354.587986,27.0521092 353.997884,27.9937765 C353.448635,28.8925478 353.090034,29.9840102 352.922082,31.2681638 C352.75186,32.5523174 352.667884,33.9649317 352.667884,35.5057799 L352.667884,48.5395529 L343.171775,48.5395529 L343.171775,17.3356195 Z" fill=#2B353B fill-rule="nonzero"></path>
+          <path d="M398.863823,48.5395529 L390.125768,48.5395529 L390.125768,44.4303976 L390.000939,44.4303976 C389.619642,44.9869096 389.113515,45.564756 388.48029,46.1639369 C387.890188,46.7204488 387.172986,47.2340648 386.328686,47.704785 C385.525239,48.1757321 384.617389,48.5608874 383.605137,48.8604778 C382.633737,49.1602952 381.621485,49.3100904 380.566109,49.3100904 C378.287406,49.3100904 376.219778,48.9247082 374.360956,48.1543976 C372.504403,47.3409642 370.899778,46.2281672 369.549352,44.8155529 C368.242048,43.3602696 367.229795,41.6480648 366.510324,39.6791655 C365.793123,37.7102662 365.434522,35.5486758 365.434522,33.1943942 C365.434522,31.0114693 365.75227,28.9354437 366.385495,26.9663174 C367.059573,24.9547491 367.98785,23.178314 369.170324,21.6372389 C370.393652,20.0963908 371.871177,18.8764676 373.602901,17.9776962 C375.332355,17.036029 377.29558,16.5650819 379.490307,16.5650819 C381.473959,16.5650819 383.310085,16.8860068 384.998686,17.5280836 C386.72814,18.1274915 388.142116,19.176058 389.240614,20.6742372 L389.367713,20.6742372 L389.367713,0 L398.863823,0 L398.863823,48.5395529 Z M390.125768,32.9374727 C390.125768,30.5834181 389.451689,28.6785222 388.101263,27.2232389 C386.791689,25.7679556 384.935137,25.040314 382.529334,25.040314 C380.123532,25.040314 378.244283,25.7679556 376.893857,27.2232389 C375.586553,28.6785222 374.930631,30.5834181 374.930631,32.9374727 C374.930631,35.2917543 375.586553,37.1964232 376.893857,38.6519334 C378.244283,40.1072167 380.123532,40.8348584 382.529334,40.8348584 C384.935137,40.8348584 386.791689,40.1072167 388.101263,38.6519334 C389.451689,37.1964232 390.125768,35.2917543 390.125768,32.9374727 Z" fill=#2B353B fill-rule="nonzero"></path>
+        </g>
+      </g>
+    </svg>
+  </span>
+  <span class="show-on-small-mobile">
+    <svg class="js-gb-logo" viewBox="0 0 168 230" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <g id="gb-main-mobile-logo" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+    <g id="logo-gob-isotipo">
+      <path d="M98.746,67.3791 C123.149,40.7574 167.5,58.044 167.5,94.133 L167.5,189.911 C167.5,211.769 149.785,229.5 127.92,229.5 L40.1238,229.5 C5.6697,229.5 -12.316329,188.539 10.9497,163.158 L98.746,67.3791 Z M132.5,94.133 C132.5,89.936 127.361,87.959 124.546,91.029 L36.7502,186.808 C34.0443,189.76 36.1499,194.5 40.1238,194.5 L127.92,194.5 C130.443,194.5 132.5,192.452 132.5,189.911 L132.5,94.133 Z" fill="#00C4F5"></path>
+      <path d="M84,35.5 C57.3385,35.5 35.5,57.3133 35.5,84.5 C35.5,111.687 57.3385,133.5 84,133.5 C110.662,133.5 132.5,111.687 132.5,84.5 C132.5,57.3133 110.662,35.5 84,35.5 Z M0.5,84.5 C0.5,38.2328 37.7599,0.5 84,0.5 C130.24,0.5 167.5,38.2328 167.5,84.5 C167.5,130.767 130.24,168.5 84,168.5 C37.7599,168.5 0.5,130.767 0.5,84.5 Z" fill="#FF7777"></path>
+      <path d="M50.539,119.969 L26.8838,145.775 C35.5486,153.956 45.9535,160.301 57.4907,164.182 L85.641,133.472 C85.0963,133.491 84.5494,133.5 84.0004,133.5 C71.0629,133.5 59.261,128.364 50.539,119.969 Z M131.95,91.916 C132.312,89.499 132.5,87.023 132.5,84.5 C132.5,73.3007 128.795,63.0133 122.572,54.7869 C143.392,52.0848 165.099,66.5204 167.315,90.136 C165.611,115.964 152.284,138.66 132.5,152.89 L132.5,94.133 C132.5,93.299 132.297,92.552 131.95,91.916 Z" fill="#005267"></path>
+    </g>
+  </g>
+</svg>
+
+  </span>
+</a>
+
+</div>
+<div class="gb-header__content">
+
+<div class="gb-search">
+<div id="js-close-mobile-search-ico">
+<i class="icon icon-times"></i>
+</div>
+<form action="/" class="gb-search__form" data-controller="behaviors--search-form" data-domain="https://www.getonbrd.com" data-search-prefix="empleos" id="search_form" method="get">
+<input class="gb-search__input bg-hierarchy3" id="search_term" required="true" type="search" value="">
+</form>
+</div>
+
+</div>
+<div class="gb-header__actions flex gap-1">
+<nav class="gb-header__nav hide-on-mobile">
+<ul>
+<li>
+<a target="_blank" class="gb-header__nav-item" href="/help">Ayuda</a>
+</li>
+
+</ul>
+</nav>
+
+<div class="username">
+<div class="dropdown">
+<button class="bg-transparent cursor-pointer dropdown-toggle font-bold p-3 rounded" data-toggle="dropdown">
+<div class="gb-header-avatar" style="background-image: url(https://getonbrd-prod.s3.amazonaws.com/uploads/webpros/avatars/9828794e7e1c7b9ef76b276c07666ec7/1693627718964.jpg)"></div>
+
+<span class="hide-on-mobile v-align-text-bottom color-hierarchy1 ellipsis">
+<i class='icon icon-logo-linkedin linkedin-blue'></i>
+Jairo Camarillo
+</span>
+</button>
+<ul class="dropdown-menu dropdown-menu-right">
+<li>
+<a href="https://www.getonbrd.com/webpros/edit"><i class="icon icon-user"></i>
+Editar mi perfil
+</a></li>
+<li class="divider"></li>
+<li>
+<a href="https://www.getonbrd.com/webpros/logout"><i class="icon icon-exit red"></i>
+<strong class="red">Salir</strong>
+</a></li>
+</ul>
+</div>
+</div>
+
+
+<div class="NotificationCenter NotificationCenter--webpro" data-controller="behaviors--notification-center">
+<div class="NotificationIcon">
+<i class="NotificationDot icon icon-circle-full hidden"></i>
+<i class="icon icon-alarm"></i>
+</div>
+<div class="NotificationDropdown bg-dropdown panel rounded-md">
+<div class="NotificationHeader">
+Notificaciones
+</div>
+<div class="NotificationBody">
+<div class="px2 py-3 NotificationEmpty">No tienes notificaciones.</div>
+</div>
+</div>
+</div>
+
+<div class="dropdown dark-mode-switch" data-controller="behaviors--dark-mode-switch" data-stylesheet-dark-mode-path="https://d2dgum4gsvdsrq.cloudfront.net/assets/dark_theme-85dae2b1d301edbaf2f29464618ff4f13a825050a4a2a7dc98d09611849239bc.css" data-stylesheet-white-mode-path="https://d2dgum4gsvdsrq.cloudfront.net/assets/white_theme-49d10abd53a198d5b56829a766c8470a79bcd71fa15127e82dd877cc7d16c568.css" title="Tema">
+<button aria-label="Tema" class="dropdown-toggle dark-mode-label color-hierarchy1" data-toggle="dropdown" type="button">
+<i class="icon icon-moon" data-behaviors--dark-mode-switch-target="icon"></i>
+</button>
+<ul class="dropdown-menu dropdown-menu-right" role="menu">
+<li>
+<button class="flex justify-between items-center" data-action="click-&gt;behaviors--dark-mode-switch#select" data-behaviors--dark-mode-switch-target="option" data-preference="system" role="menuitemradio" type="button">
+Sistema
+<i class="icon icon-check hidden js-theme-check"></i>
+</button>
+</li>
+<li>
+<button class="flex justify-between items-center" data-action="click-&gt;behaviors--dark-mode-switch#select" data-behaviors--dark-mode-switch-target="option" data-preference="light" role="menuitemradio" type="button">
+Claro
+<i class="icon icon-check hidden js-theme-check"></i>
+</button>
+</li>
+<li>
+<button class="flex justify-between items-center" data-action="click-&gt;behaviors--dark-mode-switch#select" data-behaviors--dark-mode-switch-target="option" data-preference="dark" role="menuitemradio" type="button">
+Oscuro
+<i class="icon icon-check hidden js-theme-check"></i>
+</button>
+</li>
+</ul>
+</div>
+
+
+<div id="js-mobile-search-ico">
+<i class="icon icon-search"></i>
+</div>
+</div>
+</div>
+</header>
+
+<div id="wrapper">
+<div id="left-col-backdrop"></div>
+<div class="" id="left-col">
+<nav>
+<ul class="sidenav">
+<li>
+<a id="menu-webpros-jobs" class="sidenav-link" href="https://www.getonbrd.com/misempleos"><i class="icon icon-portfolio"></i>
+Empleos para ti
+</a></li>
+<li>
+<a id="menu-webpros-applications" class="sidenav-link" data-turbo="false" href="/applications?ref=sidebar_nav"><i class="icon icon-inbox"></i>
+Tus postulaciones
+</a></li>
+<li>
+<a class="sidenav-link" href="https://www.getonbrd.com/invitations"><i class="icon icon-envelope"></i>
+Invitaciones
+</a></li>
+<li>
+<a class="sidenav-link" href="https://www.getonbrd.com/webpros/edit"><i class="icon icon-user"></i>
+Editar mi perfil
+</a></li>
+<li>
+<a class="sidenav-link" href="https://www.getonbrd.com/resumes"><i class="icon icon-cv"></i>
+Tus CVs
+<span class="badge">
+Nuevo
+</span>
+</a></li>
+<li>
+<a class="sidenav-link" href="https://www.getonbrd.com/events"><i class="icon icon-calendar"></i>
+Eventos
+</a></li>
+<li>
+<a class="sidenav-link" href="https://www.getonbrd.com/webpros/following"><i class="icon icon-eye"></i>
+Siguiendo
+</a></li>
+<li>
+<a class="sidenav-link" data-turbo="false" href="https://www.getonbrd.com/quizzes"><i class="icon icon-lab"></i>
+Tests
+<i class="icon icon-circle-full unread-indicator"></i>
+</a></li>
+<li>
+<a class="sidenav-link" href="/perks-for-professionals"><i class="icon icon-hand-heart"></i>
+Perks
+</a></li>
+</ul>
+</nav>
+<ul class="gb-sidebottom">
+<li>
+<div class="dropup dropdown gb-langselect">
+<a aria-expanded="false" aria-haspopup="true" class="dropdown-toggle flex sidenav-link full-width" data-toggle="dropdown" type="button">
+<i class="icon icon-globe"></i>
+Español
+<i class="icon icon-caret-up ml-3"></i>
+</a>
+<ul class="dropdown-menu">
+<li>
+<a href="/empleos/programacion/senior-backend-engineer-node-js-typescript-aws-bc-tecnologia-remote?lang=es">Español</a>
+</li>
+<li>
+<a href="/empleos/programacion/senior-backend-engineer-node-js-typescript-aws-bc-tecnologia-remote?lang=en">English
+</a></li>
+</ul>
+</div>
+
+</li>
+<li>
+<a target="_blank" class="sidenav-link" href="/help"><i class="icon icon-info-circle"></i>
+Ayuda
+</a></li>
+</ul>
+
+</div>
+<div id="right-col" style="">
+<div data-controller="behaviors--flash" id="flash-container"></div>
+
+
+<div class="main-container">
+<span data-controller="behaviors--share-job behaviors--show-job" data-invitation="none" data-report-job-modal="false"></span>
+
+<div class="gb-company-theme-clean">
+<div class="gb-landing-cover gb-landing-cover--bg-texture bg-gradient-main">
+<div class="gb-container gb-container--medium gb-cover-layout">
+<div class="full-width">
+<div class="gb-breadcrumbs">
+<a href="/empleos/programacion"><i class="icon icon-arrow-left"></i>
+Más trabajos de Programación
+</a></div>
+<div class="my2 flex items-center" itemprop="hiringOrganization" itemscope itemtype="http://schema.org/Organization">
+<div class="mr-1">
+<div class="gb-company-logo">
+<a class="gb-company-logo__link" href="/companies/bctecnologia"><img alt="BC Tecnología" class="gb-company-logo__img" data-avatar="https://d2dgum4gsvdsrq.cloudfront.net/assets/avatar-dcd1795ffcfa6ab30fad7cd41b0f6b4286ecf488ebe5c464ba363aafd94c9f99.png" data-js-company-logo height="64" src="https://getonbrd-prod.s3.amazonaws.com/uploads/users/logo/9458/thumb_Copia_de_logo.png" width="64">
+<span class="hide" itemprop="logo">https://getonbrd-prod.s3.amazonaws.com/uploads/users/logo/9458/Copia_de_logo.png</span>
+</a></div>
+
+</div>
+<div>
+<h3 class="size1 m0">
+<a class="tooltipster" title="Somos una consultora de TI con personal experto en diferentes áreas de tecnología.
+&mdash;
+<a target=&quot;_blank&quot; rel=&quot;noopener&quot; href=&quot;https://www.getonbrd.com/companies/bctecnologia&quot;>Perfil completo de BC Tecnología
+</a>" href="https://www.getonbrd.com/companies/bctecnologia"><strong itemprop="name">BC Tecnología</strong>
+</a><span class="hide" itemprop="url">https://www.getonbrd.com/companies/bctecnologia</span>
+<span class="dot"></span>
+<span class="relative">
+<form class="inline-block" data-follow-company-form-slug="bctecnologia" data-disable-with="..." action="/companies/bctecnologia/follow_unfollow" accept-charset="UTF-8" data-remote="true" method="post"><input type="hidden" name="authenticity_token" value="app0hSwmHt--9WA8wSM9NkpAiSkViLc5ne-bMG15yB8tneUbTNMHWOLrGoF02VoAoUwfxeyuTK1CobuUEknsZg" /><button name="button" type="submit" class="gb-btn follow-btn follow-inline v-align-baseline size1 lh1 min-height-auto">Seguir
+</button></form>
+</span>
+</h3>
+<div class="color-hierarchy2">
+<time>
+13 de julio de 2026
+</time>
+</div>
+</div>
+</div>
+<div class="fake-hidden">
+<time datetime="2026-07-13T17:38:21+00:00" itemprop="datePosted"></time>
+</div>
+<h1 class="gb-landing-cover__title size5 mb1">
+<span itemprop="title">
+Senior Back-end Engineer (Node.js / TypeScript / AWS)
+</span>
+<span class="fake-hidden size-3">
+en
+BC Tecnología
+</span>
+</h1>
+<div class="m0">
+<span class="hide" itemprop="employmentType">FULL_TIME</span>
+<h2 class="size1 mb-3 font-normal lh3 mb-3">
+<span itemprop="jobLocation" itemscope itemtype="http://schema.org/Place">
+<span itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+<span class="location">
+<span class="tooltipster" title="El trabajo es 100% remoto desde cualquier país.">
+<i class="icon icon-wifi"></i>
+Remoto
+</span>
+</span>
+
+</span>
+</span>
+<span class="mx-3">|</span>
+<span itemprop="qualifications">
+Senior
+</span>
+<span class="mx-3">|</span>
+Full time
+<span class="mx-3">|</span>
+<a class="color-inherit" href="/empleos/programacion">Programación</a>
+
+</h2>
+</div>
+<div class="size0 mt1">
+
+<i class="icon mr-3 icon-fire"></i>
+504
+postulaciones
+<div>
+<i class="icon icon-clock mr-3"></i>
+Replies between 1 and 7 days
+</div>
+<span>
+<i class="icon icon-bolt-speed"></i>
+</span>
+Revisado por última vez hoy
+
+
+</div>
+<div class="mt1">
+
+
+<div class="flex flex-wrap items-center mt2">
+<div class="" id="apply_bottom_bg"></div>
+<a class="gb-btn size2 ellipsis mrb mt-2 three-quarter-width" id="apply_bottom" href="https://www.getonbrd.com/jobs/senior-backend-engineer-node-js-typescript-aws-bc-tecnologia-remote/applications/new">Postular
+</a>
+
+
+</div>
+</div>
+<div class="mt4 mb3 size1">
+<script>
+  window.gobCopyJobShareLink =
+    window.gobCopyJobShareLink ||
+    function(button) {
+      if (!button || button.dataset.clipboardReady === 'true') return true;
+  
+      // `data-behaviors--clipboard-*` is exposed with a dash in `dataset`.
+      var text = button.dataset['behaviors-ClipboardTextValue'];
+      if (!text) return true;
+  
+      var showMessage = function(type) {
+        var messageKey =
+          type === 'success'
+            ? 'behaviors-ClipboardSuccessMessageValue'
+            : 'behaviors-ClipboardUnsupportedMessageValue';
+        var method = type === 'success' ? 'success' : 'notify';
+        var message = button.dataset[messageKey];
+  
+        if (!message) return;
+  
+        if (
+          window.alertify &&
+          typeof window.alertify[method] === 'function'
+        ) {
+          window.alertify[method](message, 2);
+          return;
+        }
+  
+        if (type !== 'success') return;
+  
+        var label = button.querySelector('.gb-share-job__label');
+        if (!label) return;
+  
+        if (!button.dataset.copyLinkLabel) {
+          button.dataset.copyLinkLabel = label.textContent;
+        }
+  
+        label.textContent = message;
+  
+        if (button.gobCopyLabelTimer) {
+          window.clearTimeout(button.gobCopyLabelTimer);
+        }
+  
+        button.gobCopyLabelTimer = window.setTimeout(function() {
+          label.textContent = button.dataset.copyLinkLabel;
+        }, 2000);
+      };
+  
+      var selection = document.getSelection ? document.getSelection() : null;
+      var selectedRange = null;
+  
+      if (selection && selection.rangeCount > 0) {
+        try {
+          selectedRange = selection.getRangeAt(0);
+        } catch (error) {}
+      }
+  
+      var activeElement = document.activeElement;
+      var textArea = document.createElement('textarea');
+      var copied = false;
+  
+      textArea.value = text;
+      textArea.setAttribute('readonly', '');
+      textArea.style.position = 'fixed';
+      textArea.style.top = '0';
+      textArea.style.left = '0';
+      textArea.style.opacity = '0';
+  
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      textArea.setSelectionRange(0, textArea.value.length);
+  
+      try {
+        copied = document.execCommand('copy');
+      } catch (error) {
+        copied = false;
+      } finally {
+        document.body.removeChild(textArea);
+  
+        if (selectedRange && selection) {
+          try {
+            selection.removeAllRanges();
+            selection.addRange(selectedRange);
+          } catch (error) {}
+        }
+  
+        if (activeElement && activeElement.focus) {
+          try {
+            activeElement.focus();
+          } catch (error) {}
+        }
+      }
+  
+      if (copied) {
+        showMessage('success');
+        return false;
+      }
+  
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard
+          .writeText(text)
+          .then(function() {
+            showMessage('success');
+          })
+          .catch(function() {
+            showMessage('unsupported');
+          });
+  
+        return false;
+      }
+  
+      showMessage('unsupported');
+      return false;
+    };
+</script>
+<ul class="gb-share-job flex">
+<li class="mr2 font-bold">
+Compartir
+<i class="icon icon-arrow-right"></i>
+</li>
+<li class="gb-share-job__item">
+<button class="color-hierarchy1" data-action="behaviors--clipboard#copy behaviors--mixpanel#track" data-behaviors--clipboard-success-message-value="¡Enlace copiado!" data-behaviors--clipboard-text-value="https://www.getonbrd.com/empleos/programacion/senior-backend-engineer-node-js-typescript-aws-bc-tecnologia-remote" data-behaviors--clipboard-unsupported-message-value="Este navegador no soporta el copiado al portapapeles. Por favor intenta usando otro navegador." data-controller="behaviors--clipboard behaviors--mixpanel" data-mp-event="click_on" data-mp-properties="{&quot;Name&quot;:&quot;Share Job&quot;,&quot;Job&quot;:&quot;Senior Back-end Engineer (Node.js / TypeScript / AWS)&quot;,&quot;Location&quot;:&quot;header&quot;,&quot;Medium&quot;:&quot;copy_link&quot;}" onclick="return window.gobCopyJobShareLink(this);" title="Copiar enlace" type="button">
+<i class="icon icon-link"></i>
+<span class="gb-share-job__label">
+Copiar enlace
+</span>
+</button>
+</li>
+<li class="gb-share-job__item">
+<a class="color-hierarchy1" data-action="behaviors--mixpanel#track" data-controller="behaviors--mixpanel" data-mp-event="click_on" data-mp-properties="{&quot;Name&quot;:&quot;Share Job&quot;,&quot;Job&quot;:&quot;Senior Back-end Engineer (Node.js / TypeScript / AWS)&quot;,&quot;Location&quot;:&quot;header&quot;,&quot;Medium&quot;:&quot;email&quot;}" href="/cdn-cgi/l/email-protection#a59ad6d0c7cfc0c6d198f6c0cbcccad785e7c4c6ce88c0cbc185e0cbc2cccbc0c0d7858debcac1c08bcfd6858a85f1dcd5c0f6c6d7ccd5d1858a85e4f2f68c83c4c8d59ec7cac1dc98e8ccd7c485c0d6d1c085c0c8d5c9c0ca85d4d0c085c4d5c4d7c0c6cc661685c0cb85e2c0d185cacb85e7cac4d7c19f8585cdd1d1d5d69f8a8ad2d2d28bc2c0d1cacbc7d7c18bc6cac88ac0c8d5c9c0cad68ad5d7cac2d7c4c8c4c6cccacb8ad6c0cbcccad788c7c4c6cec0cbc188c0cbc2cccbc0c0d788cbcac1c088cfd688d1dcd5c0d6c6d7ccd5d188c4d2d688c7c688d1c0c6cbcac9cac2ccc488d7c0c8cad1c0" title="E-mail">
+<i class="icon icon-envelope"></i>
+<span class="gb-share-job__label">
+E-mail
+</span>
+</a>
+</li>
+<li class="gb-share-job__item">
+<a class="color-hierarchy1" data-action="behaviors--mixpanel#track" data-controller="behaviors--mixpanel" data-mp-event="click_on" data-mp-properties="{&quot;Name&quot;:&quot;Share Job&quot;,&quot;Job&quot;:&quot;Senior Back-end Engineer (Node.js / TypeScript / AWS)&quot;,&quot;Location&quot;:&quot;header&quot;,&quot;Medium&quot;:&quot;LinkedIn&quot;}" href="javascript:(function(){var%20d=document,l=d.location,f=&#39;http://www.linkedin.com/shareArticle?mini=true&amp;ro=false&amp;trk=bookmarklet&amp;title=&#39;+encodeURIComponent(d.title)+&#39;&amp;url=&#39;+encodeURIComponent(&#39;https://www.getonbrd.com/empleos/programacion/senior-backend-engineer-node-js-typescript-aws-bc-tecnologia-remote&#39;),a=function(){if(!window.open(f,&#39;News&#39;,&#39;width=520,height=570,toolbar=0,location=0,status=0,scrollbars=yes&#39;)){l.href=f;}};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0);}else{a();}})()" rel="nofollow noopener noreferrer external" title="LinkedIn">
+<i class="icon icon-logo-linkedin"></i>
+<span class="gb-share-job__label">
+LinkedIn
+</span>
+</a>
+</li>
+<li class="gb-share-job__item">
+<a class="color-hierarchy1" data-action="behaviors--mixpanel#track" data-controller="behaviors--mixpanel" data-mp-event="click_on" data-mp-properties="{&quot;Name&quot;:&quot;Share Job&quot;,&quot;Job&quot;:&quot;Senior Back-end Engineer (Node.js / TypeScript / AWS)&quot;,&quot;Location&quot;:&quot;header&quot;,&quot;Medium&quot;:&quot;Whatsapp&quot;}" href="whatsapp://send?text=Senior+Back-end+Engineer+%28Node.js+%2F+TypeScript+%2F+AWS%29+%7C+https%3A%2F%2Fwww.getonbrd.com%2Fempleos%2Fprogramacion%2Fsenior-backend-engineer-node-js-typescript-aws-bc-tecnologia-remote" rel="nofollow noopener noreferrer external" title="WhatsApp">
+<i class="icon icon-logo-whatsapp"></i>
+<span class="gb-share-job__label">
+WhatsApp
+</span>
+</a>
+</li>
+<li class="gb-share-job__item">
+<a class="color-hierarchy1" data-action="behaviors--mixpanel#track" data-controller="behaviors--mixpanel" data-mp-event="click_on" data-mp-properties="{&quot;Name&quot;:&quot;Share Job&quot;,&quot;Job&quot;:&quot;Senior Back-end Engineer (Node.js / TypeScript / AWS)&quot;,&quot;Location&quot;:&quot;header&quot;,&quot;Medium&quot;:&quot;Square screenshot&quot;}" href="https://www.getonbrd.com/og_previews/job/senior-backend-engineer-node-js-typescript-aws-bc-tecnologia-remote.jpg?variant=square" rel="nofollow noopener noreferrer external" target="_blank" title="Imagen en formato cuadrado de tu empleo para compartir en redes sociales">
+<i class="icon icon-camera"></i>
+<span class="gb-share-job__label">
+Imagen
+</span>
+</a>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+
+<div class="bg-hierarchy1">
+<div class="size1">
+<div id="job-body" itemprop="description">
+<div class="gb-landing-section pb0">
+<div class="gb-container gb-container--medium">
+<div class="mb4">
+<div class="gb-rich-txt v1b56c1c0">
+<div>En BC Tecnología buscamos un/a Senior Backend Engineer para un nuevo proyecto. Somos una consultora de TI que administra portafolios, desarrolla proyectos, realiza outsourcing y también selección de profesionales. Creamos equipos ágiles para distintas áreas: Infraestructura Tecnología, Desarrollo de Software y Unidades de Negocio, en clientes de servicios financieros, seguros, retail y gobierno. Desde hace 6 años diseñamos soluciones orientadas a las necesidades del cliente, con metodologías ágiles, foco en cambio organizacional y desarrollo de productos. En este rol, participarás en el diseño e implementación de backend para sistemas distribuidos, con prácticas orientadas a escalabilidad, resiliencia y alta disponibilidad.</div>
+<p class="q94bf1bec">Postula a este empleo a través de Get on Board.</p>
+</div>
+</div>
+<div class="mb4">
+<h3 class="font-black mb2">Oportunidad Laboral | Senior Backend Engineer (Node.js / TypeScript / AWS)</h3>
+<div class="gb-rich-txt dcd24dbd4">
+<div>En BC Tecnología buscamos un Senior Backend Engineer para un nuevo proyecto, trabajando en el diseño, construcción y evolución de servicios backend.</div><div>Tu foco será:</div><ul><li>Diseñar y construir soluciones escalables, resilientes y de alta disponibilidad, con arquitecturas distribuidas y enfoque en microservicios.</li><li>Implementar componentes serverless y sistemas orientados a eventos, asegurando comunicaciones asíncronas robustas.</li><li>Desarrollar APIs RESTful y garantizar prácticas sólidas de ingeniería.</li><li>Aplicar estrategias de reintentos, idempotencia, deduplicación de mensajes y manejo eficiente de errores.</li><li>Gestionar despliegues y operación con Docker y Kubernetes (optimización de imágenes, configuración de Pods y Services, y pruebas de salud).</li><li>Aplicar Clean Architecture, principios SOLID y patrones de diseño en cada entrega técnica.</li><li>Asumir ownership de las soluciones: participar activamente en decisiones arquitectónicas y mantener responsabilidad durante todo el ciclo de vida del software.</li></ul>
+</div>
+</div>
+<div class="mb4">
+<h3 class="font-black mb2">Requisitos excluyentes:</h3>
+<div class="gb-rich-txt v1b56c1c0">
+<ul><li>Experiencia senior en Node.js, TypeScript y NestJS.</li><li>Experiencia diseñando y construyendo soluciones escalables, resilientes y de alta disponibilidad.</li><li>Experiencia en arquitecturas distribuidas, microservicios, funciones serverless y sistemas orientados a eventos.</li><li>Experiencia con AWS: API Gateway, Lambda, S3, SNS y SQS.</li><li>Experiencia en diseño y desarrollo de APIs RESTful.</li><li>Experiencia implementando comunicaciones asíncronas.</li><li>Experiencia en estrategias de reintentos, idempotencia, deduplicación de mensajes y manejo eficiente de errores.</li><li>Experiencia con Docker y Kubernetes, incluyendo optimización de imágenes, despliegue de servicios, configuración de Pods y Services, y pruebas de salud.</li><li>Aplicación de Clean Architecture, principios SOLID y patrones de diseño.</li><li>Perfil altamente autodidacta, analítico y proactivo.</li><li>Capacidad para evaluar soluciones técnicas, incluyendo código generado mediante herramientas de inteligencia artificial, garantizando estándares de seguridad, eficiencia y calidad.</li><li>Ownership sobre las soluciones desarrolladas, participación activa en decisiones arquitectónicas y responsabilidad durante todo el ciclo de vida del software.</li></ul><div>También valoramos:</div><ul><li>Capacidad de trabajar con criterio técnico y autonomía, manteniendo calidad y seguridad en cada iteración.</li><li>Colaboración efectiva con el equipo, claridad al comunicar decisiones y enfoque en resultados.</li><li>Mentalidad de mejora continua: analizar, proponer, validar y ejecutar.</li></ul>
+</div>
+</div>
+<div class="mb4">
+<h3 class="font-black mb2">Deseables</h3>
+<div class="gb-rich-txt dcd24dbd4">
+<ul><li>Experiencia adicional con observabilidad (logs, métricas y trazas) para mejorar confiabilidad y operación de servicios.</li><li>Conocimiento en automatización de pipelines CI/CD y buenas prácticas de seguridad para servicios backend.</li><li>Experiencia en diseño de contratos y versionado de APIs para minimizar impacto en consumidores.</li><li>Habilidad para liderar revisiones técnicas (code reviews) y guiar adopción de estándares de arquitectura.</li></ul>
+</div>
+</div>
+<div class="mb4">
+<h3 class="font-black mb2">Beneficios</h3>
+<div class="gb-rich-txt o9f4266cd">
+<div>En BC Tecnología promovemos un ambiente de trabajo colaborativo que valora el compromiso y el aprendizaje constante. Nuestra cultura se orienta al crecimiento profesional a través de la integración y el intercambio de conocimientos entre equipos.</div><p>Participarás en proyectos innovadores con clientes de alto nivel y sectores diversos, en un entorno que fomenta la inclusión, el respeto y el desarrollo técnico y profesional.</p>
+</div>
+</div>
+<p class="a5d94e717">GETONBRD Job ID: 62404</p>
+<div class="mb4">
+<h3 class="font-black mb2"></h3>
+<div class="gb-fluid-boxes">
+<div class="pb gb-fluid-boxes__item gb-fluid-boxes__item--half">
+<div class="flex gap-4">
+<i class="size3 color-hierarchy2 icon perk-remote_full"></i>
+<div class="m0">
+<strong class="size1">
+Trabajo 100% remoto
+</strong>
+<span class="font-normal block mt-3 color-hierarchy2">El cargo puede ser desempeñado desde cualquier lugar del mundo.</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="my3">
+
+</div>
+<h2>Política de trabajo remoto</h2>
+<p>
+<strong class="size1">
+<i class="icon color-hierarchy2 icon-globe"></i>
+Totalmente remoto
+</strong>
+</p>
+<p class="size0 font-normal block mt-3 color-hierarchy2">
+El trabajo es 100% remoto desde cualquier país.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+
+<div class="js-hide-fixed-actions" data-controller="behaviors--apply-sign-in"></div>
+<div class="gb-container gb-container--medium" id="js-apply-section">
+<div class="my5 hide-on-mobile flex items-center">
+<div class="" id="apply_bottom_bg"></div>
+<a class="gb-btn size2 ellipsis mrb mt-2 three-quarter-width" id="apply_bottom" href="https://www.getonbrd.com/jobs/senior-backend-engineer-node-js-typescript-aws-bc-tecnologia-remote/applications/new">Postular
+</a>
+
+
+</div>
+<div class="flex flex-wrap gap-4 justify-between border-bottom border-box-color pb1 mb3">
+<div class="hide-on-mobile flex size1">
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  window.gobCopyJobShareLink =
+    window.gobCopyJobShareLink ||
+    function(button) {
+      if (!button || button.dataset.clipboardReady === 'true') return true;
+  
+      // `data-behaviors--clipboard-*` is exposed with a dash in `dataset`.
+      var text = button.dataset['behaviors-ClipboardTextValue'];
+      if (!text) return true;
+  
+      var showMessage = function(type) {
+        var messageKey =
+          type === 'success'
+            ? 'behaviors-ClipboardSuccessMessageValue'
+            : 'behaviors-ClipboardUnsupportedMessageValue';
+        var method = type === 'success' ? 'success' : 'notify';
+        var message = button.dataset[messageKey];
+  
+        if (!message) return;
+  
+        if (
+          window.alertify &&
+          typeof window.alertify[method] === 'function'
+        ) {
+          window.alertify[method](message, 2);
+          return;
+        }
+  
+        if (type !== 'success') return;
+  
+        var label = button.querySelector('.gb-share-job__label');
+        if (!label) return;
+  
+        if (!button.dataset.copyLinkLabel) {
+          button.dataset.copyLinkLabel = label.textContent;
+        }
+  
+        label.textContent = message;
+  
+        if (button.gobCopyLabelTimer) {
+          window.clearTimeout(button.gobCopyLabelTimer);
+        }
+  
+        button.gobCopyLabelTimer = window.setTimeout(function() {
+          label.textContent = button.dataset.copyLinkLabel;
+        }, 2000);
+      };
+  
+      var selection = document.getSelection ? document.getSelection() : null;
+      var selectedRange = null;
+  
+      if (selection && selection.rangeCount > 0) {
+        try {
+          selectedRange = selection.getRangeAt(0);
+        } catch (error) {}
+      }
+  
+      var activeElement = document.activeElement;
+      var textArea = document.createElement('textarea');
+      var copied = false;
+  
+      textArea.value = text;
+      textArea.setAttribute('readonly', '');
+      textArea.style.position = 'fixed';
+      textArea.style.top = '0';
+      textArea.style.left = '0';
+      textArea.style.opacity = '0';
+  
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      textArea.setSelectionRange(0, textArea.value.length);
+  
+      try {
+        copied = document.execCommand('copy');
+      } catch (error) {
+        copied = false;
+      } finally {
+        document.body.removeChild(textArea);
+  
+        if (selectedRange && selection) {
+          try {
+            selection.removeAllRanges();
+            selection.addRange(selectedRange);
+          } catch (error) {}
+        }
+  
+        if (activeElement && activeElement.focus) {
+          try {
+            activeElement.focus();
+          } catch (error) {}
+        }
+      }
+  
+      if (copied) {
+        showMessage('success');
+        return false;
+      }
+  
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard
+          .writeText(text)
+          .then(function() {
+            showMessage('success');
+          })
+          .catch(function() {
+            showMessage('unsupported');
+          });
+  
+        return false;
+      }
+  
+      showMessage('unsupported');
+      return false;
+    };
+</script>
+<ul class="gb-share-job flex">
+<li class="mr2 font-bold">
+Compartir
+<i class="icon icon-arrow-right"></i>
+</li>
+<li class="gb-share-job__item">
+<button class="color-hierarchy1" data-action="behaviors--clipboard#copy behaviors--mixpanel#track" data-behaviors--clipboard-success-message-value="¡Enlace copiado!" data-behaviors--clipboard-text-value="https://www.getonbrd.com/empleos/programacion/senior-backend-engineer-node-js-typescript-aws-bc-tecnologia-remote" data-behaviors--clipboard-unsupported-message-value="Este navegador no soporta el copiado al portapapeles. Por favor intenta usando otro navegador." data-controller="behaviors--clipboard behaviors--mixpanel" data-mp-event="click_on" data-mp-properties="{&quot;Name&quot;:&quot;Share Job&quot;,&quot;Job&quot;:&quot;Senior Back-end Engineer (Node.js / TypeScript / AWS)&quot;,&quot;Location&quot;:&quot;bottom&quot;,&quot;Medium&quot;:&quot;copy_link&quot;}" onclick="return window.gobCopyJobShareLink(this);" title="Copiar enlace" type="button">
+<i class="icon icon-link"></i>
+<span class="gb-share-job__label">
+Copiar enlace
+</span>
+</button>
+</li>
+<li class="gb-share-job__item">
+<a class="color-hierarchy1" data-action="behaviors--mixpanel#track" data-controller="behaviors--mixpanel" data-mp-event="click_on" data-mp-properties="{&quot;Name&quot;:&quot;Share Job&quot;,&quot;Job&quot;:&quot;Senior Back-end Engineer (Node.js / TypeScript / AWS)&quot;,&quot;Location&quot;:&quot;bottom&quot;,&quot;Medium&quot;:&quot;email&quot;}" href="/cdn-cgi/l/email-protection#92ade1e7f0f8f7f1e6afc1f7fcfbfde0b2d0f3f1f9bff7fcf6b2d7fcf5fbfcf7f7e0b2badcfdf6f7bcf8e1b2bdb2c6ebe2f7c1f1e0fbe2e6b2bdb2d3c5c1bbb4f3ffe2a9f0fdf6ebafdffbe0f3b2f7e1e6f7b2f7ffe2fef7fdb2e3e7f7b2f3e2f3e0f7f1fb5121b2f7fcb2d5f7e6b2fdfcb2d0fdf3e0f6a8b2b2fae6e6e2e1a8bdbde5e5e5bcf5f7e6fdfcf0e0f6bcf1fdffbdf7ffe2fef7fde1bde2e0fdf5e0f3fff3f1fbfdfcbde1f7fcfbfde0bff0f3f1f9f7fcf6bff7fcf5fbfcf7f7e0bffcfdf6f7bff8e1bfe6ebe2f7e1f1e0fbe2e6bff3e5e1bff0f1bfe6f7f1fcfdfefdf5fbf3bfe0f7fffde6f7" title="E-mail">
+<i class="icon icon-envelope"></i>
+<span class="gb-share-job__label">
+E-mail
+</span>
+</a>
+</li>
+<li class="gb-share-job__item">
+<a class="color-hierarchy1" data-action="behaviors--mixpanel#track" data-controller="behaviors--mixpanel" data-mp-event="click_on" data-mp-properties="{&quot;Name&quot;:&quot;Share Job&quot;,&quot;Job&quot;:&quot;Senior Back-end Engineer (Node.js / TypeScript / AWS)&quot;,&quot;Location&quot;:&quot;bottom&quot;,&quot;Medium&quot;:&quot;LinkedIn&quot;}" href="javascript:(function(){var%20d=document,l=d.location,f=&#39;http://www.linkedin.com/shareArticle?mini=true&amp;ro=false&amp;trk=bookmarklet&amp;title=&#39;+encodeURIComponent(d.title)+&#39;&amp;url=&#39;+encodeURIComponent(&#39;https://www.getonbrd.com/empleos/programacion/senior-backend-engineer-node-js-typescript-aws-bc-tecnologia-remote&#39;),a=function(){if(!window.open(f,&#39;News&#39;,&#39;width=520,height=570,toolbar=0,location=0,status=0,scrollbars=yes&#39;)){l.href=f;}};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0);}else{a();}})()" rel="nofollow noopener noreferrer external" title="LinkedIn">
+<i class="icon icon-logo-linkedin"></i>
+<span class="gb-share-job__label">
+LinkedIn
+</span>
+</a>
+</li>
+<li class="gb-share-job__item">
+<a class="color-hierarchy1" data-action="behaviors--mixpanel#track" data-controller="behaviors--mixpanel" data-mp-event="click_on" data-mp-properties="{&quot;Name&quot;:&quot;Share Job&quot;,&quot;Job&quot;:&quot;Senior Back-end Engineer (Node.js / TypeScript / AWS)&quot;,&quot;Location&quot;:&quot;bottom&quot;,&quot;Medium&quot;:&quot;Whatsapp&quot;}" href="whatsapp://send?text=Senior+Back-end+Engineer+%28Node.js+%2F+TypeScript+%2F+AWS%29+%7C+https%3A%2F%2Fwww.getonbrd.com%2Fempleos%2Fprogramacion%2Fsenior-backend-engineer-node-js-typescript-aws-bc-tecnologia-remote" rel="nofollow noopener noreferrer external" title="WhatsApp">
+<i class="icon icon-logo-whatsapp"></i>
+<span class="gb-share-job__label">
+WhatsApp
+</span>
+</a>
+</li>
+<li class="gb-share-job__item">
+<a class="color-hierarchy1" data-action="behaviors--mixpanel#track" data-controller="behaviors--mixpanel" data-mp-event="click_on" data-mp-properties="{&quot;Name&quot;:&quot;Share Job&quot;,&quot;Job&quot;:&quot;Senior Back-end Engineer (Node.js / TypeScript / AWS)&quot;,&quot;Location&quot;:&quot;bottom&quot;,&quot;Medium&quot;:&quot;Square screenshot&quot;}" href="https://www.getonbrd.com/og_previews/job/senior-backend-engineer-node-js-typescript-aws-bc-tecnologia-remote.jpg?variant=square" rel="nofollow noopener noreferrer external" target="_blank" title="Imagen en formato cuadrado de tu empleo para compartir en redes sociales">
+<i class="icon icon-camera"></i>
+<span class="gb-share-job__label">
+Imagen
+</span>
+</a>
+</li>
+</ul>
+
+</div>
+<a class="red size1 js-trigger-report-form" data-target="#report" data-toggle="modal" href="#">
+<i class="icon icon-warning-circle"></i>
+<span>
+Reporta este empleo
+</span>
+</a>
+</div>
+<div class="mb2">
+<div class="gb-tags" itemprop="skills">
+<a class="gb-tags__item" title="Empleos de Node.js" href="/empleos/tag/node-js">Node.js
+</a><a class="gb-tags__item" title="Empleos de TypeScript" href="/empleos/tag/typescript">TypeScript
+</a><a class="gb-tags__item" title="Empleos de NestJS" href="/empleos/tag/nestjs">NestJS
+</a><a class="gb-tags__item" title="Empleos de Microservices" href="/empleos/tag/microservices">Microservices
+</a><a class="gb-tags__item" title="Empleos de Serverless" href="/empleos/tag/serverless">Serverless
+</a><a class="gb-tags__item" title="Empleos de AWS" href="/empleos/tag/aws">AWS
+</a><a class="gb-tags__item" title="Empleos de Docker" href="/empleos/tag/docker">Docker
+</a><a class="gb-tags__item" title="Empleos de Kubernetes" href="/empleos/tag/kubernetes">Kubernetes
+</a><a class="gb-tags__item" title="Empleos de Clean Architecture" href="/empleos/tag/clean-architecture">Clean Architecture
+</a><a class="gb-tags__item" title="Empleos de REST API" href="/empleos/tag/rest">REST API
+</a></div>
+
+</div>
+</div>
+<div class="gb-landing-section bg-hierarchy2">
+<div class="gb-container gb-container--medium size1">
+<h3 class="font-black size4 mb3 mt0">
+Acerca de BC Tecnología
+</h3>
+<div class="flex">
+<div class="mr1">
+<div class="gb-company-logo">
+<a class="gb-company-logo__link" href="/companies/bctecnologia"><img alt="BC Tecnología" class="gb-company-logo__img" data-avatar="https://d2dgum4gsvdsrq.cloudfront.net/assets/avatar-dcd1795ffcfa6ab30fad7cd41b0f6b4286ecf488ebe5c464ba363aafd94c9f99.png" data-js-company-logo height="64" src="https://getonbrd-prod.s3.amazonaws.com/uploads/users/logo/9458/thumb_Copia_de_logo.png" width="64">
+<span class="hide" itemprop="logo">https://getonbrd-prod.s3.amazonaws.com/uploads/users/logo/9458/Copia_de_logo.png</span>
+</a></div>
+
+</div>
+<div>
+<p>
+Somos una consultora de TI con personal experto en diferentes áreas de tecnología.
+&mdash;
+<a href="https://www.getonbrd.com/companies/bctecnologia">Perfil completo de BC Tecnología
+</a></p>
+<div class="flex mt1 items-center">
+<div class="mr1">
+<form class="inline-block" data-follow-company-form-slug="bctecnologia" data-disable-with="..." action="/companies/bctecnologia/follow_unfollow" accept-charset="UTF-8" data-remote="true" method="post"><input type="hidden" name="authenticity_token" value="L7b3fFFT-GdDZIS4PhyaZoMIbdoJIZezJdIXfrxhzvNosWbiMabh4B96_gWL5v1QaAT7NvAHbCf6nDfaw1Hqig" /><button name="button" type="submit" class="gb-btn follow-btn size0">Seguir
+</button></form>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+<div class="gb-landing-section">
+<div class="gb-container gb-container--medium">
+
+</div>
+</div>
+
+</div>
+<div class="gb-job-fixed-actions hide-on-mobile-and-tablet gb-job-fixed-actions--in-dashboard" id="js-fixed-share">
+<div class="gb-container gb-container--medium">
+<div class="gb-job-fixed-actions__container">
+<div class="gb-job-fixed-actions__pane bg-hierarchy2 rounded color-hierarchy2">
+<div class="mb-1 flex full-width">
+<div class="gb-job-fixed-actions__logo">
+<div class="gb-company-logo">
+<a class="gb-company-logo__link" href="/companies/bctecnologia"><img alt="BC Tecnología" class="gb-company-logo__img" data-avatar="https://d2dgum4gsvdsrq.cloudfront.net/assets/avatar-dcd1795ffcfa6ab30fad7cd41b0f6b4286ecf488ebe5c464ba363aafd94c9f99.png" data-js-company-logo height="64" src="https://getonbrd-prod.s3.amazonaws.com/uploads/users/logo/9458/thumb_Copia_de_logo.png" width="64">
+<span class="hide" itemprop="logo">https://getonbrd-prod.s3.amazonaws.com/uploads/users/logo/9458/Copia_de_logo.png</span>
+</a></div>
+
+</div>
+<div class="gb-job-fixed-actions__job-desc size-1">
+<div class="font-bold">Senior Back-end Engineer (Node.js / TypeScript / AWS)</div>
+<div>
+BC Tecnología
+ • 
+<span class="location">
+<span class="tooltipster" title="El trabajo es 100% remoto desde cualquier país.">
+<i class="icon icon-wifi"></i>
+Remoto
+</span>
+</span>
+
+</div>
+</div>
+</div>
+<div class="mb2 full-width pb2 border-bottom border-box-color">
+<div class="" id="apply_bottom_bg"></div>
+<a class="gb-btn size2 ellipsis mrb mt-2 three-quarter-width" id="apply_bottom_short" href="https://www.getonbrd.com/jobs/senior-backend-engineer-node-js-typescript-aws-bc-tecnologia-remote/applications/new">Postula
+</a>
+
+
+</div>
+<div>
+<div class="mb1 font-bold text-center">
+<span class="gb-job-fixed-actions__title">Compartir este empleo</span>
+<span class="gb-job-fixed-actions__title-short">Compartir</span>
+</div>
+<div class="color-hierarchy3 size1">
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  window.gobCopyJobShareLink =
+    window.gobCopyJobShareLink ||
+    function(button) {
+      if (!button || button.dataset.clipboardReady === 'true') return true;
+  
+      // `data-behaviors--clipboard-*` is exposed with a dash in `dataset`.
+      var text = button.dataset['behaviors-ClipboardTextValue'];
+      if (!text) return true;
+  
+      var showMessage = function(type) {
+        var messageKey =
+          type === 'success'
+            ? 'behaviors-ClipboardSuccessMessageValue'
+            : 'behaviors-ClipboardUnsupportedMessageValue';
+        var method = type === 'success' ? 'success' : 'notify';
+        var message = button.dataset[messageKey];
+  
+        if (!message) return;
+  
+        if (
+          window.alertify &&
+          typeof window.alertify[method] === 'function'
+        ) {
+          window.alertify[method](message, 2);
+          return;
+        }
+  
+        if (type !== 'success') return;
+  
+        var label = button.querySelector('.gb-share-job__label');
+        if (!label) return;
+  
+        if (!button.dataset.copyLinkLabel) {
+          button.dataset.copyLinkLabel = label.textContent;
+        }
+  
+        label.textContent = message;
+  
+        if (button.gobCopyLabelTimer) {
+          window.clearTimeout(button.gobCopyLabelTimer);
+        }
+  
+        button.gobCopyLabelTimer = window.setTimeout(function() {
+          label.textContent = button.dataset.copyLinkLabel;
+        }, 2000);
+      };
+  
+      var selection = document.getSelection ? document.getSelection() : null;
+      var selectedRange = null;
+  
+      if (selection && selection.rangeCount > 0) {
+        try {
+          selectedRange = selection.getRangeAt(0);
+        } catch (error) {}
+      }
+  
+      var activeElement = document.activeElement;
+      var textArea = document.createElement('textarea');
+      var copied = false;
+  
+      textArea.value = text;
+      textArea.setAttribute('readonly', '');
+      textArea.style.position = 'fixed';
+      textArea.style.top = '0';
+      textArea.style.left = '0';
+      textArea.style.opacity = '0';
+  
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      textArea.setSelectionRange(0, textArea.value.length);
+  
+      try {
+        copied = document.execCommand('copy');
+      } catch (error) {
+        copied = false;
+      } finally {
+        document.body.removeChild(textArea);
+  
+        if (selectedRange && selection) {
+          try {
+            selection.removeAllRanges();
+            selection.addRange(selectedRange);
+          } catch (error) {}
+        }
+  
+        if (activeElement && activeElement.focus) {
+          try {
+            activeElement.focus();
+          } catch (error) {}
+        }
+      }
+  
+      if (copied) {
+        showMessage('success');
+        return false;
+      }
+  
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard
+          .writeText(text)
+          .then(function() {
+            showMessage('success');
+          })
+          .catch(function() {
+            showMessage('unsupported');
+          });
+  
+        return false;
+      }
+  
+      showMessage('unsupported');
+      return false;
+    };
+</script>
+<ul class="gb-share-job flex gb-share-job--vertical">
+<li class="gb-share-job__item">
+<button class="color-hierarchy2 tooltipster" data-action="behaviors--clipboard#copy behaviors--mixpanel#track" data-behaviors--clipboard-success-message-value="¡Enlace copiado!" data-behaviors--clipboard-text-value="https://www.getonbrd.com/empleos/programacion/senior-backend-engineer-node-js-typescript-aws-bc-tecnologia-remote" data-behaviors--clipboard-unsupported-message-value="Este navegador no soporta el copiado al portapapeles. Por favor intenta usando otro navegador." data-controller="behaviors--clipboard behaviors--mixpanel" data-mp-event="click_on" data-mp-properties="{&quot;Name&quot;:&quot;Share Job&quot;,&quot;Job&quot;:&quot;Senior Back-end Engineer (Node.js / TypeScript / AWS)&quot;,&quot;Location&quot;:&quot;fixed-vertical&quot;,&quot;Medium&quot;:&quot;copy_link&quot;}" onclick="return window.gobCopyJobShareLink(this);" title="Copiar enlace" type="button">
+<i class="icon icon-link"></i>
+<span class="gb-share-job__label">
+Copiar enlace
+</span>
+</button>
+</li>
+<li class="gb-share-job__item">
+<a class="color-hierarchy2 tooltipster" data-action="behaviors--mixpanel#track" data-controller="behaviors--mixpanel" data-mp-event="click_on" data-mp-properties="{&quot;Name&quot;:&quot;Share Job&quot;,&quot;Job&quot;:&quot;Senior Back-end Engineer (Node.js / TypeScript / AWS)&quot;,&quot;Location&quot;:&quot;fixed-vertical&quot;,&quot;Medium&quot;:&quot;email&quot;}" href="/cdn-cgi/l/email-protection#7b44080e19111e180f46281e151214095b391a1810561e151f5b3e151c12151e1e095b5335141f1e5511085b545b2f020b1e281809120b0f5b545b3a2c28525d1a160b4019141f02463612091a5b1e080f1e5b1e160b171e145b0a0e1e5b1a0b1a091e1812b8c85b1e155b3c1e0f5b14155b39141a091f415b5b130f0f0b084154540c0c0c551c1e0f141519091f55181416541e160b171e1408540b09141c091a161a1812141554081e1512140956191a18101e151f561e151c12151e1e095615141f1e561108560f020b1e081809120b0f561a0c08561918560f1e18151417141c121a56091e16140f1e" title="E-mail">
+<i class="icon icon-envelope"></i>
+<span class="gb-share-job__label">
+E-mail
+</span>
+</a>
+</li>
+<li class="gb-share-job__item">
+<a class="color-hierarchy2 tooltipster" data-action="behaviors--mixpanel#track" data-controller="behaviors--mixpanel" data-mp-event="click_on" data-mp-properties="{&quot;Name&quot;:&quot;Share Job&quot;,&quot;Job&quot;:&quot;Senior Back-end Engineer (Node.js / TypeScript / AWS)&quot;,&quot;Location&quot;:&quot;fixed-vertical&quot;,&quot;Medium&quot;:&quot;LinkedIn&quot;}" href="javascript:(function(){var%20d=document,l=d.location,f=&#39;http://www.linkedin.com/shareArticle?mini=true&amp;ro=false&amp;trk=bookmarklet&amp;title=&#39;+encodeURIComponent(d.title)+&#39;&amp;url=&#39;+encodeURIComponent(&#39;https://www.getonbrd.com/empleos/programacion/senior-backend-engineer-node-js-typescript-aws-bc-tecnologia-remote&#39;),a=function(){if(!window.open(f,&#39;News&#39;,&#39;width=520,height=570,toolbar=0,location=0,status=0,scrollbars=yes&#39;)){l.href=f;}};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0);}else{a();}})()" rel="nofollow noopener noreferrer external" title="LinkedIn">
+<i class="icon icon-logo-linkedin"></i>
+<span class="gb-share-job__label">
+LinkedIn
+</span>
+</a>
+</li>
+<li class="gb-share-job__item">
+<a class="color-hierarchy2 tooltipster" data-action="behaviors--mixpanel#track" data-controller="behaviors--mixpanel" data-mp-event="click_on" data-mp-properties="{&quot;Name&quot;:&quot;Share Job&quot;,&quot;Job&quot;:&quot;Senior Back-end Engineer (Node.js / TypeScript / AWS)&quot;,&quot;Location&quot;:&quot;fixed-vertical&quot;,&quot;Medium&quot;:&quot;Whatsapp&quot;}" href="whatsapp://send?text=Senior+Back-end+Engineer+%28Node.js+%2F+TypeScript+%2F+AWS%29+%7C+https%3A%2F%2Fwww.getonbrd.com%2Fempleos%2Fprogramacion%2Fsenior-backend-engineer-node-js-typescript-aws-bc-tecnologia-remote" rel="nofollow noopener noreferrer external" title="WhatsApp">
+<i class="icon icon-logo-whatsapp"></i>
+<span class="gb-share-job__label">
+WhatsApp
+</span>
+</a>
+</li>
+<li class="gb-share-job__item">
+<a class="color-hierarchy2 tooltipster" data-action="behaviors--mixpanel#track" data-controller="behaviors--mixpanel" data-mp-event="click_on" data-mp-properties="{&quot;Name&quot;:&quot;Share Job&quot;,&quot;Job&quot;:&quot;Senior Back-end Engineer (Node.js / TypeScript / AWS)&quot;,&quot;Location&quot;:&quot;fixed-vertical&quot;,&quot;Medium&quot;:&quot;Square screenshot&quot;}" href="https://www.getonbrd.com/og_previews/job/senior-backend-engineer-node-js-typescript-aws-bc-tecnologia-remote.jpg?variant=square" rel="nofollow noopener noreferrer external" target="_blank" title="Imagen en formato cuadrado de tu empleo para compartir en redes sociales">
+<i class="icon icon-camera"></i>
+<span class="gb-share-job__label">
+Imagen
+</span>
+</a>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<img width="150" class="show-on-print logo-clear" style="display:none" alt="Get on Board" src="https://d2dgum4gsvdsrq.cloudfront.net/assets/logos/getonbrd-horizontal-clearbg-1a03607498f2348a328202ae74df30e865f4177355f534687c865cd300f2c9c5.png" />
+
+</div>
+</div>
+<div class="text-center">
+
+</div>
+</div>
+
+<style>
+  .q94bf1bec, .a5d94e717 {
+    position: fixed;
+    top: 100%;
+  }
+</style>
+<div class="modal fade thinner" data-turbo="false" id="report">
+<div class="modal-dialog">
+<div class="modal-content rounded-md">
+<button aria-label="Close" class="close" data-dismiss="modal" style="z-index:10" type="button">
+<span aria-hidden="true" class="color-hierarchy1">×</span>
+</button>
+<div class="form">
+<form data-turbo="false" data-controller="behaviors--complaint-form" id="complaint-form" action="/complaints?job_id=62404" accept-charset="UTF-8" data-remote="true" method="post"><div class="js-report__step js-report__step--1">
+<div class="mt-2">
+<h2 class="mb-2">
+¿Qué problema quieres reportarnos?
+</h2>
+<p>Tu identidad nunca será revelada a BC Tecnología.</p>
+</div>
+<div class="form-item last">
+<div class="radio_selectable left-align">
+<div>
+<label class="js-report__goto js-report__set-pane cursor-pointer" data-set-pane="company_response" data-set-step="2">
+Respuesta de la empresa
+</label>
+</div>
+<div>
+<label class="js-report__goto js-report__set-pane cursor-pointer" data-set-pane="bad_conditions" data-set-step="2">
+Condiciones del empleo
+</label>
+</div>
+<div>
+<label class="js-report__goto js-report__set-pane cursor-pointer" data-set-pane="copy" data-set-step="2">
+Problemas con el contenido
+</label>
+</div>
+<div>
+<label class="js-report__goto js-report__set-pane cursor-pointer" data-set-pane="falsehood" data-set-step="2">
+Veracidad del anuncio
+</label>
+</div>
+</div>
+</div>
+<div class="m0">
+<a aria-label="Close" class="pl0 gb-btn gb-btn--ghost" data-dismiss="modal" type="button">
+Cancelar
+</a>
+</div>
+</div>
+<div class="js-report__step js-report__step--2 hide">
+<div class="mt-2 clearfix">
+<a class="pr-1 js-report__goto size2 left cursor-pointer" data-set-step="1">
+<i class="icon icon-arrow-left mr-3"></i>
+</a>
+<h2 class="mb-2 mt0">
+Step 2
+</h2>
+</div>
+<div class="form-item last">
+<div class="js-report__pane js-report__pane--company_response hide">
+<div class="radio_selectable left-align">
+<div>
+<input id="unresponsive" type="radio" value="La empresa no responde a mi postulación" name="complaint[reason]" />
+<label class="js-report__goto cursor-pointer" data-set-step="3" for="unresponsive">
+La empresa no responde a mi postulación
+</label>
+</div>
+<div>
+<input id="offending" type="radio" value="La empresa me ha tratado ofensivamente" name="complaint[reason]" />
+<label class="js-report__goto cursor-pointer" data-set-step="3" for="offending">
+La empresa me ha tratado ofensivamente
+</label>
+</div>
+<div>
+<input id="discriminatory_response" type="radio" value="La empresa me ha discriminado" name="complaint[reason]" />
+<label class="js-report__goto cursor-pointer" data-set-step="3" for="discriminatory_response">
+La empresa me ha discriminado
+</label>
+</div>
+</div>
+</div>
+<div class="js-report__pane js-report__pane--bad_conditions hide">
+<div class="radio_selectable left-align">
+<div>
+<input id="compliance" type="radio" value="Las condiciones de este empleo infringen la ley" name="complaint[reason]" />
+<label class="js-report__goto cursor-pointer" data-set-step="3" for="compliance">
+Las condiciones de este empleo infringen la ley
+</label>
+</div>
+<div>
+<input id="discrimination" type="radio" value="Las exigencias de este empleo son discriminatorias" name="complaint[reason]" />
+<label class="js-report__goto cursor-pointer" data-set-step="3" for="discrimination">
+Las exigencias de este empleo son discriminatorias
+</label>
+</div>
+<div>
+<input id="excess_requirements" type="radio" value="Las exigencias son excesivas para el cargo o nivel de experiencia" name="complaint[reason]" />
+<label class="js-report__goto cursor-pointer" data-set-step="3" for="excess_requirements">
+Las exigencias son excesivas para el cargo o nivel de experiencia
+</label>
+</div>
+<div>
+<input id="low_salary" type="radio" value="Este empleo ofrece un salario demasiado bajo" name="complaint[reason]" />
+<label class="js-report__goto cursor-pointer" data-set-step="3" for="low_salary">
+Este empleo ofrece un salario demasiado bajo
+</label>
+</div>
+<div>
+<input id="mistreatment" type="radio" value="Esta empresa ha tratado mal a sus empleados en el pasado" name="complaint[reason]" />
+<label class="js-report__goto cursor-pointer" data-set-step="3" for="mistreatment">
+Esta empresa ha tratado mal a sus empleados en el pasado
+</label>
+</div>
+</div>
+</div>
+<div class="js-report__pane js-report__pane--copy hide">
+<div class="radio_selectable left-align">
+<div>
+<input id="bad_spelling" type="radio" value="El texto tiene problemas de redacción/ortografía" name="complaint[reason]" />
+<label class="js-report__goto cursor-pointer" data-set-step="3" for="bad_spelling">
+El texto tiene problemas de redacción/ortografía
+</label>
+</div>
+<div>
+<input id="fuzzy" type="radio" value="Es difícil identificar a la empresa que ofrece el cargo" name="complaint[reason]" />
+<label class="js-report__goto cursor-pointer" data-set-step="3" for="fuzzy">
+Es difícil identificar a la empresa que ofrece el cargo
+</label>
+</div>
+<div>
+<input id="inconsistency" type="radio" value="El anuncio parece tener inconsistencias" name="complaint[reason]" />
+<label class="js-report__goto cursor-pointer" data-set-step="3" for="inconsistency">
+El anuncio parece tener inconsistencias
+</label>
+</div>
+<div>
+<input id="no_remote" type="radio" value="Este empleo no es 100% remoto" name="complaint[reason]" />
+<label class="js-report__goto cursor-pointer" data-set-step="3" for="no_remote">
+Este empleo no es 100% remoto
+</label>
+</div>
+<div>
+<input id="miscategorized" type="radio" value="El anuncio está en una categoría incorrecta" name="complaint[reason]" />
+<label class="js-report__goto cursor-pointer" data-set-step="3" for="miscategorized">
+El anuncio está en una categoría incorrecta
+</label>
+</div>
+<div>
+<input id="vague" type="radio" value="El cargo no está lo suficientemente definido" name="complaint[reason]" />
+<label class="js-report__goto cursor-pointer" data-set-step="3" for="vague">
+El cargo no está lo suficientemente definido
+</label>
+</div>
+</div>
+</div>
+<div class="js-report__pane js-report__pane--falsehood hide">
+<div class="radio_selectable left-align">
+<div>
+<input id="fake_company" type="radio" value="Esta empresa no existe" name="complaint[reason]" />
+<label class="js-report__goto cursor-pointer" data-set-step="3" for="fake_company">
+Esta empresa no existe
+</label>
+</div>
+<div>
+<input id="impersonation" type="radio" value="Este anuncio está suplantando la identidad de la empresa" name="complaint[reason]" />
+<label class="js-report__goto cursor-pointer" data-set-step="3" for="impersonation">
+Este anuncio está suplantando la identidad de la empresa
+</label>
+</div>
+<div>
+<input id="misleading" type="radio" value="Las condiciones mencionadas en el aviso no son ciertas" name="complaint[reason]" />
+<label class="js-report__goto cursor-pointer" data-set-step="3" for="misleading">
+Las condiciones mencionadas en el aviso no son ciertas
+</label>
+</div>
+<div>
+<input id="no_remote" type="radio" value="Este empleo no es 100% remoto" name="complaint[reason]" />
+<label class="js-report__goto cursor-pointer" data-set-step="3" for="no_remote">
+Este empleo no es 100% remoto
+</label>
+</div>
+<div>
+<input id="other_hiring_entity" type="radio" value="La empresa no es la contratante final" name="complaint[reason]" />
+<label class="js-report__goto cursor-pointer" data-set-step="3" for="other_hiring_entity">
+La empresa no es la contratante final
+</label>
+</div>
+<div>
+<input id="misleading_salary" type="radio" value="El salario publicado en el aviso es engañoso" name="complaint[reason]" />
+<label class="js-report__goto cursor-pointer" data-set-step="3" for="misleading_salary">
+El salario publicado en el aviso es engañoso
+</label>
+</div>
+<div>
+<input id="unresponsive" type="radio" value="La empresa no responde a mi postulación" name="complaint[reason]" />
+<label class="js-report__goto cursor-pointer" data-set-step="3" for="unresponsive">
+La empresa no responde a mi postulación
+</label>
+</div>
+<div>
+<input id="no_serious_offer" type="radio" value="La empresa solo busca capturar contactos" name="complaint[reason]" />
+<label class="js-report__goto cursor-pointer" data-set-step="3" for="no_serious_offer">
+La empresa solo busca capturar contactos
+</label>
+</div>
+<div>
+<input id="scam" type="radio" value="Este anuncio busca estafar a los postulantes" name="complaint[reason]" />
+<label class="js-report__goto cursor-pointer" data-set-step="3" for="scam">
+Este anuncio busca estafar a los postulantes
+</label>
+</div>
+</div>
+</div>
+</div>
+<div class="m0">
+<a aria-label="Close" class="pl0 gb-btn gb-btn--ghost" data-dismiss="modal" type="button">
+Cancelar
+</a>
+</div>
+</div>
+<div class="js-report__step js-report__step--3 hide">
+<div class="mt-2 clearfix">
+<a class="pr-1 js-report__goto size2 left cursor-pointer" data-set-step="2">
+<i class="icon icon-arrow-left mr-3"></i>
+</a>
+<h2 class="mb-2 mt0 size1">
+Step 3
+</h2>
+</div>
+<p class="js-report__feedback js-report__error gb-btn gb-btn--ghost red hide">El mensaje no se pudo enviar, inténtalo más tarde.</p>
+<div class="form-item last">
+<textarea maxlength="400" minlength="30" rows="4" placeholder="Incluye información adicional que nos ayude a entender tu reporte" style="max-width: 100%;" required="required" name="complaint[text]" id="complaint_text">
+</textarea>
+</div>
+<div class="clearfix">
+<a aria-label="Close" class="pl0 gb-btn gb-btn--ghost" data-dismiss="modal" type="button">
+Cancelar
+</a>
+<div class="right">
+<div class="js-report__feedback js-report__success gb-btn gb-btn--ghost green hide">Reporte enviado.</div>
+<button class="btn js-report__submit" data-disable-with="Enviando...">
+Enviar reporte
+</button>
+</div>
+</div>
+</div>
+</form></div>
+
+</div>
+</div>
+</div>
+
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  window.webNotificationId = 'webpro_job_62404';
+</script>
+<!-- / Google Tag Manager -->
+<script>
+  (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl+'';f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-KBFZH82');
+</script>
+<!-- / Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-370611008"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = window.gtag || function() { window.dataLayer.push(arguments); };
+  window.gtag('js', new Date());
+  window.gtag('config', 'AW-370611008');
+</script>
+<!-- / End Google Tag Manager -->
+
+<div data-controller="components--modal-form">
+<div class="modal fade modal_class" data-action="keyup@window-&gt;components--modal#closeWithKeyboard externalClose@window-&gt;components--modal#close" data-components--modal-target="container" id="base-modal">
+<div class="modal-dialog" data-components--modal-target="body">
+<div class="modal-content" data-components--modal-target="content">
+<button class="close" data-action="click-&gt;components--modal#cancel" data-cy="new_modal_close" type="button">
+<span aria-hidden="true">×</span>
+</button>
+
+<div class="relative">
+<turbo-frame class="with-loader" id="modal_with_btn"><turbo-frame id="modal"><div class="loading-spinner-mini">
+<img width="30" height="30" alt="Loading..." src="https://d2dgum4gsvdsrq.cloudfront.net/assets/ajax-loader-large-eeef0196a48f19a19962b25aa33e9e9165a4466e938581e8c32ff88bea92d14a.gif" />
+</div>
+</turbo-frame></turbo-frame></div>
+</div>
+</div>
+</div>
+
+</div>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"c74b44efaf1e4cb2a1a6e593c801a61c","spa":2}' crossorigin="anonymous"></script>
+</body>
+</html>

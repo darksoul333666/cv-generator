@@ -34,3 +34,9 @@ class CvLlmBackend(Protocol):
         raw_meta debe incluir al menos llm_provider, llm_model, attempts (si aplica).
         """
         ...
+
+    async def tailor_cv_batch(
+        self, items: list[tuple[str, CvDocument]]
+    ) -> list[Tuple[CvDocument, float, str, List[str], List[str], List[str], Dict[str, Any]]]:
+        """Adapta varias vacantes. El orden de salida coincide con ``items`` (vacancy_text, cv)."""
+        ...

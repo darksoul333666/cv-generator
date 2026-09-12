@@ -6,14 +6,18 @@ type VacancySourcePanelProps = {
   text: string;
   onTextChange: (text: string) => void;
   disabled?: boolean;
+  autoFocus?: boolean;
+  onModEnter?: () => void;
 };
 
 export function VacancySourcePanel({
   text,
   onTextChange,
   disabled = false,
+  autoFocus = false,
+  onModEnter,
 }: VacancySourcePanelProps) {
-  const baseId = useId();
+  const textId = useId();
 
   const onPasteClipboard = useCallback(async () => {
     if (disabled || typeof navigator === "undefined" || !navigator.clipboard?.readText) {
@@ -28,9 +32,11 @@ export function VacancySourcePanel({
   }, [disabled, onTextChange]);
 
   return (
-    <label className="flex flex-col gap-1.5 text-sm">
-      <span className="flex items-center justify-between gap-2">
-        <span className="font-medium text-zinc-800">Descripción de la vacante</span>
+    <div className="flex flex-col gap-1.5 text-sm">
+      <div className="flex items-center justify-between gap-2">
+        <label htmlFor={textId} className="font-medium text-zinc-800">
+          Descripción de la vacante
+        </label>
         <button
           type="button"
           disabled={disabled}
@@ -39,17 +45,24 @@ export function VacancySourcePanel({
         >
           Pegar
         </button>
-      </span>
+      </div>
       <textarea
-        id={`${baseId}-text`}
+        id={textId}
         name="vacancy_text"
         value={text}
+        autoFocus={autoFocus}
         onChange={(e) => onTextChange(e.target.value)}
+        onKeyDown={(e) => {
+          if (onModEnter && (e.metaKey || e.ctrlKey) && e.key === "Enter") {
+            e.preventDefault();
+            onModEnter();
+          }
+        }}
         rows={14}
         disabled={disabled}
         placeholder="Pega aquí el anuncio completo de la oferta…"
         className="rounded-lg border border-zinc-300 px-3 py-2 font-mono text-sm text-zinc-900 outline-none ring-zinc-400 focus:ring-2 disabled:bg-zinc-100"
       />
-    </label>
+    </div>
   );
 }

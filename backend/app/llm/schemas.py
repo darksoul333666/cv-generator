@@ -73,3 +73,11 @@ class OptimizerOut(BaseModel):
     skills: List[str]
     keywords: List[str]
     experience: List[OptimizerExperienceOut]
+
+
+class OptimizerBatchItemOut(OptimizerOut):
+    slot: int
+
+
+class OptimizerBatchOut(BaseModel):
+    items: List[OptimizerBatchItemOut]

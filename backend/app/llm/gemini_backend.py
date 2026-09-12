@@ -14,8 +14,9 @@ from ..locale_util import detect_vacancy_locale
 from ..models import CvDocument
 from .ollama_backend import _ollama_result_to_cv
 from .parse_json import parse_json_object, response_text
-from .prompts import build_matcher_prompt, build_ollama_optimizer_prompt
-from .schemas import MatcherOut, OptimizerOut, gemini_response_schema
+from .prompts import build_batch_optimizer_prompt, build_matcher_prompt, build_ollama_optimizer_prompt
+from .schemas import MatcherOut, OptimizerBatchOut, OptimizerOut, gemini_response_schema
+from .errors import is_quota_or_rate_limit
 
 logger = logging.getLogger(__name__)
 
@@ -86,6 +87,8 @@ class GeminiCvLlmBackend:
                 break
             except Exception as e:
                 last_err = e
+                if is_quota_or_rate_limit(e):
+                    raise
                 logger.warning(
                     "Gemini matcher JSON inválido (intento %s/3): %s",
                     attempt,
@@ -155,6 +158,8 @@ class GeminiCvLlmBackend:
                 return cv_out, match_percent, reason, [], [], [], raw_meta
             except Exception as e:
                 last_err = e
+                if is_quota_or_rate_limit(e):
+                    raise
                 logger.warning(
                     "Gemini tailor JSON inválido (intento %s/2): %s",
                     attempt,
@@ -170,3 +175,126 @@ class GeminiCvLlmBackend:
         if not self.is_configured():
             raise RuntimeError("GEMINI_API_KEY no configurada")
         return await asyncio.to_thread(self._tailor_cv_sync, vacancy_text, cv)
+
+    def _pack_optimizer(
+        self,
+        data: dict,
+        cv: CvDocument,
+        master: dict,
+        locale: str,
+        vacancy_text: str,
+        attempts: int,
+        extra_meta: Optional[Dict[str, Any]] = None,
+    ) -> Tuple[CvDocument, float, str, List[str], List[str], List[str], Dict[str, Any]]:
+        cv_out = _ollama_result_to_cv(data, cv, master, locale, vacancy_text)
+        match_percent = float(data.get("match_score") or 0)
+        if match_percent <= 10:
+            match_percent *= 10
+        match_percent = max(0.0, min(100.0, match_percent))
+        reason = str(data.get("target_role") or cv_out.title or "CV optimizado con Gemini")
+        raw_meta: Dict[str, Any] = {
+            "llm_provider": self.provider_id,
+            "llm_model": self._model_name,
+            "source": "master_profile",
+            "keywords": data.get("keywords") or [],
+            "attempts": attempts,
+            "locale": locale,
+        }
+        if extra_meta:
+            raw_meta.update(extra_meta)
+        return cv_out, match_percent, reason, [], [], [], raw_meta
+
+    def _align_batch_items(self, raw_items: list[dict], n: int) -> list[Optional[dict]]:
+        aligned: list[Optional[dict]] = [None] * n
+        leftover: list[dict] = []
+        for raw in raw_items:
+            if not isinstance(raw, dict):
+                continue
+            try:
+                slot = int(raw.get("slot") or 0)
+            except (TypeError, ValueError):
+                slot = 0
+            if 1 <= slot <= n and aligned[slot - 1] is None:
+                aligned[slot - 1] = raw
+            else:
+                leftover.append(raw)
+        for i in range(n):
+            if aligned[i] is None and leftover:
+                aligned[i] = leftover.pop(0)
+        return aligned
+
+    def _tailor_cv_batch_sync(
+        self, items: list[tuple[str, CvDocument]]
+    ) -> list[Tuple[CvDocument, float, str, List[str], List[str], List[str], Dict[str, Any]]]:
+        if not items:
+            return []
+        genai.configure(api_key=self._api_key)
+        model = genai.GenerativeModel(self._model_name)
+        master = load_ollama_profile()
+        prompt_jobs: list[tuple[int, str, str]] = []
+        locales: list[str] = []
+        for i, (vacancy_text, _cv) in enumerate(items, start=1):
+            locale = detect_vacancy_locale(vacancy_text)
+            locales.append(locale)
+            prompt_jobs.append((i, vacancy_text, locale))
+        prompt = build_batch_optimizer_prompt(prompt_jobs, profile_for_prompt(master))
+        n = len(items)
+        cfg = genai.GenerationConfig(
+            temperature=0.2,
+            max_output_tokens=32768,
+            response_mime_type="application/json",
+            response_schema=gemini_response_schema(OptimizerBatchOut),
+        )
+        last_err: Optional[Exception] = None
+        data: Optional[dict] = None
+        for attempt in range(1, 3):
+            try:
+                response = model.generate_content(prompt, generation_config=cfg)
+                raw = response_text(response)
+                parsed = parse_json_object(raw, context="gemini-batch")
+                OptimizerBatchOut.model_validate(parsed)
+                data = parsed
+                break
+            except Exception as e:
+                last_err = e
+                if is_quota_or_rate_limit(e):
+                    raise
+                logger.warning(
+                    "Gemini lote JSON inválido (intento %s/2, n=%s): %s",
+                    attempt,
+                    n,
+                    str(e)[:220],
+                )
+                cfg.temperature = 0.1
+        if data is None:
+            raise last_err or RuntimeError("Gemini lote falló")
+
+        raw_items = data.get("items") if isinstance(data.get("items"), list) else []
+        aligned = self._align_batch_items(raw_items, n)
+        missing = [i + 1 for i, row in enumerate(aligned) if row is None]
+        if missing:
+            raise RuntimeError(
+                f"El lote no trajo todos los CVs (faltan slots {missing}). Reintenta el lote."
+            )
+
+        out: list[Tuple[CvDocument, float, str, List[str], List[str], List[str], Dict[str, Any]]] = []
+        for i, (vacancy_text, cv) in enumerate(items):
+            row = aligned[i] or {}
+            packed = self._pack_optimizer(
+                row,
+                cv,
+                master,
+                locales[i],
+                vacancy_text,
+                attempts=1,
+                extra_meta={"batch_size": n, "batch_slot": i + 1},
+            )
+            out.append(packed)
+        return out
+
+    async def tailor_cv_batch(
+        self, items: list[tuple[str, CvDocument]]
+    ) -> list[Tuple[CvDocument, float, str, List[str], List[str], List[str], Dict[str, Any]]]:
+        if not self.is_configured():
+            raise RuntimeError("GEMINI_API_KEY no configurada")
+        return await asyncio.to_thread(self._tailor_cv_batch_sync, items)

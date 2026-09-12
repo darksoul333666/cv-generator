@@ -22,7 +22,7 @@ export function cvTemplateToBodyHtml(data: CVData): string {
     .join("  |  ");
 
   parts.push(
-    `<div style="font-family:Arial,Helvetica,sans-serif;padding:0.5in;max-width:8.5in;margin:0 auto;color:#222222;background:#fff;line-height:1.15;">`,
+    `<div class="cv-sheet" style="font-family:Arial,Helvetica,sans-serif;padding:0.7in;max-width:8.5in;margin:0 auto;color:#222222;background:#fff;line-height:1.15;">`,
   );
   parts.push(
     `<h1 style="font-size:18pt;font-weight:700;margin:0 0 2pt;text-align:center;color:#1A365D;letter-spacing:0.02em;text-transform:uppercase;">${esc(data.name)}</h1>`,
@@ -35,7 +35,7 @@ export function cvTemplateToBodyHtml(data: CVData): string {
   );
 
   const sectionTitle = (t: string) =>
-    `<h2 style="font-size:10.5pt;font-weight:700;margin:12pt 0 6pt;color:#1A365D;text-transform:uppercase;letter-spacing:0.04em;border-bottom:1px solid #CBD5E0;padding-bottom:3pt;">${esc(t)}</h2>`;
+    `<h2 class="cv-h2" style="font-size:10.5pt;font-weight:700;margin:12pt 0 6pt;color:#1A365D;text-transform:uppercase;letter-spacing:0.04em;border-bottom:1px solid #CBD5E0;padding-bottom:3pt;">${esc(t)}</h2>`;
 
   parts.push(sectionTitle(copy.summary));
   parts.push(
@@ -44,7 +44,7 @@ export function cvTemplateToBodyHtml(data: CVData): string {
 
   parts.push(sectionTitle(copy.experience));
   for (const job of data.experience) {
-    parts.push(`<div style="margin:0 0 8pt;">`);
+    parts.push(`<div class="cv-job" style="margin:0 0 8pt;">`);
     parts.push(
       `<div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;">`,
     );

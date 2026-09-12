@@ -95,7 +95,11 @@ function buildHtml(markup: string, locale: "en" | "es" = "es"): string {
   <style>
     * { box-sizing: border-box; }
     html, body { margin: 0; padding: 0; background: #fff; }
-    @page { size: letter; margin: 0; }
+    @page { size: letter; margin: 0.7in; }
+    .cv-sheet { padding: 0 !important; max-width: none !important; }
+    .cv-h2 { break-after: avoid; page-break-after: avoid; }
+    .cv-h2 + * { break-before: avoid; page-break-before: avoid; }
+    .cv-job, li { break-inside: avoid; page-break-inside: avoid; }
   </style>
 </head>
 <body>${markup}</body>
@@ -139,7 +143,7 @@ export async function POST(request: Request) {
       format: "Letter",
       printBackground: true,
       preferCSSPageSize: true,
-      margin: { top: "0", right: "0", bottom: "0", left: "0" },
+      margin: { top: "0.7in", right: "0.7in", bottom: "0.7in", left: "0.7in" },
     });
     return new NextResponse(Buffer.from(pdf), {
       status: 200,

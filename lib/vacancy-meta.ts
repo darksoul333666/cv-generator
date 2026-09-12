@@ -9,6 +9,26 @@ export type VacancyMeta = {
   vacancyUrl: string | null;
 };
 
+function normalizeVacancyUrl(url: string): string | null {
+  const raw = url.trim().replace(/[.,)]+$/, "");
+  if (!raw) return null;
+  const view = raw.match(/https?:\/\/(?:www\.)?linkedin\.com\/jobs\/view\/(\d+)/i);
+  if (view) return `https://www.linkedin.com/jobs/view/${view[1]}`;
+  const current = raw.match(/[?&]currentJobId=(\d+)/i);
+  if (current && /linkedin\.com/i.test(raw)) {
+    return `https://www.linkedin.com/jobs/view/${current[1]}`;
+  }
+  const occOffer = raw.match(
+    /https?:\/\/(?:www\.)?occ\.com\.mx\/empleo\/oferta\/(\d+)/i,
+  );
+  if (occOffer) return `https://www.occ.com.mx/empleo/oferta/${occOffer[1]}`;
+  const occJobId = raw.match(/[?&]jobid=(\d+)/i);
+  if (occJobId && /occ\.com\.mx/i.test(raw)) {
+    return `https://www.occ.com.mx/empleo/oferta/${occJobId[1]}`;
+  }
+  return /^https?:\/\//i.test(raw) ? raw : null;
+}
+
 export function splitVacancyMeta(raw: string): VacancyMeta {
   let companyName: string | null = null;
   let vacancyUrl: string | null = null;
@@ -22,8 +42,7 @@ export function splitVacancyMeta(raw: string): VacancyMeta {
     }
     const url = trimmed.match(URL_RE);
     if (url) {
-      const candidate = url[2].trim().replace(/[.,)]+$/, "");
-      if (/^https?:\/\//i.test(candidate)) vacancyUrl = candidate;
+      vacancyUrl = normalizeVacancyUrl(url[2]);
       continue;
     }
     kept.push(line);

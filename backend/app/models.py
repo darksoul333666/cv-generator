@@ -179,6 +179,9 @@ class HistorySummaryOut(BaseModel):
     cv_name: str = ""
     company_name: str = ""
     vacancy_url: Optional[str] = None
+    status: str = "ready"
+    error: str = ""
+    queue_position: Optional[int] = None
 
 
 class HistoryDetailOut(BaseModel):
@@ -188,10 +191,13 @@ class HistoryDetailOut(BaseModel):
     created_at: str
     match_percent: float
     reason: str = ""
-    cv: CvDocument
+    cv: Optional[CvDocument] = None
     cv_name: str = ""
     company_name: str = ""
     vacancy_url: Optional[str] = None
+    status: str = "ready"
+    error: str = ""
+    queue_position: Optional[int] = None
 
 
 class HistoryRenameIn(BaseModel):
@@ -200,4 +206,7 @@ class HistoryRenameIn(BaseModel):
 
 class HistoryListResponse(BaseModel):
     items: List[HistorySummaryOut]
+    batch_size: int = 5
+    queued_count: int = 0
+    generating_count: int = 0
 

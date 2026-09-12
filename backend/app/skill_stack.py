@@ -356,22 +356,101 @@ def _join(
     return ", ".join(labeled)
 
 
-def build_stack_from_master(master: dict, vacancy_text: str = "") -> StackBlock:
+def _guess_overlay_row(name: str) -> str:
+    key = _norm(name)
+    if "c#" in key or key in {"csharp", "f#"}:
+        return "backend"
+    if ".net" in key or "asp.net" in key or "entity framework" in key or key == "ef core":
+        return "backend"
+    if any(w in key for w in ("azure", "terraform", "kubernetes", "gcp", "google cloud")):
+        return "cloud"
+    if any(w in key for w in ("hipaa", "healthcare", "encryption", "oauth")):
+        return "architecture"
+    if "debug" in key:
+        return "testing"
+    if key in _STYLING:
+        return "styling"
+    if key in _STATE:
+        return "state"
+    if key in _QUALITY:
+        return "quality"
+    if any(w in key for w in ("react", "angular", "vue", "next", "typescript", "javascript", "html")):
+        return "frontend"
+    if any(w in key for w in ("node", "nest", "express", "adonis", "postgres", "sql", "prisma", "mongo", "api")):
+        return "backend"
+    return "backend"
+
+
+def _clean_overlay_name(raw: str) -> str:
+    name = str(raw or "").strip()
+    if not name or len(name) > 48:
+        return ""
+    if len(name.split()) > 5:
+        return ""
+    return name
+
+
+def _overlay_rows(extras: Optional[Iterable[str]]) -> dict[str, list[str]]:
+    buckets: dict[str, list[str]] = {
+        "frontend": [],
+        "styling": [],
+        "backend": [],
+        "state": [],
+        "cloud": [],
+        "mobile": [],
+        "architecture": [],
+        "testing": [],
+        "quality": [],
+    }
+    seen: set[str] = set()
+    for raw in extras or []:
+        name = _clean_overlay_name(str(raw))
+        if not name:
+            continue
+        key = _norm(name)
+        if key in seen:
+            continue
+        seen.add(key)
+        row = _guess_overlay_row(name)
+        if row in buckets:
+            buckets[row].append(name)
+    return buckets
+
+
+def _merge_row(base: list[str], overlay: list[str]) -> list[str]:
+    if not overlay:
+        return base
+    seen = {_norm(n) for n in overlay}
+    rest = [n for n in base if _norm(n) not in seen]
+    merged = overlay + rest
+    cap = max(_PER_ROW, len(overlay))
+    return merged[:cap]
+
+
+def build_stack_from_master(
+    master: dict,
+    vacancy_text: str = "",
+    overlay: Optional[Iterable[str]] = None,
+) -> StackBlock:
     vacancy = _norm(vacancy_text)
     original = vacancy_text or ""
     aliases = _alias_index(master)
     rows = _collect_by_row(master)
-    frontend = _sort_row(rows["frontend"], vacancy, aliases)
-    styling = _sort_row(rows["styling"], vacancy, aliases)
-    backend = _sort_row(rows["backend"], vacancy, aliases)
-    state = _sort_row(rows["state"], vacancy, aliases)
-    cloud = _fold_aws(
-        _sort_row(rows["cloud"], vacancy, aliases, cap=False), vacancy
-    )[:_PER_ROW]
-    mobile = _sort_row(rows["mobile"], vacancy, aliases)
-    architecture = _sort_row(rows["architecture"], vacancy, aliases)
-    testing = _sort_row(rows["testing"], vacancy, aliases)
-    quality = _sort_row(rows["quality"], vacancy, aliases)
+    extra = _overlay_rows(overlay)
+    frontend = _merge_row(_sort_row(rows["frontend"], vacancy, aliases), extra["frontend"])
+    styling = _merge_row(_sort_row(rows["styling"], vacancy, aliases), extra["styling"])
+    backend = _merge_row(_sort_row(rows["backend"], vacancy, aliases), extra["backend"])
+    state = _merge_row(_sort_row(rows["state"], vacancy, aliases), extra["state"])
+    cloud = _merge_row(
+        _fold_aws(_sort_row(rows["cloud"], vacancy, aliases, cap=False), vacancy)[:_PER_ROW],
+        extra["cloud"],
+    )
+    mobile = _merge_row(_sort_row(rows["mobile"], vacancy, aliases), extra["mobile"])
+    architecture = _merge_row(
+        _sort_row(rows["architecture"], vacancy, aliases), extra["architecture"]
+    )
+    testing = _merge_row(_sort_row(rows["testing"], vacancy, aliases), extra["testing"])
+    quality = _merge_row(_sort_row(rows["quality"], vacancy, aliases), extra["quality"])
     return StackBlock(
         frontend=_join(frontend, vacancy, aliases, original),
         styling=_join(styling, vacancy, aliases, original),
@@ -418,11 +497,10 @@ def vacancy_skill_keywords(
                 seen.add(key)
                 out.append(name)
     for raw in extra or []:
-        name = str(raw).strip()
+        name = _clean_overlay_name(str(raw))
         key = _norm(name)
         if not name or key in seen:
             continue
-        if any(_norm(x) == key or _compact(x) == _compact(name) for x in inventory):
-            seen.add(key)
-            out.append(name)
+        seen.add(key)
+        out.append(name)
     return out[:15]

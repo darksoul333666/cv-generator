@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from contextlib import contextmanager
+from contextlib import asynccontextmanager, contextmanager
+import asyncio
 import fcntl
 import logging
 import json
@@ -20,13 +21,31 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 
 from .cv_history import get_generated_cv, list_generated_summaries, update_generated_cv_name
+from .cv_queue import (
+    BATCH_SIZE,
+    QueueEnqueueOut,
+    QueueFlushOut,
+    QueueStatusOut,
+    STATUS_ERROR,
+    enqueue_optimize,
+    flush_batch,
+    generating_count,
+    get_queue_job,
+    list_pending_jobs,
+    queue_position,
+    queue_status,
+    queued_count,
+    retry_queue_job,
+    start_queue_worker,
+    stop_queue_worker,
+    wait_for_job,
+)
 from .extension_routes import router as extension_router
 from .fetch_vacancy import text_from_url
 from .llm import GEMINI_QUOTA_USER_MESSAGE, get_cv_llm_backend, is_quota_or_rate_limit
 from .matcher import load_all_cvs
 from .vacancy_pipeline import (
     vacancy_blob_from_text_and_url,
-    run_full_optimize_pipeline,
     run_match_for_blob,
 )
 from .compact_master import export_ollama_profile, load_ollama_profile
@@ -57,7 +76,15 @@ load_dotenv(Path(__file__).resolve().parent.parent / ".env")
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-app = FastAPI(title="CV Generator API", version="0.1.0")
+
+@asynccontextmanager
+async def lifespan(_app: FastAPI):
+    await start_queue_worker()
+    yield
+    await stop_queue_worker()
+
+
+app = FastAPI(title="CV Generator API", version="0.1.0", lifespan=lifespan)
 
 
 @app.exception_handler(HTTPException)
@@ -254,27 +281,110 @@ def put_master_profile_patch(body: MasterProfilePatchIn) -> dict:
         return raw
 
 
-@app.post("/v1/optimize", response_model=TailorResponse)
-async def optimize_cv(body: VacancyRequest) -> TailorResponse:
-    text = (body.vacancy_text or "").strip()
-    if not text:
-        raise HTTPException(status_code=400, detail="Pega el texto de la vacante.")
+def _tailor_from_history(item_id: str) -> TailorResponse:
+    record = get_generated_cv(item_id)
+    if record is None:
+        raise HTTPException(status_code=500, detail="El CV se generó pero no quedó en el historial.")
+    return TailorResponse(
+        cv=record.cv,
+        match_percent=record.match_percent,
+        reason=record.reason,
+        saved_id=record.id,
+        cv_name=record.cv_name or None,
+        company_name=record.company_name or None,
+        vacancy_url=record.vacancy_url,
+    )
+
+
+def _history_from_generated(item) -> HistorySummaryOut:
+    data = item.model_dump()
+    data["status"] = "ready"
+    return HistorySummaryOut.model_validate(data)
+
+
+def _history_from_queue(job) -> HistorySummaryOut:
+    pos = queue_position(job.id) or None
+    return HistorySummaryOut(
+        id=job.id,
+        vacancy_title=job.vacancy_title,
+        created_at=job.created_at,
+        match_percent=job.match_percent,
+        target_role="",
+        cv_name=job.cv_name or job.vacancy_title,
+        company_name=job.company_name or "",
+        vacancy_url=job.vacancy_url,
+        status=job.status,
+        error=job.error or "",
+        queue_position=pos,
+    )
+
+
+@app.post("/v1/queue", response_model=QueueEnqueueOut)
+async def enqueue_cv(body: VacancyRequest) -> QueueEnqueueOut:
+    """Encola la vacante en el lote (auto a 5, o flush manual)."""
     try:
-        _, tailored = await run_full_optimize_pipeline(
-            text,
+        return enqueue_optimize(
+            body.vacancy_text or "",
             vacancy_url=body.vacancy_url,
             company_name=body.company_name,
         )
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e)) from e
     except RuntimeError as e:
+        raise HTTPException(status_code=429, detail=str(e)) from e
+
+
+@app.get("/v1/queue/status", response_model=QueueStatusOut)
+async def get_queue_status() -> QueueStatusOut:
+    return queue_status()
+
+
+@app.post("/v1/queue/flush", response_model=QueueFlushOut)
+async def flush_queued_cvs() -> QueueFlushOut:
+    try:
+        return flush_batch()
+    except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e)) from e
-    except Exception as e:
-        if is_quota_or_rate_limit(e):
-            logger.warning("[/v1/optimize] Cuota LLM (429): %s", str(e)[:400])
-            raise HTTPException(status_code=429, detail=GEMINI_QUOTA_USER_MESSAGE) from e
-        raise
-    return tailored
+
+
+@app.post("/v1/queue/{job_id}/retry", response_model=QueueEnqueueOut)
+async def retry_queued_cv(job_id: str) -> QueueEnqueueOut:
+    try:
+        return retry_queue_job(job_id)
+    except LookupError as e:
+        raise HTTPException(status_code=404, detail=str(e)) from e
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e)) from e
+    except RuntimeError as e:
+        raise HTTPException(status_code=429, detail=str(e)) from e
+
+
+@app.post("/v1/optimize", response_model=TailorResponse)
+async def optimize_cv(body: VacancyRequest) -> TailorResponse:
+    text = (body.vacancy_text or "").strip()
+    if not text:
+        raise HTTPException(status_code=400, detail="Pega el texto de la vacante.")
+    try:
+        queued = enqueue_optimize(
+            text,
+            vacancy_url=body.vacancy_url,
+            company_name=body.company_name,
+        )
+        finished = await wait_for_job(queued.id)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e)) from e
+    except RuntimeError as e:
+        raise HTTPException(status_code=400, detail=str(e)) from e
+    except asyncio.TimeoutError as e:
+        raise HTTPException(
+            status_code=504,
+            detail="La cola tardó demasiado. Revisa el historial: el CV puede seguir generándose.",
+        ) from e
+    if finished.status == STATUS_ERROR:
+        if GEMINI_QUOTA_USER_MESSAGE in (finished.error or ""):
+            raise HTTPException(status_code=429, detail=finished.error)
+        raise HTTPException(status_code=400, detail=finished.error or "No se pudo generar el CV")
+    return _tailor_from_history(finished.saved_id or finished.id)
 
 
 @app.post("/v1/match", response_model=MatchResponse)
@@ -293,27 +403,53 @@ async def match_vacancy(body: VacancyRequest) -> MatchResponse:
 
 @app.get("/v1/history", response_model=HistoryListResponse)
 async def list_cv_history() -> HistoryListResponse:
+    generated = [_history_from_generated(i) for i in list_generated_summaries()]
+    seen = {item.id for item in generated}
+    pending = [_history_from_queue(job) for job in list_pending_jobs() if job.id not in seen]
+    items = pending + generated
+    items.sort(key=lambda item: item.created_at, reverse=True)
     return HistoryListResponse(
-        items=[HistorySummaryOut.model_validate(i.model_dump()) for i in list_generated_summaries()]
+        items=items,
+        batch_size=BATCH_SIZE,
+        queued_count=queued_count(),
+        generating_count=generating_count(),
     )
 
 
 @app.get("/v1/history/{item_id}", response_model=HistoryDetailOut)
 async def get_cv_history_item(item_id: str) -> HistoryDetailOut:
     record = get_generated_cv(item_id)
-    if record is None:
+    if record is not None:
+        return HistoryDetailOut(
+            id=record.id,
+            vacancy_title=record.vacancy_title,
+            vacancy_text=record.vacancy_text,
+            created_at=record.created_at,
+            match_percent=record.match_percent,
+            reason=record.reason,
+            cv=record.cv,
+            cv_name=record.cv_name or "",
+            company_name=record.company_name or "",
+            vacancy_url=record.vacancy_url,
+            status="ready",
+        )
+    job = get_queue_job(item_id)
+    if job is None:
         raise HTTPException(status_code=404, detail="No hay un CV guardado con ese id.")
     return HistoryDetailOut(
-        id=record.id,
-        vacancy_title=record.vacancy_title,
-        vacancy_text=record.vacancy_text,
-        created_at=record.created_at,
-        match_percent=record.match_percent,
-        reason=record.reason,
-        cv=record.cv,
-        cv_name=record.cv_name or "",
-        company_name=record.company_name or "",
-        vacancy_url=record.vacancy_url,
+        id=job.id,
+        vacancy_title=job.vacancy_title,
+        vacancy_text=job.vacancy_text,
+        created_at=job.created_at,
+        match_percent=job.match_percent,
+        reason=job.error or "",
+        cv=None,
+        cv_name=job.cv_name or job.vacancy_title,
+        company_name=job.company_name or "",
+        vacancy_url=job.vacancy_url,
+        status=job.status,
+        error=job.error or "",
+        queue_position=queue_position(job.id) or None,
     )
 
 

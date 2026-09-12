@@ -301,8 +301,9 @@ def build_ollama_profile(raw: dict) -> dict:
         "positioning": positioning,
         "closed_world_rules": [
             "This profile is the ONLY source of truth about the candidate.",
-            "If a fact is not listed here, it does not exist.",
-            "Do not invent companies, titles, dates, technologies, metrics, or projects.",
+            "If a company, title, date, metric or project is not listed here, it does not exist.",
+            "Do not invent companies, titles, dates, metrics, or projects.",
+            "You MAY add technologies from the job description that are not in skill_inventory to maximize ATS match. The candidate can learn adjacent stacks.",
             "A skill in skill_inventory may appear in SKILLS, not automatically in EXPERIENCE.",
             "Items in personal_products_not_employment are not jobs. Do not list them as employers.",
             "Copy company names and dates exactly from experience[].",

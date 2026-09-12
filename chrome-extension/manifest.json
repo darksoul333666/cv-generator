@@ -1,11 +1,21 @@
 {
   "manifest_version": 3,
   "name": "CV Generator — copiar vacante",
-  "version": "0.2.0",
-  "description": "Copia al portapapeles solo el contenido útil de la vacante (Indeed, LinkedIn y otros).",
-  "permissions": ["activeTab", "scripting"],
+  "version": "0.4.8",
+  "description": "Copia o envía la vacante al generador de CV y sigue el objetivo diario.",
+  "permissions": ["activeTab", "scripting", "storage", "alarms", "notifications"],
+  "host_permissions": [
+    "http://127.0.0.1:8000/*",
+    "http://localhost:8000/*",
+    "http://127.0.0.1:3000/*",
+    "http://localhost:3000/*"
+  ],
+  "icons": {
+    "48": "icon48.png"
+  },
   "action": {
-    "default_title": "Copiar vacante al portapapeles"
+    "default_title": "Copiar vacante al portapapeles",
+    "default_icon": "icon48.png"
   },
   "background": {
     "service_worker": "background.js"
@@ -21,7 +31,11 @@
         "https://*.computrabajo.com/*",
         "https://*.computrabajo.com.mx/*",
         "https://*.occ.com.mx/*",
-        "https://occ.com.mx/*"
+        "https://occ.com.mx/*",
+        "https://*.getonbrd.com/*",
+        "https://getonbrd.com/*",
+        "https://*.getonboard.com/*",
+        "https://getonboard.com/*"
       ],
       "js": ["extract.js", "content.js"],
       "run_at": "document_idle"

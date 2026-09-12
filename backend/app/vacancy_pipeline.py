@@ -71,6 +71,7 @@ async def run_full_optimize_pipeline(
     vacancy_text: str,
     vacancy_url: Optional[str] = None,
     company_name: Optional[str] = None,
+    item_id: Optional[str] = None,
 ) -> Tuple[MatchResponse, TailorResponse]:
     """Match por keywords + tailor. Empresa y URL no entran al modelo: solo historial local."""
     parsed = parse_pasted_vacancy(vacancy_text or "")
@@ -87,9 +88,76 @@ async def run_full_optimize_pipeline(
         tailor=tailored,
         company_name=company,
         vacancy_url=stored_url,
+        item_id=item_id,
     )
     tailored.saved_id = record.id
     tailored.cv_name = record.cv_name
     tailored.company_name = record.company_name or None
     tailored.vacancy_url = record.vacancy_url
     return match_resp, tailored
+
+
+async def run_full_optimize_batch(
+    jobs: list[tuple[str, str, Optional[str], str]],
+) -> list[tuple[str, TailorResponse]]:
+    """
+    Match local por vacante + una llamada LLM para todo el lote.
+    Cada ítem es (item_id, vacancy_text, vacancy_url, company_name).
+    """
+    if not jobs:
+        return []
+    llm = get_cv_llm_backend()
+    if not llm.is_configured():
+        raise RuntimeError(tailor_missing_key_message())
+
+    prepared: list[tuple[str, str, Optional[str], str, MatchResponse]] = []
+    pairs: list[tuple[str, CvDocument]] = []
+    for item_id, vacancy_text, vacancy_url, company_name in jobs:
+        blob = (vacancy_text or "").strip()
+        if not blob:
+            raise ValueError("Hay una vacante sin texto en el lote.")
+        match_resp = await run_match_for_blob(blob)
+        prepared.append((item_id, blob, vacancy_url, company_name, match_resp))
+        pairs.append((blob, match_resp.cv))
+
+    packed_list = await llm.tailor_cv_batch(pairs)
+    if len(packed_list) != len(jobs):
+        raise RuntimeError(
+            f"El modelo devolvió {len(packed_list)} CVs y el lote tenía {len(jobs)}."
+        )
+
+    out: list[tuple[str, TailorResponse]] = []
+    for (item_id, blob, vacancy_url, company_name, match_resp), packed in zip(
+        prepared, packed_list
+    ):
+        cv_out, match_percent, reason, notes_to_verify, gaps, reinforcement_plan, meta = packed
+        meta.update(
+            {
+                "vacancy_chars": len(blob),
+                "flow": "optimize_batch",
+                "matcher": "keywords",
+            }
+        )
+        tailored = TailorResponse(
+            cv=cv_out,
+            match_percent=match_percent,
+            reason=reason,
+            notes_to_verify=notes_to_verify,
+            gaps=gaps,
+            reinforcement_plan=reinforcement_plan,
+            raw_meta=meta,
+        )
+        record = append_generated_cv(
+            vacancy_title=vacancy_title_from_text(blob),
+            vacancy_text=blob,
+            tailor=tailored,
+            company_name=company_name,
+            vacancy_url=vacancy_url,
+            item_id=item_id,
+        )
+        tailored.saved_id = record.id
+        tailored.cv_name = record.cv_name
+        tailored.company_name = record.company_name or None
+        tailored.vacancy_url = record.vacancy_url
+        out.append((item_id, tailored))
+    return out

@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ExperienceEditor } from "@/components/experience-editor";
 import {
@@ -161,6 +160,17 @@ export function SkillsWorkbench() {
     }
   }, [draft]);
 
+  useEffect(() => {
+    const onKey = (event: KeyboardEvent) => {
+      if (!(event.metaKey || event.ctrlKey) || event.key.toLowerCase() !== "s") return;
+      event.preventDefault();
+      if (!profile || saving) return;
+      void onSave();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onSave, profile, saving]);
+
   const onResolve = useCallback(async (field: string, resolvedValue: string) => {
     setSaving(true);
     setError(null);
@@ -188,6 +198,7 @@ export function SkillsWorkbench() {
           </h1>
           <p className="max-w-2xl text-sm leading-relaxed text-zinc-600">
             Edita experiencia y skills del perfil que usa el generador de CV.
+            Ctrl + S (o ⌘ S) guarda.
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -195,22 +206,11 @@ export function SkillsWorkbench() {
             type="button"
             onClick={onSave}
             disabled={!profile || saving}
+            aria-keyshortcuts="Control+s"
             className="rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-zinc-800 disabled:opacity-60"
           >
             {saving ? "Guardando…" : "Guardar cambios"}
           </button>
-          <Link
-            href="/historial"
-            className="rounded-lg border border-zinc-300 bg-white px-3 py-1.5 text-sm font-medium text-zinc-900 hover:bg-zinc-100"
-          >
-            Historial
-          </Link>
-          <Link
-            href="/"
-            className="rounded-lg border border-zinc-300 bg-white px-3 py-1.5 text-sm font-medium text-zinc-900 hover:bg-zinc-100"
-          >
-            Volver al generador
-          </Link>
         </div>
       </header>
 
@@ -288,14 +288,15 @@ export function SkillsWorkbench() {
                       </span>
                     </div>
                     <div className="mt-2 flex flex-wrap gap-2">
-                      {c.values.map((v) => (
+                      {c.values.map((v, vi) => (
                         <button
                           key={v}
                           type="button"
                           disabled={saving}
+                          autoFocus={conflicts[0] === c && vi === 0}
                           onClick={() => onResolve(c.field, v)}
                           className="rounded-full border border-amber-300 bg-white px-2.5 py-1 text-xs hover:bg-amber-100 disabled:opacity-50"
-                          title="Validar este valor"
+                          aria-label={`Usar ${v} para ${c.field}`}
                         >
                           Usar: {v}
                         </button>
@@ -342,9 +343,9 @@ export function SkillsWorkbench() {
                           type="button"
                           onClick={() => removeSkill(kind, s)}
                           className="rounded-full border border-zinc-300 bg-zinc-50 px-2.5 py-1 text-xs text-zinc-800 hover:bg-zinc-100"
-                          title="Quitar"
+                          aria-label={`Quitar ${s} de ${LABELS[kind]}`}
                         >
-                          {s} <span className="text-zinc-500">×</span>
+                          {s} <span aria-hidden className="text-zinc-500">×</span>
                         </button>
                       ))}
                       {(draft[kind] ?? []).length === 0 ? (
@@ -355,6 +356,10 @@ export function SkillsWorkbench() {
                     <div className="mt-3 flex gap-2">
                       <input
                         value={inputs[kind] ?? ""}
+                        aria-label={`Agregar skill a ${LABELS[kind]}`}
+                        autoFocus={
+                          conflicts.length === 0 && kind === MASTER_SKILL_KINDS[0]
+                        }
                         onChange={(e) =>
                           setInputs((p) => ({ ...p, [kind]: e.target.value }))
                         }

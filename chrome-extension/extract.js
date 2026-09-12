@@ -68,15 +68,27 @@
     return normalizeBlock(clone.innerText || clone.textContent || "");
   }
 
+  function linkedinAboutJob(doc) {
+    return (
+      (doc && doc.querySelector('[id^="JobDetails_AboutTheJob_"]')) ||
+      null
+    );
+  }
+
   function descriptionRoot(doc) {
     const documentRef = doc || document;
     return (
+      linkedinAboutJob(documentRef) ||
       documentRef.querySelector("#jobsearch-ViewjobPaneWrapper") ||
       documentRef.querySelector(".jobsearch-JobComponent") ||
       documentRef.querySelector(".jobs-description") ||
       documentRef.querySelector(".jobs-details") ||
       documentRef.querySelector("#job-details") ||
-      documentRef.querySelector("main") ||
+      documentRef.querySelector("#job-body") ||
+      documentRef.querySelector("#job-detail-container") ||
+      documentRef.querySelector("[data-offers-grid-detail-container]") ||
+      documentRef.querySelector(".gb-landing-cover") ||
+      documentRef.querySelector("main:not(#workspace)") ||
       documentRef
     );
   }
@@ -104,11 +116,19 @@
     if (h === "glassdoor.com" || h.endsWith(".glassdoor.com")) return "glassdoor";
     if (h.includes("computrabajo.")) return "computrabajo";
     if (h === "occ.com.mx" || h.endsWith(".occ.com.mx")) return "occ";
+    if (
+      h === "getonbrd.com" ||
+      h.endsWith(".getonbrd.com") ||
+      h === "getonboard.com" ||
+      h.endsWith(".getonboard.com")
+    ) {
+      return "getonboard";
+    }
     return "generic";
   }
 
   const DROP_HEADING =
-    /^(beneficios|benefits|perks|prestaciones|what we offer|lo que (te )?ofrecemos|about (the )?(company|us|our team)|acerca de (la |nuestra )?empresa|sobre (la empresa|nosotros|la compa[nñ][ií]a)|qui[eé]nes somos|our (culture|values)|nuestra cultura|equal opportunity|diversity|inclusi[oó]n)\b/i;
+    /^(beneficios|benefits|perks|prestaciones|what we offer|lo que (te )?ofrecemos|ofrecemos|about (the )?(company|us|our team)|acerca de (la |nuestra )?empresa|sobre (la empresa|nosotros|la compa[nñ][ií]a)|qui[eé]nes somos|our (culture|values)|nuestra cultura|equal opportunity|diversity|inclusi[oó]n)\b/i;
 
   const KEEP_HEADING =
     /^(descripci[oó]n|puesto|requirements?|requisitos|responsabilidades|responsibilities|qualifications|skills|habilidades|experiencia|stack|tecnolog|funciones|obligaciones|about the (role|job|position)|the role|el (puesto|rol)|what you.?ll do|qu[eé] (har[aá]s|buscamos))\b/i;
@@ -180,14 +200,25 @@
       return /^https?:/i.test(href) ? href.split("#")[0] : "";
     }
     if (site === "linkedin") {
+      const id = linkedinJobId(loc, doc);
+      if (id) return `https://www.linkedin.com/jobs/view/${id}`;
+      return "";
+    }
+    if (site === "occ") {
+      const id = occJobId(loc, doc);
+      if (id) return `https://www.occ.com.mx/empleo/oferta/${id}`;
+      return "";
+    }
+    if (site === "getonboard") {
+      const canonical = doc.querySelector('link[rel="canonical"]');
+      const canonHref = canonical && canonical.getAttribute("href");
+      if (canonHref && /^https?:/i.test(canonHref)) return canonHref.split("#")[0];
+      const og = doc.querySelector('meta[property="og:url"]');
+      const ogHref = og && og.getAttribute("content");
+      if (ogHref && /^https?:/i.test(ogHref)) return ogHref.split("#")[0];
       const path = (loc && loc.pathname) || "";
-      const m = path.match(/\/jobs\/view\/(\d+)/);
-      if (m && origin) return `${origin}/jobs/view/${m[1]}`;
-      const a = doc.querySelector("a[href*='/jobs/view/']");
-      if (a) {
-        const hm = (a.getAttribute("href") || "").match(/\/jobs\/view\/(\d+)/);
-        if (hm && origin) return `${origin}/jobs/view/${hm[1]}`;
-      }
+      const m = path.match(/\/empleos\/[^/]+\/([^/?#]+)/);
+      if (m && origin) return `${origin}${path.split("?")[0]}`;
       return href.split("?")[0] || href.split("#")[0] || "";
     }
     return href.split("#")[0] || "";
@@ -238,24 +269,107 @@
     return { title, company, location, extra, description };
   }
 
+  function linkedinJobId(loc, doc) {
+    const href = (loc && loc.href) || "";
+    const path = (loc && loc.pathname) || "";
+    const fromPath = path.match(/\/jobs\/view\/(\d+)/);
+    if (fromPath) return fromPath[1];
+    const fromQuery = queryParam(href, ["currentJobId"]);
+    if (fromQuery && /^\d{5,}$/.test(fromQuery)) return fromQuery;
+    const about = linkedinAboutJob(doc);
+    if (about) {
+      const fromAbout = String(about.id || "").match(/(\d{5,})$/);
+      if (fromAbout) return fromAbout[1];
+    }
+    const slot = doc && doc.querySelector('[id^="JobDetails_"]');
+    if (slot) {
+      const fromSlot = String(slot.id || "").match(/(\d{5,})$/);
+      if (fromSlot) return fromSlot[1];
+    }
+    const link = doc && doc.querySelector('a[href*="/jobs/view/"]');
+    if (link) {
+      const fromLink = (link.getAttribute("href") || "").match(/\/jobs\/view\/(\d+)/);
+      if (fromLink) return fromLink[1];
+    }
+    return "";
+  }
+
+  function linkedinTitleCompany(doc) {
+    const raw = String((doc && doc.title) || "")
+      .replace(/\s*\|\s*LinkedIn\s*$/i, "")
+      .trim();
+    const parts = raw.split("|").map((p) => cleanLine(p)).filter(Boolean);
+    return { title: parts[0] || "", company: parts[1] || "" };
+  }
+
+  function stripLinkedinSearchChrome(text) {
+    const raw = String(text || "");
+    if (!raw) return "";
+    const low = raw.toLowerCase();
+    const looksLikeSearchList =
+      /\d+\s+resultados/.test(low) ||
+      /c[oó]mo se clasifican los anuncios/.test(low) ||
+      (low.match(/adel[aá]ntate a solicitar/g) || []).length >= 2;
+    if (looksLikeSearchList) {
+      const markers = [
+        "acerca del empleo",
+        "about the job",
+        "about this job",
+        "job description",
+        "descripci\u00f3n del empleo",
+      ];
+      let cut = -1;
+      for (const marker of markers) {
+        const i = low.indexOf(marker);
+        if (i >= 0 && (cut < 0 || i < cut)) cut = i;
+      }
+      if (cut >= 0) return normalizeBlock(raw.slice(cut));
+    }
+    return normalizeBlock(
+      raw
+        .split("\n")
+        .filter((line) => {
+          const t = line.trim();
+          if (!t) return true;
+          return !/^\d+\s+resultados\b|^c[oó]mo se clasifican|^adel[aá]ntate a solicitar|^solicitud sencilla|^publicado hace|^visto ·|^¿estos resultados|^abonarse a premium|^mira empleos donde figuras|^reactivar premium|^linkedin corporation/i.test(
+            t,
+          );
+        })
+        .join("\n"),
+    );
+  }
+
   function extractLinkedin(doc) {
+    const about = linkedinAboutJob(doc);
     const pane =
+      about ||
       doc.querySelector(".jobs-details") ||
       doc.querySelector(".jobs-search__job-details") ||
       doc.querySelector(".job-view-layout") ||
-      doc;
+      null;
 
-    const title = firstText(pane, [
-      ".job-details-jobs-unified-top-card__job-title h1",
-      ".job-details-jobs-unified-top-card__job-title",
-      "h1.t-24",
-      "h1",
-    ]);
-    const company = firstText(pane, [
-      ".job-details-jobs-unified-top-card__company-name a",
-      ".job-details-jobs-unified-top-card__company-name",
-      ".jobs-unified-top-card__company-name",
-    ]);
+    const fromTitle = linkedinTitleCompany(doc);
+    const title =
+      firstText(pane, [
+        ".job-details-jobs-unified-top-card__job-title h1",
+        ".job-details-jobs-unified-top-card__job-title",
+        "h1.t-24",
+        "h1",
+      ]) || fromTitle.title;
+    const companyEl = doc.querySelector(
+      '[aria-label^="Empresa,"], [aria-label^="Company,"]',
+    );
+    const companyAria = cleanLine(
+      (companyEl && companyEl.getAttribute("aria-label")) || "",
+    );
+    const company =
+      firstText(pane || doc, [
+        ".job-details-jobs-unified-top-card__company-name a",
+        ".job-details-jobs-unified-top-card__company-name",
+        ".jobs-unified-top-card__company-name",
+      ]) ||
+      (companyAria && companyAria.replace(/^(empresa|company)\s*,\s*/i, "")) ||
+      fromTitle.company;
     const location = firstText(pane, [
       ".job-details-jobs-unified-top-card__primary-description-container",
       ".jobs-unified-top-card__bullet",
@@ -263,12 +377,14 @@
     ]);
 
     const descEl =
-      pane.querySelector("#job-details") ||
-      pane.querySelector(".jobs-description__content") ||
-      pane.querySelector(".jobs-box__html-content") ||
-      pane.querySelector(".jobs-description-content__text") ||
-      pane.querySelector(".jobs-description");
-    const description = elementToText(descEl);
+      about ||
+      (pane &&
+        (pane.querySelector("#job-details") ||
+          pane.querySelector(".jobs-description__content") ||
+          pane.querySelector(".jobs-box__html-content") ||
+          pane.querySelector(".jobs-description-content__text") ||
+          pane.querySelector(".jobs-description")));
+    const description = stripLinkedinSearchChrome(elementToText(descEl));
 
     return { title, company, location, extra: [], description };
   }
@@ -313,18 +429,165 @@
     };
   }
 
+  function extractGetOnBoard(doc) {
+    const title = firstText(doc, [
+      'h1.gb-landing-cover__title [itemprop="title"]',
+      "h1.gb-landing-cover__title",
+      '[itemprop="title"]',
+      "h1",
+    ]);
+    const company = firstText(doc, [
+      '[itemprop="hiringOrganization"] [itemprop="name"]',
+      '.gb-landing-cover a[href*="/companies/"] strong',
+      "strong[itemprop='name']",
+    ]);
+    const location = firstText(doc, [
+      '[itemprop="jobLocation"] .location',
+      '[itemprop="jobLocation"]',
+      ".gb-landing-cover .location",
+    ]);
+    const seniority = firstText(doc, ['[itemprop="qualifications"]']);
+    const modality = firstText(doc, [
+      ".gb-landing-cover h2.size1",
+    ]);
+    const extra = uniqueLines([
+      seniority,
+      /full[-\s]?time/i.test(modality) ? "Full time" : "",
+      /part[-\s]?time/i.test(modality) ? "Part time" : "",
+      ...Array.from(
+        doc.querySelectorAll('.gb-tags[itemprop="skills"] .gb-tags__item'),
+      ).map((el) => cleanLine(el.innerText || el.textContent || "")),
+    ]).filter(
+      (line) =>
+        line &&
+        line !== title &&
+        line !== company &&
+        !/^(programaci[oó]n|m[aá]s trabajos)/i.test(line),
+    );
+
+    const descRoot = doc.querySelector("#job-body") ||
+      doc.querySelector('[itemprop="description"]');
+    let description = elementToText(descRoot);
+    description = description
+      .replace(/Postula a este empleo a través de Get on Board\.?/gi, "")
+      .replace(/GETONBRD Job ID:\s*\d+/gi, "")
+      .replace(/\n{3,}/g, "\n\n")
+      .trim();
+
+    return { title, company, location, extra, description };
+  }
+
+  function occJobId(loc, doc) {
+    const href = (loc && loc.href) || "";
+    const fromQ = queryParam(href, ["jobid"]);
+    if (fromQ && /^\d+$/.test(fromQ)) return fromQ;
+    const path = (loc && loc.pathname) || "";
+    const fromPath = path.match(/\/empleo\/oferta\/(\d+)/i);
+    if (fromPath) return fromPath[1];
+    const share = doc.querySelector(
+      "[data-url*='/empleo/oferta/'], [data-url-offer-copy*='/empleo/oferta/']",
+    );
+    if (share) {
+      const raw =
+        share.getAttribute("data-url") ||
+        share.getAttribute("data-url-offer-copy") ||
+        "";
+      const m = raw.match(/\/empleo\/oferta\/(\d+)/i);
+      if (m) return m[1];
+    }
+    const marked = doc.querySelector(
+      "#job-detail-container [data-id], [data-offers-grid-detail-container][data-id]",
+    );
+    const dataId = marked && marked.getAttribute("data-id");
+    if (dataId && /^\d+$/.test(dataId)) return dataId;
+    const idLine = Array.from(doc.querySelectorAll("p")).find((p) =>
+      /^ID:\s*\d+/i.test(cleanLine(p.innerText || p.textContent || "")),
+    );
+    if (idLine) {
+      const m = cleanLine(idLine.innerText || "").match(/ID:\s*(\d+)/i);
+      if (m) return m[1];
+    }
+    return "";
+  }
+
+  function occDetailRoot(doc) {
+    const desktop =
+      doc.querySelector("#job-detail-container [data-offer-content]") ||
+      doc.querySelector("#job-detail-container [data-offers-grid-detail-container]") ||
+      doc.querySelector("#job-detail-container");
+    if (desktop && occHasJobBody(desktop)) return desktop;
+    const mobile = doc.querySelector(
+      '[data-offers-grid-detail-container="mobile"]',
+    );
+    if (mobile && occHasJobBody(mobile)) return mobile;
+    const standalone =
+      doc.querySelector("article .rich-text") ||
+      doc.querySelector("main .rich-text") ||
+      doc.querySelector(".rich-text");
+    if (standalone) {
+      return standalone.closest("article") || standalone.closest("main") || standalone;
+    }
+    return desktop || mobile;
+  }
+
+  function occHasJobBody(root) {
+    if (!root) return false;
+    if (root.querySelector("[data-offers-grid-detail-title], .rich-text")) {
+      return true;
+    }
+    return elementToText(root).length > 120;
+  }
+
+  function stripOccChrome(text) {
+    if (!text) return "";
+    const drop =
+      /^(postularme|compartir( en (facebook|x))?|copiar enlace|empresa verificada|reportar vacante|vacantes similares|enviar correo|datos de contacto|recuerda que ning[uú]n reclutador|id:\s*\d+)\b/i;
+    const kept = String(text)
+      .split("\n")
+      .filter((line) => !drop.test(cleanLine(line)));
+    return normalizeBlock(kept.join("\n"));
+  }
+
   function extractOcc(doc) {
-    const title = firstText(doc, ["h1"]);
+    const root = occDetailRoot(doc) || doc;
+    const title = firstText(root, [
+      "[data-offers-grid-detail-title]",
+      "p.font-h4-m",
+      "h1",
+    ]);
+    const company = firstText(root, [
+      'a[href*="/empleos/bolsa-de-trabajo-"]',
+    ]).replace(/^empresa verificada$/i, "");
+    const location = firstText(root, [
+      ".icon-location-pin + label",
+      ".line-clamp-1 label",
+    ]);
+    const moneyEl = root.querySelector(".i_money");
+    const salary = moneyEl
+      ? cleanLine((moneyEl.closest("p") || moneyEl.parentElement || moneyEl).innerText || "")
+      : "";
+    const extra = uniqueLines([
+      salary,
+      ...Array.from(root.querySelectorAll(".icon-journey + p, .icon-journey ~ p"))
+        .map((el) => cleanLine(el.innerText || el.textContent || ""))
+        .filter(Boolean),
+    ]).filter(
+      (line) =>
+        line &&
+        line !== title &&
+        line !== company &&
+        !/empresa verificada/i.test(line),
+    );
     const descEl =
-      doc.querySelector("[class*='job-description']") ||
-      doc.querySelector("#job-description") ||
-      doc.querySelector("article");
+      root.querySelector(".rich-text") ||
+      root.querySelector(".break-words.mb-8") ||
+      root;
     return {
       title,
-      company: firstText(doc, ["[class*='company']"]),
-      location: "",
-      extra: [],
-      description: elementToText(descEl),
+      company,
+      location,
+      extra,
+      description: stripOccChrome(elementToText(descEl)),
     };
   }
 
@@ -428,9 +691,25 @@
     else if (site === "glassdoor") rec = extractGlassdoor(documentRef);
     else if (site === "computrabajo") rec = extractComputrabajo(documentRef);
     else if (site === "occ") rec = extractOcc(documentRef);
+    else if (site === "getonboard") rec = extractGetOnBoard(documentRef);
     else rec = extractGeneric(documentRef);
 
-    if (!rec || !(rec.description || "").length) {
+    if (site === "linkedin" && rec && !(rec.description || "").length) {
+      const fromLd = jobPostingFromLd(documentRef);
+      if (fromLd && (fromLd.description || "").length > 80) {
+        rec = {
+          title: rec.title || fromLd.title,
+          company: rec.company || fromLd.company,
+          location: rec.location || fromLd.location,
+          extra: fromLd.extra || [],
+          description: stripLinkedinSearchChrome(fromLd.description),
+        };
+      }
+    } else if (
+      site !== "linkedin" &&
+      site !== "occ" &&
+      (!rec || !(rec.description || "").length)
+    ) {
       rec = extractGeneric(documentRef) || rec || {
         title: "",
         company: "",

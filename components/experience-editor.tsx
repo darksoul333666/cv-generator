@@ -192,7 +192,7 @@ export function ExperienceEditor({ profile, onSaved, onError, onDraftChange }: P
                     onClick={() => move(index, -1)}
                     disabled={index === 0}
                     className="rounded border border-zinc-300 px-2 py-1 text-xs hover:bg-zinc-50 disabled:opacity-40"
-                    title="Subir"
+                    aria-label={`Subir ${ex.company}`}
                   >
                     ↑
                   </button>
@@ -201,7 +201,7 @@ export function ExperienceEditor({ profile, onSaved, onError, onDraftChange }: P
                     onClick={() => move(index, 1)}
                     disabled={index === order.length - 1}
                     className="rounded border border-zinc-300 px-2 py-1 text-xs hover:bg-zinc-50 disabled:opacity-40"
-                    title="Bajar"
+                    aria-label={`Bajar ${ex.company}`}
                   >
                     ↓
                   </button>

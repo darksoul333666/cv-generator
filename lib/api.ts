@@ -256,7 +256,12 @@ export async function getExtensionJob(jobId: string): Promise<ExtensionOptimizeJ
   return res.json() as Promise<ExtensionOptimizeJob>;
 }
 
-export async function listCvHistory(): Promise<{ items: HistorySummary[] }> {
+export async function listCvHistory(): Promise<{
+  items: HistorySummary[];
+  batch_size?: number;
+  queued_count?: number;
+  generating_count?: number;
+}> {
   const res = await fetch(`${apiBase()}/v1/history`, { method: "GET" });
   if (!res.ok) throw new Error(res.statusText || `Error ${res.status}`);
   return res.json() as Promise<{ items: HistorySummary[] }>;
@@ -269,6 +274,81 @@ export async function getCvHistoryItem(id: string): Promise<HistoryDetail> {
   );
   if (!res.ok) throw new Error(res.statusText || `Error ${res.status}`);
   return res.json() as Promise<HistoryDetail>;
+}
+
+export type QueueEnqueueResult = {
+  id: string;
+  status: string;
+  vacancy_title: string;
+  position: number;
+  pending: number;
+  message: string;
+  batch_size?: number;
+  queued?: number;
+  generating?: number;
+};
+
+export type QueueStatus = {
+  batch_size: number;
+  queued: number;
+  generating: number;
+  can_flush: boolean;
+  message: string;
+};
+
+export type QueueFlushResult = {
+  started: number;
+  queued: number;
+  generating: number;
+  batch_size: number;
+  message: string;
+};
+
+async function readApiError(res: Response, fallback: string): Promise<string> {
+  const err = await res.json().catch(() => ({}));
+  if (typeof err === "object" && err && "detail" in err) {
+    const d = (err as { detail: unknown }).detail;
+    if (typeof d === "string") return d;
+    if (Array.isArray(d)) return d.map((x) => JSON.stringify(x)).join("; ");
+    if (d != null) return String(d);
+  }
+  return fallback || `Error ${res.status}`;
+}
+
+export async function enqueueCv(vacancyText: string): Promise<QueueEnqueueResult> {
+  const meta = splitVacancyMeta(vacancyText);
+  const res = await fetch(`${apiBase()}/v1/queue`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      vacancy_text: meta.text,
+      company_name: meta.companyName,
+      vacancy_url: meta.vacancyUrl,
+    }),
+  });
+  if (!res.ok) throw new Error(await readApiError(res, res.statusText));
+  return res.json() as Promise<QueueEnqueueResult>;
+}
+
+export async function getQueueStatus(): Promise<QueueStatus> {
+  const res = await fetch(`${apiBase()}/v1/queue/status`, { method: "GET" });
+  if (!res.ok) throw new Error(res.statusText || `Error ${res.status}`);
+  return res.json() as Promise<QueueStatus>;
+}
+
+export async function flushQueueBatch(): Promise<QueueFlushResult> {
+  const res = await fetch(`${apiBase()}/v1/queue/flush`, { method: "POST" });
+  if (!res.ok) throw new Error(await readApiError(res, res.statusText));
+  return res.json() as Promise<QueueFlushResult>;
+}
+
+export async function retryQueuedCv(id: string): Promise<QueueEnqueueResult> {
+  const res = await fetch(
+    `${apiBase()}/v1/queue/${encodeURIComponent(id)}/retry`,
+    { method: "POST" },
+  );
+  if (!res.ok) throw new Error(await readApiError(res, res.statusText));
+  return res.json() as Promise<QueueEnqueueResult>;
 }
 
 export async function renameCvHistoryItem(

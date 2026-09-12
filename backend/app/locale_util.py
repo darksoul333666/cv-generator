@@ -213,3 +213,61 @@ def freelance_suffix(employment_type: Optional[str], locale: Locale) -> str:
     if kind not in {"freelance", "freelancer"}:
         return ""
     return " — Freelance" if locale == "es" else " — Freelancer"
+
+
+_PERCENT_EN_RE = re.compile(
+    r"(?P<n>\d+(?:[.,]\d+)?)\s*(?:percent|per\s*cent)\b",
+    re.IGNORECASE,
+)
+
+# Solo contracciones/artículos donde el español lo pide. No tocar «más de 7»,
+# «pasarelas de pago», «virtualización de datos», «consumo de APIs».
+_ES_PHRASE_FIXES: tuple[tuple[str, str], ...] = (
+    (r"\bmanejo de estado\b", "manejo del estado"),
+    (r"\bgesti[oó]n de estado\b", "gestión del estado"),
+    (r"\bdesarrollo de aplicaci[oó]n\b", "desarrollo de una aplicación"),
+    (r"\baplicaci[oó]n de arquitectura\b", "aplicación de una arquitectura"),
+    (r"\breducci[oó]n de tiempos\b", "reducción de los tiempos"),
+    (r"\breducci[oó]n de errores en flujos\b", "reducción de errores en los flujos"),
+    (r"\boptimizaci[oó]n de UX\b", "optimización de la UX"),
+    (r"\bmejora de eficiencia de(?:l)? equipo\b", "mejora de la eficiencia del equipo"),
+    (r"\bintegraci[oó]n de pasarelas de pago\b", "integración de las pasarelas de pago"),
+    (r"\besquemas seguros de autenticaci[oó]n\b", "esquemas de autenticación seguros"),
+)
+
+
+def localize_percent_wording(text: str, locale: Locale | None = None) -> str:
+    """'35 percent' → '35%' en cualquier idioma (ATS y checkers lo leen mejor)."""
+    if not text:
+        return text
+    return _PERCENT_EN_RE.sub(r"\g<n>%", text)
+
+
+def _replace_keep_cap(text: str, pattern: str, replacement: str) -> str:
+    def _repl(match: re.Match[str]) -> str:
+        raw = match.group(0)
+        out = replacement
+        if raw[:1].isupper():
+            out = out[:1].upper() + out[1:]
+        return out
+
+    return re.sub(pattern, _repl, text, flags=re.IGNORECASE)
+
+
+def polish_spanish_wording(text: str) -> str:
+    """Artículos y contracciones naturales; no sustituye todo «de» por «del»."""
+    if not text:
+        return text
+    out = text
+    for pattern, replacement in _ES_PHRASE_FIXES:
+        out = _replace_keep_cap(out, pattern, replacement)
+    return out
+
+
+def localize_cv_wording(text: str, locale: Locale) -> str:
+    if not text:
+        return text
+    text = localize_percent_wording(text, locale)
+    if locale == "es":
+        return polish_spanish_wording(text)
+    return text

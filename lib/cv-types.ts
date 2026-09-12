@@ -82,6 +82,8 @@ export type TailorResponse = {
   vacancy_url?: string | null;
 };
 
+export type HistoryJobStatus = "queued" | "generating" | "ready" | "error";
+
 export type HistorySummary = {
   id: string;
   vacancy_title: string;
@@ -91,6 +93,9 @@ export type HistorySummary = {
   cv_name?: string;
   company_name?: string;
   vacancy_url?: string | null;
+  status?: HistoryJobStatus;
+  error?: string;
+  queue_position?: number | null;
 };
 
 export type HistoryDetail = {
@@ -100,10 +105,13 @@ export type HistoryDetail = {
   created_at: string;
   match_percent: number;
   reason: string;
-  cv: CvProfile;
+  cv?: CvProfile | null;
   cv_name?: string;
   company_name?: string;
   vacancy_url?: string | null;
+  status?: HistoryJobStatus;
+  error?: string;
+  queue_position?: number | null;
 };
 
 export function pickCvData(profile: CvProfile): CVData {

@@ -131,12 +131,13 @@ def append_generated_cv(
     cv_name: str = "",
     company_name: str = "",
     vacancy_url: Optional[str] = None,
+    item_id: Optional[str] = None,
 ) -> GeneratedCvRecord:
     name = (cv_name or "").strip() or suggested_cv_name(
-        tailor.cv.name, tailor.cv.label
+        tailor.cv.name, tailor.cv.title or tailor.cv.label
     )
     record = GeneratedCvRecord(
-        id=str(uuid.uuid4()),
+        id=(item_id or "").strip() or str(uuid.uuid4()),
         vacancy_title=vacancy_title.strip() or "Vacante sin título",
         vacancy_text=(vacancy_text or "")[:80000],
         created_at=_utc_now_iso(),

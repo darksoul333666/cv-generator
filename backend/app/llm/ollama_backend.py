@@ -17,6 +17,7 @@ from ..locale_util import (
     education_line,
     format_period,
     freelance_suffix,
+    localize_cv_wording,
 )
 from ..matcher import pick_best_cv
 from ..models import CvDocument, ExperienceItem
@@ -163,6 +164,17 @@ class OllamaCvLlmBackend:
             raise RuntimeError("Ollama no configurado (OLLAMA_HOST / OLLAMA_MODEL)")
         return await asyncio.to_thread(self._tailor_cv_sync, vacancy_text, cv)
 
+    async def tailor_cv_batch(
+        self, items: list[tuple[str, CvDocument]]
+    ) -> list[Tuple[CvDocument, float, str, List[str], List[str], List[str], Dict[str, Any]]]:
+        out: list[Tuple[CvDocument, float, str, List[str], List[str], List[str], Dict[str, Any]]] = []
+        for vacancy_text, cv in items:
+            packed = await self.tailor_cv(vacancy_text, cv)
+            meta = packed[6]
+            meta["batch_size"] = len(items)
+            out.append(packed)
+        return out
+
 
 def _norm(text: str) -> str:
     return " ".join(str(text or "").lower().split())
@@ -192,6 +204,11 @@ def _ollama_result_to_cv(
     companies = _company_index(master)
     allowed = {_norm(c) for c in (master.get("allowed_companies") or companies.keys())}
     personal = {_norm(n) for n in (master.get("personal_products_not_employment") or [])}
+    overlay = [
+        str(s).strip()
+        for s in list(data.get("skills") or []) + list(data.get("keywords") or [])
+        if str(s).strip()
+    ]
 
     experience: list[ExperienceItem] = []
     for raw in data.get("experience") or []:
@@ -218,24 +235,37 @@ def _ollama_result_to_cv(
         suffix = freelance_suffix(source.get("employment_type"), locale)
         if suffix and "freelance" not in _norm(position):
             position = f"{position}{suffix}" if position else suffix.strip(" —")
-        bullets = [str(b).strip() for b in (raw.get("bullets") or []) if str(b).strip()]
+        bullets = [
+            localize_cv_wording(str(b).strip(), locale)
+            for b in (raw.get("bullets") or [])
+            if str(b).strip()
+        ]
         experience.append(
             ExperienceItem(
                 company=source.get("company") or company,
-                role=position or ((source.get("positions") or [""])[0]),
+                role=localize_cv_wording(
+                    position or ((source.get("positions") or [""])[0]),
+                    locale,
+                ),
                 period=period,
                 bullets=bullets[:4],
             )
         )
 
     contact = _contact(master)
-    title = str(data.get("target_role") or base.title or "").strip()
-    summary = str(data.get("summary") or "").strip()
-    stack = build_stack_from_master(master, vacancy_text)
+    title = localize_cv_wording(
+        str(data.get("target_role") or base.title or "").strip(),
+        locale,
+    )
+    summary = localize_cv_wording(
+        str(data.get("summary") or "").strip(),
+        locale,
+    )
+    stack = build_stack_from_master(master, vacancy_text, overlay=overlay)
     keywords = vacancy_skill_keywords(
         master,
         vacancy_text,
-        [str(k).strip() for k in (data.get("keywords") or []) if str(k).strip()],
+        overlay,
     ) or base.keywords
 
     return CvDocument(

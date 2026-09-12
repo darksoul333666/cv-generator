@@ -1,12 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
-import { optimizeCv, renameCvHistoryItem } from "@/lib/api";
-import { defaultCvSaveName, pdfDownloadName } from "@/lib/cv-filename";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { enqueueCv, renameCvHistoryItem } from "@/lib/api";
+import { defaultCvSaveName, docxDownloadName, pdfDownloadName } from "@/lib/cv-filename";
 import { pickCvData, type TailorResponse } from "@/lib/cv-types";
+import { downloadCvDocx } from "@/lib/docx-client";
 import { downloadCvPdfWithPuppeteer } from "@/lib/pdf-client";
 import { CVTemplate } from "./cv-template";
+import { useDailyGoal } from "./daily-goal";
 import { VacancySourcePanel } from "./vacancy-source-panel";
 
 export function VacancyWorkbench() {
@@ -16,6 +18,9 @@ export function VacancyWorkbench() {
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<TailorResponse | null>(null);
   const [cvName, setCvName] = useState("");
+  const [queueNote, setQueueNote] = useState<string | null>(null);
+  const { refresh: refreshGoal } = useDailyGoal();
+  const cvNameRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (!generating) {
@@ -28,6 +33,12 @@ export function VacancyWorkbench() {
     }, 500);
     return () => window.clearInterval(id);
   }, [generating]);
+
+  useEffect(() => {
+    if (!result) return;
+    cvNameRef.current?.focus();
+    cvNameRef.current?.select();
+  }, [result]);
 
   const canGenerate = Boolean(text.trim());
 
@@ -50,24 +61,24 @@ export function VacancyWorkbench() {
     setGenerating(true);
     setResult(null);
     setCvName("");
+    setQueueNote(null);
     try {
-      const tailored = await optimizeCv(text.trim());
-      setResult(tailored);
-      setCvName(
-        tailored.cv_name?.trim() ||
-          defaultCvSaveName(tailored.cv.name, tailored.cv.label),
-      );
+      const queued = await enqueueCv(text.trim());
+      const n = queued.queued ?? queued.pending;
+      const size = queued.batch_size ?? 5;
+      setQueueNote(queued.message || `Lote ${n}/${size}`);
+      void refreshGoal();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Error al generar el CV");
+      setError(err instanceof Error ? err.message : "Error al encolar la vacante");
     } finally {
       setGenerating(false);
     }
-  }, [text]);
+  }, [text, refreshGoal]);
 
   const onDownload = useCallback(async () => {
     const cv = result?.cv;
     if (!cv) return;
-    const name = cvName.trim() || defaultCvSaveName(cv.name, cv.label);
+    const name = cvName.trim() || defaultCvSaveName(cv.name, cv.title);
     await persistName(name, result.saved_id);
     try {
       await downloadCvPdfWithPuppeteer(cv, pdfDownloadName(name));
@@ -76,50 +87,66 @@ export function VacancyWorkbench() {
     }
   }, [result, cvName, persistName]);
 
+  const onDownloadDocx = useCallback(async () => {
+    const cv = result?.cv;
+    if (!cv) return;
+    const name = cvName.trim() || defaultCvSaveName(cv.name, cv.title);
+    await persistName(name, result.saved_id);
+    try {
+      await downloadCvDocx(cv, docxDownloadName(name));
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Error al generar DOCX");
+    }
+  }, [result, cvName, persistName]);
+
   return (
     <div className="mx-auto flex w-full max-w-5xl flex-col gap-10 px-4 py-10">
-      <header className="flex flex-wrap items-end justify-between gap-3">
-        <div className="space-y-2">
-          <h1 className="text-2xl font-semibold tracking-tight text-zinc-900">
-            Generar CV
-          </h1>
-          <p className="max-w-2xl text-sm leading-relaxed text-zinc-600">
-            Pega la vacante. El CV se arma con tu perfil maestro; formación y
-            certificaciones salen fijas, sin mandarlas al modelo.
-          </p>
-        </div>
-        <div className="flex items-center gap-2">
-          <Link
-            href="/historial"
-            className="rounded-lg border border-zinc-300 bg-white px-3 py-1.5 text-sm font-medium text-zinc-900 hover:bg-zinc-100"
-          >
-            Historial
-          </Link>
-          <Link
-            href="/skills"
-            className="rounded-lg border border-zinc-300 bg-white px-3 py-1.5 text-sm font-medium text-zinc-900 hover:bg-zinc-100"
-          >
-            Skills
-          </Link>
-        </div>
+      <header className="space-y-2">
+        <h1 className="text-2xl font-semibold tracking-tight text-zinc-900">
+          Generar CV
+        </h1>
+        <p className="max-w-2xl text-sm leading-relaxed text-zinc-600">
+          Pega la vacante: entra al lote (hasta 5). Al llenarse se generan juntas;
+          si hay menos, genera el lote desde Historial. Ctrl + Enter añade.
+        </p>
       </header>
 
-      <section className="flex flex-col gap-4 rounded-xl border border-zinc-200 bg-white p-6 shadow-sm">
+      <section
+        className="flex flex-col gap-4 rounded-xl border border-zinc-200 bg-white p-6 shadow-sm"
+        aria-busy={generating}
+      >
         <VacancySourcePanel
           text={text}
           onTextChange={setText}
           disabled={generating}
+          autoFocus
+          onModEnter={() => {
+            if (canGenerate && !generating) void onGenerate();
+          }}
         />
         <div>
           <button
             type="button"
             onClick={onGenerate}
             disabled={generating || !canGenerate}
+            aria-keyshortcuts="Control+Enter"
+            aria-describedby="generate-hint"
             className="rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-zinc-800 disabled:opacity-60"
           >
-            {generating ? `Generando… ${elapsed}s` : "Generar CV"}
+            {generating ? "Añadiendo…" : "Añadir al lote"}
           </button>
+          <p id="generate-hint" className="mt-2 text-xs text-zinc-500">
+            Atajo: Ctrl + Enter · el lote se genera a 5 o desde Historial
+          </p>
         </div>
+        {queueNote ? (
+          <p className="rounded-md bg-teal-50 px-3 py-2 text-sm text-teal-900">
+            {queueNote}{" "}
+            <Link href="/historial" className="font-medium underline hover:text-teal-950">
+              Abrir historial
+            </Link>
+          </p>
+        ) : null}
         {error ? (
           <p className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-800" role="alert">
             {error}
@@ -136,6 +163,7 @@ export function VacancyWorkbench() {
                 Nombre del CV
               </span>
               <input
+                ref={cvNameRef}
                 type="text"
                 value={cvName}
                 onChange={(e) => setCvName(e.target.value)}
@@ -144,7 +172,7 @@ export function VacancyWorkbench() {
               />
             </label>
             <p className="text-zinc-700">
-              <span className="font-medium">Perfil:</span> {result.cv.label || result.cv.title}
+              <span className="font-medium">Perfil:</span> {result.cv.title || result.cv.label}
             </p>
             <p className="text-zinc-700">
               <span className="font-medium">Match:</span> {result.match_percent.toFixed(0)}%
@@ -182,13 +210,22 @@ export function VacancyWorkbench() {
                 con la vacante, para revisarlo si hay entrevista.
               </p>
             ) : null}
-            <button
-              type="button"
-              onClick={onDownload}
-              className="rounded-lg border border-zinc-300 bg-white px-3 py-1.5 text-sm font-medium text-zinc-900 hover:bg-zinc-100"
-            >
-              Descargar PDF
-            </button>
+            <div className="flex flex-wrap gap-2">
+              <button
+                type="button"
+                onClick={onDownload}
+                className="rounded-lg border border-zinc-300 bg-white px-3 py-1.5 text-sm font-medium text-zinc-900 hover:bg-zinc-100"
+              >
+                Descargar PDF
+              </button>
+              <button
+                type="button"
+                onClick={onDownloadDocx}
+                className="rounded-lg border border-zinc-300 bg-white px-3 py-1.5 text-sm font-medium text-zinc-900 hover:bg-zinc-100"
+              >
+                Descargar DOCX
+              </button>
+            </div>
           </div>
           <div className="max-h-[720px] overflow-auto rounded-xl border border-zinc-200 bg-white shadow-inner">
             <CVTemplate data={pickCvData(result.cv)} />

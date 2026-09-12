@@ -31,14 +31,52 @@ def build_ollama_optimizer_prompt(
     return (
         f"Write the entire CV in {lang}. Do not mix languages. Company names stay exactly as in the master profile.\n"
         "target_role, summary, bullets and skill names must all be in that language.\n"
+        "In Spanish, write percentages as 35% (never the English word percent).\n"
+        "In Spanish, use natural articles and contractions only where grammar needs them "
+        "(del estado, de la UX, de los tiempos, de una aplicación). "
+        "Do not replace every de with del: keep más de 7 años, pasarelas de pago, consumo de APIs, virtualización de datos.\n"
+        "Write clear noun phrases; avoid run-on stacks of de de de.\n"
         "Maximize ATS match for this job.\n"
-        "Put skills in the JSON only as a hint of which master-profile tools matter for this job. Do not invent tools that are not in the master profile.\n"
-        "Keep companies, job titles, dates and metrics exactly from the master profile. Do not invent employers or numbers.\n\n"
+        "You MAY add technologies from the job description that are not in the master profile (C#, .NET, Azure, Terraform, HIPAA, etc.) in skills, summary and bullets. The candidate is a senior engineer who can learn adjacent stacks. Prefer the vacancy wording.\n"
+        "Keep companies, job titles, dates and metrics exactly from the master profile. Do not invent employers or numbers.\n"
+        "Never drop achievement metrics: if a job has a number/percent in the master, at least one bullet of that job MUST keep that same number (Spanish: 35%, never the word percent). Vary the verb; do not start every metric bullet with the same Reducción/Reduced formula.\n\n"
         "JOB DESCRIPTION\n"
         f"{vacancy_snip}\n\n"
         "CANDIDATE MASTER PROFILE\n"
         f"{json.dumps(master_profile, ensure_ascii=False, separators=(',', ':'))}"
     )
+
+
+def build_batch_optimizer_prompt(
+    jobs: list[tuple[int, str, str]],
+    master_profile: dict,
+) -> str:
+    """Varias vacantes, un solo perfil maestro. ``jobs`` = (slot 1-based, texto, locale)."""
+    n = len(jobs)
+    parts = [
+        f"Write {n} tailored CVs from ONE master profile, one CV per JOB.",
+        f"Return a single JSON object: {{\"items\":[...]}}, with exactly {n} items.",
+        "Each item MUST include slot equal to its JOB number (1..N) and the fields "
+        "target_role, match_score, summary, skills, keywords, experience.",
+        "Do not mix jobs. Keep companies, job titles, dates and metrics exactly from the master profile.",
+        "Never drop achievement metrics: if a job has a number/percent in the master, keep that same number in at least one bullet (Spanish: 35%). Do not invent numbers. Vary metric verbs.",
+        "You MAY add vacancy technologies that are not in the master profile (C#, .NET, Azure, etc.) to skills, summary and bullets. Do not invent employers or numbers.",
+        "",
+    ]
+    for slot, vacancy_text, locale in jobs:
+        lang = "Spanish" if locale == "es" else "English"
+        snip = (vacancy_text or "")[:2800]
+        parts.append(
+            f"JOB {slot} — write this entire CV in {lang}. Do not mix languages. "
+            "In Spanish, percentages must be 35% (never the English word percent). "
+            "Use del/de la/de los only when the noun is specific (del estado, de los tiempos); "
+            "keep más de 7 años and pasarelas de pago as de."
+        )
+        parts.append(snip)
+        parts.append("")
+    parts.append("CANDIDATE MASTER PROFILE")
+    parts.append(json.dumps(master_profile, ensure_ascii=False, separators=(",", ":")))
+    return "\n".join(parts)
 
 
 def build_tailor_prompt(vacancy_text: str, cv_json: dict) -> str:
@@ -49,11 +87,13 @@ maximizando claridad y alineación, pero SIN INVENTAR hechos no verificables (no
 
 Reglas:
 - Mantén company/role/period EXACTOS tal cual; solo puedes mejorar bullets (re-escritura) y añadir bullets nuevos SI los marcas como [VALIDAR].
-- Puedes ajustar summary, title y stack (si agregas algo no verificable, márcalo como [VALIDAR]). Educación y certificaciones no se reescriben: salen fijas del perfil maestro.
+- Puedes ajustar summary, title y stack. Tecnologías de la vacante que no estén en el CV/maestro SÍ se pueden agregar (el candidato cubre stacks adyacentes). Educación y certificaciones no se reescriben: salen fijas del perfil maestro.
 - Campo title (titular bajo el nombre): cuando haya oferta, reescríbelo para alinearlo al TÍTULO DEL PUESTO de la vacante en redacción, orden de palabras y mayúsculas/minúsculas lo más fiel posible al anuncio (ej.: «Frontend Senior», «Senior Frontend», «Senior Frontend Developer»), siempre que encaje con el nivel y dominio reales del candidato según su experiencia; no subas de nivel (no inventes «Principal»/«Staff» si no está sustentado). Si la oferta usa varias formas, elige la del encabezado o la más repetida.
-- Idioma: todo el CV (summary, title, bullets, skills) en el mismo idioma de la vacante. No mezcles español e inglés.
+- Idioma: todo el CV (summary, title, bullets, skills) en el mismo idioma de la vacante. No mezcles español e inglés. En español, los porcentajes van como 35% (nunca la palabra inglesa percent).
+- Español natural: usa del / de la / de los / de las solo cuando el sustantivo lo pide (manejo del estado, reducción de los tiempos, desarrollo de una aplicación). No sustituyas todo «de» por «del»: «más de 7 años», «pasarelas de pago», «consumo de APIs» se quedan con «de». Frases claras; evita cadenas de «de».
+- Conserva todas las métricas/porcentajes. No las quites: si un empleo ya tiene un número, al menos un bullet de ese empleo debe llevarlo. No inventes cifras nuevas. Varía el verbo; no clones «Reducción de X en un N%» en todos los puestos.
 - Si el contexto son solo instrucciones (sin oferta formal), prioriza esas instrucciones para tono, foco y keywords.
-- Cuando el contexto incluya una oferta, prioriza el léxico EXACTO de la oferta para skills/herramientas que ya poseas (ej.: oferta «NEXT» vs CV «Next.js» → usa la forma de la oferta donde encaje); unifica sinónimos hacia el término del anuncio cuando sea la misma competencia (ej.: «Scrum» + oferta pide «metodologías ágiles» → «Metodologías ágiles (Scrum)» o el wording del anuncio).
+- Cuando el contexto incluya una oferta, prioriza el léxico EXACTO de la oferta para skills/herramientas (las del maestro y las que agregues de la vacante). Unifica sinónimos hacia el término del anuncio.
 - Evita emojis. (El template visual los añade en contact, no pongas más).
 - Responde SOLO con un único objeto JSON válido, sin markdown. En strings, escapa comillas internas.
 
