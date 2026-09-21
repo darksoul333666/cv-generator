@@ -76,10 +76,30 @@ chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
       });
     return true;
   }
+  if (msg.type === "CVGEN_RETRY_FAILED") {
+    retryFailedBatch()
+      .then(sendResponse)
+      .catch((err) => {
+        sendResponse({
+          ok: false,
+          message: err instanceof Error ? err.message : "No se pudo reenviar el lote",
+        });
+      });
+    return true;
+  }
   if (msg.type === "CVGEN_QUEUE_STATUS") {
     getQueueStatus()
       .then(sendResponse)
-      .catch(() => sendResponse({ ok: false, queued: 0, generating: 0, can_flush: false }));
+      .catch(() =>
+        sendResponse({
+          ok: false,
+          queued: 0,
+          generating: 0,
+          failed: 0,
+          can_flush: false,
+          can_retry_failed: false,
+        }),
+      );
     return true;
   }
   if (msg.type !== "CVGEN_OPTIMIZE") return;
@@ -304,18 +324,37 @@ async function getQueueStatus() {
     });
     const payload = await res.json().catch(() => ({}));
     if (!res.ok) {
-      return { ok: false, queued: 0, generating: 0, can_flush: false, message: "" };
+      return {
+        ok: false,
+        queued: 0,
+        generating: 0,
+        failed: 0,
+        can_flush: false,
+        can_retry_failed: false,
+        message: "",
+      };
     }
+    const failed = Number(payload.failed) || 0;
     return {
       ok: true,
       queued: Number(payload.queued) || 0,
       generating: Number(payload.generating) || 0,
+      failed,
       can_flush: Boolean(payload.can_flush),
+      can_retry_failed: Boolean(payload.can_retry_failed) || failed > 0,
       batchSize: Number(payload.batch_size) || 5,
       message: payload.message || "",
     };
   } catch {
-    return { ok: false, queued: 0, generating: 0, can_flush: false, message: "" };
+    return {
+      ok: false,
+      queued: 0,
+      generating: 0,
+      failed: 0,
+      can_flush: false,
+      can_retry_failed: false,
+      message: "",
+    };
   }
 }
 
@@ -339,6 +378,31 @@ async function flushBatch() {
     started: Number(payload.started) || 0,
     queued: Number(payload.queued) || 0,
     generating: Number(payload.generating) || 0,
+  };
+}
+
+async function retryFailedBatch() {
+  let res;
+  try {
+    res = await fetch(`${API_BASE}/v1/queue/retry-failed`, {
+      method: "POST",
+      credentials: "omit",
+    });
+  } catch {
+    return { ok: false, message: "No hay conexión con el backend (:8000)" };
+  }
+  const payload = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    return { ok: false, message: apiErrorDetail(payload, `Error ${res.status}`) };
+  }
+  return {
+    ok: true,
+    message: payload.message || "Reenviando lote…",
+    retried: Number(payload.retried) || 0,
+    started: Number(payload.started) || 0,
+    queued: Number(payload.queued) || 0,
+    generating: Number(payload.generating) || 0,
+    failed: Number(payload.failed) || 0,
   };
 }
 

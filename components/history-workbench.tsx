@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState, type KeyboardEvent } from "react";
 import { useSearchParams } from "next/navigation";
-import { getCvHistoryItem, listCvHistory, renameCvHistoryItem, retryQueuedCv, flushQueueBatch } from "@/lib/api";
+import { getCvHistoryItem, listCvHistory, renameCvHistoryItem, retryQueuedCv, flushQueueBatch, retryFailedQueueBatch } from "@/lib/api";
 import { defaultCvSaveName, docxDownloadName, pdfDownloadName, resolveCvSaveName } from "@/lib/cv-filename";
 import {
   pickCvData,
@@ -86,9 +86,11 @@ export function HistoryWorkbench() {
   const [error, setError] = useState<string | null>(null);
   const [retrying, setRetrying] = useState(false);
   const [flushing, setFlushing] = useState(false);
+  const [retryingFailed, setRetryingFailed] = useState(false);
   const [batchSize, setBatchSize] = useState(5);
   const [queuedCount, setQueuedCount] = useState(0);
   const [generatingCount, setGeneratingCount] = useState(0);
+  const [failedCount, setFailedCount] = useState(0);
   const dateFromRef = useRef<HTMLInputElement>(null);
   const itemRefs = useRef(new Map<string, HTMLButtonElement>());
   const didAutofocus = useRef(false);
@@ -101,6 +103,10 @@ export function HistoryWorkbench() {
       setBatchSize(res.batch_size || 5);
       setQueuedCount(res.queued_count ?? 0);
       setGeneratingCount(res.generating_count ?? 0);
+      setFailedCount(
+        res.failed_count ??
+          res.items.filter((item) => jobStatus(item) === "error").length,
+      );
       setSelectedId((current) => current || requestedId || res.items[0]?.id || null);
     } catch (err) {
       if (!silent) {
@@ -117,7 +123,7 @@ export function HistoryWorkbench() {
 
   const hasPending = items.some((item) => {
     const s = jobStatus(item);
-    return s === "queued" || s === "generating";
+    return s === "queued" || s === "generating" || s === "error";
   });
 
   useEffect(() => {
@@ -218,6 +224,19 @@ export function HistoryWorkbench() {
       setError(e instanceof Error ? e.message : "No se pudo generar el lote");
     } finally {
       setFlushing(false);
+    }
+  }, [refreshList]);
+
+  const onRetryFailedBatch = useCallback(async () => {
+    setRetryingFailed(true);
+    setError(null);
+    try {
+      await retryFailedQueueBatch();
+      await refreshList(true);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "No se pudo reenviar el lote");
+    } finally {
+      setRetryingFailed(false);
     }
   }, [refreshList]);
 
@@ -323,12 +342,14 @@ export function HistoryWorkbench() {
           juntas; si hay menos, pulsa Generar lote. Flechas, Inicio y Fin
           recorren la lista.
         </p>
-        {queuedCount > 0 || generatingCount > 0 ? (
+        {queuedCount > 0 || generatingCount > 0 || failedCount > 0 ? (
           <div className="mt-3 flex flex-wrap items-center gap-3">
             <p className="text-sm text-zinc-700">
               {generatingCount > 0
                 ? `Generando lote de ${generatingCount}…`
-                : `Lote ${queuedCount}/${batchSize}`}
+                : queuedCount > 0
+                  ? `Lote ${queuedCount}/${batchSize}`
+                  : `${failedCount} fallido${failedCount === 1 ? "" : "s"}`}
             </p>
             {queuedCount > 0 && generatingCount === 0 ? (
               <button
@@ -340,6 +361,20 @@ export function HistoryWorkbench() {
                 {flushing
                   ? "Enviando…"
                   : `Generar ${queuedCount} ahora`}
+              </button>
+            ) : null}
+            {failedCount > 0 && generatingCount === 0 ? (
+              <button
+                type="button"
+                onClick={() => void onRetryFailedBatch()}
+                disabled={retryingFailed}
+                className="rounded-lg bg-rose-800 px-3 py-1.5 text-sm font-medium text-white hover:bg-rose-700 disabled:opacity-60"
+              >
+                {retryingFailed
+                  ? "Reenviando…"
+                  : failedCount > batchSize
+                    ? `Reenviar lote (${batchSize} de ${failedCount})`
+                    : `Reenviar lote (${failedCount})`}
               </button>
             ) : null}
           </div>

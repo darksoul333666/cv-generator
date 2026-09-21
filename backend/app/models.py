@@ -209,4 +209,5 @@ class HistoryListResponse(BaseModel):
     batch_size: int = 5
     queued_count: int = 0
     generating_count: int = 0
+    failed_count: int = 0
 

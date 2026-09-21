@@ -208,11 +208,54 @@ def cert_names(master: dict, locale: Locale) -> list[str]:
     return out
 
 
-def freelance_suffix(employment_type: Optional[str], locale: Locale) -> str:
-    kind = str(employment_type or "").strip().lower()
-    if kind not in {"freelance", "freelancer"}:
-        return ""
-    return " — Freelance" if locale == "es" else " — Freelancer"
+_FREELANCE_TITLE_RE = re.compile(
+    r"[\s,]*[—–-]\s*Freelanc(?:er|e)\b.*$|"
+    r"[\s,]*\(\s*Freelanc(?:er|e)\s*\)|"
+    r"\s+Freelanc(?:er|e)\s*$",
+    re.IGNORECASE,
+)
+
+_FINTECH_TITLE_RE = re.compile(
+    r"\s*\(\s*Fintech\s*\)|\s*[—–-]\s*Fintech\b",
+    re.IGNORECASE,
+)
+
+_FINTECH_VACANCY_RE = re.compile(
+    r"\bfin-?techs?\b|"
+    r"\bneobanks?\b|"
+    r"servicios financieros|"
+    r"financial services|"
+    r"sector financiero|"
+    r"industria financiera|"
+    r"experiencia (?:en|con) fintech",
+    re.IGNORECASE,
+)
+
+
+def strip_freelance_from_title(position: str) -> str:
+    """Quita «— Freelancer» del cargo. El tipo de contrato no va en el título."""
+    text = position or ""
+    prev = None
+    while prev != text:
+        prev = text
+        text = _FREELANCE_TITLE_RE.sub("", text).strip(" ,—–-")
+    return text.strip()
+
+
+def vacancy_asks_fintech(vacancy_text: str) -> bool:
+    """True solo si la vacante pide fintech / servicios financieros de forma explícita."""
+    return bool(_FINTECH_VACANCY_RE.search(vacancy_text or ""))
+
+
+def polish_experience_title(company: str, position: str, vacancy_text: str = "") -> str:
+    """Títulos serios: sin freelance; (Fintech) en UffPay solo si la vacante lo pide."""
+    title = strip_freelance_from_title(position)
+    if "uffpay" not in (company or "").lower():
+        return title
+    title = _FINTECH_TITLE_RE.sub("", title).strip(" ,—–-")
+    if vacancy_asks_fintech(vacancy_text) and "fintech" not in title.lower():
+        title = f"{title} (Fintech)".strip()
+    return title.strip()
 
 
 _PERCENT_EN_RE = re.compile(

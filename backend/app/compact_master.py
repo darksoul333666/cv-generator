@@ -307,6 +307,8 @@ def build_ollama_profile(raw: dict) -> dict:
             "A skill in skill_inventory may appear in SKILLS, not automatically in EXPERIENCE.",
             "Items in personal_products_not_employment are not jobs. Do not list them as employers.",
             "Copy company names and dates exactly from experience[].",
+            "Write job titles without Freelance/Freelancer in the title.",
+            "Do not put Fintech in UffPay job titles unless the JOB DESCRIPTION explicitly asks for fintech or financial-services experience.",
             "Only use metrics listed in metrics[] or in experience[].achievements.",
         ],
     }
@@ -329,7 +331,6 @@ def profile_for_prompt(compact: dict) -> dict:
             {
                 "company": item.get("company"),
                 "positions": item.get("positions") or [],
-                "employment_type": item.get("employment_type"),
                 "dates": item.get("dates"),
                 "responsibilities": item.get("responsibilities") or [],
                 "technologies": item.get("technologies") or [],

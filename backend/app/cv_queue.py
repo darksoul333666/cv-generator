@@ -6,6 +6,7 @@ import asyncio
 import hashlib
 import json
 import logging
+import time
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
@@ -15,7 +16,7 @@ from typing import Any, Optional
 from pydantic import BaseModel, ConfigDict
 
 from .cv_history import vacancy_title_from_text
-from .llm import GEMINI_QUOTA_USER_MESSAGE, is_quota_or_rate_limit
+from .llm import llm_user_message, should_backoff_gemini
 from .vacancy_clean import parse_pasted_vacancy
 
 logger = logging.getLogger(__name__)
@@ -40,6 +41,8 @@ _worker_task: Optional[asyncio.Task[None]] = None
 _waiters: dict[str, list[asyncio.Future[QueueJobRecord]]] = {}
 _stop = asyncio.Event()
 _busy = False
+_quota_until = 0.0
+_QUOTA_COOLDOWN_SEC = 75.0
 
 
 class QueueJobRecord(BaseModel):
@@ -76,7 +79,9 @@ class QueueStatusOut(BaseModel):
     batch_size: int = BATCH_SIZE
     queued: int = 0
     generating: int = 0
+    failed: int = 0
     can_flush: bool = False
+    can_retry_failed: bool = False
     message: str = ""
 
 
@@ -85,6 +90,17 @@ class QueueFlushOut(BaseModel):
     queued: int = 0
     generating: int = 0
     batch_size: int = BATCH_SIZE
+    message: str = ""
+
+
+class QueueRetryFailedOut(BaseModel):
+    retried: int = 0
+    started: int = 0
+    queued: int = 0
+    generating: int = 0
+    failed: int = 0
+    batch_size: int = BATCH_SIZE
+    can_retry_failed: bool = False
     message: str = ""
 
 
@@ -183,36 +199,79 @@ def generating_count() -> int:
         return sum(1 for r in _records() if r.status == STATUS_GENERATING)
 
 
-def _counts() -> tuple[int, int]:
+def _is_retryable_error(job: QueueJobRecord) -> bool:
+    return job.status == STATUS_ERROR and bool((job.vacancy_text or "").strip())
+
+
+def failed_count() -> int:
+    with _LOCK:
+        return sum(1 for r in _records() if _is_retryable_error(r))
+
+
+def _counts() -> tuple[int, int, int]:
     with _LOCK:
         records = _records()
         queued = sum(1 for r in records if r.status == STATUS_QUEUED)
         generating = sum(1 for r in records if r.status == STATUS_GENERATING)
-    return queued, generating
+        failed = sum(1 for r in records if _is_retryable_error(r))
+    return queued, generating, failed
 
 
-def _batch_message(queued: int, generating: int) -> str:
+def _batch_message(queued: int, generating: int, failed: int = 0) -> str:
     if generating > 0:
         return f"Generando lote de {generating} CVs…"
     if queued <= 0:
+        if failed > 0:
+            return (
+                f"{failed} CV{'s' if failed != 1 else ''} fallido"
+                f"{'s' if failed != 1 else ''}. "
+                "Pulsa Reenviar lote para mandarlos juntos (1 petición)."
+            )
         return "Lote vacío"
     if queued >= BATCH_SIZE:
         return f"Lote {BATCH_SIZE}/{BATCH_SIZE} — se envían ahora"
+    extra = ""
+    if failed > 0:
+        extra = f" · {failed} fallidos listos para reenviar"
     return (
         f"Lote {queued}/{BATCH_SIZE} — al llegar a {BATCH_SIZE} se generan solos, "
-        "o pulsa Generar lote"
+        f"o pulsa Generar lote{extra}"
     )
 
 
 def queue_status() -> QueueStatusOut:
-    queued, generating = _counts()
+    queued, generating, failed = _counts()
+    blocked = _quota_block_message()
     return QueueStatusOut(
         batch_size=BATCH_SIZE,
         queued=queued,
         generating=generating,
-        can_flush=queued > 0 and generating == 0 and not _busy,
-        message=_batch_message(queued, generating),
+        failed=failed,
+        can_flush=queued > 0 and generating == 0 and not _busy and blocked is None,
+        can_retry_failed=failed > 0 and generating == 0 and not _busy,
+        message=blocked or _batch_message(queued, generating, failed),
     )
+
+
+def _quota_remaining() -> float:
+    return max(0.0, _quota_until - time.time())
+
+
+def _quota_block_message() -> Optional[str]:
+    left = _quota_remaining()
+    if left <= 0:
+        return None
+    secs = int(left) + 1
+    return (
+        f"Gemini sigue en tope de cuota. Espera {secs}s. "
+        "Reintentar ahora gasta otra petición del día y vuelve a fallar."
+    )
+
+
+def _arm_quota_cooldown() -> None:
+    global _quota_until
+    _quota_until = time.time() + _QUOTA_COOLDOWN_SEC
+    logger.warning("[queue] cooldown Gemini %ss — no más HTTP hasta entonces", int(_QUOTA_COOLDOWN_SEC))
 
 
 def _signal(cmd: str) -> None:
@@ -255,7 +314,7 @@ def _notify(record: QueueJobRecord) -> None:
 
 
 def _out_for(job: QueueJobRecord) -> QueueEnqueueOut:
-    queued, generating = _counts()
+    queued, generating, _failed = _counts()
     pending = queued + generating
     pos = queue_position(job.id) or 1
     return QueueEnqueueOut(
@@ -288,9 +347,73 @@ def retry_queue_job(job_id: str) -> QueueEnqueueOut:
     job.error = ""
     job.updated_at = _utc_now_iso()
     _upsert(job)
-    if queued_count() >= BATCH_SIZE:
+    if queued_count() >= BATCH_SIZE and _quota_block_message() is None:
         _signal(CMD_CHECK)
     return _out_for(job)
+
+
+def retry_failed_batch() -> QueueRetryFailedOut:
+    """Reencola hasta un lote de CVs en error y los manda juntos (1 HTTP)."""
+    queued, generating, failed = _counts()
+    if generating > 0 or _busy:
+        return QueueRetryFailedOut(
+            retried=0,
+            queued=queued,
+            generating=generating or 1,
+            failed=failed,
+            can_retry_failed=False,
+            message=_batch_message(queued, generating or 1, failed),
+        )
+    if failed < 1:
+        return QueueRetryFailedOut(
+            retried=0,
+            queued=queued,
+            generating=generating,
+            failed=0,
+            message="No hay CVs fallidos para reenviar.",
+        )
+
+    now = _utc_now_iso()
+    with _LOCK:
+        records = _records()
+        to_retry = sorted(
+            [r for r in records if _is_retryable_error(r)],
+            key=lambda r: r.created_at,
+        )[:BATCH_SIZE]
+        retry_ids = {r.id for r in to_retry}
+        for r in records:
+            if r.id in retry_ids:
+                r.status = STATUS_QUEUED
+                r.error = ""
+                r.updated_at = now
+        _write_records(records)
+        retried = len(to_retry)
+
+    queued, generating, failed = _counts()
+    blocked = _quota_block_message()
+    if blocked:
+        return QueueRetryFailedOut(
+            retried=retried,
+            queued=queued,
+            generating=generating,
+            failed=failed,
+            can_retry_failed=failed > 0,
+            message=f"Reencolados {retried}. {blocked}",
+        )
+    _signal(CMD_FLUSH)
+    started = min(queued, BATCH_SIZE)
+    return QueueRetryFailedOut(
+        retried=retried,
+        started=started,
+        queued=queued,
+        generating=generating,
+        failed=failed,
+        can_retry_failed=failed > 0,
+        message=(
+            f"Reenviando lote de {started} en una petición. "
+            "No las generes de una en una."
+        ),
+    )
 
 
 def enqueue_optimize(
@@ -327,13 +450,21 @@ def enqueue_optimize(
         updated_at=now,
     )
     _upsert(record)
-    if queued_count() >= BATCH_SIZE:
+    if queued_count() >= BATCH_SIZE and _quota_block_message() is None:
         _signal(CMD_CHECK)
     return _out_for(record)
 
 
 def flush_batch() -> QueueFlushOut:
-    queued, generating = _counts()
+    blocked = _quota_block_message()
+    queued, generating, _failed = _counts()
+    if blocked:
+        return QueueFlushOut(
+            started=0,
+            queued=queued,
+            generating=generating,
+            message=blocked,
+        )
     if generating > 0 or _busy:
         return QueueFlushOut(
             started=0,
@@ -444,12 +575,17 @@ async def _process_batch(force: bool) -> None:
     global _busy
     if _busy:
         return
+    blocked = _quota_block_message()
+    if blocked:
+        logger.warning("[queue] skip lote: %s", blocked)
+        return
     jobs = _claim_batch(force)
     if not jobs:
         return
     _busy = True
     titles = ", ".join(j.vacancy_title[:40] for j in jobs)
-    logger.info("[queue] lote de %s · %s", len(jobs), titles)
+    logger.info("[queue] lote de %s · 1 HTTP Gemini · %s", len(jobs), titles)
+    quota_hit = False
     try:
         from .vacancy_pipeline import run_full_optimize_batch
 
@@ -467,12 +603,15 @@ async def _process_batch(force: bool) -> None:
             _finish_job(job, tailored)
             logger.info("[queue] listo %s", job.id[:8])
     except Exception as exc:
-        message = GEMINI_QUOTA_USER_MESSAGE if is_quota_or_rate_limit(exc) else str(exc)
+        quota_hit = should_backoff_gemini(exc)
+        if quota_hit:
+            _arm_quota_cooldown()
+        message = llm_user_message(exc)
         logger.warning("[queue] lote error: %s", message[:200])
         _fail_jobs(jobs, message)
     finally:
         _busy = False
-        if queued_count() >= BATCH_SIZE:
+        if not quota_hit and queued_count() >= BATCH_SIZE and _quota_block_message() is None:
             _signal(CMD_CHECK)
 
 
@@ -484,7 +623,7 @@ async def _worker_loop() -> None:
             cmd = await asyncio.wait_for(_loop_queue.get(), timeout=0.6)
             got = True
         except asyncio.TimeoutError:
-            if queued_count() >= BATCH_SIZE and not _busy:
+            if queued_count() >= BATCH_SIZE and not _busy and _quota_block_message() is None:
                 cmd = CMD_CHECK
             else:
                 continue

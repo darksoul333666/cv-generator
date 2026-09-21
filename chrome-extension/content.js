@@ -100,17 +100,33 @@
   }
 
   function renderQueue(host, state) {
-    const btn = host.shadowRoot.getElementById("cvgen-flush");
-    if (!btn || !state) return;
+    const flushBtn = host.shadowRoot.getElementById("cvgen-flush");
+    const retryBtn = host.shadowRoot.getElementById("cvgen-retry");
+    if (!state) return;
     const queued = Number(state.queued) || 0;
     const generatingCount = Number(state.generating) || 0;
+    const failed = Number(state.failed) || 0;
     const canFlush = Boolean(state.can_flush) && queued > 0;
-    btn.hidden = queued < 1 && generatingCount < 1;
-    btn.disabled = !canFlush;
-    if (generatingCount > 0) {
-      btn.textContent = `Generando ${generatingCount}…`;
-    } else {
-      btn.textContent = queued ? `Generar lote (${queued})` : "Generar lote";
+    const canRetry = Boolean(state.can_retry_failed) && failed > 0 && generatingCount < 1;
+    if (flushBtn) {
+      flushBtn.hidden = queued < 1 && generatingCount < 1;
+      flushBtn.disabled = !canFlush;
+      if (generatingCount > 0) {
+        flushBtn.textContent = `Generando ${generatingCount}…`;
+      } else {
+        flushBtn.textContent = queued ? `Generar lote (${queued})` : "Generar lote";
+      }
+    }
+    if (retryBtn) {
+      retryBtn.hidden = failed < 1;
+      retryBtn.disabled = !canRetry;
+      const take = Math.min(failed, Number(state.batchSize) || 5);
+      retryBtn.textContent =
+        failed > take
+          ? `Reenviar lote (${take} de ${failed})`
+          : failed > 0
+            ? `Reenviar lote (${failed})`
+            : "Reenviar lote";
     }
   }
 
@@ -189,7 +205,9 @@
       renderQueue(host, {
         queued: result && result.batchQueued,
         generating: result && result.batchGenerating,
+        failed: result && result.failed,
         can_flush: Boolean(result && result.batchQueued > 0 && !result.batchGenerating),
+        can_retry_failed: Boolean(result && result.failed > 0 && !result.batchGenerating),
       });
       await refreshQueue(host);
       toast(
@@ -219,6 +237,31 @@
     toast(host, "Generando lote…", true, 0);
     try {
       const result = await chrome.runtime.sendMessage({ type: "CVGEN_FLUSH" });
+      const ok = Boolean(result && result.ok);
+      toast(
+        host,
+        (result && result.message) || "Sin respuesta del backend",
+        ok,
+        ok ? 8000 : 4000,
+        ok
+          ? () => {
+              chrome.runtime.sendMessage({ type: "CVGEN_OPEN_HISTORIAL", savedId: "" });
+            }
+          : null,
+      );
+      await refreshQueue(host);
+      await refreshGoal(host);
+    } catch {
+      toast(host, "Recarga la extensión e inténtalo de nuevo", false, 4000);
+    }
+  }
+
+  async function retryFailedVacancyBatch(host) {
+    const btn = host.shadowRoot.getElementById("cvgen-retry");
+    if (btn) btn.disabled = true;
+    toast(host, "Reenviando lote fallido…", true, 0);
+    try {
+      const result = await chrome.runtime.sendMessage({ type: "CVGEN_RETRY_FAILED" });
       const ok = Boolean(result && result.ok);
       toast(
         host,
@@ -277,6 +320,9 @@
         #cvgen-flush { background: #b45309; }
         #cvgen-flush:hover { background: #d97706; }
         #cvgen-flush[hidden] { display: none; }
+        #cvgen-retry { background: #9f1239; }
+        #cvgen-retry:hover { background: #be123c; }
+        #cvgen-retry[hidden] { display: none; }
         button:focus-visible {
           outline: 2px solid #5eead4;
           outline-offset: 2px;
@@ -322,6 +368,7 @@
         <button type="button" id="cvgen-btn" aria-label="Copiar vacante">Copiar vacante</button>
         <button type="button" id="cvgen-gen" aria-label="Añadir vacante al lote">Generar CV</button>
         <button type="button" id="cvgen-flush" hidden disabled>Generar lote</button>
+        <button type="button" id="cvgen-retry" hidden disabled>Reenviar lote</button>
         <button type="button" id="cvgen-goal" hidden aria-pressed="false">Hoy 0/40</button>
         <button type="button" id="cvgen-toast" hidden></button>
       </div>
@@ -341,6 +388,11 @@
       e.preventDefault();
       e.stopPropagation();
       await flushVacancyBatch(host);
+    });
+    shadow.getElementById("cvgen-retry").addEventListener("click", async (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      await retryFailedVacancyBatch(host);
     });
     shadow.getElementById("cvgen-goal").addEventListener("click", async (e) => {
       e.preventDefault();

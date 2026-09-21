@@ -39,6 +39,8 @@ def build_ollama_optimizer_prompt(
         "Maximize ATS match for this job.\n"
         "You MAY add technologies from the job description that are not in the master profile (C#, .NET, Azure, Terraform, HIPAA, etc.) in skills, summary and bullets. The candidate is a senior engineer who can learn adjacent stacks. Prefer the vacancy wording.\n"
         "Keep companies, job titles, dates and metrics exactly from the master profile. Do not invent employers or numbers.\n"
+        "Do not add Freelance or Freelancer to job titles.\n"
+        "Do not put Fintech in the UffPay job title unless this job description explicitly asks for fintech or financial-services experience.\n"
         "Never drop achievement metrics: if a job has a number/percent in the master, at least one bullet of that job MUST keep that same number (Spanish: 35%, never the word percent). Vary the verb; do not start every metric bullet with the same Reducción/Reduced formula.\n\n"
         "JOB DESCRIPTION\n"
         f"{vacancy_snip}\n\n"
@@ -59,6 +61,8 @@ def build_batch_optimizer_prompt(
         "Each item MUST include slot equal to its JOB number (1..N) and the fields "
         "target_role, match_score, summary, skills, keywords, experience.",
         "Do not mix jobs. Keep companies, job titles, dates and metrics exactly from the master profile.",
+        "Do not add Freelance or Freelancer to job titles.",
+        "Do not put Fintech in the UffPay job title unless that JOB text explicitly asks for fintech or financial-services experience.",
         "Never drop achievement metrics: if a job has a number/percent in the master, keep that same number in at least one bullet (Spanish: 35%). Do not invent numbers. Vary metric verbs.",
         "You MAY add vacancy technologies that are not in the master profile (C#, .NET, Azure, etc.) to skills, summary and bullets. Do not invent employers or numbers.",
         "",

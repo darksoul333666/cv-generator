@@ -6,6 +6,7 @@ from typing import Optional
 
 from .gemini_backend import GeminiCvLlmBackend
 from .ollama_backend import OllamaCvLlmBackend
+from .openai_backend import OpenAICvLlmBackend
 from .protocol import CvLlmBackend
 from .settings import get_llm_provider_id
 
@@ -32,9 +33,11 @@ def _build_backend() -> CvLlmBackend:
     pid = get_llm_provider_id()
     if pid == "gemini":
         return GeminiCvLlmBackend.from_env()
+    if pid in {"openai", "gpt"}:
+        return OpenAICvLlmBackend.from_env()
     if pid == "ollama":
         return OllamaCvLlmBackend.from_env()
     raise ValueError(
-        f"LLM_PROVIDER={pid!r} no está soportado. Valores actuales: gemini, ollama. "
+        f"LLM_PROVIDER={pid!r} no está soportado. Valores actuales: gemini, openai, ollama. "
         f"Implementa un backend en app/llm/ y regístralo en app/llm/factory.py."
     )

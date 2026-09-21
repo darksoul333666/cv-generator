@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 from typing import Optional, Tuple
 
 from .cv_history import append_generated_cv, vacancy_title_from_text
@@ -9,6 +10,8 @@ from .llm.settings import tailor_missing_key_message
 from .matcher import load_all_cvs, pick_best_cv
 from .models import CvDocument, MatchResponse, TailorResponse
 from .vacancy_clean import parse_pasted_vacancy
+
+logger = logging.getLogger(__name__)
 
 
 async def vacancy_blob_from_text_and_url(
@@ -120,6 +123,12 @@ async def run_full_optimize_batch(
         prepared.append((item_id, blob, vacancy_url, company_name, match_resp))
         pairs.append((blob, match_resp.cv))
 
+    logger.info(
+        "[optimize] lote n=%s provider=%s model=%s (una llamada HTTP)",
+        len(pairs),
+        llm.provider_id,
+        llm.model_id,
+    )
     packed_list = await llm.tailor_cv_batch(pairs)
     if len(packed_list) != len(jobs):
         raise RuntimeError(

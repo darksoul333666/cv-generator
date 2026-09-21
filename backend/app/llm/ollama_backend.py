@@ -16,8 +16,8 @@ from ..locale_util import (
     detect_vacancy_locale,
     education_line,
     format_period,
-    freelance_suffix,
     localize_cv_wording,
+    polish_experience_title,
 )
 from ..matcher import pick_best_cv
 from ..models import CvDocument, ExperienceItem
@@ -232,9 +232,11 @@ def _ollama_result_to_cv(
             known_blob = " ".join(known_roles)
             if not any(tok in known_blob for tok in _norm(position).split() if len(tok) > 3):
                 position = (source.get("positions") or [position])[0]
-        suffix = freelance_suffix(source.get("employment_type"), locale)
-        if suffix and "freelance" not in _norm(position):
-            position = f"{position}{suffix}" if position else suffix.strip(" —")
+        position = polish_experience_title(
+            source.get("company") or company,
+            position or ((source.get("positions") or [""])[0]),
+            vacancy_text,
+        )
         bullets = [
             localize_cv_wording(str(b).strip(), locale)
             for b in (raw.get("bullets") or [])
@@ -243,10 +245,7 @@ def _ollama_result_to_cv(
         experience.append(
             ExperienceItem(
                 company=source.get("company") or company,
-                role=localize_cv_wording(
-                    position or ((source.get("positions") or [""])[0]),
-                    locale,
-                ),
+                role=localize_cv_wording(position, locale),
                 period=period,
                 bullets=bullets[:4],
             )

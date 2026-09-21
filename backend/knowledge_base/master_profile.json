@@ -1595,9 +1595,9 @@
       "id": "exp_uffpay",
       "company": "UffPay",
       "roles": [
-        "Frontend (Fintech) — Freelancer",
-        "React Native Developer (Fintech) — Freelancer",
-        "Full Stack (React Native + Backend) — Freelancer"
+        "Frontend",
+        "React Native Developer",
+        "Full Stack (React Native + Backend)"
       ],
       "employmentType": "freelance",
       "startDate": "2026-04",
@@ -3440,11 +3440,11 @@
       "id": "tl_exp_uffpay",
       "experienceId": "exp_uffpay",
       "company": "UffPay",
-      "role": "Frontend (Fintech) — Freelancer",
+      "role": "Frontend",
       "roles": [
-        "Frontend (Fintech) — Freelancer",
-        "React Native Developer (Fintech) — Freelancer",
-        "Full Stack (React Native + Backend) — Freelancer"
+        "Frontend",
+        "React Native Developer",
+        "Full Stack (React Native + Backend)"
       ],
       "startDate": "2026-04",
       "endDate": null,

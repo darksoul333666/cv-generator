@@ -261,6 +261,7 @@ export async function listCvHistory(): Promise<{
   batch_size?: number;
   queued_count?: number;
   generating_count?: number;
+  failed_count?: number;
 }> {
   const res = await fetch(`${apiBase()}/v1/history`, { method: "GET" });
   if (!res.ok) throw new Error(res.statusText || `Error ${res.status}`);
@@ -292,7 +293,9 @@ export type QueueStatus = {
   batch_size: number;
   queued: number;
   generating: number;
+  failed?: number;
   can_flush: boolean;
+  can_retry_failed?: boolean;
   message: string;
 };
 
@@ -301,6 +304,17 @@ export type QueueFlushResult = {
   queued: number;
   generating: number;
   batch_size: number;
+  message: string;
+};
+
+export type QueueRetryFailedResult = {
+  retried: number;
+  started: number;
+  queued: number;
+  generating: number;
+  failed: number;
+  batch_size: number;
+  can_retry_failed: boolean;
   message: string;
 };
 
@@ -349,6 +363,12 @@ export async function retryQueuedCv(id: string): Promise<QueueEnqueueResult> {
   );
   if (!res.ok) throw new Error(await readApiError(res, res.statusText));
   return res.json() as Promise<QueueEnqueueResult>;
+}
+
+export async function retryFailedQueueBatch(): Promise<QueueRetryFailedResult> {
+  const res = await fetch(`${apiBase()}/v1/queue/retry-failed`, { method: "POST" });
+  if (!res.ok) throw new Error(await readApiError(res, res.statusText));
+  return res.json() as Promise<QueueRetryFailedResult>;
 }
 
 export async function renameCvHistoryItem(

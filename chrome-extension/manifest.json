@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "CV Generator — copiar vacante",
-  "version": "0.4.8",
+  "version": "0.4.9",
   "description": "Copia o envía la vacante al generador de CV y sigue el objetivo diario.",
   "permissions": ["activeTab", "scripting", "storage", "alarms", "notifications"],
   "host_permissions": [

@@ -14,6 +14,8 @@ def tailor_missing_key_message() -> str:
     pid = get_llm_provider_id()
     if pid == "gemini":
         return "GEMINI_API_KEY no configurada"
+    if pid in {"openai", "gpt"}:
+        return "OPENAI_API_KEY no configurada"
     if pid == "ollama":
         return (
             "Ollama no está disponible. Arranca `ollama serve`, crea el modelo "

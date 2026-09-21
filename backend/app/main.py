@@ -25,9 +25,11 @@ from .cv_queue import (
     BATCH_SIZE,
     QueueEnqueueOut,
     QueueFlushOut,
+    QueueRetryFailedOut,
     QueueStatusOut,
     STATUS_ERROR,
     enqueue_optimize,
+    failed_count,
     flush_batch,
     generating_count,
     get_queue_job,
@@ -35,6 +37,7 @@ from .cv_queue import (
     queue_position,
     queue_status,
     queued_count,
+    retry_failed_batch,
     retry_queue_job,
     start_queue_worker,
     stop_queue_worker,
@@ -42,7 +45,14 @@ from .cv_queue import (
 )
 from .extension_routes import router as extension_router
 from .fetch_vacancy import text_from_url
-from .llm import GEMINI_QUOTA_USER_MESSAGE, get_cv_llm_backend, is_quota_or_rate_limit
+from .llm import (
+    GEMINI_QUOTA_USER_MESSAGE,
+    LLM_UNAVAILABLE_USER_MESSAGE,
+    get_cv_llm_backend,
+    is_model_unavailable,
+    is_quota_or_rate_limit,
+    llm_user_message,
+)
 from .matcher import load_all_cvs
 from .vacancy_pipeline import (
     vacancy_blob_from_text_and_url,
@@ -73,7 +83,8 @@ from .models import (
 
 load_dotenv(Path(__file__).resolve().parent.parent / ".env")
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.INFO, force=True)
+logging.getLogger("app.llm.gemini_backend").setLevel(logging.INFO)
 logger = logging.getLogger(__name__)
 
 
@@ -347,6 +358,11 @@ async def flush_queued_cvs() -> QueueFlushOut:
         raise HTTPException(status_code=400, detail=str(e)) from e
 
 
+@app.post("/v1/queue/retry-failed", response_model=QueueRetryFailedOut)
+async def retry_failed_queued_cvs() -> QueueRetryFailedOut:
+    return retry_failed_batch()
+
+
 @app.post("/v1/queue/{job_id}/retry", response_model=QueueEnqueueOut)
 async def retry_queued_cv(job_id: str) -> QueueEnqueueOut:
     try:
@@ -381,9 +397,12 @@ async def optimize_cv(body: VacancyRequest) -> TailorResponse:
             detail="La cola tardó demasiado. Revisa el historial: el CV puede seguir generándose.",
         ) from e
     if finished.status == STATUS_ERROR:
-        if GEMINI_QUOTA_USER_MESSAGE in (finished.error or ""):
-            raise HTTPException(status_code=429, detail=finished.error)
-        raise HTTPException(status_code=400, detail=finished.error or "No se pudo generar el CV")
+        err = finished.error or "No se pudo generar el CV"
+        if GEMINI_QUOTA_USER_MESSAGE in err:
+            raise HTTPException(status_code=429, detail=err)
+        if LLM_UNAVAILABLE_USER_MESSAGE in err:
+            raise HTTPException(status_code=503, detail=err)
+        raise HTTPException(status_code=400, detail=err)
     return _tailor_from_history(finished.saved_id or finished.id)
 
 
@@ -413,6 +432,7 @@ async def list_cv_history() -> HistoryListResponse:
         batch_size=BATCH_SIZE,
         queued_count=queued_count(),
         generating_count=generating_count(),
+        failed_count=failed_count(),
     )
 
 
@@ -514,7 +534,10 @@ async def tailor_cv(body: TailorRequest) -> TailorResponse:
     except Exception as e:
         if is_quota_or_rate_limit(e):
             logger.warning("[/v1/tailor] Cuota Gemini (429): %s", str(e)[:400])
-            raise HTTPException(status_code=429, detail=GEMINI_QUOTA_USER_MESSAGE) from e
+            raise HTTPException(status_code=429, detail=llm_user_message(e)) from e
+        if is_model_unavailable(e):
+            logger.warning("[/v1/tailor] Gemini 503: %s", str(e)[:400])
+            raise HTTPException(status_code=503, detail=llm_user_message(e)) from e
         raise
     meta.update({"vacancy_chars": len(vacancy_blob), "flow": "tailor"})
 
