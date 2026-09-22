@@ -41,7 +41,9 @@ def build_ollama_optimizer_prompt(
         "Keep companies, job titles, dates and metrics exactly from the master profile. Do not invent employers or numbers.\n"
         "Do not add Freelance or Freelancer to job titles.\n"
         "Do not put Fintech in the UffPay job title unless this job description explicitly asks for fintech or financial-services experience.\n"
-        "Never drop achievement metrics: if a job has a number/percent in the master, at least one bullet of that job MUST keep that same number (Spanish: 35%, never the word percent). Vary the verb; do not start every metric bullet with the same Reducción/Reduced formula.\n\n"
+        "Never drop achievement metrics: if a job has a number/percent in the master, at least one bullet of that job MUST keep that same number (Spanish: 35%, never the word percent). Vary the verb; do not start every metric bullet with the same Reducción/Reduced formula.\n"
+        "experience items MUST use keys company, position (string), dates, employment_type, bullets (string array). "
+        "Do not use positions or achievements as keys.\n\n"
         "JOB DESCRIPTION\n"
         f"{vacancy_snip}\n\n"
         "CANDIDATE MASTER PROFILE\n"
@@ -60,6 +62,10 @@ def build_batch_optimizer_prompt(
         f"Return a single JSON object: {{\"items\":[...]}}, with exactly {n} items.",
         "Each item MUST include slot equal to its JOB number (1..N) and the fields "
         "target_role, match_score, summary, skills, keywords, experience.",
+        "experience is an array of objects with EXACT keys: "
+        '{"company":"...","position":"...","dates":"...","employment_type":"full_time","bullets":["..."]}.',
+        "Use position as a string (not positions). Use bullets as an array of strings "
+        "(not achievements/responsibilities). Copy companies and dates from the master.",
         "Do not mix jobs. Keep companies, job titles, dates and metrics exactly from the master profile.",
         "Do not add Freelance or Freelancer to job titles.",
         "Do not put Fintech in the UffPay job title unless that JOB text explicitly asks for fintech or financial-services experience.",

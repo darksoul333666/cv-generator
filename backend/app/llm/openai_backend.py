@@ -15,11 +15,11 @@ from ..models import CvDocument
 from .parse_json import parse_json_object
 from .prompts import build_batch_optimizer_prompt, build_ollama_optimizer_prompt
 from .result_pack import align_batch_items, pack_optimizer
-from .schemas import OptimizerBatchOut
+from .schemas import OptimizerBatchOut, OptimizerOut
 
 logger = logging.getLogger(__name__)
 
-_DEFAULT_MODEL = "gpt-4o-mini"
+_DEFAULT_MODEL = "gpt-5-mini"
 _DEFAULT_BASE = "https://api.openai.com/v1"
 _HTTP_CALLS = 0
 
@@ -34,15 +34,24 @@ class OpenAICvLlmBackend:
     def from_env(cls) -> OpenAICvLlmBackend:
         llm_model = os.environ.get("LLM_MODEL", "").strip()
         openai_model = os.environ.get("OPENAI_MODEL", "").strip()
-        if llm_model.lower().startswith("gpt") or llm_model.lower().startswith("o1") or llm_model.lower().startswith("o3") or llm_model.lower().startswith("o4"):
+        lowered = llm_model.lower()
+        if lowered.startswith(("gpt", "o1", "o3", "o4")):
             model = llm_model
         else:
             model = openai_model or _DEFAULT_MODEL
+        api_key = (
+            os.environ.get("OPENAI_API_KEY", "").strip()
+            or os.environ.get("API_KEY", "").strip()
+        )
         return cls(
-            os.environ.get("OPENAI_API_KEY", "").strip(),
+            api_key,
             model,
             os.environ.get("OPENAI_BASE_URL", "").strip() or _DEFAULT_BASE,
         )
+
+    def _is_reasoning_model(self) -> bool:
+        name = self._model_name.lower()
+        return name.startswith(("gpt-5", "o1", "o3", "o4"))
 
     @property
     def provider_id(self) -> str:
@@ -75,9 +84,17 @@ class OpenAICvLlmBackend:
                 {"role": "user", "content": prompt},
             ],
             "response_format": {"type": "json_object"},
-            "max_tokens": max_tokens,
-            "temperature": 0.2,
         }
+        if self._is_reasoning_model():
+            # gpt-5 / o-series: max_tokens y temperature custom suelen devolver 400.
+            payload["max_completion_tokens"] = max_tokens
+            payload["reasoning_effort"] = (
+                os.environ.get("OPENAI_REASONING_EFFORT", "low").strip() or "low"
+            )
+            payload["verbosity"] = "low"
+        else:
+            payload["max_tokens"] = max_tokens
+            payload["temperature"] = 0.2
         headers = {
             "Authorization": f"Bearer {self._api_key}",
             "Content-Type": "application/json",
@@ -139,8 +156,8 @@ class OpenAICvLlmBackend:
         prompt = build_ollama_optimizer_prompt(
             vacancy_text, profile_for_prompt(master), locale
         )
-        raw = self._chat_json(prompt, max_tokens=8192, n=1, kind="tailor")
-        data = parse_json_object(raw, context="openai")
+        raw = self._chat_json(prompt, max_tokens=16384, n=1, kind="tailor")
+        data = OptimizerOut.model_validate(parse_json_object(raw, context="openai")).model_dump()
         return pack_optimizer(
             data,
             cv,
@@ -172,10 +189,9 @@ class OpenAICvLlmBackend:
             prompt_jobs.append((i, vacancy_text, locale))
         prompt = build_batch_optimizer_prompt(prompt_jobs, profile_for_prompt(master))
         n = len(items)
-        raw = self._chat_json(prompt, max_tokens=16384, n=n, kind="tailor_batch")
+        raw = self._chat_json(prompt, max_tokens=32768, n=n, kind="tailor_batch")
         parsed = parse_json_object(raw, context="openai-batch")
-        OptimizerBatchOut.model_validate(parsed)
-        raw_items = parsed.get("items") if isinstance(parsed.get("items"), list) else []
+        raw_items = OptimizerBatchOut.model_validate(parsed).model_dump().get("items") or []
         aligned = align_batch_items(raw_items, n)
         missing = [i + 1 for i, row in enumerate(aligned) if row is None]
         if missing:

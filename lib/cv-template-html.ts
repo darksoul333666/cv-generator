@@ -56,10 +56,12 @@ export function cvTemplateToBodyHtml(data: CVData): string {
     );
     parts.push(`</div>`);
     parts.push(
-      `<ul style="margin:3pt 0 0;padding-left:16px;font-size:9pt;color:#222;">`,
+      `<ul class="cv-list" style="margin:3pt 0 0;padding-left:18px;font-size:9pt;color:#222;list-style:disc outside;">`,
     );
     for (const b of job.bullets) {
-      parts.push(`<li style="margin:0 0 2pt;">${esc(b)}</li>`);
+      parts.push(
+        `<li style="margin:0 0 2pt;display:list-item;list-style:disc outside;">${esc(b)}</li>`,
+      );
     }
     parts.push(`</ul></div>`);
   }
@@ -91,10 +93,12 @@ export function cvTemplateToBodyHtml(data: CVData): string {
 
   parts.push(sectionTitle(copy.certifications));
   parts.push(
-    `<ul style="margin:0;padding-left:16px;font-size:9pt;color:#222;">`,
+    `<ul class="cv-list" style="margin:0;padding-left:18px;font-size:9pt;color:#222;list-style:disc outside;">`,
   );
   for (const c of data.certifications) {
-    parts.push(`<li style="margin:0 0 2pt;">${esc(c)}</li>`);
+    parts.push(
+      `<li style="margin:0 0 2pt;display:list-item;list-style:disc outside;">${esc(c)}</li>`,
+    );
   }
   parts.push(`</ul></div>`);
 

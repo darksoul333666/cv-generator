@@ -263,8 +263,8 @@ def _quota_block_message() -> Optional[str]:
         return None
     secs = int(left) + 1
     return (
-        f"Gemini sigue en tope de cuota. Espera {secs}s. "
-        "Reintentar ahora gasta otra petición del día y vuelve a fallar."
+        f"El proveedor de IA sigue en tope. Espera {secs}s. "
+        "Reintentar ahora gasta otra petición y vuelve a fallar."
     )
 
 

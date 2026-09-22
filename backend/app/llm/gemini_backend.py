@@ -193,7 +193,7 @@ class GeminiCvLlmBackend:
             prompt, OptimizerOut, max_output_tokens=8192, n=1, kind="tailor"
         )
         raw = response_text(response)
-        data = parse_json_object(raw, context="gemini")
+        data = OptimizerOut.model_validate(parse_json_object(raw, context="gemini")).model_dump()
         return pack_optimizer(
             data,
             cv,
@@ -234,9 +234,7 @@ class GeminiCvLlmBackend:
         )
         raw = response_text(response)
         parsed = parse_json_object(raw, context="gemini-batch")
-        OptimizerBatchOut.model_validate(parsed)
-
-        raw_items = parsed.get("items") if isinstance(parsed.get("items"), list) else []
+        raw_items = OptimizerBatchOut.model_validate(parsed).model_dump().get("items") or []
         aligned = align_batch_items(raw_items, n)
         missing = [i + 1 for i, row in enumerate(aligned) if row is None]
         if missing:

@@ -25,6 +25,17 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Tailwind preflight quita los discos de ul/li; el CV los necesita. */
+.cv-sheet ul,
+.cv-sheet .cv-list {
+  list-style: disc outside;
+  padding-left: 18px;
+}
+.cv-sheet li {
+  display: list-item;
+  list-style: disc outside;
+}
+
 .skip-link {
   position: absolute;
   left: 0.75rem;

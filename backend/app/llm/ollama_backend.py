@@ -225,7 +225,18 @@ def _ollama_result_to_cv(
             bool(source.get("current")),
             locale,
         ) or str(source.get("dates") or raw.get("dates") or "").strip()
-        position = str(raw.get("position") or "").strip()
+        position = str(
+            raw.get("position")
+            or raw.get("role")
+            or raw.get("title")
+            or ""
+        ).strip()
+        if not position:
+            positions = raw.get("positions") or raw.get("roles") or []
+            if isinstance(positions, list) and positions:
+                position = str(positions[0] or "").strip()
+            elif isinstance(positions, str):
+                position = positions.strip()
         known_roles = [_norm(r) for r in (source.get("positions") or [])]
         if position and known_roles and _norm(position) not in known_roles:
             # wording may differ; keep model title only if it shares a token with a known role
@@ -239,9 +250,27 @@ def _ollama_result_to_cv(
         )
         bullets = [
             localize_cv_wording(str(b).strip(), locale)
-            for b in (raw.get("bullets") or [])
-            if str(b).strip()
+            for b in (raw.get("bullets") or raw.get("achievements") or raw.get("responsibilities") or [])
+            if not isinstance(b, dict) and str(b).strip()
         ]
+        if not bullets:
+            for ach in source.get("achievements") or []:
+                if isinstance(ach, str) and ach.strip():
+                    bullets.append(localize_cv_wording(ach.strip(), locale))
+                elif isinstance(ach, dict):
+                    desc = str(ach.get("description") or "").strip()
+                    metric = ach.get("metric") or {}
+                    if metric.get("value") is not None:
+                        unit = str(metric.get("unit") or "").strip()
+                        desc = f"{desc} ({metric.get('value')} {unit})".strip()
+                    if desc:
+                        bullets.append(localize_cv_wording(desc, locale))
+            if not bullets:
+                for resp in source.get("responsibilities") or []:
+                    text = str(resp).strip()
+                    if text:
+                        bullets.append(localize_cv_wording(text, locale))
+
         experience.append(
             ExperienceItem(
                 company=source.get("company") or company,

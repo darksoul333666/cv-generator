@@ -100,6 +100,8 @@ function buildHtml(markup: string, locale: "en" | "es" = "es"): string {
     .cv-h2 { break-after: avoid; page-break-after: avoid; }
     .cv-h2 + * { break-before: avoid; page-break-before: avoid; }
     .cv-job, li { break-inside: avoid; page-break-inside: avoid; }
+    .cv-sheet ul, .cv-sheet .cv-list { list-style: disc outside; padding-left: 18px; }
+    .cv-sheet li { display: list-item; list-style: disc outside; }
   </style>
 </head>
 <body>${markup}</body>
