@@ -22,6 +22,37 @@ chosen_cv_id DEBE ser exactamente uno de estos valores: {allowed_ids_repr}
 """
 
 
+def tailor_writing_rules() -> str:
+    """Reglas de calidad compartidas por una vacante y por el lote."""
+    return (
+        "The master profile facts are mostly in Spanish. Translate every summary, target_role and bullet "
+        "into the language requested for that CV. A sentence in the wrong language makes the CV invalid. "
+        "Company names stay exactly as in the master profile.\n"
+        "summary: 4 to 6 lines, about 80 to 120 words. First sentence: years_experience as a whole number plus "
+        "(7.2 is 7+ years) and the target role. Name the vacancy's main technologies and platforms "
+        "(say iOS and Android when the job is mobile). Include one real metric from the profile. "
+        "Do not stop at 2 or 3 short lines.\n"
+        "experience: most recent job first. Include every employer from the last 6 years. "
+        "Omit an employer that ended more than 6 years ago unless that job's technologies match the vacancy.\n"
+        "Jobs whose technologies match the vacancy: 3 or 4 bullets, written with the vacancy's words. "
+        "Every other job: exactly 1 bullet that states what was built or led, using a fact from that job. "
+        "Do not write a generic line such as 'Production work with Ionic' or 'Trabajo en producción con Ionic'.\n"
+        "position must be one entry from that job's positions list: the one that best matches the vacancy. "
+        "Prefer a specific title over a generic one (React Native Developer, not Frontend, when the vacancy is React Native).\n"
+        "Each bullet is one sentence. Mention each metric once. Do not repeat the same phrase twice in a bullet.\n"
+        "In Spanish, percentages are 35% (never the English word percent). "
+        "Use del/de la/de los only when grammar needs them "
+        "(del estado, de la UX, de los tiempos). Keep más de 7 años, pasarelas de pago, consumo de APIs.\n"
+        "You MAY add technologies from the job description that are not in the master profile "
+        "(C#, .NET, Azure, Terraform, HIPAA, etc.) in skills, summary and bullets. Do not invent employers or numbers.\n"
+        "Do not add Freelance or Freelancer to job titles.\n"
+        "Do not put Fintech in the UffPay job title unless this job description explicitly asks for fintech "
+        "or financial-services experience.\n"
+        "Never drop achievement metrics: if a job has a number in the master, one bullet of that job must keep "
+        "that same number. Vary the verb; do not start every metric bullet with Reducción/Reduced.\n"
+    )
+
+
 def build_ollama_optimizer_prompt(
     vacancy_text: str, master_profile: dict, locale: str = "en"
 ) -> str:
@@ -29,19 +60,8 @@ def build_ollama_optimizer_prompt(
     vacancy_snip = vacancy_text[:8000]
     lang = "Spanish" if locale == "es" else "English"
     return (
-        f"Write the entire CV in {lang}. Do not mix languages. Company names stay exactly as in the master profile.\n"
-        "target_role, summary, bullets and skill names must all be in that language.\n"
-        "In Spanish, write percentages as 35% (never the English word percent).\n"
-        "In Spanish, use natural articles and contractions only where grammar needs them "
-        "(del estado, de la UX, de los tiempos, de una aplicación). "
-        "Do not replace every de with del: keep más de 7 años, pasarelas de pago, consumo de APIs, virtualización de datos.\n"
-        "Write clear noun phrases; avoid run-on stacks of de de de.\n"
-        "Maximize ATS match for this job.\n"
-        "You MAY add technologies from the job description that are not in the master profile (C#, .NET, Azure, Terraform, HIPAA, etc.) in skills, summary and bullets. The candidate is a senior engineer who can learn adjacent stacks. Prefer the vacancy wording.\n"
-        "Keep companies, job titles, dates and metrics exactly from the master profile. Do not invent employers or numbers.\n"
-        "Do not add Freelance or Freelancer to job titles.\n"
-        "Do not put Fintech in the UffPay job title unless this job description explicitly asks for fintech or financial-services experience.\n"
-        "Never drop achievement metrics: if a job has a number/percent in the master, at least one bullet of that job MUST keep that same number (Spanish: 35%, never the word percent). Vary the verb; do not start every metric bullet with the same Reducción/Reduced formula.\n"
+        f"Write the entire CV in {lang}.\n"
+        f"{tailor_writing_rules()}"
         "experience items MUST use keys company, position (string), dates, employment_type, bullets (string array). "
         "Do not use positions or achievements as keys.\n\n"
         "JOB DESCRIPTION\n"
@@ -66,11 +86,8 @@ def build_batch_optimizer_prompt(
         '{"company":"...","position":"...","dates":"...","employment_type":"full_time","bullets":["..."]}.',
         "Use position as a string (not positions). Use bullets as an array of strings "
         "(not achievements/responsibilities). Copy companies and dates from the master.",
-        "Do not mix jobs. Keep companies, job titles, dates and metrics exactly from the master profile.",
-        "Do not add Freelance or Freelancer to job titles.",
-        "Do not put Fintech in the UffPay job title unless that JOB text explicitly asks for fintech or financial-services experience.",
-        "Never drop achievement metrics: if a job has a number/percent in the master, keep that same number in at least one bullet (Spanish: 35%). Do not invent numbers. Vary metric verbs.",
-        "You MAY add vacancy technologies that are not in the master profile (C#, .NET, Azure, etc.) to skills, summary and bullets. Do not invent employers or numbers.",
+        "Do not mix jobs across items.",
+        tailor_writing_rules(),
         "",
     ]
     for slot, vacancy_text, locale in jobs:

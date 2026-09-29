@@ -55,6 +55,49 @@ _BACKEND_LANGS = {"sql", "php", "java"}
 
 _FRONTEND_FRAMEWORKS = {"react native", "ionic"}
 
+_PAYMENTS = {
+    "stripe",
+    "cybersource",
+    "neonet",
+    "mercado pago",
+    "paypal",
+}
+
+_REACT_FAMILY = {
+    "react",
+    "react native",
+    "next.js",
+    "redux",
+    "mobx",
+    "zustand",
+    "nativewind",
+    "react navigation",
+}
+
+_ANGULAR_FAMILY = {
+    "angular",
+    "angular material",
+    "ngrx",
+    "rxjs",
+    "signals",
+    "ngx-translate",
+    "karma",
+    "jasmine",
+}
+
+_VUE_FAMILY = {"vue"}
+
+_OVERLAY_SKIP = {
+    "mobile",
+    "payments",
+    "payment",
+    "performance",
+    "performance optimization",
+    "ux",
+    "ui",
+    "optimization",
+}
+
 _SKIP_UNLESS_HIT = {
     "ngx-translate",
     "ssr",
@@ -177,10 +220,14 @@ def _display_name(
         return name
     if _appears(name, vacancy):
         return name
+    canon = _norm(name)
     hits = [
         alias
         for alias in aliases.get(name, [])
-        if _appears(alias, vacancy) and _norm(alias) != _norm(name)
+        if _appears(alias, vacancy)
+        and _norm(alias) not in canon
+        and canon not in _norm(alias)
+        and len(_compact(alias)) > 3
     ]
     if not hits:
         return name
@@ -301,6 +348,9 @@ def _sort_row(
             matched.append(name)
         else:
             rest.append(name)
+    # Con varias coincidencias, el resto del stack no relacionado no debe llenar la fila.
+    if len(matched) >= 3:
+        rest = rest[:2]
     picked = matched + rest
     if cap and len(picked) > _PER_ROW:
         picked = picked[: max(_PER_ROW, len(matched))]
@@ -356,8 +406,55 @@ def _join(
     return ", ".join(labeled)
 
 
+def _mentioned_families(vacancy: str) -> set[str]:
+    compact = _compact(vacancy)
+    found: set[str] = set()
+    for family, token in (("react", "react"), ("angular", "angular"), ("vue", "vue")):
+        if token in compact:
+            found.add(family)
+    return found
+
+
+def _drop_unrelated_families(rows: dict[str, list[str]], vacancy: str) -> None:
+    """Si la vacante nombra un solo framework, quita los otros del bloque de skills."""
+    families = _mentioned_families(vacancy)
+    if len(families) != 1:
+        return
+    drop: set[str] = set()
+    if "react" not in families:
+        drop |= _REACT_FAMILY
+    if "angular" not in families:
+        drop |= _ANGULAR_FAMILY
+    if "vue" not in families:
+        drop |= _VUE_FAMILY
+    for row, names in rows.items():
+        kept: list[str] = []
+        for name in names:
+            base = _norm(re.sub(r"\s*\([^)]*\)\s*", " ", name))
+            if base in drop or _norm(name) in drop:
+                continue
+            kept.append(name)
+        rows[row] = kept
+
+
+def _vacancy_wants_payments(vacancy: str) -> bool:
+    return bool(
+        re.search(
+            r"payment|stripe|cybersource|paypal|checkout|billing|fin-?tech",
+            vacancy or "",
+            flags=re.I,
+        )
+    )
+
+
 def _guess_overlay_row(name: str) -> str:
     key = _norm(name)
+    if key in {"jest", "karma", "jasmine", "e2e", "detox", "tdd", "cypress", "mocha"} or "testing" in key:
+        return "testing"
+    if key in {"bitrise", "ci/cd", "github actions", "fastlane"}:
+        return "cloud"
+    if "firebase" in key or key in {"app store", "play console", "codepush", "react navigation"}:
+        return "mobile"
     if "c#" in key or key in {"csharp", "f#"}:
         return "backend"
     if ".net" in key or "asp.net" in key or "entity framework" in key or key == "ef core":
@@ -386,6 +483,8 @@ def _clean_overlay_name(raw: str) -> str:
     if not name or len(name) > 48:
         return ""
     if len(name.split()) > 5:
+        return ""
+    if _norm(name) in _OVERLAY_SKIP:
         return ""
     return name
 
@@ -436,7 +535,13 @@ def build_stack_from_master(
     original = vacancy_text or ""
     aliases = _alias_index(master)
     rows = _collect_by_row(master)
+    _drop_unrelated_families(rows, vacancy_text or "")
+    if not _vacancy_wants_payments(vacancy_text or ""):
+        rows["backend"] = [name for name in rows["backend"] if _norm(name) not in _PAYMENTS]
     extra = _overlay_rows(overlay)
+    if not _vacancy_wants_payments(vacancy_text or ""):
+        for row, names in extra.items():
+            extra[row] = [name for name in names if _norm(name) not in _PAYMENTS]
     frontend = _merge_row(_sort_row(rows["frontend"], vacancy, aliases), extra["frontend"])
     styling = _merge_row(_sort_row(rows["styling"], vacancy, aliases), extra["styling"])
     backend = _merge_row(_sort_row(rows["backend"], vacancy, aliases), extra["backend"])

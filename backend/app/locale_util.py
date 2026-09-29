@@ -191,12 +191,24 @@ def education_line(master: dict, locale: Locale) -> str:
     return ""
 
 
+# Premios escolares. No aportan en una postulación senior y empujan el CV a una segunda hoja.
+_SCHOOL_AWARD_RE = re.compile(
+    r"olimpiada de conocimiento|knowledge olympiad|ortograf|spelling championship|"
+    r"infantil|children",
+    re.IGNORECASE,
+)
+
+
+def is_school_award(name: str) -> bool:
+    return bool(_SCHOOL_AWARD_RE.search(name or ""))
+
+
 def cert_names(master: dict, locale: Locale) -> list[str]:
     out: list[str] = []
     idx = 0 if locale == "en" else 1
     for item in master.get("certifications") or []:
         name = str(item.get("name") or "").strip()
-        if not name:
+        if not name or is_school_award(name):
             continue
         pair = _CERT_I18N.get(_norm_cert(name))
         label = pair[idx] if pair else name

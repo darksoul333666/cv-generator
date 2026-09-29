@@ -189,7 +189,7 @@
       "sellingPoints": [
         "App fintech UffPay: pagos, transferencias y recargas",
         "Integraciones Cybersource y Neonet",
-        "Clientes enterprise en Lumston (Volaris, Scotiabank, Doña Tota) según CV mobile",
+        "Clientes enterprise en Lumston (Volaris, Doña Tota) según CV mobile",
         "App Store, Play Console, CodePush, Firebase"
       ],
       "id": "role_senior_react_native_developer"
@@ -1795,7 +1795,7 @@
       "conflicts": [
         "roles: Frontend (PDFs Frontend/Full Stack) vs React Native Developer (CV RN) vs Full Stack / Frontend (knowledge_base cv_3)",
         "stack móvil: PDFs Frontend/Full Stack dicen apps móviles con Angular y Next.js; CV RN dice React Native",
-        "clientes: PDFs listan Volaris, Scotiabank, Doña Tota, Golden Corral, Viva Aerobús; CV RN solo Volaris, Scotiabank, Doña Tota",
+        "clientes: Volaris, Doña Tota, Golden Corral y Viva Aerobús",
         "solapamiento temporal con Grainchain si Grainchain inicia en 2025-01 (Lumston termina 2025-06)"
       ],
       "domain": [
@@ -1806,7 +1806,7 @@
         "food service"
       ],
       "responsibilities": [
-        "Desarrollo de aplicaciones para clientes enterprise (Volaris, Scotiabank, Doña Tota; Golden Corral y Viva Aerobús en CVs web/fullstack)",
+        "Desarrollo de aplicaciones para clientes enterprise (Volaris, Doña Tota; Golden Corral y Viva Aerobús en CVs web/fullstack)",
         "Funcionalidades escalables en entornos productivos",
         "Aplicaciones web con React y Next.js (SSR, routing, performance)",
         "Integración con APIs y mejora de UX en flujos críticos",

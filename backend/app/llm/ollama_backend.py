@@ -6,6 +6,7 @@ import asyncio
 import json
 import logging
 import os
+import re
 from typing import Any, Dict, List, Tuple
 
 import httpx
@@ -189,6 +190,240 @@ def _company_index(master: dict) -> dict[str, dict]:
     return index
 
 
+_GENERIC_ROLE_WORDS = {
+    "frontend",
+    "backend",
+    "fullstack",
+    "full",
+    "stack",
+    "developer",
+    "engineer",
+    "senior",
+    "junior",
+    "lead",
+    "leader",
+    "technical",
+    "software",
+}
+
+
+def _role_terms(role: str) -> list[str]:
+    cleaned = _norm(role).replace("-", " ").replace("/", " ").replace("+", " ")
+    cleaned = cleaned.replace("(", " ").replace(")", " ")
+    return [
+        word
+        for word in cleaned.split()
+        if word not in _GENERIC_ROLE_WORDS and len(word) > 2
+    ]
+
+
+def _term_in_vacancy(term: str, vacancy: str) -> bool:
+    if not term or not vacancy:
+        return False
+    if re.search(rf"(?<![a-z0-9]){re.escape(term)}(?![a-z0-9])", vacancy):
+        return True
+    compact_term = re.sub(r"[^a-z0-9]+", "", term)
+    compact_vacancy = re.sub(r"[^a-z0-9]+", "", vacancy)
+    return len(compact_term) >= 4 and compact_term in compact_vacancy
+
+
+def _role_fit(role: str, vacancy: str) -> int:
+    """Cuántas palabras propias del cargo aparecen en la vacante. Ignora Frontend/Developer."""
+    vacancy_n = _norm(vacancy).replace("-", " ")
+    return sum(1 for term in _role_terms(role) if _term_in_vacancy(term, vacancy_n))
+
+
+def _pick_position(known: list[str], model_position: str, vacancy: str) -> str:
+    """Entre los cargos del maestro, el que mejor coincide con la vacante."""
+    roles = [str(role).strip() for role in known if str(role).strip()]
+    if not roles:
+        return model_position
+    best = max(roles, key=lambda role: (_role_fit(role, vacancy), -len(role)))
+    best_score = _role_fit(best, vacancy)
+    model_score = _role_fit(model_position, vacancy) if model_position else -1
+    if best_score <= 0:
+        return model_position or roles[0]
+    known_norms = {_norm(role) for role in roles}
+    if model_position and _norm(model_position) in known_norms and model_score >= best_score:
+        return model_position
+    if best_score > model_score:
+        return best
+    return model_position or best
+
+
+def _recency_key(source: dict) -> tuple:
+    """Empleo actual primero; después el que terminó más tarde."""
+    current = 1 if source.get("current") else 0
+    end = str(source.get("end_date") or "")
+    start = str(source.get("start_date") or "")
+    return (current, end, start)
+
+
+def _compact_token(text: str) -> str:
+    return re.sub(r"[^a-z0-9]+", "", _norm(text))
+
+
+def _tech_in_vacancy(tech: str, vacancy: str) -> bool:
+    token = _compact_token(tech)
+    haystack = _compact_token(vacancy)
+    if len(token) < 3 or not haystack:
+        return False
+    if len(token) <= 4:
+        return bool(re.search(rf"(?<![a-z0-9]){re.escape(token)}(?![a-z0-9])", haystack))
+    return token in haystack
+
+
+def _matches_vacancy(source: dict, vacancy: str) -> bool:
+    for tech in source.get("technologies") or []:
+        if _tech_in_vacancy(str(tech), vacancy):
+            return True
+    return any(_role_fit(str(role), vacancy) > 0 for role in (source.get("positions") or []))
+
+
+def _anchor_ym(companies: dict[str, dict]) -> str:
+    anchor = ""
+    for source in companies.values():
+        stamp = str(source.get("start_date") or "") if source.get("current") else str(
+            source.get("end_date") or source.get("start_date") or ""
+        )
+        if stamp > anchor:
+            anchor = stamp
+    return anchor
+
+
+def _years_before(ym: str, years: int) -> str:
+    if len(ym) < 7 or ym[4] != "-":
+        return "0000-00"
+    return f"{int(ym[:4]) - years:04d}{ym[4:7]}"
+
+
+def _is_stale(source: dict, cutoff: str) -> bool:
+    if source.get("current"):
+        return False
+    end = str(source.get("end_date") or source.get("start_date") or "")
+    return bool(end) and end < cutoff
+
+
+def _metric_label(source: dict) -> str:
+    for ach in source.get("achievements") or []:
+        if not isinstance(ach, dict):
+            continue
+        metric = ach.get("metric") or {}
+        if metric.get("value") is None:
+            continue
+        unit = str(metric.get("unit") or "")
+        value = metric.get("value")
+        if unit.lower() in {"percent", "%"}:
+            return f"{value}%"
+        return f"{value} {unit}".strip()
+    return ""
+
+
+def _tech_names(source: dict, limit: int = 4) -> list[str]:
+    names: list[str] = []
+    for raw in source.get("technologies") or []:
+        name = str(raw).strip()
+        if name and name not in names:
+            names.append(name)
+        if len(names) >= limit:
+            break
+    return names
+
+
+def _join_names(names: list[str], conjunction: str) -> str:
+    if len(names) <= 1:
+        return names[0] if names else ""
+    if len(names) == 2:
+        return f"{names[0]} {conjunction} {names[1]}"
+    return f"{', '.join(names[:-1])} {conjunction} {names[-1]}"
+
+
+_NOTE_RE = re.compile(
+    r"\s*\([^)]*(?:cv hist[oó]rico|knowledge_base|seg[uú]n)[^)]*\)",
+    re.IGNORECASE,
+)
+_SPANISH_FACT_RE = re.compile(
+    r"[áéíóúñ]|\b(de|del|con|para|mediante|desarrollo|diseño|gesti[oó]n|app)\b",
+    re.IGNORECASE,
+)
+
+
+def _clean_fact(text: str) -> str:
+    cleaned = _NOTE_RE.sub("", text or "")
+    return " ".join(cleaned.split()).strip(" .;")
+
+
+def _fact_sentences(source: dict) -> list[str]:
+    """Hechos del perfil, el logro con cifra primero y después las responsabilidades."""
+    sentences: list[str] = []
+    metric = _metric_label(source)
+    for ach in source.get("achievements") or []:
+        if isinstance(ach, dict):
+            desc = _clean_fact(str(ach.get("description") or ""))
+        else:
+            desc = _clean_fact(str(ach))
+        if len(desc) < 25:
+            continue
+        if metric and metric not in desc:
+            desc = f"{desc} ({metric})"
+        sentences.append(desc)
+    for resp in source.get("responsibilities") or []:
+        desc = _clean_fact(str(resp))
+        if len(desc) >= 25:
+            sentences.append(desc)
+    return sentences
+
+
+def _focus_line(source: dict, role: str, locale: str) -> str:
+    """Respaldo si el empleo no tiene ninguna frase usable en el perfil."""
+    techs = _tech_names(source)
+    metric = _metric_label(source)
+    if locale == "es":
+        body = (
+            f"Desarrollo y entrega con {_join_names(techs, 'y')}"
+            if techs
+            else f"Desarrollo y entrega como {role}".strip()
+        )
+    else:
+        body = (
+            f"Shipped production features with {_join_names(techs, 'and')}"
+            if techs
+            else f"Shipped production features as {role}".strip()
+        )
+    if metric:
+        body += f" ({metric})"
+    return body.rstrip(".") + "."
+
+
+def _one_real_bullet(source: dict, role: str, locale: str) -> str:
+    facts = _fact_sentences(source)
+    usable = [
+        fact
+        for fact in facts
+        if locale != "en" or not _SPANISH_FACT_RE.search(fact)
+    ]
+    if not usable:
+        return _focus_line(source, role, locale)
+    line = usable[0]
+    if len(line) < 80 and len(usable) > 1 and len(line) + len(usable[1]) <= 170:
+        line = f"{line}. {usable[1]}"
+    techs = _tech_names(source, 2)
+    if techs and not any(_norm(tech) in _norm(line) for tech in techs):
+        names = _join_names(techs, "y" if locale == "es" else "and")
+        line = f"{line} con {names}" if locale == "es" else f"{line} with {names}"
+    return localize_cv_wording(line.rstrip(".") + ".", locale)
+
+
+def _bullets_for_job(
+    source: dict, model_bullets: list[str], vacancy: str, role: str, locale: str
+) -> list[str]:
+    if _matches_vacancy(source, vacancy) and model_bullets:
+        return model_bullets[:4]
+    if model_bullets:
+        return model_bullets[:1]
+    return [_one_real_bullet(source, role, locale)]
+
+
 def _contact(master: dict) -> dict[str, str]:
     contact = master.get("contact") or {}
     return {
@@ -210,7 +445,7 @@ def _ollama_result_to_cv(
         if str(s).strip()
     ]
 
-    experience: list[ExperienceItem] = []
+    built: dict[str, ExperienceItem] = {}
     for raw in data.get("experience") or []:
         if not isinstance(raw, dict):
             continue
@@ -237,15 +472,16 @@ def _ollama_result_to_cv(
                 position = str(positions[0] or "").strip()
             elif isinstance(positions, str):
                 position = positions.strip()
-        known_roles = [_norm(r) for r in (source.get("positions") or [])]
-        if position and known_roles and _norm(position) not in known_roles:
-            # wording may differ; keep model title only if it shares a token with a known role
-            known_blob = " ".join(known_roles)
+        known = [str(role).strip() for role in (source.get("positions") or []) if str(role).strip()]
+        known_norms = [_norm(role) for role in known]
+        if position and known_norms and _norm(position) not in known_norms:
+            known_blob = " ".join(known_norms)
             if not any(tok in known_blob for tok in _norm(position).split() if len(tok) > 3):
-                position = (source.get("positions") or [position])[0]
+                position = known[0] if known else position
+        position = _pick_position(known, position, vacancy_text)
         position = polish_experience_title(
             source.get("company") or company,
-            position or ((source.get("positions") or [""])[0]),
+            position or (known[0] if known else ""),
             vacancy_text,
         )
         bullets = [
@@ -253,32 +489,49 @@ def _ollama_result_to_cv(
             for b in (raw.get("bullets") or raw.get("achievements") or raw.get("responsibilities") or [])
             if not isinstance(b, dict) and str(b).strip()
         ]
-        if not bullets:
-            for ach in source.get("achievements") or []:
-                if isinstance(ach, str) and ach.strip():
-                    bullets.append(localize_cv_wording(ach.strip(), locale))
-                elif isinstance(ach, dict):
-                    desc = str(ach.get("description") or "").strip()
-                    metric = ach.get("metric") or {}
-                    if metric.get("value") is not None:
-                        unit = str(metric.get("unit") or "").strip()
-                        desc = f"{desc} ({metric.get('value')} {unit})".strip()
-                    if desc:
-                        bullets.append(localize_cv_wording(desc, locale))
-            if not bullets:
-                for resp in source.get("responsibilities") or []:
-                    text = str(resp).strip()
-                    if text:
-                        bullets.append(localize_cv_wording(text, locale))
-
-        experience.append(
-            ExperienceItem(
-                company=source.get("company") or company,
-                role=localize_cv_wording(position, locale),
-                period=period,
-                bullets=bullets[:4],
-            )
+        role = localize_cv_wording(position, locale)
+        built[key] = ExperienceItem(
+            company=source.get("company") or company,
+            role=role,
+            period=period,
+            bullets=_bullets_for_job(source, bullets, vacancy_text, role, locale),
         )
+
+    cutoff = _years_before(_anchor_ym(companies), 6)
+    for key, source in companies.items():
+        if key in personal or key in built or key not in allowed:
+            continue
+        if _is_stale(source, cutoff) and not _matches_vacancy(source, vacancy_text):
+            continue
+        known = [str(role).strip() for role in (source.get("positions") or []) if str(role).strip()]
+        position = polish_experience_title(
+            source.get("company") or key,
+            _pick_position(known, known[0] if known else "", vacancy_text),
+            vacancy_text,
+        )
+        period = format_period(
+            source.get("start_date"),
+            source.get("end_date"),
+            bool(source.get("current")),
+            locale,
+        ) or str(source.get("dates") or "").strip()
+        role = localize_cv_wording(position, locale)
+        built[key] = ExperienceItem(
+            company=source.get("company") or key,
+            role=role,
+            period=period,
+            bullets=_bullets_for_job(source, [], vacancy_text, role, locale),
+        )
+
+    for key, source in list(built.items()):
+        origin = companies.get(key) or {}
+        if _is_stale(origin, cutoff) and not _matches_vacancy(origin, vacancy_text):
+            del built[key]
+
+    experience = [
+        built[key]
+        for key in sorted(built, key=lambda k: _recency_key(companies.get(k) or {}), reverse=True)
+    ]
 
     contact = _contact(master)
     title = localize_cv_wording(

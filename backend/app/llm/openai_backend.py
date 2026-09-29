@@ -79,7 +79,11 @@ class OpenAICvLlmBackend:
             "messages": [
                 {
                     "role": "system",
-                    "content": "Return only a valid JSON object. No markdown fences.",
+                    "content": (
+                        "Return only a valid JSON object. No markdown fences. "
+                        "Write every natural-language string in the language the user message requests. "
+                        "Translate source facts. Do not copy them in another language."
+                    ),
                 },
                 {"role": "user", "content": prompt},
             ],
@@ -91,7 +95,10 @@ class OpenAICvLlmBackend:
             payload["reasoning_effort"] = (
                 os.environ.get("OPENAI_REASONING_EFFORT", "low").strip() or "low"
             )
-            payload["verbosity"] = "low"
+            # low recortaba el summary a ~3 líneas. medium alarga la prosa sin subir el razonamiento.
+            payload["verbosity"] = (
+                os.environ.get("OPENAI_VERBOSITY", "medium").strip() or "medium"
+            )
         else:
             payload["max_tokens"] = max_tokens
             payload["temperature"] = 0.2
