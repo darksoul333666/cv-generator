@@ -1,6 +1,6 @@
 # CV Generator
 
-App local para adaptar el CV de Jairo a una vacante, encolar generaciones (Gemini) y descargar PDF/DOCX. No es un wrapper de un prompt: el modelo **no inventa empresas, fechas ni métricas**; reescribe sobre un perfil maestro.
+App local para adaptar el CV de cualquier usuario una vacante, encolar generaciones (Gemini) y descargar PDF/DOCX. No es un wrapper de un prompt: el modelo **no inventa empresas, fechas ni métricas**; reescribe sobre un perfil maestro.
 
 El repo trae un perfil de ejemplo. **Antes de generar un CV hay que reemplazarlo por el tuyo** (nombre, empresas, fechas, métricas y skills). El modelo no inventa esos hechos: reescribe solo lo que está en `backend/knowledge_base/master_profile.json`.
 
