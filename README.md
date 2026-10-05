@@ -2,7 +2,167 @@
 
 App local para adaptar el CV de Jairo a una vacante, encolar generaciones (Gemini) y descargar PDF/DOCX. No es un wrapper de un prompt: el modelo **no inventa empresas, fechas ni métricas**; reescribe sobre un perfil maestro.
 
-Puertos fijos:
+El repo trae un perfil de ejemplo. **Antes de generar un CV hay que reemplazarlo por el tuyo** (nombre, empresas, fechas, métricas y skills). El modelo no inventa esos hechos: reescribe solo lo que está en `backend/knowledge_base/master_profile.json`.
+
+---
+
+## Cómo levantarlo
+
+### Requisitos
+
+- [Node.js](https://nodejs.org/) 20 o superior (`node -v`)
+- [npm](https://docs.npmjs.com/) (viene con Node)
+- **Python 3.11 o 3.12**. Python 3.9 también instala las dependencias. **Python 3.14 no**: `pydantic` no compila ahí. En macOS, `python3` de Homebrew puede ser 3.14; usa el del sistema o uno instalado aparte:
+
+```bash
+python3 --version
+# si sale 3.14, prueba:
+/usr/bin/python3 --version
+```
+
+- Una clave de [Google AI Studio](https://aistudio.google.com/apikey) (Gemini), de [OpenAI](https://platform.openai.com/api-keys), o [Ollama](https://ollama.com/) corriendo en local
+- Chrome, solo si vas a usar la extensión
+
+### 1. Clonar e instalar el frontend
+
+```bash
+git clone <url-del-repo>
+cd cv-generator
+npm install
+```
+
+### 2. Entorno de Python del backend
+
+El script `./run-all.sh` espera el intérprete en `backend/.venv`. Créalo con un Python 3.9–3.13:
+
+```bash
+# macOS con el Python del sistema (3.9), si Homebrew es 3.14:
+/usr/bin/python3 -m venv backend/.venv
+
+# o, si tienes 3.11 / 3.12:
+# python3.12 -m venv backend/.venv
+
+backend/.venv/bin/pip install --upgrade pip
+backend/.venv/bin/pip install -r backend/requirements.txt
+```
+
+Comprueba que Gemini se importa:
+
+```bash
+backend/.venv/bin/python -c "from google import genai; print('ok')"
+```
+
+### 3. Variables de entorno
+
+El backend **solo** lee `backend/.env` (no el `.env` de la raíz).
+
+```bash
+cp backend/.env.example backend/.env
+```
+
+Edita `backend/.env` y deja un solo proveedor activo:
+
+| `LLM_PROVIDER` | Qué hace falta |
+|---|---|
+| `gemini` (default) | `GEMINI_API_KEY` y `GEMINI_MODEL` |
+| `openai` | `OPENAI_API_KEY` y `OPENAI_MODEL` |
+| `ollama` | Ollama en `OLLAMA_HOST` (default `http://127.0.0.1:11434`) y el modelo `OLLAMA_MODEL` |
+
+Ejemplo mínimo con Gemini:
+
+```bash
+LLM_PROVIDER=gemini
+GEMINI_MODEL=gemini-3.6-flash
+GEMINI_API_KEY=tu_clave
+```
+
+No subas `backend/.env` a git. Ya está en `backend/.gitignore`.
+
+El frontend habla con el API en `http://127.0.0.1:8000`. Solo hace falta un `.env` en la raíz si quieres cambiar eso con `NEXT_PUBLIC_PY_API_URL`.
+
+### 4. Arrancar
+
+```bash
+./run-all.sh
+```
+
+Eso levanta las dos piezas y las detiene juntas con Ctrl+C:
+
+| Pieza | URL |
+|---|---|
+| Frontend (Next.js) | http://localhost:3000 |
+| Backend (FastAPI) | http://127.0.0.1:8000 |
+| Docs del API | http://127.0.0.1:8000/docs |
+
+Comprueba que el backend responde:
+
+```bash
+curl -s http://127.0.0.1:8000/health
+```
+
+Si el puerto 3000 ya está ocupado, Next usa otro (3001, 3002…). El historial y la extensión asumen **localhost:3000**. Libera el 3000 y vuelve a correr `./run-all.sh`.
+
+Para arrancarlos por separado:
+
+```bash
+# terminal 1
+cd backend && .venv/bin/uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
+
+# terminal 2, en la raíz
+npm run dev
+```
+
+### 5. Perfilar el CV a tu expertise
+
+`backend/knowledge_base/master_profile.json` es la fuente de verdad. El archivo que viene en el repo es un perfil de ejemplo (nombre, contacto, empresas, métricas y skills de otra persona). Si no lo cambias, cada CV generado seguirá hablando de esa trayectoria.
+
+Hay dos formas de dejarlo en tu expertise. Las dos escriben el mismo JSON.
+
+**Por la pantalla Skills (lo habitual para skills y fechas).** Con front y back corriendo, abre http://localhost:3000/skills.
+
+Ahí puedes:
+
+- agregar o quitar skills por categoría (lenguajes, frontend, backend, mobile, bases de datos, cloud, DevOps, testing, arquitectura, pagos, security, AI, soft skills)
+- reordenar experiencias y ajustar fechas, si es el empleo actual, y el tipo (fijo, freelance, contrato, remoto, presencial)
+- resolver conflictos cuando el JSON tiene dos valores para el mismo dato (email, teléfono, etc.)
+
+**Guardar cambios** (o Ctrl+S / ⌘S) hace `PUT` al backend y actualiza `master_profile.json`. El siguiente CV ya usa esos hechos. No hace falta reiniciar.
+
+La pantalla **no** crea empresas ni reescribe el resumen, los títulos ni la educación. Esos campos se editan en el JSON.
+
+**Editando el JSON (obligatorio si el perfil no es el tuyo).** Abre `backend/knowledge_base/master_profile.json` y sustituye al menos:
+
+| Campo | Para qué |
+|---|---|
+| `profile.fullName` | nombre que sale en el CV |
+| `profile.professionalTitles` | títulos entre los que el modelo elige según la vacante |
+| `profile.contact` | email, teléfono, LinkedIn, ubicación |
+| `profile.summary` | resumen base; el modelo lo reescribe, no lo inventa de cero |
+| `experience[]` | empresas, roles, fechas y logros. **Solo aparecen empresas que estén aquí** |
+| `skills` | inventario que la pantalla Skills también edita |
+| educación y certificaciones | salen fijas en el CV; el modelo no las reescribe |
+
+Reglas que el generador respeta:
+
+- no inventa empresas, fechas ni métricas que no estén en el maestro
+- educación y certificaciones se copian tal cual
+- skills del CV salen del maestro, reordenadas según la vacante
+- después de guardar (en Skills o en el archivo), genera un CV de prueba en http://localhost:3000 y revisa que el nombre y las empresas sean los tuyos
+
+Si el JSON queda inválido, `/skills` muestra los errores de validación y no conviene generar hasta corregirlos.
+
+### 6. Extensión de Chrome (opcional)
+
+1. Abre `chrome://extensions`
+2. Activa **Modo de desarrollador**
+3. **Cargar descomprimida** y elige la carpeta `chrome-extension/`
+4. Tras cambiar su código, pulsa recargar en esa misma página
+
+Inyecta botones en Indeed, LinkedIn, OCC, Computrabajo, Get on Board y Glassdoor. Encola contra `http://127.0.0.1:8000` y abre el historial en `http://localhost:3000`. El backend tiene que estar arriba.
+
+---
+
+## Puertos e historial
 
 | Pieza | URL |
 |---|---|
@@ -16,14 +176,6 @@ El **historial de CVs** no está en el navegador ni en el puerto 3000. Vive en d
 - `backend/.cache/optimize_queue.json` — cola (queued / generating / error)
 
 Si mueves el front a otro puerto (p. ej. 3002), dejas de ver la UI que ya tenías en `:3000` (localStorage del objetivo diario). El historial sigue en `.cache` mientras el API esté en **8000**.
-
-Arranque:
-
-```bash
-./run-all.sh
-```
-
-Requiere `backend/.venv` con `backend/requirements.txt` y `backend/.env` (`GEMINI_API_KEY`, `GEMINI_MODEL`).
 
 ---
 
@@ -104,7 +256,7 @@ FastAPI (`uvicorn app.main:app --reload --host 127.0.0.1 --port 8000`). CORS abi
 
 ### Perfil maestro
 
-Fuente de verdad: `backend/knowledge_base/master_profile.json`.
+Fuente de verdad: `backend/knowledge_base/master_profile.json`. Cómo reemplazar el perfil de ejemplo por el tuyo está en [Perfilar el CV a tu expertise](#5-perfilar-el-cv-a-tu-expertise).
 
 `compact_master.py` arma el JSON corto que ve el modelo (experiencias, métricas, inventario de skills). Educación y certificaciones **no las reescribe el LLM**: salen fijas (`locale_util`).
 
@@ -139,7 +291,7 @@ Copia de seguridad: duplica `backend/.cache/generated_cvs.json`.
 
 ### Skills / validaciones
 
-`career_kb.py` + `PUT /v1/master-profile/skills|validations|experience`. La pestaña Skills escribe el maestro; el siguiente CV ya usa esos hechos.
+`career_kb.py` + `PUT /v1/master-profile/skills|validations|experience`. La pestaña Skills (`/skills`) escribe skills, fechas de experiencia y conflictos en `master_profile.json`. Nombre, contacto, empresas, logros y educación se editan en ese JSON. El siguiente CV ya usa lo guardado.
 
 ### Endpoints
 
