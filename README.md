@@ -118,29 +118,18 @@ npm run dev
 
 Hay dos formas de dejarlo en tu expertise. Las dos escriben el mismo JSON.
 
-**Por la pantalla Skills (lo habitual para skills y fechas).** Con front y back corriendo, abre http://localhost:3000/skills.
+**Por la pantalla Skills.** Con front y back corriendo, abre http://localhost:3000/skills. **Guardar cambios** (o Ctrl+S / ⌘S) escribe `master_profile.json`. El siguiente CV ya usa esos hechos. No hace falta reiniciar.
 
-Ahí puedes:
+Desde ahí se edita:
 
-- agregar o quitar skills por categoría (lenguajes, frontend, backend, mobile, bases de datos, cloud, DevOps, testing, arquitectura, pagos, security, AI, soft skills)
-- reordenar experiencias y ajustar fechas, si es el empleo actual, y el tipo (fijo, freelance, contrato, remoto, presencial)
-- resolver conflictos cuando el JSON tiene dos valores para el mismo dato (email, teléfono, etc.)
+- nombre, títulos profesionales, resumen y contacto
+- experiencia: empresa, roles, fechas, responsabilidades, tecnologías y logros. Se pueden agregar, reordenar y quitar empleos
+- proyectos, educación, certificaciones e idiomas
+- skills por categoría (lenguajes, frontend, backend, mobile, bases de datos, cloud, DevOps, testing, arquitectura, pagos, security, AI, soft skills)
 
-**Guardar cambios** (o Ctrl+S / ⌘S) hace `PUT` al backend y actualiza `master_profile.json`. El siguiente CV ya usa esos hechos. No hace falta reiniciar.
+Si el perfil del repo no es el tuyo, cambia esos datos antes de generar. Si no, los CVs siguen saliendo con la trayectoria de ejemplo.
 
-La pantalla **no** crea empresas ni reescribe el resumen, los títulos ni la educación. Esos campos se editan en el JSON.
-
-**Editando el JSON (obligatorio si el perfil no es el tuyo).** Abre `backend/knowledge_base/master_profile.json` y sustituye al menos:
-
-| Campo | Para qué |
-|---|---|
-| `profile.fullName` | nombre que sale en el CV |
-| `profile.professionalTitles` | títulos entre los que el modelo elige según la vacante |
-| `profile.contact` | email, teléfono, LinkedIn, ubicación |
-| `profile.summary` | resumen base; el modelo lo reescribe, no lo inventa de cero |
-| `experience[]` | empresas, roles, fechas y logros. **Solo aparecen empresas que estén aquí** |
-| `skills` | inventario que la pantalla Skills también edita |
-| educación y certificaciones | salen fijas en el CV; el modelo no las reescribe |
+El mismo archivo se puede editar a mano. La pantalla es el camino normal.
 
 Reglas que el generador respeta:
 
@@ -291,7 +280,7 @@ Copia de seguridad: duplica `backend/.cache/generated_cvs.json`.
 
 ### Skills / validaciones
 
-`career_kb.py` + `PUT /v1/master-profile/skills|validations|experience`. La pestaña Skills (`/skills`) escribe skills, fechas de experiencia y conflictos en `master_profile.json`. Nombre, contacto, empresas, logros y educación se editan en ese JSON. El siguiente CV ya usa lo guardado.
+`career_kb.py` + `PUT /v1/master-profile`. La pestaña Skills (`/skills`) escribe identidad, contacto, experiencia, proyectos, educación, certificaciones, idiomas y skills en `master_profile.json`. El siguiente CV ya usa lo guardado.
 
 ### Endpoints
 

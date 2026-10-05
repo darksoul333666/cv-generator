@@ -1,3 +1,4 @@
+import type { ProfileContentPayload } from "./profile-draft";
 import type {
   CvProfile,
   ExtensionJobSummary,
@@ -133,6 +134,7 @@ export async function getMasterProfile(): Promise<MasterProfile> {
 export async function putMasterPatch(input: {
   skills?: MasterSkills;
   experience?: ExperiencePatchItem[];
+  content?: ProfileContentPayload;
 }): Promise<MasterProfile> {
   const res = await fetch(`${apiBase()}/v1/master-profile`, {
     method: "PUT",
@@ -144,6 +146,19 @@ export async function putMasterPatch(input: {
     if (typeof err === "object" && err && "detail" in err) {
       const d = (err as { detail: unknown }).detail;
       if (typeof d === "string") throw new Error(d);
+      if (Array.isArray(d)) {
+        throw new Error(
+          d
+            .map((item) => {
+              if (typeof item === "string") return item;
+              if (item && typeof item === "object" && "msg" in item) {
+                return String((item as { msg: unknown }).msg);
+              }
+              return JSON.stringify(item);
+            })
+            .join("; "),
+        );
+      }
     }
     throw new Error(res.statusText || `Error ${res.status}`);
   }

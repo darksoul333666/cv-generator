@@ -376,3 +376,528 @@ def apply_experience_edits(raw: dict[str, Any], items: list[ExperienceEditItem])
     )
     uv["lastUpdated"] = date.today().isoformat()
     return raw
+
+
+_ID_RE = re.compile(r"^[A-Za-z0-9_]{1,80}$")
+
+
+class AchievementIn(BaseModel):
+    description: str = ""
+    metricValue: Optional[float] = None
+    metricUnit: str = ""
+
+
+class ExperienceContentIn(BaseModel):
+    id: str = Field(min_length=1)
+    company: str = Field(min_length=1)
+    roles: List[str] = Field(default_factory=list)
+    employmentType: Optional[str] = None
+    startDate: Optional[str] = None
+    endDate: Optional[str] = None
+    current: bool = False
+    responsibilities: List[str] = Field(default_factory=list)
+    technologies: List[str] = Field(default_factory=list)
+    achievements: List[AchievementIn] = Field(default_factory=list)
+
+
+class EducationContentIn(BaseModel):
+    id: str = Field(min_length=1)
+    degree: str = Field(min_length=1)
+    institution: str = ""
+    startDate: Optional[str] = None
+    endDate: Optional[str] = None
+    graduationYear: Optional[int] = None
+
+
+class CertificationContentIn(BaseModel):
+    id: str = Field(min_length=1)
+    name: str = Field(min_length=1)
+    issuer: str = ""
+    year: Optional[int] = None
+
+
+class LanguageContentIn(BaseModel):
+    id: str = Field(min_length=1)
+    language: str = Field(min_length=1)
+    level: Optional[str] = None
+
+
+class ProjectContentIn(BaseModel):
+    id: str = Field(min_length=1)
+    name: str = Field(min_length=1)
+    type: str = ""
+    description: str = ""
+    technologies: List[str] = Field(default_factory=list)
+
+
+class ProfileIdentityIn(BaseModel):
+    fullName: str = Field(min_length=1)
+    professionalTitles: List[str] = Field(default_factory=list)
+    summary: str = ""
+    email: str = ""
+    phone: str = ""
+    linkedin: str = ""
+    location: str = ""
+
+
+class ProfileContentIn(BaseModel):
+    profile: ProfileIdentityIn
+    experience: List[ExperienceContentIn] = Field(default_factory=list)
+    projects: List[ProjectContentIn] = Field(default_factory=list)
+    education: List[EducationContentIn] = Field(default_factory=list)
+    certifications: List[CertificationContentIn] = Field(default_factory=list)
+    languages: List[LanguageContentIn] = Field(default_factory=list)
+
+
+def _check_id(value: str, label: str) -> str:
+    text = value.strip()
+    if not _ID_RE.match(text):
+        raise HTTPException(status_code=400, detail=f"ID inválido en {label}: {value}")
+    return text
+
+
+def _unique_ids(ids: list[str], label: str) -> None:
+    seen: set[str] = set()
+    for item_id in ids:
+        if item_id in seen:
+            raise HTTPException(status_code=400, detail=f"ID duplicado en {label}: {item_id}")
+        seen.add(item_id)
+
+
+def _clean_str_list(values: list[str]) -> list[str]:
+    out: list[str] = []
+    seen: set[str] = set()
+    for raw in values:
+        text = " ".join(str(raw).split())
+        if not text:
+            continue
+        key = text.lower()
+        if key in seen:
+            continue
+        seen.add(key)
+        out.append(text)
+    return out
+
+
+def _mark_user_fact(item: dict[str, Any]) -> None:
+    item["userValidated"] = True
+    level = str(item.get("evidenceLevel") or "")
+    if level in {"", "inferred", "conflicted"}:
+        item["evidenceLevel"] = "documented"
+    status = str(item.get("status") or "")
+    if "status" in item and status in {"", "inferred", "conflicted", "requires_validation"}:
+        item["status"] = "user_validated"
+
+
+def _set_contact_value(raw: dict[str, Any], key: str, value: str) -> None:
+    contact = raw.setdefault("profile", {}).setdefault("contact", {})
+    field = contact.get(key)
+    if not isinstance(field, dict):
+        field = {
+            "value": None,
+            "status": "user_validated",
+            "evidenceLevel": "verified",
+            "sourceCount": 1,
+            "userValidated": True,
+            "candidates": [],
+        }
+        contact[key] = field
+    text = value.strip()
+    field["value"] = text or None
+    field["status"] = "user_validated"
+    field["evidenceLevel"] = "verified"
+    field["userValidated"] = True
+    for candidate in field.get("candidates") or []:
+        if isinstance(candidate, dict):
+            candidate["userValidated"] = candidate.get("value") == text
+
+
+def _apply_identity(raw: dict[str, Any], identity: ProfileIdentityIn) -> None:
+    profile = raw.setdefault("profile", {})
+    name = " ".join(identity.fullName.split())
+    if not name:
+        raise HTTPException(status_code=400, detail="El nombre no puede estar vacío")
+    titles = _clean_str_list(identity.professionalTitles)
+    if not titles:
+        raise HTTPException(status_code=400, detail="Agrega al menos un título profesional")
+    profile["fullName"] = name
+    profile["professionalTitles"] = titles
+    profile["summary"] = identity.summary.strip()
+    _set_contact_value(raw, "email", identity.email)
+    _set_contact_value(raw, "phone", identity.phone)
+    _set_contact_value(raw, "linkedin", identity.linkedin)
+    _set_contact_value(raw, "location", identity.location)
+
+
+def _achievement_dict(item: AchievementIn) -> Optional[dict[str, Any]]:
+    description = " ".join(item.description.split())
+    unit = " ".join(item.metricUnit.split())
+    if item.metricValue is None and not description:
+        return None
+    if not description:
+        raise HTTPException(status_code=400, detail="Un logro necesita descripción")
+    return {
+        "description": description,
+        "metric": {
+            "value": item.metricValue,
+            "unit": unit,
+            "type": "user_metric" if item.metricValue is not None else "",
+        },
+        "status": "user_validated",
+        "evidenceLevel": "claimed",
+        "safeForCV": True,
+        "requiresUserValidation": False,
+    }
+
+
+def _blank_experience(item_id: str) -> dict[str, Any]:
+    return {
+        "id": item_id,
+        "company": "",
+        "roles": [],
+        "employmentType": None,
+        "startDate": None,
+        "endDate": None,
+        "current": False,
+        "sortOrder": 0,
+        "dateStatus": "claimed",
+        "sourceValues": {},
+        "originalValues": {},
+        "userValidated": True,
+        "conflicts": [],
+        "domain": [],
+        "responsibilities": [],
+        "technologies": [],
+        "achievements": [],
+        "evidence": [],
+        "sourceRefs": ["user"],
+        "evidenceLevel": "documented",
+        "sourceCount": 1,
+    }
+
+
+def _apply_experience_content(raw: dict[str, Any], items: list[ExperienceContentIn]) -> list[dict[str, Any]]:
+    ids = [_check_id(item.id, "experiencia") for item in items]
+    _unique_ids(ids, "experiencia")
+    existing = {ex.get("id"): ex for ex in raw.get("experience") or [] if isinstance(ex, dict)}
+    ordered: list[dict[str, Any]] = []
+
+    for index, item in enumerate(items):
+        item_id = ids[index]
+        company = " ".join(item.company.split())
+        roles = _clean_str_list(item.roles)
+        if not company:
+            raise HTTPException(status_code=400, detail="Cada experiencia necesita empresa")
+        if not roles:
+            raise HTTPException(status_code=400, detail=f"Agrega al menos un rol en {company}")
+        emp = (item.employmentType or "").strip() or None
+        if emp and emp not in ALLOWED_EMPLOYMENT:
+            raise HTTPException(status_code=400, detail=f"employmentType inválido: {emp}")
+        start = _norm_date(item.startDate)
+        end = None if item.current else _norm_date(item.endDate)
+        if start and end and _month_index(end) < _month_index(start):
+            raise HTTPException(
+                status_code=400,
+                detail=f"La fecha fin no puede ser anterior al inicio ({company})",
+            )
+        achievements = []
+        for ach in item.achievements:
+            dumped = _achievement_dict(ach)
+            if dumped:
+                achievements.append(dumped)
+
+        ex = existing.get(item_id) or _blank_experience(item_id)
+        ex["company"] = company
+        ex["roles"] = roles
+        ex["employmentType"] = emp
+        ex["startDate"] = start
+        ex["endDate"] = end
+        ex["current"] = bool(item.current)
+        ex["sortOrder"] = index
+        ex["responsibilities"] = _clean_str_list(item.responsibilities)
+        ex["technologies"] = _clean_str_list(item.technologies)
+        ex["achievements"] = achievements
+        ex["userValidated"] = True
+        if str(ex.get("evidenceLevel") or "") in {"", "inferred", "conflicted"}:
+            ex["evidenceLevel"] = "documented"
+        if start and (end or item.current):
+            ex["dateStatus"] = "verified"
+        elif start or end:
+            ex["dateStatus"] = "claimed"
+        ordered.append(ex)
+
+    raw["experience"] = ordered
+    old_rows = {
+        row.get("experienceId"): row
+        for row in raw.get("careerTimeline") or []
+        if isinstance(row, dict)
+    }
+    timeline: list[dict[str, Any]] = []
+    for ex in ordered:
+        roles = ex.get("roles") or []
+        row = old_rows.get(ex["id"]) or {
+            "id": f"tl_{ex['id']}",
+            "experienceId": ex["id"],
+            "sourceValues": {},
+            "kind": "employment",
+        }
+        row["company"] = ex["company"]
+        row["role"] = roles[0] if roles else ""
+        row["roles"] = roles
+        row["startDate"] = ex.get("startDate")
+        row["endDate"] = ex.get("endDate")
+        row["dateStatus"] = ex.get("dateStatus")
+        row["userValidated"] = True
+        row["current"] = bool(ex.get("current"))
+        row["kind"] = row.get("kind") or "employment"
+        timeline.append(row)
+    raw["careerTimeline"] = timeline
+    _sync_experience_metrics(raw, ordered)
+    _maybe_compute_yoe(raw)
+    return ordered
+
+
+def _sync_experience_metrics(raw: dict[str, Any], experiences: list[dict[str, Any]]) -> None:
+    kept_companies = {str(ex.get("company") or "").strip().lower() for ex in experiences}
+    kept: list[dict[str, Any]] = []
+    for metric in raw.get("metrics") or []:
+        if not isinstance(metric, dict):
+            continue
+        if metric.get("experienceId"):
+            continue
+        company = str(metric.get("company") or "").strip().lower()
+        if company and company not in kept_companies:
+            continue
+        kept.append(metric)
+    for ex in experiences:
+        for index, ach in enumerate(ex.get("achievements") or []):
+            metric = ach.get("metric") or {}
+            value = metric.get("value")
+            if value is None:
+                continue
+            unit = str(metric.get("unit") or "").strip() or "count"
+            kept.append(
+                {
+                    "id": f"metric_{ex['id']}_{index}",
+                    "value": value,
+                    "unit": unit,
+                    "type": str(metric.get("type") or "user_metric"),
+                    "description": ach.get("description") or "",
+                    "company": ex.get("company") or "",
+                    "project": "",
+                    "status": "user_validated",
+                    "confidence": "high",
+                    "experienceId": ex["id"],
+                    "projectId": None,
+                    "evidenceLevel": "claimed",
+                    "sourceCount": 1,
+                    "userValidated": True,
+                    "safeForCV": True,
+                    "requiresUserValidation": False,
+                    "sourceRefs": ["user"],
+                }
+            )
+    raw["metrics"] = kept
+
+
+def _apply_projects(raw: dict[str, Any], items: list[ProjectContentIn]) -> set[str]:
+    ids = [_check_id(item.id, "proyectos") for item in items]
+    _unique_ids(ids, "proyectos")
+    existing = {row.get("id"): row for row in raw.get("projects") or [] if isinstance(row, dict)}
+    ordered: list[dict[str, Any]] = []
+    for index, item in enumerate(items):
+        item_id = ids[index]
+        name = " ".join(item.name.split())
+        if not name:
+            raise HTTPException(status_code=400, detail="Cada proyecto necesita nombre")
+        row = existing.get(item_id) or {
+            "id": item_id,
+            "name": name,
+            "type": "project",
+            "description": "",
+            "domain": [],
+            "platforms": [],
+            "features": [],
+            "technologies": [],
+            "scale": None,
+            "status": "user_validated",
+            "evidenceLevel": "documented",
+            "sourceCount": 1,
+            "userValidated": True,
+            "evidence": [],
+            "sourceRefs": ["user"],
+            "isEmployment": False,
+        }
+        row["name"] = name
+        row["type"] = item.type.strip() or row.get("type") or "project"
+        row["description"] = item.description.strip()
+        row["technologies"] = _clean_str_list(item.technologies)
+        _mark_user_fact(row)
+        if "isEmployment" not in row:
+            row["isEmployment"] = False
+        ordered.append(row)
+    raw["projects"] = ordered
+    return {row["id"] for row in ordered}
+
+
+def _apply_education(raw: dict[str, Any], items: list[EducationContentIn]) -> None:
+    ids = [_check_id(item.id, "educación") for item in items]
+    _unique_ids(ids, "educación")
+    existing = {row.get("id"): row for row in raw.get("education") or [] if isinstance(row, dict)}
+    ordered: list[dict[str, Any]] = []
+    for index, item in enumerate(items):
+        item_id = ids[index]
+        degree = " ".join(item.degree.split())
+        if not degree:
+            raise HTTPException(status_code=400, detail="Cada estudio necesita el título o grado")
+        row = existing.get(item_id) or {
+            "id": item_id,
+            "degree": degree,
+            "institution": "",
+            "startDate": None,
+            "endDate": None,
+            "graduationYear": None,
+            "status": "user_validated",
+            "evidenceLevel": "documented",
+            "sourceCount": 1,
+            "userValidated": True,
+            "sourceRefs": ["user"],
+        }
+        row["degree"] = degree
+        row["institution"] = " ".join(item.institution.split())
+        row["startDate"] = _norm_date(item.startDate)
+        row["endDate"] = _norm_date(item.endDate)
+        row["graduationYear"] = item.graduationYear
+        _mark_user_fact(row)
+        ordered.append(row)
+    raw["education"] = ordered
+
+
+def _apply_certifications(raw: dict[str, Any], items: list[CertificationContentIn]) -> None:
+    ids = [_check_id(item.id, "certificaciones") for item in items]
+    _unique_ids(ids, "certificaciones")
+    existing = {row.get("id"): row for row in raw.get("certifications") or [] if isinstance(row, dict)}
+    ordered: list[dict[str, Any]] = []
+    for index, item in enumerate(items):
+        item_id = ids[index]
+        name = " ".join(item.name.split())
+        if not name:
+            raise HTTPException(status_code=400, detail="Cada certificación necesita nombre")
+        row = existing.get(item_id) or {
+            "id": item_id,
+            "name": name,
+            "issuer": "",
+            "year": None,
+            "status": "user_validated",
+            "evidenceLevel": "documented",
+            "sourceCount": 1,
+            "userValidated": True,
+            "sourceRefs": ["user"],
+        }
+        row["name"] = name
+        row["issuer"] = " ".join(item.issuer.split())
+        row["year"] = item.year
+        _mark_user_fact(row)
+        ordered.append(row)
+    raw["certifications"] = ordered
+
+
+def _apply_languages(raw: dict[str, Any], items: list[LanguageContentIn]) -> None:
+    ids = [_check_id(item.id, "idiomas") for item in items]
+    _unique_ids(ids, "idiomas")
+    existing = {row.get("id"): row for row in raw.get("languages") or [] if isinstance(row, dict)}
+    ordered: list[dict[str, Any]] = []
+    for index, item in enumerate(items):
+        item_id = ids[index]
+        language = " ".join(item.language.split())
+        if not language:
+            raise HTTPException(status_code=400, detail="Cada idioma necesita nombre")
+        level = " ".join((item.level or "").split()) or None
+        row = existing.get(item_id) or {
+            "id": item_id,
+            "language": language,
+            "level": level,
+            "status": "user_validated",
+            "evidenceLevel": "documented",
+            "sourceCount": 1,
+            "userValidated": True,
+            "conflicts": [],
+            "sourceRefs": ["user"],
+        }
+        row["language"] = language
+        row["level"] = level
+        if not isinstance(row.get("conflicts"), list):
+            row["conflicts"] = []
+        if not isinstance(row.get("sourceRefs"), list):
+            row["sourceRefs"] = ["user"]
+        _mark_user_fact(row)
+        ordered.append(row)
+    raw["languages"] = ordered
+
+
+def _prune_positioning(
+    raw: dict[str, Any],
+    experience_ids: set[str],
+    companies: set[str],
+    project_ids: set[str],
+    project_names: set[str],
+) -> None:
+    profiles = raw.get("positioningProfiles") or {}
+    if not isinstance(profiles, dict):
+        return
+    for pos in profiles.values():
+        if not isinstance(pos, dict):
+            continue
+        pos["priorityExperience"] = [
+            item for item in pos.get("priorityExperience") or [] if item in experience_ids
+        ]
+        pos["priorityExperienceLabels"] = [
+            label
+            for label in pos.get("priorityExperienceLabels") or []
+            if str(label).strip().lower() in companies
+        ]
+        pos["priorityProjects"] = [
+            item for item in pos.get("priorityProjects") or [] if item in project_ids
+        ]
+        if "priorityProjectLabels" in pos:
+            pos["priorityProjectLabels"] = [
+                label
+                for label in pos.get("priorityProjectLabels") or []
+                if str(label).strip().lower() in project_names
+            ]
+
+
+def apply_profile_content(raw: dict[str, Any], content: ProfileContentIn) -> dict[str, Any]:
+    _apply_identity(raw, content.profile)
+    experiences = _apply_experience_content(raw, content.experience)
+    project_ids = _apply_projects(raw, content.projects)
+    _apply_education(raw, content.education)
+    _apply_certifications(raw, content.certifications)
+    _apply_languages(raw, content.languages)
+    project_names = {
+        str(row.get("name") or "").strip().lower()
+        for row in raw.get("projects") or []
+        if isinstance(row, dict)
+    }
+    _prune_positioning(
+        raw,
+        {ex["id"] for ex in experiences},
+        {str(ex.get("company") or "").strip().lower() for ex in experiences},
+        project_ids,
+        project_names,
+    )
+    uv = raw.setdefault(
+        "userValidation",
+        {"pending": [], "resolved": [], "lastUpdated": None},
+    )
+    uv.setdefault("resolved", []).append(
+        {
+            "field": "profile.content",
+            "previousValues": [],
+            "resolvedValue": "identity_experience_education",
+            "resolvedAt": date.today().isoformat(),
+            "source": "user",
+        }
+    )
+    uv["lastUpdated"] = date.today().isoformat()
+    return raw

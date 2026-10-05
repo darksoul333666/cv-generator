@@ -167,28 +167,39 @@ def format_period(
     return start_s or str(end_s or "")
 
 
+_TSU_DEGREE = "tsu en desarrollo de software multiplataforma"
+
+
 def education_line(master: dict, locale: Locale) -> str:
+    lines: list[str] = []
     for item in master.get("education") or []:
-        raw_degree = str(item.get("degree") or "")
+        if not isinstance(item, dict):
+            continue
+        raw_degree = str(item.get("degree") or "").strip()
         if "también referido" in raw_degree.lower():
             raw_degree = raw_degree.split("(")[0].strip()
         institution = str(item.get("institution") or "").strip()
-        year = item.get("graduation_year") or item.get("end_date") or ""
+        year = (
+            item.get("graduation_year")
+            or item.get("graduationYear")
+            or item.get("end_date")
+            or item.get("endDate")
+            or ""
+        )
         year_s = str(year).strip()
-        if locale == "en":
+        degree = raw_degree
+        if locale == "en" and _TSU_DEGREE in raw_degree.lower():
             degree = (
                 "Associate Degree in Multiplatform Software Development "
                 "(TSU en Desarrollo de Software Multiplataforma)"
             )
-        else:
-            degree = raw_degree or "TSU en Desarrollo de Software Multiplataforma"
         parts = [p for p in (degree, institution) if p]
         line = " — ".join(parts)
         if year_s:
             line = f"{line} ({year_s})" if line else year_s
         if line:
-            return line
-    return ""
+            lines.append(line)
+    return " · ".join(lines)
 
 
 # Premios escolares. No aportan en una postulación senior y empujan el CV a una segunda hoja.

@@ -1,13 +1,17 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { ExperienceEditor } from "@/components/experience-editor";
+import { SectionCard } from "@/components/profile-form";
+import { ProfilePreview } from "@/components/profile-preview";
 import {
-  getMasterProfile,
-  putMasterPatch,
-  putMasterValidation,
-  type ExperiencePatchItem,
-} from "@/lib/api";
+  CertificationEditor,
+  EducationEditor,
+  IdentityEditor,
+  LanguageEditor,
+  ProjectEditor,
+} from "@/components/profile-record-editors";
+import { getMasterProfile, putMasterPatch, putMasterValidation } from "@/lib/api";
 import {
   emptyMasterSkills,
   MASTER_SKILL_KINDS,
@@ -16,7 +20,21 @@ import {
   type MasterSkills,
 } from "@/lib/cv-types";
 import { validateMasterProfile } from "@/lib/master-profile.schema";
-import { contactFieldDisplay } from "@/lib/master-profile-utils";
+import {
+  certificationFromProfile,
+  contentFromDrafts,
+  educationFromProfile,
+  experienceFromProfile,
+  identityFromProfile,
+  languageFromProfile,
+  projectFromProfile,
+  type CertificationDraft,
+  type EducationDraft,
+  type ExperienceDraft,
+  type IdentityDraft,
+  type LanguageDraft,
+  type ProjectDraft,
+} from "@/lib/profile-draft";
 
 const LABELS: Record<MasterSkillKind, string> = {
   languages: "Lenguajes",
@@ -32,6 +50,16 @@ const LABELS: Record<MasterSkillKind, string> = {
   security: "Security",
   ai: "AI",
   softSkills: "Soft skills",
+};
+
+const EMPTY_IDENTITY: IdentityDraft = {
+  fullName: "",
+  titlesText: "",
+  summary: "",
+  email: "",
+  phone: "",
+  linkedin: "",
+  location: "",
 };
 
 function normalizeSkill(s: string): string {
@@ -72,6 +100,7 @@ const IMPACT_CLASS: Record<string, string> = {
 export function SkillsWorkbench() {
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [mode, setMode] = useState<"edit" | "preview">("edit");
   const [error, setError] = useState<string | null>(null);
 
   const [profile, setProfile] = useState<MasterProfile | null>(null);
@@ -84,10 +113,24 @@ export function SkillsWorkbench() {
         string
       >,
   );
-  const experienceDraftRef = useRef<ExperiencePatchItem[] | null>(null);
+  const [identity, setIdentity] = useState<IdentityDraft>(EMPTY_IDENTITY);
+  const [experience, setExperience] = useState<ExperienceDraft[]>([]);
+  const [projects, setProjects] = useState<ProjectDraft[]>([]);
+  const [education, setEducation] = useState<EducationDraft[]>([]);
+  const [certifications, setCertifications] = useState<CertificationDraft[]>([]);
+  const [languages, setLanguages] = useState<LanguageDraft[]>([]);
 
-  const onExperienceDraftChange = useCallback((items: ExperiencePatchItem[]) => {
-    experienceDraftRef.current = items;
+  const applyLoaded = useCallback((data: MasterProfile) => {
+    setProfile(data);
+    const checked = validateMasterProfile(data);
+    setSchemaErrors(checked.ok ? [] : checked.errors);
+    setDraft(normalizeMasterSkills(data.skills));
+    setIdentity(identityFromProfile(data));
+    setExperience((data.experience ?? []).map(experienceFromProfile));
+    setProjects((data.projects ?? []).map(projectFromProfile));
+    setEducation((data.education ?? []).map(educationFromProfile));
+    setCertifications((data.certifications ?? []).map(certificationFromProfile));
+    setLanguages((data.languages ?? []).map(languageFromProfile));
   }, []);
 
   useEffect(() => {
@@ -97,10 +140,7 @@ export function SkillsWorkbench() {
     getMasterProfile()
       .then((data) => {
         if (cancelled) return;
-        setProfile(data);
-        const checked = validateMasterProfile(data);
-        setSchemaErrors(checked.ok ? [] : checked.errors);
-        setDraft(normalizeMasterSkills(data.skills));
+        applyLoaded(data);
       })
       .catch((e) => {
         if (cancelled) return;
@@ -118,7 +158,7 @@ export function SkillsWorkbench() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [applyLoaded]);
 
   const addSkill = useCallback(
     (kind: MasterSkillKind) => {
@@ -145,20 +185,34 @@ export function SkillsWorkbench() {
     setSaving(true);
     setError(null);
     try {
+      const content = contentFromDrafts({
+        identity,
+        experience,
+        projects,
+        education,
+        certifications,
+        languages,
+      });
       const updated = await putMasterPatch({
         skills: normalizeMasterSkills(draft),
-        experience: experienceDraftRef.current ?? undefined,
+        content,
       });
-      setProfile(updated);
-      const checked = validateMasterProfile(updated);
-      setSchemaErrors(checked.ok ? [] : checked.errors);
-      setDraft(normalizeMasterSkills(updated.skills));
+      applyLoaded(updated);
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Error guardando skills");
+      setError(e instanceof Error ? e.message : "Error guardando el perfil");
     } finally {
       setSaving(false);
     }
-  }, [draft]);
+  }, [
+    applyLoaded,
+    certifications,
+    draft,
+    education,
+    experience,
+    identity,
+    languages,
+    projects,
+  ]);
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
@@ -171,37 +225,67 @@ export function SkillsWorkbench() {
     return () => window.removeEventListener("keydown", onKey);
   }, [onSave, profile, saving]);
 
-  const onResolve = useCallback(async (field: string, resolvedValue: string) => {
-    setSaving(true);
-    setError(null);
-    try {
-      const updated = await putMasterValidation({ field, resolvedValue });
-      setProfile(updated);
-      const checked = validateMasterProfile(updated);
-      setSchemaErrors(checked.ok ? [] : checked.errors);
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "Error guardando validación");
-    } finally {
-      setSaving(false);
-    }
-  }, []);
+  const onResolve = useCallback(
+    async (field: string, resolvedValue: string) => {
+      setSaving(true);
+      setError(null);
+      try {
+        const updated = await putMasterValidation({ field, resolvedValue });
+        setProfile(updated);
+        const checked = validateMasterProfile(updated);
+        setSchemaErrors(checked.ok ? [] : checked.errors);
+        if (field === "profile.contact.email") {
+          setIdentity((prev) => ({ ...prev, email: resolvedValue }));
+        } else if (field === "profile.contact.phone") {
+          setIdentity((prev) => ({ ...prev, phone: resolvedValue }));
+        } else if (field === "profile.contact.location") {
+          setIdentity((prev) => ({ ...prev, location: resolvedValue }));
+        }
+      } catch (e) {
+        setError(e instanceof Error ? e.message : "Error guardando validación");
+      } finally {
+        setSaving(false);
+      }
+    },
+    [],
+  );
 
   const conflicts = (profile?.conflicts ?? []).filter((c) => !c.userValidated);
-  const contact = profile?.profile.contact;
 
   return (
-    <div className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-4 py-10">
+    <div className="mx-auto flex w-full max-w-6xl flex-col gap-4 px-4 py-10">
       <header className="flex flex-wrap items-end justify-between gap-3">
         <div className="space-y-1">
-          <h1 className="text-2xl font-semibold tracking-tight text-zinc-900">
-            Skills
-          </h1>
+          <h1 className="text-2xl font-semibold tracking-tight text-zinc-900">Skills</h1>
           <p className="max-w-2xl text-sm leading-relaxed text-zinc-600">
-            Edita experiencia y skills del perfil que usa el generador de CV.
-            Ctrl + S (o ⌘ S) guarda.
+            Edita el perfil maestro: identidad, experiencia, proyectos, educación,
+            certificaciones, idiomas y skills. Eso es lo que usa el generador.
+            Ctrl + S (o ⌘ S) guarda en master_profile.json.
           </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
+          <div className="inline-flex rounded-lg border border-zinc-300 bg-white p-0.5">
+            <button
+              type="button"
+              aria-pressed={mode === "edit"}
+              onClick={() => setMode("edit")}
+              className={`rounded-md px-3 py-1.5 text-sm font-medium ${
+                mode === "edit" ? "bg-zinc-900 text-white" : "text-zinc-700 hover:bg-zinc-100"
+              }`}
+            >
+              Editar
+            </button>
+            <button
+              type="button"
+              aria-pressed={mode === "preview"}
+              onClick={() => setMode("preview")}
+              className={`rounded-md px-3 py-1.5 text-sm font-medium ${
+                mode === "preview" ? "bg-zinc-900 text-white" : "text-zinc-700 hover:bg-zinc-100"
+              }`}
+            >
+              Vista previa
+            </button>
+          </div>
           <button
             type="button"
             onClick={onSave}
@@ -226,38 +310,6 @@ export function SkillsWorkbench() {
 
       {profile ? (
         <>
-          <section className="rounded-xl border border-zinc-200 bg-white p-6 shadow-sm">
-            <p className="text-lg font-semibold text-zinc-900">
-              {profile.profile.fullName}
-            </p>
-            <p className="mt-1 text-sm text-zinc-600">
-              {profile.profile.professionalTitles.join(" · ")}
-            </p>
-            <p className="mt-3 text-sm leading-relaxed text-zinc-700">
-              {profile.profile.summary}
-            </p>
-            <p className="mt-3 text-xs text-zinc-500">
-              {contact
-                ? [
-                    contactFieldDisplay(contact.email),
-                    contactFieldDisplay(contact.phone),
-                    contactFieldDisplay(contact.linkedin),
-                    contactFieldDisplay(contact.location),
-                  ].join(" · ")
-                : null}
-            </p>
-            {profile.yearsOfExperience ? (
-              <p className="mt-2 text-xs text-amber-800">
-                Años de experiencia:{" "}
-                {profile.yearsOfExperience.value ?? "sin calcular"} ·{" "}
-                {profile.yearsOfExperience.status}
-                {profile.yearsOfExperience.sourceValues?.length
-                  ? ` · candidatos: ${profile.yearsOfExperience.sourceValues.join(", ")}`
-                  : ""}
-              </p>
-            ) : null}
-          </section>
-
           {schemaErrors.length ? (
             <section className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-900">
               <p className="font-medium">El JSON maestro no pasó validación Zod</p>
@@ -308,83 +360,82 @@ export function SkillsWorkbench() {
             </section>
           ) : null}
 
-          <section className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)]">
-            <ExperienceEditor
-              profile={profile}
-              onDraftChange={onExperienceDraftChange}
-              onError={setError}
-              onSaved={(updated) => {
-                setProfile(updated);
-                const checked = validateMasterProfile(updated);
-                setSchemaErrors(checked.ok ? [] : checked.errors);
-              }}
+          {mode === "preview" ? (
+            <ProfilePreview
+              identity={identity}
+              experience={experience}
+              projects={projects}
+              education={education}
+              certifications={certifications}
+              languages={languages}
+              skills={draft}
             />
+          ) : (
+            <>
+          <IdentityEditor value={identity} onChange={setIdentity} />
+          <ExperienceEditor items={experience} onChange={setExperience} />
+          <ProjectEditor items={projects} onChange={setProjects} />
+          <div className="grid gap-6 lg:grid-cols-2">
+            <EducationEditor items={education} onChange={setEducation} />
+            <CertificationEditor items={certifications} onChange={setCertifications} />
+          </div>
+          <LanguageEditor items={languages} onChange={setLanguages} />
 
-            <div className="rounded-xl border border-zinc-200 bg-white p-5">
-              <h2 className="text-base font-semibold text-zinc-900">
-                Skills del JSON maestro
-              </h2>
-              <div className="mt-4 grid gap-4">
-                {MASTER_SKILL_KINDS.map((kind) => (
-                  <div key={kind} className="rounded-lg border border-zinc-200 p-4">
-                    <div className="flex items-center justify-between gap-3">
-                      <p className="text-sm font-medium text-zinc-900">
-                        {LABELS[kind]}
-                      </p>
-                      <span className="text-xs text-zinc-500">
-                        {(draft[kind] ?? []).length} items
-                      </span>
-                    </div>
-
-                    <div className="mt-3 flex flex-wrap gap-2">
-                      {(draft[kind] ?? []).map((s) => (
-                        <button
-                          key={s}
-                          type="button"
-                          onClick={() => removeSkill(kind, s)}
-                          className="rounded-full border border-zinc-300 bg-zinc-50 px-2.5 py-1 text-xs text-zinc-800 hover:bg-zinc-100"
-                          aria-label={`Quitar ${s} de ${LABELS[kind]}`}
-                        >
-                          {s} <span aria-hidden className="text-zinc-500">×</span>
-                        </button>
-                      ))}
-                      {(draft[kind] ?? []).length === 0 ? (
-                        <p className="text-xs text-zinc-500">Aún no hay skills.</p>
-                      ) : null}
-                    </div>
-
-                    <div className="mt-3 flex gap-2">
-                      <input
-                        value={inputs[kind] ?? ""}
-                        aria-label={`Agregar skill a ${LABELS[kind]}`}
-                        autoFocus={
-                          conflicts.length === 0 && kind === MASTER_SKILL_KINDS[0]
-                        }
-                        onChange={(e) =>
-                          setInputs((p) => ({ ...p, [kind]: e.target.value }))
-                        }
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter") {
-                            e.preventDefault();
-                            addSkill(kind);
-                          }
-                        }}
-                        placeholder={`Agregar a ${LABELS[kind]}…`}
-                        className="w-full rounded-lg border border-zinc-300 px-3 py-2 text-sm text-zinc-900 outline-none ring-zinc-400 focus:ring-2"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => addSkill(kind)}
-                        className="shrink-0 rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm font-medium text-zinc-900 hover:bg-zinc-100"
-                      >
-                        Agregar
-                      </button>
-                    </div>
+          <SectionCard
+            title={`Skills (${MASTER_SKILL_KINDS.reduce((sum, kind) => sum + (draft[kind]?.length ?? 0), 0)})`}
+            summary={MASTER_SKILL_KINDS.flatMap((kind) => draft[kind] ?? []).slice(0, 8).join(" · ") || "Sin skills"}
+          >
+            <div className="grid gap-4 md:grid-cols-2">
+              {MASTER_SKILL_KINDS.map((kind) => (
+                <div key={kind} className="rounded-lg border border-zinc-200 p-4">
+                  <div className="flex items-center justify-between gap-3">
+                    <p className="text-sm font-medium text-zinc-900">{LABELS[kind]}</p>
+                    <span className="text-xs text-zinc-500">{(draft[kind] ?? []).length} items</span>
                   </div>
-                ))}
-              </div>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {(draft[kind] ?? []).map((s) => (
+                      <button
+                        key={s}
+                        type="button"
+                        onClick={() => removeSkill(kind, s)}
+                        className="rounded-full border border-zinc-300 bg-zinc-50 px-2.5 py-1 text-xs text-zinc-800 hover:bg-zinc-100"
+                        aria-label={`Quitar ${s} de ${LABELS[kind]}`}
+                      >
+                        {s} <span aria-hidden className="text-zinc-500">×</span>
+                      </button>
+                    ))}
+                    {(draft[kind] ?? []).length === 0 ? (
+                      <p className="text-xs text-zinc-500">Aún no hay skills.</p>
+                    ) : null}
+                  </div>
+                  <div className="mt-3 flex gap-2">
+                    <input
+                      value={inputs[kind] ?? ""}
+                      aria-label={`Agregar skill a ${LABELS[kind]}`}
+                      onChange={(e) => setInputs((p) => ({ ...p, [kind]: e.target.value }))}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          e.preventDefault();
+                          addSkill(kind);
+                        }
+                      }}
+                      placeholder={`Agregar a ${LABELS[kind]}…`}
+                      className="w-full rounded-lg border border-zinc-300 px-3 py-2 text-sm text-zinc-900 outline-none ring-zinc-400 focus:ring-2"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => addSkill(kind)}
+                      className="shrink-0 rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm font-medium text-zinc-900 hover:bg-zinc-100"
+                    >
+                      Agregar
+                    </button>
+                  </div>
+                </div>
+              ))}
             </div>
-          </section>
+          </SectionCard>
+            </>
+          )}
         </>
       ) : null}
     </div>

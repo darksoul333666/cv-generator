@@ -69,10 +69,10 @@
       },
       "linkedin": {
         "value": "linkedin.com/in/jairo-camarillo-218aaa216",
-        "status": "documented",
-        "evidenceLevel": "documented",
+        "status": "user_validated",
+        "evidenceLevel": "verified",
         "sourceCount": 3,
-        "userValidated": false,
+        "userValidated": true,
         "candidates": [
           {
             "value": "linkedin.com/in/jairo-camarillo-218aaa216",
@@ -82,12 +82,12 @@
               "src_cv_fullstack_en",
               "src_cv_rn_en"
             ],
-            "userValidated": false
+            "userValidated": true
           }
         ]
       },
       "location": {
-        "value": "omitido en CVs 2025–2026",
+        "value": "Mexico",
         "status": "user_validated",
         "evidenceLevel": "verified",
         "sourceCount": 1,
@@ -1646,26 +1646,26 @@
         {
           "description": "Reducción de errores en flujos de pago mediante validaciones y UX",
           "metric": {
-            "value": 25,
+            "value": 25.0,
             "unit": "percent",
-            "type": "payment_error_reduction"
+            "type": "user_metric"
           },
-          "status": "claimed",
+          "status": "user_validated",
           "evidenceLevel": "claimed",
           "safeForCV": true,
-          "requiresUserValidation": true
+          "requiresUserValidation": false
         },
         {
           "description": "Optimización de tiempos de respuesta en APIs",
           "metric": {
-            "value": 30,
+            "value": 30.0,
             "unit": "percent",
-            "type": "api_response_time_reduction"
+            "type": "user_metric"
           },
-          "status": "claimed",
+          "status": "user_validated",
           "evidenceLevel": "claimed",
           "safeForCV": true,
-          "requiresUserValidation": true
+          "requiresUserValidation": false
         }
       ],
       "evidence": [
@@ -1742,14 +1742,14 @@
         {
           "description": "Reducción de tiempos de renderizado en tablas/virtualización",
           "metric": {
-            "value": 35,
+            "value": 35.0,
             "unit": "percent",
-            "type": "render_time_reduction"
+            "type": "user_metric"
           },
-          "status": "claimed",
+          "status": "user_validated",
           "evidenceLevel": "claimed",
           "safeForCV": true,
-          "requiresUserValidation": true
+          "requiresUserValidation": false
         }
       ],
       "evidence": [
@@ -1824,26 +1824,26 @@
         {
           "description": "Reducción de tiempos de carga mediante optimización de componentes y estado",
           "metric": {
-            "value": 30,
+            "value": 30.0,
             "unit": "percent",
-            "type": "load_time_reduction"
+            "type": "user_metric"
           },
-          "status": "claimed",
+          "status": "user_validated",
           "evidenceLevel": "claimed",
           "safeForCV": true,
-          "requiresUserValidation": true
+          "requiresUserValidation": false
         },
         {
           "description": "Entrega continua de features reduciendo tiempos de desarrollo",
           "metric": {
-            "value": 20,
+            "value": 20.0,
             "unit": "percent",
-            "type": "development_time_reduction"
+            "type": "user_metric"
           },
-          "status": "claimed",
+          "status": "user_validated",
           "evidenceLevel": "claimed",
           "safeForCV": true,
-          "requiresUserValidation": true
+          "requiresUserValidation": false
         }
       ],
       "evidence": [
@@ -1915,14 +1915,14 @@
         {
           "description": "Mejora de eficiencia del equipo mediante buenas prácticas y sprints",
           "metric": {
-            "value": 25,
+            "value": 25.0,
             "unit": "percent",
-            "type": "team_efficiency"
+            "type": "user_metric"
           },
-          "status": "claimed",
+          "status": "user_validated",
           "evidenceLevel": "claimed",
           "safeForCV": true,
-          "requiresUserValidation": true
+          "requiresUserValidation": false
         }
       ],
       "evidence": [
@@ -2174,7 +2174,7 @@
       "status": "verified",
       "evidenceLevel": "documented",
       "sourceCount": 3,
-      "userValidated": false,
+      "userValidated": true,
       "evidence": [
         "cvs/CV-JairoCamarillo-Frontend-English.docx (1).pdf",
         "cvs/CV-JairoCamarillo-ReactNative _ English.docx (2).pdf",
@@ -2237,7 +2237,7 @@
       "status": "claimed",
       "evidenceLevel": "claimed",
       "sourceCount": 3,
-      "userValidated": false,
+      "userValidated": true,
       "evidence": [
         "Desktop/Sortalia/README_OBJECTIVE_PROJECT.md",
         "Desktop/sortalia-api/README.md",
@@ -2293,7 +2293,7 @@
       "status": "mentioned",
       "evidenceLevel": "mentioned",
       "sourceCount": 1,
-      "userValidated": false,
+      "userValidated": true,
       "evidence": [
         "cvs/JairoCamarilloCV.pdf"
       ],
@@ -2327,7 +2327,7 @@
       "status": "mentioned",
       "evidenceLevel": "mentioned",
       "sourceCount": 1,
-      "userValidated": false,
+      "userValidated": true,
       "evidence": [
         "cvs/JairoCamarilloCV.pdf"
       ],
@@ -2360,7 +2360,7 @@
       "status": "mentioned",
       "evidenceLevel": "mentioned",
       "sourceCount": 1,
-      "userValidated": false,
+      "userValidated": true,
       "evidence": [
         "cvs/JairoCamarilloCV.pdf"
       ],
@@ -2395,7 +2395,7 @@
       "status": "mentioned",
       "evidenceLevel": "mentioned",
       "sourceCount": 1,
-      "userValidated": false,
+      "userValidated": true,
       "evidence": [
         "cvs/JairoCamarilloCV.pdf"
       ],
@@ -2430,7 +2430,7 @@
       "status": "mentioned",
       "evidenceLevel": "mentioned",
       "sourceCount": 1,
-      "userValidated": false,
+      "userValidated": true,
       "evidence": [
         "cvs/JairoCamarilloCV.pdf"
       ],
@@ -2451,7 +2451,7 @@
       "id": "edu_tsu_utcv",
       "evidenceLevel": "documented",
       "sourceCount": 3,
-      "userValidated": false,
+      "userValidated": true,
       "sourceRefs": [
         "src_cv_frontend_en",
         "src_cv_historical"
@@ -2467,7 +2467,7 @@
       "id": "edu_tecnico_cetis_164",
       "evidenceLevel": "mentioned",
       "sourceCount": 1,
-      "userValidated": false,
+      "userValidated": true,
       "sourceRefs": [
         "src_cv_historical"
       ]
@@ -2482,7 +2482,7 @@
       "id": "edu_tecnico_informatica",
       "evidenceLevel": "mentioned",
       "sourceCount": 1,
-      "userValidated": false,
+      "userValidated": true,
       "sourceRefs": [
         "src_cv_historical"
       ]
@@ -2497,7 +2497,7 @@
       "id": "cert_aws_ml",
       "evidenceLevel": "documented",
       "sourceCount": 3,
-      "userValidated": false,
+      "userValidated": true,
       "sourceRefs": [
         "src_cv_frontend_en",
         "src_cv_rn_en"
@@ -2511,7 +2511,7 @@
       "id": "cert_stripe_dev",
       "evidenceLevel": "documented",
       "sourceCount": 3,
-      "userValidated": false,
+      "userValidated": true,
       "sourceRefs": [
         "src_cv_frontend_en",
         "src_cv_rn_en"
@@ -2525,7 +2525,7 @@
       "id": "cert_ndg_linux",
       "evidenceLevel": "claimed",
       "sourceCount": 2,
-      "userValidated": false,
+      "userValidated": true,
       "sourceRefs": [
         "src_cv_frontend_en",
         "src_cv_rn_en"
@@ -2539,7 +2539,7 @@
       "id": "cert_ccna",
       "evidenceLevel": "documented",
       "sourceCount": 3,
-      "userValidated": false,
+      "userValidated": true,
       "sourceRefs": [
         "src_cv_frontend_en",
         "src_cv_rn_en"
@@ -2553,7 +2553,7 @@
       "id": "cert_it_essentials",
       "evidenceLevel": "mentioned",
       "sourceCount": 1,
-      "userValidated": false,
+      "userValidated": true,
       "sourceRefs": [
         "src_cv_historical"
       ]
@@ -2566,7 +2566,7 @@
       "id": "cert_olympiad_programming_2017",
       "evidenceLevel": "documented",
       "sourceCount": 3,
-      "userValidated": false,
+      "userValidated": true,
       "sourceRefs": [
         "src_cv_frontend_en",
         "src_cv_rn_en"
@@ -2580,7 +2580,7 @@
       "id": "cert_olympiad_conocimiento_2016",
       "evidenceLevel": "mentioned",
       "sourceCount": 1,
-      "userValidated": false,
+      "userValidated": true,
       "sourceRefs": [
         "src_cv_historical"
       ]
@@ -2593,7 +2593,7 @@
       "id": "cert_ortografia_2014",
       "evidenceLevel": "mentioned",
       "sourceCount": 1,
-      "userValidated": false,
+      "userValidated": true,
       "sourceRefs": [
         "src_cv_historical"
       ]
@@ -2606,7 +2606,7 @@
       "id": "cert_olympiad_infantil_2011",
       "evidenceLevel": "mentioned",
       "sourceCount": 1,
-      "userValidated": false,
+      "userValidated": true,
       "sourceRefs": [
         "src_cv_historical"
       ]
@@ -2617,10 +2617,10 @@
       "id": "lang_spanish",
       "language": "Spanish",
       "level": null,
-      "status": "requires_validation",
-      "evidenceLevel": "inferred",
+      "status": "user_validated",
+      "evidenceLevel": "documented",
       "sourceCount": 0,
-      "userValidated": false,
+      "userValidated": true,
       "conflicts": [
         "Ningún CV declara explícitamente español nativo; se infiere del idioma de varios documentos. Requiere validación si se quiere afirmar en un CV."
       ],
@@ -2661,120 +2661,6 @@
   ],
   "metrics": [
     {
-      "value": 35,
-      "unit": "percent",
-      "type": "render_time_reduction",
-      "description": "Reducción de tiempos de renderizado en tablas/virtualización (Grainchain). El PDF Frontend no incluye este número en los bullets de Grainchain; sí aparece en el summary (~35%) y en CV RN / knowledge_base.",
-      "company": "Grainchain Inc",
-      "project": "",
-      "status": "claimed",
-      "confidence": "medium",
-      "id": "metric_grainchain_render_35",
-      "experienceId": "exp_grainchain",
-      "projectId": null,
-      "evidenceLevel": "claimed",
-      "sourceCount": 3,
-      "userValidated": false,
-      "safeForCV": true,
-      "requiresUserValidation": true,
-      "sourceRefs": []
-    },
-    {
-      "value": 30,
-      "unit": "percent",
-      "type": "load_time_reduction",
-      "description": "Reducción de tiempos de carga en Lumston por optimización de componentes y estado",
-      "company": "Lumston",
-      "project": "",
-      "status": "claimed",
-      "confidence": "medium",
-      "id": "metric_lumston_load_30",
-      "experienceId": "exp_lumston",
-      "projectId": null,
-      "evidenceLevel": "claimed",
-      "sourceCount": 2,
-      "userValidated": false,
-      "safeForCV": true,
-      "requiresUserValidation": true,
-      "sourceRefs": []
-    },
-    {
-      "value": 20,
-      "unit": "percent",
-      "type": "development_time_reduction",
-      "description": "Reducción de tiempos de desarrollo por entrega continua de features (Lumston)",
-      "company": "Lumston",
-      "project": "",
-      "status": "claimed",
-      "confidence": "medium",
-      "id": "metric_lumston_dev_20",
-      "experienceId": "exp_lumston",
-      "projectId": null,
-      "evidenceLevel": "claimed",
-      "sourceCount": 2,
-      "userValidated": false,
-      "safeForCV": true,
-      "requiresUserValidation": true,
-      "sourceRefs": []
-    },
-    {
-      "value": 25,
-      "unit": "percent",
-      "type": "payment_error_reduction",
-      "description": "Reducción de errores en flujos de pago (UffPay) por validaciones y UX",
-      "company": "UffPay",
-      "project": "UffPay",
-      "status": "claimed",
-      "confidence": "medium",
-      "id": "metric_uffpay_errors_25",
-      "experienceId": "exp_uffpay",
-      "projectId": "project_uffpay",
-      "evidenceLevel": "claimed",
-      "sourceCount": 2,
-      "userValidated": false,
-      "safeForCV": true,
-      "requiresUserValidation": true,
-      "sourceRefs": []
-    },
-    {
-      "value": 30,
-      "unit": "percent",
-      "type": "api_response_time_reduction",
-      "description": "Optimización de tiempos de respuesta de APIs (UffPay)",
-      "company": "UffPay",
-      "project": "UffPay",
-      "status": "claimed",
-      "confidence": "medium",
-      "id": "metric_uffpay_api_30",
-      "experienceId": "exp_uffpay",
-      "projectId": "project_uffpay",
-      "evidenceLevel": "claimed",
-      "sourceCount": 2,
-      "userValidated": false,
-      "safeForCV": true,
-      "requiresUserValidation": true,
-      "sourceRefs": []
-    },
-    {
-      "value": 25,
-      "unit": "percent",
-      "type": "team_efficiency",
-      "description": "Mejora de eficiencia del equipo en Monkey Cave vía prácticas y sprints",
-      "company": "Monkey Cave",
-      "project": "",
-      "status": "claimed",
-      "confidence": "medium",
-      "id": "metric_monkey_cave_efficiency_25",
-      "experienceId": "exp_monkey_cave",
-      "projectId": null,
-      "evidenceLevel": "claimed",
-      "sourceCount": 2,
-      "userValidated": false,
-      "safeForCV": true,
-      "requiresUserValidation": true,
-      "sourceRefs": []
-    },
-    {
       "value": 40,
       "unit": "branches",
       "type": "scale",
@@ -2811,6 +2697,132 @@
       "safeForCV": false,
       "requiresUserValidation": true,
       "sourceRefs": []
+    },
+    {
+      "id": "metric_exp_uffpay_0",
+      "value": 25.0,
+      "unit": "percent",
+      "type": "user_metric",
+      "description": "Reducción de errores en flujos de pago mediante validaciones y UX",
+      "company": "UffPay",
+      "project": "",
+      "status": "user_validated",
+      "confidence": "high",
+      "experienceId": "exp_uffpay",
+      "projectId": null,
+      "evidenceLevel": "claimed",
+      "sourceCount": 1,
+      "userValidated": true,
+      "safeForCV": true,
+      "requiresUserValidation": false,
+      "sourceRefs": [
+        "user"
+      ]
+    },
+    {
+      "id": "metric_exp_uffpay_1",
+      "value": 30.0,
+      "unit": "percent",
+      "type": "user_metric",
+      "description": "Optimización de tiempos de respuesta en APIs",
+      "company": "UffPay",
+      "project": "",
+      "status": "user_validated",
+      "confidence": "high",
+      "experienceId": "exp_uffpay",
+      "projectId": null,
+      "evidenceLevel": "claimed",
+      "sourceCount": 1,
+      "userValidated": true,
+      "safeForCV": true,
+      "requiresUserValidation": false,
+      "sourceRefs": [
+        "user"
+      ]
+    },
+    {
+      "id": "metric_exp_grainchain_0",
+      "value": 35.0,
+      "unit": "percent",
+      "type": "user_metric",
+      "description": "Reducción de tiempos de renderizado en tablas/virtualización",
+      "company": "Grainchain Inc",
+      "project": "",
+      "status": "user_validated",
+      "confidence": "high",
+      "experienceId": "exp_grainchain",
+      "projectId": null,
+      "evidenceLevel": "claimed",
+      "sourceCount": 1,
+      "userValidated": true,
+      "safeForCV": true,
+      "requiresUserValidation": false,
+      "sourceRefs": [
+        "user"
+      ]
+    },
+    {
+      "id": "metric_exp_lumston_0",
+      "value": 30.0,
+      "unit": "percent",
+      "type": "user_metric",
+      "description": "Reducción de tiempos de carga mediante optimización de componentes y estado",
+      "company": "Lumston",
+      "project": "",
+      "status": "user_validated",
+      "confidence": "high",
+      "experienceId": "exp_lumston",
+      "projectId": null,
+      "evidenceLevel": "claimed",
+      "sourceCount": 1,
+      "userValidated": true,
+      "safeForCV": true,
+      "requiresUserValidation": false,
+      "sourceRefs": [
+        "user"
+      ]
+    },
+    {
+      "id": "metric_exp_lumston_1",
+      "value": 20.0,
+      "unit": "percent",
+      "type": "user_metric",
+      "description": "Entrega continua de features reduciendo tiempos de desarrollo",
+      "company": "Lumston",
+      "project": "",
+      "status": "user_validated",
+      "confidence": "high",
+      "experienceId": "exp_lumston",
+      "projectId": null,
+      "evidenceLevel": "claimed",
+      "sourceCount": 1,
+      "userValidated": true,
+      "safeForCV": true,
+      "requiresUserValidation": false,
+      "sourceRefs": [
+        "user"
+      ]
+    },
+    {
+      "id": "metric_exp_monkey_cave_0",
+      "value": 25.0,
+      "unit": "percent",
+      "type": "user_metric",
+      "description": "Mejora de eficiencia del equipo mediante buenas prácticas y sprints",
+      "company": "Monkey Cave",
+      "project": "",
+      "status": "user_validated",
+      "confidence": "high",
+      "experienceId": "exp_monkey_cave",
+      "projectId": null,
+      "evidenceLevel": "claimed",
+      "sourceCount": 1,
+      "userValidated": true,
+      "safeForCV": true,
+      "requiresUserValidation": false,
+      "sourceRefs": [
+        "user"
+      ]
     }
   ],
   "skillAliases": {
@@ -3593,7 +3605,7 @@
     }
   ],
   "yearsOfExperience": {
-    "value": 7.2,
+    "value": 7.3,
     "source": "computed_from_user_validated_dates",
     "status": "computed",
     "evidenceLevel": "verified",
@@ -3952,9 +3964,58 @@
         "resolvedValue": "order_dates_employmentType",
         "resolvedAt": "2026-08-20",
         "source": "user"
+      },
+      {
+        "field": "profile.content",
+        "previousValues": [],
+        "resolvedValue": "identity_experience_education",
+        "resolvedAt": "2026-10-05",
+        "source": "user"
+      },
+      {
+        "field": "profile.content",
+        "previousValues": [],
+        "resolvedValue": "identity_experience_education",
+        "resolvedAt": "2026-10-05",
+        "source": "user"
+      },
+      {
+        "field": "profile.content",
+        "previousValues": [],
+        "resolvedValue": "identity_experience_education",
+        "resolvedAt": "2026-10-05",
+        "source": "user"
+      },
+      {
+        "field": "profile.content",
+        "previousValues": [],
+        "resolvedValue": "identity_experience_education",
+        "resolvedAt": "2026-10-05",
+        "source": "user"
+      },
+      {
+        "field": "profile.content",
+        "previousValues": [],
+        "resolvedValue": "identity_experience_education",
+        "resolvedAt": "2026-10-05",
+        "source": "user"
+      },
+      {
+        "field": "profile.content",
+        "previousValues": [],
+        "resolvedValue": "identity_experience_education",
+        "resolvedAt": "2026-10-05",
+        "source": "user"
+      },
+      {
+        "field": "profile.content",
+        "previousValues": [],
+        "resolvedValue": "identity_experience_education",
+        "resolvedAt": "2026-10-05",
+        "source": "user"
       }
     ],
-    "lastUpdated": "2026-08-20"
+    "lastUpdated": "2026-10-05"
   },
   "jobMatching": {
     "enabled": true,

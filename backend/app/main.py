@@ -62,8 +62,10 @@ from .compact_master import export_ollama_profile, load_ollama_profile
 from .career_kb import (
     ExperienceEditItem,
     ExperienceEditsIn,
+    ProfileContentIn,
     UserValidationIn,
     apply_experience_edits,
+    apply_profile_content,
     apply_user_validation,
     sync_skill_catalog,
 )
@@ -202,6 +204,7 @@ def _apply_skills(raw: dict, skills: MasterSkills) -> None:
 class MasterProfilePatchIn(BaseModel):
     skills: Optional[MasterSkills] = None
     experience: Optional[List[ExperienceEditItem]] = None
+    content: Optional[ProfileContentIn] = None
 
 
 @app.get("/health")
@@ -280,11 +283,13 @@ def put_master_experience(body: ExperienceEditsIn) -> dict:
 
 @app.put("/v1/master-profile")
 def put_master_profile_patch(body: MasterProfilePatchIn) -> dict:
-    if body.skills is None and not body.experience:
+    if body.skills is None and not body.experience and body.content is None:
         raise HTTPException(status_code=400, detail="Nada que guardar")
     with _locked_master():
         raw = _load_master_profile()
-        if body.experience:
+        if body.content is not None:
+            apply_profile_content(raw, body.content)
+        elif body.experience:
             apply_experience_edits(raw, body.experience)
         if body.skills is not None:
             _apply_skills(raw, body.skills)

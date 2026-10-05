@@ -11,9 +11,10 @@
   "contact": {
     "email": "jairoantoniocamarillotinoco@gmail.com",
     "phone": "+52 271 352 9511",
-    "linkedin": "linkedin.com/in/jairo-camarillo-218aaa216"
+    "linkedin": "linkedin.com/in/jairo-camarillo-218aaa216",
+    "location": "Mexico"
   },
-  "years_experience": 7.2,
+  "years_experience": 7.3,
   "skills": {
     "languages": [
       "TypeScript",
@@ -264,6 +265,57 @@
     "Incident management / RCA",
     "Production support"
   ],
+  "skill_aliases": {
+    "Node.js": [
+      "Node",
+      "Node Js",
+      "NodeJS"
+    ],
+    "PostgreSQL": [
+      "Postgres"
+    ],
+    "MongoDB": [
+      "Mongo",
+      "Mongo DB"
+    ],
+    "React Native": [
+      "RN",
+      "ReactNative"
+    ],
+    "JavaScript": [
+      "JS",
+      "Javascript"
+    ],
+    "TypeScript": [
+      "TS"
+    ],
+    "Next.js": [
+      "Next",
+      "Next JS",
+      "Next Js"
+    ],
+    "NestJS": [
+      "Nest"
+    ],
+    "Express.js": [
+      "Express"
+    ],
+    "React": [
+      "React JS"
+    ],
+    "Stripe": [
+      "Strip"
+    ],
+    "CCNA": [
+      "CNNA"
+    ],
+    "Vue": [
+      "Vue.js"
+    ],
+    "Angular": [
+      "Angular.js"
+    ]
+  },
   "experience": [
     {
       "id": "exp_uffpay",
@@ -301,20 +353,20 @@
         {
           "description": "Reducción de errores en flujos de pago mediante validaciones y UX",
           "metric": {
-            "value": 25,
+            "value": 25.0,
             "unit": "percent",
-            "type": "payment_error_reduction"
+            "type": "user_metric"
           },
-          "status": "claimed"
+          "status": "user_validated"
         },
         {
           "description": "Optimización de tiempos de respuesta en APIs",
           "metric": {
-            "value": 30,
+            "value": 30.0,
             "unit": "percent",
-            "type": "api_response_time_reduction"
+            "type": "user_metric"
           },
-          "status": "claimed"
+          "status": "user_validated"
         }
       ],
       "kind": "employment"
@@ -357,11 +409,11 @@
         {
           "description": "Reducción de tiempos de renderizado en tablas/virtualización",
           "metric": {
-            "value": 35,
+            "value": 35.0,
             "unit": "percent",
-            "type": "render_time_reduction"
+            "type": "user_metric"
           },
-          "status": "claimed"
+          "status": "user_validated"
         }
       ],
       "kind": "employment"
@@ -405,20 +457,20 @@
         {
           "description": "Reducción de tiempos de carga mediante optimización de componentes y estado",
           "metric": {
-            "value": 30,
+            "value": 30.0,
             "unit": "percent",
-            "type": "load_time_reduction"
+            "type": "user_metric"
           },
-          "status": "claimed"
+          "status": "user_validated"
         },
         {
           "description": "Entrega continua de features reduciendo tiempos de desarrollo",
           "metric": {
-            "value": 20,
+            "value": 20.0,
             "unit": "percent",
-            "type": "development_time_reduction"
+            "type": "user_metric"
           },
-          "status": "claimed"
+          "status": "user_validated"
         }
       ],
       "kind": "employment"
@@ -453,11 +505,11 @@
         {
           "description": "Mejora de eficiencia del equipo mediante buenas prácticas y sprints",
           "metric": {
-            "value": 25,
+            "value": 25.0,
             "unit": "percent",
-            "type": "team_efficiency"
+            "type": "user_metric"
           },
-          "status": "claimed"
+          "status": "user_validated"
         }
       ],
       "kind": "employment"
@@ -912,50 +964,50 @@
   ],
   "metrics": [
     {
-      "value": 35,
+      "value": 25.0,
       "unit": "percent",
-      "type": "render_time_reduction",
-      "description": "Reducción de tiempos de renderizado en tablas/virtualización (Grainchain). El PDF Frontend no incluye este número en los bullets de Grainchain; sí aparece en el summary (~35%) y en CV RN / knowledge_base.",
+      "type": "user_metric",
+      "description": "Reducción de errores en flujos de pago mediante validaciones y UX",
+      "company": "UffPay",
+      "project": null
+    },
+    {
+      "value": 30.0,
+      "unit": "percent",
+      "type": "user_metric",
+      "description": "Optimización de tiempos de respuesta en APIs",
+      "company": "UffPay",
+      "project": null
+    },
+    {
+      "value": 35.0,
+      "unit": "percent",
+      "type": "user_metric",
+      "description": "Reducción de tiempos de renderizado en tablas/virtualización",
       "company": "Grainchain Inc",
       "project": null
     },
     {
-      "value": 30,
+      "value": 30.0,
       "unit": "percent",
-      "type": "load_time_reduction",
-      "description": "Reducción de tiempos de carga en Lumston por optimización de componentes y estado",
+      "type": "user_metric",
+      "description": "Reducción de tiempos de carga mediante optimización de componentes y estado",
       "company": "Lumston",
       "project": null
     },
     {
-      "value": 20,
+      "value": 20.0,
       "unit": "percent",
-      "type": "development_time_reduction",
-      "description": "Reducción de tiempos de desarrollo por entrega continua de features (Lumston)",
+      "type": "user_metric",
+      "description": "Entrega continua de features reduciendo tiempos de desarrollo",
       "company": "Lumston",
       "project": null
     },
     {
-      "value": 25,
+      "value": 25.0,
       "unit": "percent",
-      "type": "payment_error_reduction",
-      "description": "Reducción de errores en flujos de pago (UffPay) por validaciones y UX",
-      "company": "UffPay",
-      "project": "UffPay"
-    },
-    {
-      "value": 30,
-      "unit": "percent",
-      "type": "api_response_time_reduction",
-      "description": "Optimización de tiempos de respuesta de APIs (UffPay)",
-      "company": "UffPay",
-      "project": "UffPay"
-    },
-    {
-      "value": 25,
-      "unit": "percent",
-      "type": "team_efficiency",
-      "description": "Mejora de eficiencia del equipo en Monkey Cave vía prácticas y sprints",
+      "type": "user_metric",
+      "description": "Mejora de eficiencia del equipo mediante buenas prácticas y sprints",
       "company": "Monkey Cave",
       "project": null
     }
@@ -1074,6 +1126,8 @@
     "A skill in skill_inventory may appear in SKILLS, not automatically in EXPERIENCE.",
     "Items in personal_products_not_employment are not jobs. Do not list them as employers.",
     "Copy company names and dates exactly from experience[].",
+    "Write job titles without Freelance/Freelancer in the title.",
+    "Do not put Fintech in UffPay job titles unless the JOB DESCRIPTION explicitly asks for fintech or financial-services experience.",
     "Only use metrics listed in metrics[] or in experience[].achievements."
   ]
 }
