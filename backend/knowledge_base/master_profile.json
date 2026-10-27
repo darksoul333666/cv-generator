@@ -144,7 +144,10 @@
         "Dashboards financieros en Grainchain con Angular, Angular Material y NgRx",
         "Reducción reportada de ~35% en tiempos de renderizado (tablas/virtualización)",
         "i18n con ngx-translate, lazy loading y change detection",
-        "Liderazgo técnico previo (Monkey Cave) y entrega en clientes enterprise (Lumston)"
+        "Liderazgo técnico previo (Monkey Cave) y entrega en clientes enterprise (Lumston)",
+        "Formularios, validación y PDF con pdfmake en Volaris Manifest (Angular 16)",
+        "Angular 16, guards, interceptores y Redux en Tecnológico de Monterrey",
+        "Entrenamiento del chatbot de Baker Tilly con SageMaker y buckets de S3"
       ],
       "id": "role_senior_angular_developer"
     },
@@ -166,7 +169,9 @@
         "Stack actual: Angular, React, Next.js, TypeScript",
         "SSR, routing y optimización de carga en Lumston",
         "Stripe Payments en aplicaciones fintech",
-        "Reducción reportada de ~30% en tiempos de carga y ~20% en tiempo de desarrollo"
+        "Reducción reportada de ~30% en tiempos de carga y ~20% en tiempo de desarrollo",
+        "Formularios, validación, APIs y PDF con pdfmake en Volaris Manifest (Angular 16)",
+        "Drizline en Angular 18: Redux, Tailwind CSS y login de Microsoft"
       ],
       "id": "role_senior_frontend_developer"
     },
@@ -189,7 +194,7 @@
       "sellingPoints": [
         "App fintech UffPay: pagos, transferencias y recargas",
         "Integraciones Cybersource y Neonet",
-        "Clientes enterprise en Lumston (Volaris, Doña Tota) según CV mobile",
+        "Volaris Manifest y Drizline son aplicaciones web Angular en Lumston, no apps React Native",
         "App Store, Play Console, CodePush, Firebase"
       ],
       "id": "role_senior_react_native_developer"
@@ -213,7 +218,9 @@
         "Backend AdonisJS en UffPay y APIs REST en varios roles",
         "NestJS, Express y microservicios listados en CV Full Stack",
         "AWS (S3, EC2, Cognito, IAM, CodePipeline; Lambda/API Gateway en CV Full Stack)",
-        "Certificación AWS Machine Learning y Stripe Developer 2024"
+        "Certificación AWS Machine Learning y Stripe Developer 2024",
+        "Frontend y backend con NestJS y AWS Lambda en Tecnológico de Monterrey y Drizline",
+        "Entrenamiento del chatbot de Baker Tilly con SageMaker y buckets de S3"
       ],
       "id": "role_senior_full_stack_engineer"
     }
@@ -1796,7 +1803,8 @@
         "roles: Frontend (PDFs Frontend/Full Stack) vs React Native Developer (CV RN) vs Full Stack / Frontend (knowledge_base cv_3)",
         "stack móvil: PDFs Frontend/Full Stack dicen apps móviles con Angular y Next.js; CV RN dice React Native",
         "clientes: Volaris, Doña Tota, Golden Corral y Viva Aerobús",
-        "solapamiento temporal con Grainchain si Grainchain inicia en 2025-01 (Lumston termina 2025-06)"
+        "solapamiento temporal con Grainchain si Grainchain inicia en 2025-01 (Lumston termina 2025-06)",
+        "Actualización 2026-10-27: Volaris Manifest y Drizline (Doña Tota) son aplicaciones web. No describirlas como apps React Native."
       ],
       "domain": [
         "enterprise",
@@ -2269,7 +2277,7 @@
       "id": "project_fatimas_bakery",
       "name": "Fatima's Bakery",
       "type": "web-application",
-      "description": "Aplicación web de gestión de ventas, pedidos y servicios para una distribuidora de alimentos con más de 40 sucursales: tickets, factura digital CFDI 3.0, pedidos, nómina, inventario de insumos y registro diario de mermas. Funciones limitadas por rol.",
+      "description": "Desarrollo completo. Web de ventas, pedidos, tickets, CFDI 3.0, nómina e inventario. Stack: Angular, Laravel y PostgreSQL.",
       "domain": [
         "food distribution",
         "POS",
@@ -2288,17 +2296,24 @@
         "Inventario de insumos y mermas",
         "Permisos por rol"
       ],
-      "technologies": [],
+      "technologies": [
+        "Angular",
+        "Laravel",
+        "PostgreSQL"
+      ],
       "scale": "más de 40 sucursales (claim del CV histórico)",
       "status": "mentioned",
       "evidenceLevel": "mentioned",
-      "sourceCount": 1,
+      "sourceCount": 2,
       "userValidated": true,
       "evidence": [
-        "cvs/JairoCamarilloCV.pdf"
+        "cvs/JairoCamarilloCV.pdf",
+        "Actualización 2026-10-27: el usuario declaró Angular, Laravel y PostgreSQL. Responsabilidades personales, pruebas y fechas siguen sin confirmarse.",
+        "Confirmado por el usuario el 2026-10-27: desarrollo completo. No se inventó stack adicional."
       ],
       "sourceRefs": [
-        "src_cv_historical"
+        "src_cv_historical",
+        "src_user_project_update_2026_10_27"
       ],
       "isEmployment": false
     },
@@ -2306,7 +2321,7 @@
       "id": "project_hoppi",
       "name": "Hoppi get together",
       "type": "mobile-app",
-      "description": "App de estilo de vida para publicar planes (salidas, playa, senderismo), encontrarlos en el mapa, unirse, chat y teams por intereses en común.",
+      "description": "Desarrollo completo. App iOS/Android para publicar planes, verlos en un mapa, unirse, chatear y armar teams por intereses.",
       "domain": [
         "lifestyle",
         "social",
@@ -2326,13 +2341,16 @@
       "scale": null,
       "status": "mentioned",
       "evidenceLevel": "mentioned",
-      "sourceCount": 1,
+      "sourceCount": 2,
       "userValidated": true,
       "evidence": [
-        "cvs/JairoCamarilloCV.pdf"
+        "cvs/JairoCamarilloCV.pdf",
+        "Actualización 2026-10-27: la descripción de producto coincide con el registro existente. Stack, responsabilidades personales y fechas siguen sin confirmarse. No se creó un segundo proyecto Hoppi.",
+        "Confirmado por el usuario el 2026-10-27: desarrollo completo. No se inventó stack adicional."
       ],
       "sourceRefs": [
-        "src_cv_historical"
+        "src_cv_historical",
+        "src_user_project_update_2026_10_27"
       ],
       "isEmployment": false
     },
@@ -2340,7 +2358,7 @@
       "id": "project_desansiedad",
       "name": "Desansiedad",
       "type": "mobile-app",
-      "description": "App para contactar especialistas por videollamada ante cuadros de ansiedad (contexto sismos CDMX 2017, 2019, 2022), biblioteca de contenido y ejercicios de relajación.",
+      "description": "Desarrollo completo. App iOS/Android de videollamada con especialistas, biblioteca de contenido y ejercicios de relajación.",
       "domain": [
         "health",
         "telemedicine",
@@ -2359,13 +2377,16 @@
       "scale": null,
       "status": "mentioned",
       "evidenceLevel": "mentioned",
-      "sourceCount": 1,
+      "sourceCount": 2,
       "userValidated": true,
       "evidence": [
-        "cvs/JairoCamarilloCV.pdf"
+        "cvs/JairoCamarilloCV.pdf",
+        "Actualización 2026-10-27: no hubo hechos nuevos verificados para Desansiedad. Se conserva el registro existente.",
+        "Confirmado por el usuario el 2026-10-27: desarrollo completo. No se inventó stack adicional."
       ],
       "sourceRefs": [
-        "src_cv_historical"
+        "src_cv_historical",
+        "src_user_project_update_2026_10_27"
       ],
       "isEmployment": false
     },
@@ -2373,7 +2394,7 @@
       "id": "project_saldo_hvac",
       "name": "Saldo HVAC",
       "type": "mobile-app",
-      "description": "App para empresas HVAC: activos, productos y servicios, P&L semanal/mensual, inventarios por cámara/código de barras y publicación de rezago en e-commerce.",
+      "description": "Desarrollo completo. App HVAC: activos, productos, P&L, inventario por cámara o código de barras y rezago en e-commerce.",
       "domain": [
         "HVAC",
         "inventory",
@@ -2394,13 +2415,16 @@
       "scale": null,
       "status": "mentioned",
       "evidenceLevel": "mentioned",
-      "sourceCount": 1,
+      "sourceCount": 2,
       "userValidated": true,
       "evidence": [
-        "cvs/JairoCamarilloCV.pdf"
+        "cvs/JairoCamarilloCV.pdf",
+        "Actualización 2026-10-27: no hubo hechos nuevos verificados para Saldo HVAC. Se conserva el registro existente.",
+        "Confirmado por el usuario el 2026-10-27: desarrollo completo. No se inventó stack adicional."
       ],
       "sourceRefs": [
-        "src_cv_historical"
+        "src_cv_historical",
+        "src_user_project_update_2026_10_27"
       ],
       "isEmployment": false
     },
@@ -2408,7 +2432,7 @@
       "id": "project_pilsar",
       "name": "Pilsar",
       "type": "pwa",
-      "description": "PWA instalable (Windows, macOS, Android, iOS) con catálogo de productos de uso doméstico y pagos por transferencias u otros medios.",
+      "description": "Desarrollo completo. PWA de catálogo doméstico con pagos por transferencia, instalable en escritorio y móvil.",
       "domain": [
         "e-commerce",
         "retail"
@@ -2429,15 +2453,381 @@
       "scale": null,
       "status": "mentioned",
       "evidenceLevel": "mentioned",
+      "sourceCount": 2,
+      "userValidated": true,
+      "evidence": [
+        "cvs/JairoCamarilloCV.pdf",
+        "Actualización 2026-10-27: no hubo hechos nuevos verificados para Pilsar. Se conserva el registro existente.",
+        "Confirmado por el usuario el 2026-10-27: desarrollo completo. No se inventó stack adicional."
+      ],
+      "sourceRefs": [
+        "src_cv_historical",
+        "src_user_project_update_2026_10_27"
+      ],
+      "isEmployment": false
+    },
+    {
+      "id": "project_volaris_manifest",
+      "name": "Volaris Manifest",
+      "type": "web-application",
+      "description": "Lumston, cliente Volaris. Frontend principal en Angular 16: manifiestos de vuelo, formularios dinámicos, validación, APIs y PDF con pdfmake.",
+      "domain": [
+        "aviation"
+      ],
+      "platforms": [
+        "Web"
+      ],
+      "features": [
+        "Formularios dinámicos para capturar, revisar y actualizar información de vuelo",
+        "Plantillas de formulario y validación por campo",
+        "Validación del estado del formulario antes del envío al API",
+        "Integración con APIs para obtener los datos requeridos",
+        "Generación y descarga de PDF con pdfmake para impresión y firma"
+      ],
+      "technologies": [
+        "Angular 16",
+        "TypeScript",
+        "REST APIs",
+        "pdfmake"
+      ],
+      "scale": null,
+      "status": "claimed",
+      "evidenceLevel": "claimed",
       "sourceCount": 1,
       "userValidated": true,
       "evidence": [
-        "cvs/JairoCamarilloCV.pdf"
+        "User project update 2026-10-27",
+        "Rol declarado por el usuario: Main Frontend Developer.",
+        "UNRESOLVED: herramientas de pruebas.",
+        "UNRESOLVED: fechas del proyecto.",
+        "Empresa Lumston y cliente Volaris son entidades distintas.",
+        "Confirmado por el usuario el 2026-10-27: Angular 16 y pdfmake (lo escribió como pdf.make)."
       ],
       "sourceRefs": [
-        "src_cv_historical"
+        "src_user_project_update_2026_10_27"
       ],
-      "isEmployment": false
+      "isEmployment": false,
+      "relevantForRoles": [
+        "Senior Angular Developer",
+        "Senior Frontend Developer"
+      ],
+      "relevantWhenVacancyNeeds": [
+        "Angular",
+        "TypeScript",
+        "dynamic forms",
+        "REST APIs",
+        "PDF"
+      ]
+    },
+    {
+      "id": "project_tecnologico_monterrey",
+      "name": "Tecnológico de Monterrey",
+      "type": "web-application",
+      "description": "Lumston, cliente Tecnológico de Monterrey. Implementó frontend y backend: Angular 16, guards, interceptores, Redux, NestJS y AWS Lambda.",
+      "domain": [
+        "education"
+      ],
+      "platforms": [
+        "Web"
+      ],
+      "features": [
+        "Gestión de tareas y actividades",
+        "Acceso por rol y route guards",
+        "Interceptores HTTP ligados a la sesión",
+        "Estado de la aplicación con Redux",
+        "Implementación de frontend y backend"
+      ],
+      "technologies": [
+        "Angular 16",
+        "Redux",
+        "NestJS",
+        "AWS Lambda"
+      ],
+      "scale": null,
+      "status": "claimed",
+      "evidenceLevel": "claimed",
+      "sourceCount": 1,
+      "userValidated": true,
+      "evidence": [
+        "User project update 2026-10-27",
+        "UNRESOLVED: base de datos.",
+        "UNRESOLVED: servicios de AWS además de Lambda.",
+        "UNRESOLVED: herramientas de pruebas.",
+        "UNRESOLVED: fechas del proyecto.",
+        "Empresa Lumston y cliente Tecnológico de Monterrey son entidades distintas."
+      ],
+      "sourceRefs": [
+        "src_user_project_update_2026_10_27"
+      ],
+      "isEmployment": false,
+      "relevantForRoles": [
+        "Senior Angular Developer",
+        "Senior Frontend Developer",
+        "Senior Full Stack Engineer"
+      ],
+      "relevantWhenVacancyNeeds": [
+        "Angular",
+        "Redux",
+        "NestJS",
+        "AWS Lambda",
+        "route guards"
+      ]
+    },
+    {
+      "id": "project_drizline_dona_tota",
+      "name": "Drizline",
+      "type": "web-application",
+      "description": "Lumston, Drizline para Doña Tota. Desarrollo completo en Angular 18: frontend, backend, Redux, login Microsoft con Amplify y 2FA.",
+      "domain": [
+        "restaurant_technology"
+      ],
+      "platforms": [
+        "Web"
+      ],
+      "features": [
+        "Operación para varias empresas y sucursales",
+        "Sincronización de menús, disponibilidad y pedidos",
+        "Integraciones de producto con DiDi, Uber Eats y Rappi",
+        "Login de Microsoft con AWS Amplify",
+        "Autenticación de dos factores",
+        "Estado de la aplicación con Redux"
+      ],
+      "technologies": [
+        "Angular 18",
+        "Tailwind CSS",
+        "Redux",
+        "NestJS",
+        "AWS Lambda",
+        "AWS Amplify"
+      ],
+      "scale": null,
+      "status": "claimed",
+      "evidenceLevel": "claimed",
+      "sourceCount": 1,
+      "userValidated": true,
+      "evidence": [
+        "User project update 2026-10-27",
+        "UNRESOLVED: servicios de AWS además de Lambda y Amplify.",
+        "UNRESOLVED: herramientas de pruebas.",
+        "UNRESOLVED: fechas del proyecto.",
+        "DiDi, Uber Eats y Rappi son integraciones del producto. No convertir cada una en un logro personal distinto del trabajo de sincronización descrito.",
+        "Empresa Lumston, producto Drizline y cliente Doña Tota son entidades distintas.",
+        "Confirmado por el usuario el 2026-10-27: Angular 18 y desarrollo completo."
+      ],
+      "sourceRefs": [
+        "src_user_project_update_2026_10_27"
+      ],
+      "isEmployment": false,
+      "relevantForRoles": [
+        "Senior Angular Developer",
+        "Senior Frontend Developer",
+        "Senior Full Stack Engineer"
+      ],
+      "relevantWhenVacancyNeeds": [
+        "Angular",
+        "Tailwind CSS",
+        "Redux",
+        "NestJS",
+        "AWS Amplify",
+        "authentication"
+      ]
+    },
+    {
+      "id": "project_bakertilly_legal_chatbot",
+      "name": "Baker Tilly Legal Chatbot",
+      "type": "web-application",
+      "description": "Lumston, Baker Tilly. Desarrollo completo. Chatbot legal en Angular 15; entrenamiento con Amazon SageMaker y buckets de S3.",
+      "domain": [
+        "legal_technology"
+      ],
+      "platforms": [
+        "Web"
+      ],
+      "features": [
+        "Consulta de información de casos en un chatbot",
+        "Frontend Angular 15",
+        "Documentos legales vectorizados para recuperar información",
+        "Entrenamiento con Amazon SageMaker y buckets de S3"
+      ],
+      "technologies": [
+        "Angular 15",
+        "Amazon SageMaker",
+        "AWS S3"
+      ],
+      "scale": "Cientos de archivos legales (declarado por el usuario, no auditado)",
+      "status": "claimed",
+      "evidenceLevel": "claimed",
+      "sourceCount": 1,
+      "userValidated": true,
+      "evidence": [
+        "User project update 2026-10-27",
+        "UNRESOLVED: base de datos vectorial o servicio de vectorización.",
+        "UNRESOLVED: modelo o proveedor del chatbot.",
+        "UNRESOLVED: herramientas de pruebas y fechas.",
+        "Empresa Lumston y cliente Baker Tilly son entidades distintas.",
+        "Confirmado por el usuario el 2026-10-27: desarrollo completo; entrenamiento con SageMaker y buckets de S3.",
+        "UNRESOLVED: nombre del modelo y si la base vectorial es distinta de S3."
+      ],
+      "sourceRefs": [
+        "src_user_project_update_2026_10_27"
+      ],
+      "isEmployment": false,
+      "relevantForRoles": [
+        "Senior Angular Developer",
+        "Senior Frontend Developer"
+      ],
+      "relevantWhenVacancyNeeds": [
+        "Angular",
+        "AWS"
+      ]
+    },
+    {
+      "id": "project_healthcare_ai_video",
+      "name": "AI Video Creation and Editing Platform",
+      "type": "web-application",
+      "description": "Desarrollo completo. Nombre y cliente de salud en EE. UU. sin confirmar. React: videos por prompt y edición con imágenes, video, música y evaluaciones.",
+      "domain": [
+        "healthcare_technology"
+      ],
+      "platforms": [
+        "Web"
+      ],
+      "features": [
+        "Generación de videos a partir de prompts",
+        "Edición del video generado en el frontend",
+        "Incorporación de imágenes, video y música",
+        "Creación de encuestas y evaluaciones"
+      ],
+      "technologies": [
+        "React"
+      ],
+      "scale": null,
+      "status": "claimed",
+      "evidenceLevel": "claimed",
+      "sourceCount": 1,
+      "userValidated": true,
+      "evidence": [
+        "User project update 2026-10-27",
+        "evidenceLevel: user_described_but_incomplete.",
+        "UNRESOLVED: nombre oficial del proyecto.",
+        "UNRESOLVED: nombre del cliente. No inventar la empresa de salud.",
+        "UNRESOLVED: versión de React, estado, proveedor o API de video, backend, pruebas y fechas.",
+        "Confirmado por el usuario el 2026-10-27: desarrollo completo. El nombre oficial, el cliente y el proveedor de video siguen sin confirmarse."
+      ],
+      "sourceRefs": [
+        "src_user_project_update_2026_10_27"
+      ],
+      "isEmployment": false,
+      "relevantForRoles": [
+        "Senior Frontend Developer"
+      ],
+      "relevantWhenVacancyNeeds": [
+        "React"
+      ]
+    },
+    {
+      "id": "project_altos_aceros",
+      "name": "Altos Aceros",
+      "type": "unknown",
+      "description": "Desarrollo completo para Altos Aceros (Lumston). El propósito del producto, el tipo de aplicación y las tecnologías siguen sin confirmarse.",
+      "domain": [],
+      "platforms": [],
+      "features": [],
+      "technologies": [],
+      "scale": null,
+      "status": "claimed",
+      "evidenceLevel": "claimed",
+      "sourceCount": 1,
+      "userValidated": true,
+      "evidence": [
+        "User project update 2026-10-27",
+        "Se conserva el nombre porque el usuario lo incluyó. No se inventan detalles.",
+        "Confirmado por el usuario el 2026-10-27: desarrollo completo. UNRESOLVED: propósito, tipo de aplicación y tecnologías."
+      ],
+      "sourceRefs": [
+        "src_user_project_update_2026_10_27"
+      ],
+      "isEmployment": false,
+      "relevantForRoles": [],
+      "relevantWhenVacancyNeeds": []
+    },
+    {
+      "id": "project_grainchain_safra",
+      "name": "Safra Bank",
+      "type": "web-application",
+      "description": "Desarrollo completo de Safra Bank en Grainchain. Alcance y stack sin detallar. El 35% de renderizado no se atribuye a este proyecto.",
+      "domain": [
+        "financial_technology"
+      ],
+      "platforms": [
+        "Web"
+      ],
+      "features": [],
+      "technologies": [],
+      "scale": null,
+      "status": "claimed",
+      "evidenceLevel": "claimed",
+      "sourceCount": 1,
+      "userValidated": true,
+      "evidence": [
+        "User project update 2026-10-27",
+        "UNRESOLVED: alcance de Safra Bank.",
+        "UNRESOLVED: si la métrica de 35% pertenece a este proyecto. Hoy projectId de metric_exp_grainchain_0 es null.",
+        "Confirmado por el usuario el 2026-10-27: desarrollo completo. El 35% sigue solo en Grainchain."
+      ],
+      "sourceRefs": [
+        "src_user_project_update_2026_10_27"
+      ],
+      "isEmployment": false,
+      "relevantForRoles": [],
+      "relevantWhenVacancyNeeds": []
+    },
+    {
+      "id": "project_blackeagle",
+      "name": "Blackeagle",
+      "type": "administrative-banking-platform",
+      "description": "Desarrollo completo de la plataforma bancaria administrativa: usuarios, tarjetas, datos y transacciones. Next.js 15, NestJS, Python y reconocimiento facial.",
+      "domain": [
+        "financial_technology"
+      ],
+      "platforms": [
+        "Web"
+      ],
+      "features": [
+        "Gestión de usuarios, tarjetas, datos financieros y transacciones",
+        "Desarrollo completo de la plataforma",
+        "Servicio de reconocimiento facial como parte del sistema"
+      ],
+      "technologies": [
+        "Next.js 15",
+        "NestJS",
+        "Python",
+        "reconocimiento facial"
+      ],
+      "scale": null,
+      "status": "claimed",
+      "evidenceLevel": "claimed",
+      "sourceCount": 1,
+      "userValidated": true,
+      "evidence": [
+        "User project update 2026-10-27",
+        "UNRESOLVED: base de datos, autenticación, pruebas y fechas.",
+        "UNRESOLVED: si Blackeagle pertenece a Hoppi / Get Together. No se atribuye empresa hasta confirmarlo.",
+        "Confirmado por el usuario el 2026-10-27: desarrollo completo."
+      ],
+      "sourceRefs": [
+        "src_user_project_update_2026_10_27"
+      ],
+      "isEmployment": false,
+      "relevantForRoles": [
+        "Senior Frontend Developer",
+        "Senior Full Stack Engineer"
+      ],
+      "relevantWhenVacancyNeeds": [
+        "Next.js",
+        "NestJS",
+        "Python"
+      ]
     }
   ],
   "education": [
@@ -2978,8 +3368,18 @@
         "Lumston",
         "Monkey Cave"
       ],
-      "priorityProjects": [],
-      "priorityProjectLabels": [],
+      "priorityProjects": [
+        "project_volaris_manifest",
+        "project_tecnologico_monterrey",
+        "project_drizline_dona_tota",
+        "project_bakertilly_legal_chatbot"
+      ],
+      "priorityProjectLabels": [
+        "Volaris Manifest",
+        "Tecnológico de Monterrey",
+        "Drizline",
+        "Baker Tilly Legal Chatbot"
+      ],
       "secondarySkills": [
         "React",
         "Next.js",
@@ -2990,7 +3390,10 @@
       "sellingPoints": [
         "Dashboards financieros Angular + NgRx",
         "Performance de tablas y virtualización (~35% claimed)",
-        "i18n, Signals, RxJS"
+        "i18n, Signals, RxJS",
+        "Formularios, validación y PDF con pdfmake en Volaris Manifest (Angular 16)",
+        "Angular 16, guards, interceptores y Redux en Tecnológico de Monterrey",
+        "Entrenamiento del chatbot de Baker Tilly con SageMaker y buckets de S3"
       ],
       "avoidUnlessRelevant": [
         "PHP",
@@ -3046,12 +3449,24 @@
         "Monkey Cave"
       ],
       "priorityProjects": [
+        "project_volaris_manifest",
+        "project_tecnologico_monterrey",
+        "project_drizline_dona_tota",
+        "project_bakertilly_legal_chatbot",
         "project_uffpay",
-        "project_sortalia"
+        "project_sortalia",
+        "project_blackeagle",
+        "project_healthcare_ai_video"
       ],
       "priorityProjectLabels": [
+        "Volaris Manifest",
+        "Tecnológico de Monterrey",
+        "Drizline",
+        "Baker Tilly Legal Chatbot",
         "UffPay",
-        "SORTALIA"
+        "SORTALIA",
+        "Blackeagle",
+        "AI Video Creation and Editing Platform"
       ],
       "secondarySkills": [
         "React Native",
@@ -3062,7 +3477,9 @@
       "sellingPoints": [
         "Angular + React/Next.js en producción",
         "Performance y SSR",
-        "Stripe y fintech"
+        "Stripe y fintech",
+        "Formularios, validación, APIs y PDF con pdfmake en Volaris Manifest (Angular 16)",
+        "Drizline en Angular 18: Redux, Tailwind CSS y login de Microsoft"
       ],
       "avoidUnlessRelevant": [
         "PHP",
@@ -3192,14 +3609,22 @@
         "Monkey Cave"
       ],
       "priorityProjects": [
+        "project_tecnologico_monterrey",
+        "project_drizline_dona_tota",
         "project_uffpay",
         "project_sortalia",
-        "project_fatimas_bakery"
+        "project_fatimas_bakery",
+        "project_blackeagle",
+        "project_bakertilly_legal_chatbot"
       ],
       "priorityProjectLabels": [
+        "Tecnológico de Monterrey",
+        "Drizline",
         "UffPay",
         "SORTALIA",
-        "Fatima's Bakery"
+        "Fatima's Bakery",
+        "Blackeagle",
+        "Baker Tilly Legal Chatbot"
       ],
       "secondarySkills": [
         "MongoDB",
@@ -3211,7 +3636,9 @@
         "De UI a API y AWS",
         "AdonisJS + React Native en UffPay",
         "NestJS/PostgreSQL/Prisma en SORTALIA",
-        "Soporte y performance listados en CV Full Stack"
+        "Soporte y performance listados en CV Full Stack",
+        "Frontend y backend con NestJS y AWS Lambda en Tecnológico de Monterrey y Drizline",
+        "Entrenamiento del chatbot de Baker Tilly con SageMaker y buckets de S3"
       ],
       "avoidUnlessRelevant": [
         "Ionic",
@@ -3618,7 +4045,16 @@
     "note": "No se calcula automáticamente mientras existan conflictos de fechas laborales."
   },
   "userValidation": {
-    "pending": [],
+    "pending": [
+      "Confirmar base de datos y servicios AWS además de Lambda en Tecnológico de Monterrey.",
+      "Fechas laborales no modificadas: UffPay en el perfil es 2026-04–actual y el recordatorio de esta actualización dice 2024-01–2024-07.",
+      "Fechas laborales no modificadas: Monkey Cave en el perfil es 2022-01–2023-05 y userValidation.resolved dice 2020-01–2023-01.",
+      "Baker Tilly: falta el nombre del modelo. El entrenamiento confirmado es SageMaker y buckets de S3.",
+      "Plataforma de video: falta el nombre oficial, el cliente y el proveedor de generación. La contribución ya es desarrollo completo.",
+      "Altos Aceros: la contribución es desarrollo completo. Faltan propósito, tipo de aplicación y tecnologías.",
+      "Safra Bank: la contribución es desarrollo completo. Faltan alcance y stack. El 35% no se atribuye a este proyecto.",
+      "Blackeagle: la contribución es desarrollo completo. Falta confirmar si la empresa es Hoppi / Get Together."
+    ],
     "resolved": [
       {
         "field": "profile.contact.email",
@@ -4015,7 +4451,7 @@
         "source": "user"
       }
     ],
-    "lastUpdated": "2026-10-05"
+    "lastUpdated": "2026-10-27"
   },
   "jobMatching": {
     "enabled": true,
@@ -4196,6 +4632,15 @@
       "scope": [
         "projects",
         "skills"
+      ]
+    },
+    {
+      "id": "src_user_project_update_2026_10_27",
+      "name": "User project profile update 2026-10-27",
+      "type": "user-update",
+      "language": "en",
+      "scope": [
+        "projects"
       ]
     }
   ]

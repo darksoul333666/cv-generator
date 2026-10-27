@@ -19,7 +19,9 @@ from ..locale_util import (
     format_period,
     language_lines,
     localize_cv_wording,
+    localize_skill_label,
     polish_experience_title,
+    prose_matches_locale,
 )
 from ..matcher import pick_best_cv
 from ..models import CvDocument, ExperienceItem
@@ -343,10 +345,6 @@ _NOTE_RE = re.compile(
     r"\s*\([^)]*(?:cv hist[oó]rico|knowledge_base|seg[uú]n)[^)]*\)",
     re.IGNORECASE,
 )
-_SPANISH_FACT_RE = re.compile(
-    r"[áéíóúñ]|\b(de|del|con|para|mediante|desarrollo|diseño|gesti[oó]n|app)\b",
-    re.IGNORECASE,
-)
 
 
 def _clean_fact(text: str) -> str:
@@ -397,10 +395,7 @@ def _focus_line(source: dict, role: str, locale: str) -> str:
 
 
 def _usable_facts(source: dict, locale: str) -> list[str]:
-    facts = _fact_sentences(source)
-    if locale == "en":
-        return [fact for fact in facts if not _SPANISH_FACT_RE.search(fact)]
-    return facts
+    return [fact for fact in _fact_sentences(source) if prose_matches_locale(fact, locale)]
 
 
 def _real_bullets(source: dict, role: str, locale: str, limit: int) -> list[str]:
@@ -440,7 +435,7 @@ def _bullets_for_job(
         key = _norm(cleaned)
         if not cleaned or not key or key in seen:
             return
-        if from_master and locale == "en" and _SPANISH_FACT_RE.search(cleaned):
+        if not prose_matches_locale(cleaned, locale):
             return
         seen.add(key)
         chosen.append(cleaned)
@@ -467,6 +462,19 @@ def _contact(master: dict) -> dict[str, str]:
         "linkedin": str(contact.get("linkedin") or ""),
         "location": str(contact.get("location") or ""),
     }
+
+
+def _stack_for_locale(stack, locale: str):
+    """Quita del bloque de skills las frases que no están en el idioma de la vacante."""
+    fields: dict[str, str] = {}
+    for name in type(stack).model_fields:
+        parts: list[str] = []
+        for piece in str(getattr(stack, name) or "").split(","):
+            label = localize_skill_label(piece.strip(), locale)
+            if label and prose_matches_locale(label, locale):
+                parts.append(label)
+        fields[name] = ", ".join(parts)
+    return stack.model_copy(update=fields)
 
 
 def _ollama_result_to_cv(
@@ -574,16 +582,32 @@ def _ollama_result_to_cv(
         str(data.get("target_role") or base.title or "").strip(),
         locale,
     )
+    if not prose_matches_locale(title, locale):
+        title = base.title if prose_matches_locale(base.title, locale) else (
+            "Software Developer" if locale == "en" else "Desarrollador de software"
+        )
     summary = localize_cv_wording(
         str(data.get("summary") or "").strip(),
         locale,
     )
-    stack = build_stack_from_master(master, vacancy_text, overlay=overlay)
-    keywords = vacancy_skill_keywords(
-        master,
-        vacancy_text,
-        overlay,
-    ) or base.keywords
+    if not prose_matches_locale(summary, locale):
+        role = title or ("Software Developer" if locale == "en" else "Desarrollador de software")
+        summary = (
+            f"{role} with experience in web, mobile, and API products, aligned to this role."
+            if locale == "en"
+            else f"{role} con experiencia en productos web, móviles y APIs, alineada a esta vacante."
+        )
+    stack = _stack_for_locale(
+        build_stack_from_master(master, vacancy_text, overlay=overlay),
+        locale,
+    )
+    keywords = [
+        item
+        for item in (
+            vacancy_skill_keywords(master, vacancy_text, overlay) or base.keywords
+        )
+        if prose_matches_locale(str(item), locale)
+    ]
 
     return CvDocument(
         id=base.id,

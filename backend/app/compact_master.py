@@ -191,7 +191,12 @@ def build_ollama_profile(raw: dict) -> dict:
         if item.get("type") == "personal-product" or item.get("isEmployment") is False:
             if item.get("type") == "personal-product":
                 personal_products.append(name)
-        if not _safe_fact(item) and str(item.get("status") or "") == "mentioned":
+        status = str(item.get("status") or "")
+        if status == "incomplete":
+            # Kept in the master profile, withheld from CV generation until
+            # personal contribution or missing facts are confirmed.
+            continue
+        if not _safe_fact(item) and status == "mentioned":
             # mentioned historical projects stay, labeled as such
             pass
         projects_out.append(

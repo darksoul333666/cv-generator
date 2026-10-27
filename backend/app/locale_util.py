@@ -359,3 +359,47 @@ def localize_cv_wording(text: str, locale: Locale) -> str:
     if locale == "es":
         return polish_spanish_wording(text)
     return text
+
+
+# Prosa, no nombres de tecnologías. «Angular», «React Native» y «NestJS» valen en ambos idiomas.
+_SPANISH_PROSE_RE = re.compile(
+    r"[áéíóúñ¿¡]|"
+    r"\b(del|para|mediante|con|una|unos|unas|los|las|años|anos|"
+    r"desarrollo|diseño|diseno|gesti[oó]n|aplicaci[oó]n|desarrollador|"
+    r"desarroll[eé]|implement[eé]|experiencia|resumen|responsabilidades)\b",
+    re.IGNORECASE,
+)
+_ENGLISH_PROSE_RE = re.compile(
+    r"\b(the|with|and|for|from|this|that|these|those|shipped|built|developed|"
+    r"using|reduced|improved|through|including|across|experience|features|"
+    r"production|responsibilities)\b",
+    re.IGNORECASE,
+)
+
+_SKILL_PHRASES_EN = {
+    "virtualización de tablas": "Table virtualization",
+    "virtualizacion de tablas": "Table virtualization",
+}
+
+
+def prose_matches_locale(text: str, locale: Locale) -> bool:
+    """False cuando una frase está en el otro idioma o mezcla los dos."""
+    raw = (text or "").strip()
+    if not raw:
+        return True
+    spanish = bool(_SPANISH_PROSE_RE.search(raw))
+    english = bool(_ENGLISH_PROSE_RE.search(raw))
+    if spanish and english:
+        return False
+    if locale == "en":
+        return not spanish
+    if locale == "es":
+        return not english
+    return True
+
+
+def localize_skill_label(name: str, locale: Locale) -> str:
+    key = " ".join(name.lower().split())
+    if locale == "en":
+        return _SKILL_PHRASES_EN.get(key, name)
+    return name

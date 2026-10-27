@@ -156,3 +156,41 @@ def test_school_awards_drop_and_programming_olympiad_stays():
     assert "children" not in blob
     assert "high school" not in blob
 
+
+def test_english_vacancy_drops_spanish_prose():
+    data = {
+        "target_role": "Desarrollador React Native Senior",
+        "summary": "Desarrollador con experiencia en aplicaciones móviles y APIs.",
+        "experience": [
+            {
+                "company": "UffPay",
+                "position": "React Native Developer",
+                "bullets": ["Desarrollé la app de pagos con React Native para iOS y Android."],
+            }
+        ],
+    }
+    cv = _ollama_result_to_cv(data, _base(), _master(), "en", VACANCY)
+    blob = " ".join([cv.title, cv.summary, *cv.experience[0].bullets])
+    assert "Desarroll" not in blob
+    assert "con experiencia" not in blob.lower()
+    assert "React Native" in cv.experience[0].bullets[0]
+
+
+def test_spanish_vacancy_drops_english_prose():
+    data = {
+        "target_role": "Senior React Native Developer",
+        "summary": "Senior developer with experience shipping iOS and Android apps.",
+        "experience": [
+            {
+                "company": "UffPay",
+                "position": "React Native Developer",
+                "bullets": ["Built a React Native payments app for iOS and Android."],
+            }
+        ],
+    }
+    cv = _ollama_result_to_cv(data, _base(), _master(), "es", VACANCY)
+    blob = " ".join([cv.summary, *cv.experience[0].bullets]).lower()
+    assert " with " not in f" {blob} "
+    assert "built " not in blob
+    assert "pagos" in blob or "react native" in blob
+
