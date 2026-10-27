@@ -43,12 +43,14 @@ export type CVData = {
   email: string;
   phone: string;
   linkedin: string;
+  location?: string;
   summary: string;
   experience: Experience[];
   stack: CVStack;
   tech_skills: TechSkills;
   education: string;
-  certifications: string[];
+  certifications: string;
+  languages?: string[];
   locale?: "en" | "es";
 };
 

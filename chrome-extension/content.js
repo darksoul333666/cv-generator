@@ -59,21 +59,49 @@
     return Promise.reject(new Error("clipboard"));
   }
 
+  function vacancySubstance(text) {
+    return String(text || "")
+      .split("\n")
+      .map((line) => line.trim())
+      .filter((line) => line && !/^(url|empresa|company)\s*:/i.test(line))
+      .join("\n")
+      .trim();
+  }
+
+  function isSearchHeadingOnly(text) {
+    const body = vacancySubstance(text);
+    const first = (body.split("\n").find((line) => line.trim()) || "").trim();
+    if (!first) return true;
+    if (/^(empleos de|empleos en|jobs? (of|for|in)|encuentra nuevas ofertas de)\b/i.test(first)) {
+      return body.split("\n").filter(Boolean).length < 4;
+    }
+    return false;
+  }
+
   async function readVacancy() {
     const api = window.__cvGen;
     if (!api) return { ok: false, message: "Extractor no cargado", text: "" };
-    api.clickExpanders(api.descriptionRoot(document));
-    await new Promise((r) => setTimeout(r, 180));
-    let text = api.extractVacancy(document, location);
     const site = api.siteFromHost(location.hostname);
-    if ((site === "linkedin" || site === "occ") && text.length < 400) {
-      await new Promise((r) => setTimeout(r, 700));
+    const attempts = site === "linkedin" ? 3 : 1;
+    let text = "";
+    for (let i = 0; i < attempts; i += 1) {
       api.clickExpanders(api.descriptionRoot(document));
-      await new Promise((r) => setTimeout(r, 200));
+      await new Promise((r) => setTimeout(r, i === 0 ? 180 : 700));
       text = api.extractVacancy(document, location);
+      const thin =
+        vacancySubstance(text).length < 400 || isSearchHeadingOnly(text);
+      if (site !== "linkedin" && site !== "occ") break;
+      if (!thin) break;
     }
-    if (!text || text.length < 60) {
-      return { ok: false, message: "No se encontró la vacante", text: "" };
+    if (!text || vacancySubstance(text).length < 60 || isSearchHeadingOnly(text)) {
+      return {
+        ok: false,
+        message:
+          site === "linkedin"
+            ? "No se cargó la descripción. Abre la vacante en el panel y espera un momento."
+            : "No se encontró la vacante",
+        text: "",
+      };
     }
     return { ok: true, message: "Vacante lista", text };
   }

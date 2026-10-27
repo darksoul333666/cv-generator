@@ -97,6 +97,88 @@ def normalize_vacancy_url(url: Optional[str]) -> Optional[str]:
     return raw
 
 
+_INDEED_DESC_RE = re.compile(
+    r"descripci[oó]n completa del empleo|full job description",
+    re.IGNORECASE,
+)
+_INDEED_STOP_RE = re.compile(
+    r"post[uú]late r[aá]pidamente|"
+    r"clasificar por\s*:|"
+    r"otros candidatos tambi[eé]n buscaron|"
+    r"people also searched|"
+    r"quiero recibir las [uú]ltimas ofertas|"
+    r"^empleos de\b",
+    re.IGNORECASE,
+)
+
+
+def _looks_like_indeed_serp(text: str) -> bool:
+    low = text.lower()
+    apply_hits = len(re.findall(r"post[uú]late r[aá]pidamente", low))
+    return (
+        apply_hits >= 2
+        or "clasificar por" in low
+        or "otros candidatos también buscaron" in low
+        or "otros candidatos tambien buscaron" in low
+        or "quiero recibir las últimas ofertas" in low
+        or "quiero recibir las ultimas ofertas" in low
+        or "people also searched" in low
+    )
+
+
+def strip_indeed_search_chrome(text: str) -> str:
+    """Quita el listado de Indeed (otras vacantes, alertas y búsquedas relacionadas)."""
+    raw = text or ""
+    if not raw or not _looks_like_indeed_serp(raw):
+        return raw
+    matches = list(_INDEED_DESC_RE.finditer(raw))
+    if not matches:
+        kept = [ln for ln in raw.splitlines() if not _INDEED_STOP_RE.search(ln.strip())]
+        return re.sub(r"\n{3,}", "\n\n", "\n".join(kept)).strip()
+
+    marker = matches[-1]
+    header: list[str] = []
+    for line in reversed(raw[: marker.start()].splitlines()):
+        stripped = line.strip()
+        if not stripped:
+            if header:
+                break
+            continue
+        if _INDEED_STOP_RE.search(stripped):
+            break
+        if re.search(r"postularse ahora|post[uú]late", stripped, re.IGNORECASE):
+            continue
+        if re.match(r"^(detalles del empleo|job details)$", stripped, re.IGNORECASE):
+            continue
+        if stripped.count(",") >= 2 and "$" not in stripped:
+            continue
+        header.append(line)
+        if len(header) >= 8:
+            break
+    header.reverse()
+    body = raw[marker.end() :].strip()
+    joined = "\n".join([*header, body]).strip()
+    return re.sub(r"\n{3,}", "\n\n", joined).strip()
+
+
+def looks_like_search_heading(text: str) -> bool:
+    """True cuando el texto es el título del listado (Empleos de «react») y no la vacante."""
+    lines = [
+        line.strip()
+        for line in (text or "").splitlines()
+        if line.strip() and not re.match(r"^(url|empresa|company)\s*:", line.strip(), re.IGNORECASE)
+    ]
+    if not lines:
+        return False
+    if not re.match(
+        r"^(empleos de|empleos en|jobs? (of|for|in)|encuentra nuevas ofertas de)\b",
+        lines[0],
+        re.IGNORECASE,
+    ):
+        return False
+    return len(lines) < 4
+
+
 def strip_linkedin_search_chrome(text: str) -> str:
     if not text:
         return ""
@@ -155,7 +237,9 @@ def parse_pasted_vacancy(text: str) -> dict[str, Optional[str]]:
                 url = normalize_vacancy_url(candidate)
             continue
         kept.append(raw)
-    body = strip_linkedin_search_chrome(strip_benefits_and_about("\n".join(kept)))
+    body = strip_indeed_search_chrome(
+        strip_linkedin_search_chrome(strip_benefits_and_about("\n".join(kept)))
+    )
     return {"text": body, "company": company, "url": url}
 
 

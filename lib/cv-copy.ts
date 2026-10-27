@@ -8,6 +8,7 @@ export type CvCopy = {
   skills: string;
   education: string;
   certifications: string;
+  languages: string;
   frontend: string;
   styling: string;
   backend: string;
@@ -26,6 +27,7 @@ const COPY: Record<CvLocale, CvCopy> = {
     skills: "TECHNICAL SKILLS",
     education: "EDUCATION",
     certifications: "CERTIFICATIONS & ACHIEVEMENTS",
+    languages: "LANGUAGES",
     frontend: "Frontend",
     styling: "Styling",
     backend: "Backend & APIs",
@@ -42,6 +44,7 @@ const COPY: Record<CvLocale, CvCopy> = {
     skills: "HABILIDADES TÉCNICAS",
     education: "FORMACIÓN ACADÉMICA",
     certifications: "CERTIFICACIONES Y LOGROS",
+    languages: "IDIOMAS",
     frontend: "Frontend",
     styling: "Styling",
     backend: "Backend y APIs",

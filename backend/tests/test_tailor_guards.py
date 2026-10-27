@@ -19,7 +19,8 @@ def _base() -> CvDocument:
 def _master() -> dict:
     return {
         "name": "Jairo Antonio",
-        "contact": {"email": "a@b.c", "phone": "1", "linkedin": "in/jairo"},
+        "contact": {"email": "a@b.c", "phone": "1", "linkedin": "in/jairo", "location": "Mexico"},
+        "languages": [{"language": "English", "level": "B2"}],
         "allowed_companies": ["UffPay", "Grainchain Inc", "Lumston", "Old Shop"],
         "experience": [
             {
@@ -100,6 +101,8 @@ def test_experience_stays_recent_first_and_keeps_omitted_jobs():
     cv = _ollama_result_to_cv(data, _base(), _master(), "en", VACANCY)
     assert [job.company for job in cv.experience] == ["UffPay", "Grainchain Inc", "Lumston"]
     assert cv.experience[0].role == "React Native Developer"
+    assert cv.location == "Mexico"
+    assert cv.languages == ["English — B2"]
     assert cv.experience[0].bullets == ["Built a React Native payments app for iOS and Android."]
     grain = cv.experience[1]
     assert grain.bullets == ["Shipped production features with Angular and NgRx (35%)."]
@@ -116,11 +119,11 @@ def test_off_target_job_uses_the_real_work():
         "achievements": [],
     }
     bullets = _bullets_for_job(source, [], "Senior React Native Developer", "Ionic Developer", "es")
-    assert len(bullets) == 1
-    assert "Trabajo en producción" not in bullets[0]
+    assert len(bullets) >= 2
+    assert all("Trabajo en producción" not in bullet for bullet in bullets)
     assert "HVAC" in bullets[0]
     assert "Ionic" in bullets[0]
-    assert "inventario" in bullets[0].lower()
+    assert any("inventario" in bullet.lower() for bullet in bullets)
 
 
 def test_skills_follow_the_vacancy_stack():

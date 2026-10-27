@@ -60,7 +60,7 @@ function bullet(text: string): Paragraph {
 export function buildCvDocument(data: CVData): Document {
   const locale = cvLocale(data);
   const copy = cvCopy(locale);
-  const contact = [data.email, data.phone, data.linkedin]
+  const contact = [data.email, data.phone, data.linkedin, data.location ?? ""]
     .map((x) => x.trim())
     .filter(Boolean)
     .join("  |  ");
@@ -136,6 +136,16 @@ export function buildCvDocument(data: CVData): Document {
       children: [run(data.education, { size: 19 })],
     }),
   );
+  const languages = (data.languages ?? []).map((item) => item.trim()).filter(Boolean);
+  if (languages.length) {
+    children.push(sectionTitle(copy.languages));
+    children.push(
+      new Paragraph({
+        spacing: { after: 160 },
+        children: [run(languages.join("  |  "), { size: 19 })],
+      }),
+    );
+  }
   children.push(sectionTitle(copy.certifications));
   for (const cert of data.certifications) {
     children.push(bullet(cert));

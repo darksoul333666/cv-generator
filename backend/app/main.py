@@ -59,6 +59,7 @@ from .vacancy_pipeline import (
     run_match_for_blob,
 )
 from .compact_master import export_ollama_profile, load_ollama_profile
+from .locale_util import language_lines
 from .career_kb import (
     ExperienceEditItem,
     ExperienceEditsIn,
@@ -297,12 +298,35 @@ def put_master_profile_patch(body: MasterProfilePatchIn) -> dict:
         return raw
 
 
+def _with_profile_location(cv: Optional[CvDocument]) -> Optional[CvDocument]:
+    """Los CVs ya guardados no traían ubicación ni idiomas. Se completan con el perfil maestro."""
+    if cv is None:
+        return cv
+    updates: dict = {}
+    try:
+        master = load_ollama_profile()
+    except Exception:
+        return cv
+    if not (cv.location or "").strip():
+        contact = master.get("contact") or {}
+        location = str(contact.get("location") or "").strip()
+        if location and not location.lower().startswith("omitido"):
+            updates["location"] = location
+    if not cv.languages:
+        lines = language_lines(master, cv.locale or "es")
+        if lines:
+            updates["languages"] = lines
+    if not updates:
+        return cv
+    return cv.model_copy(update=updates)
+
+
 def _tailor_from_history(item_id: str) -> TailorResponse:
     record = get_generated_cv(item_id)
     if record is None:
         raise HTTPException(status_code=500, detail="El CV se generó pero no quedó en el historial.")
     return TailorResponse(
-        cv=record.cv,
+        cv=_with_profile_location(record.cv),
         match_percent=record.match_percent,
         reason=record.reason,
         saved_id=record.id,
@@ -452,7 +476,7 @@ async def get_cv_history_item(item_id: str) -> HistoryDetailOut:
             created_at=record.created_at,
             match_percent=record.match_percent,
             reason=record.reason,
-            cv=record.cv,
+            cv=_with_profile_location(record.cv),
             cv_name=record.cv_name or "",
             company_name=record.company_name or "",
             vacancy_url=record.vacancy_url,
@@ -490,7 +514,7 @@ async def rename_cv_history_item(item_id: str, body: HistoryRenameIn) -> History
         created_at=record.created_at,
         match_percent=record.match_percent,
         reason=record.reason,
-        cv=record.cv,
+        cv=_with_profile_location(record.cv),
         cv_name=record.cv_name or "",
         company_name=record.company_name or "",
         vacancy_url=record.vacancy_url,

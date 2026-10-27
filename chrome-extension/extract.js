@@ -68,6 +68,13 @@
     return normalizeBlock(clone.innerText || clone.textContent || "");
   }
 
+  function isLinkedinSearchTitle(text) {
+    const t = cleanLine(text).replace(/^["«]|["»]$/g, "");
+    return /^(empleos de|empleos en|jobs? (of|for|in)|job search|búsqueda de empleo)\b/i.test(
+      t,
+    );
+  }
+
   function linkedinAboutJob(doc) {
     return (
       (doc && doc.querySelector('[id^="JobDetails_AboutTheJob_"]')) ||
@@ -75,12 +82,51 @@
     );
   }
 
+  function linkedinDetailRoot(doc) {
+    if (!doc) return null;
+    return (
+      linkedinAboutJob(doc) ||
+      doc.querySelector(".jobs-search__job-details--container") ||
+      doc.querySelector(".jobs-search__job-details") ||
+      doc.querySelector(".scaffold-layout__detail") ||
+      doc.querySelector(".jobs-details__main-content") ||
+      doc.querySelector(".jobs-details") ||
+      doc.querySelector(".job-view-layout") ||
+      doc.querySelector('[data-view-name="job-detail"]') ||
+      null
+    );
+  }
+
+  function linkedinSelectedCard(doc) {
+    if (!doc) return null;
+    return (
+      doc.querySelector(".job-card-container--selected") ||
+      doc.querySelector(".jobs-search-results__list-item--active") ||
+      doc.querySelector(".scaffold-layout__list-item--active") ||
+      (doc.querySelector('a[href*="/jobs/view/"][aria-current="page"]') &&
+        doc
+          .querySelector('a[href*="/jobs/view/"][aria-current="page"]')
+          .closest("li, .job-card-container, .scaffold-layout__list-item")) ||
+      null
+    );
+  }
+
+  function indeedPane(doc) {
+    if (!doc) return null;
+    return (
+      doc.querySelector("#jobsearch-ViewjobPaneWrapper") ||
+      doc.querySelector('[data-testid="viewjob-main-content"]') ||
+      doc.querySelector(".jobsearch-JobComponent") ||
+      doc.querySelector(".jobsearch-ViewJobLayout--embedded") ||
+      null
+    );
+  }
+
   function descriptionRoot(doc) {
     const documentRef = doc || document;
     return (
-      linkedinAboutJob(documentRef) ||
-      documentRef.querySelector("#jobsearch-ViewjobPaneWrapper") ||
-      documentRef.querySelector(".jobsearch-JobComponent") ||
+      linkedinDetailRoot(documentRef) ||
+      indeedPane(documentRef) ||
       documentRef.querySelector(".jobs-description") ||
       documentRef.querySelector(".jobs-details") ||
       documentRef.querySelector("#job-details") ||
@@ -224,48 +270,105 @@
     return href.split("#")[0] || "";
   }
 
-  function extractIndeed(doc) {
-    const pane =
-      doc.querySelector("#jobsearch-ViewjobPaneWrapper") ||
-      doc.querySelector(".jobsearch-JobComponent") ||
-      doc.querySelector(".jobsearch-ViewJobLayout--embedded") ||
-      doc;
+  function indeedMeaningfulLines(text) {
+    return uniqueLines(String(text || "").split("\n")).filter((line) => {
+      if (line === "-" || line === "·" || line === "•" || line.length < 2) return false;
+      if (/^\d+(?:[.,]\d+)?$/.test(line)) return false;
+      return true;
+    });
+  }
 
+  function indeedLocation(pane) {
+    const meta = pane.querySelector('[data-testid="company-info-metadata"]');
+    if (meta) {
+      const lines = indeedMeaningfulLines(meta.innerText || meta.textContent || "");
+      if (lines.length) return lines[lines.length - 1];
+    }
+    return firstText(pane, [
+      '[data-testid="inlineHeader-companyLocation"]',
+      '[data-testid="job-location"]',
+      '[data-testid="jobsearch-JobInfoHeader-companyLocation"]',
+    ]);
+  }
+
+  function indeedFacts(pane) {
+    const box =
+      pane.querySelector('[data-testid="structured-job-summary"]') ||
+      pane.querySelector("#salaryInfoAndJobType") ||
+      pane.querySelector('[data-testid="jobsearch-OtherJobDetailsContainer"]');
+    if (!box) return [];
+    return indeedMeaningfulLines(box.innerText || box.textContent || "").filter((line) => {
+      if (/^(detalles del empleo|job details)$/i.test(line)) return false;
+      if (/^de\s+/i.test(line)) return false;
+      if ((line.match(/,/g) || []).length >= 2 && !line.includes("$")) return false;
+      return true;
+    });
+  }
+
+  function stripIndeedSerp(text) {
+    const raw = String(text || "");
+    const low = raw.toLowerCase();
+    const hits = (low.match(/post[uú]late r[aá]pidamente/g) || []).length;
+    const serp =
+      hits >= 2 ||
+      low.includes("clasificar por") ||
+      low.includes("otros candidatos tambi") ||
+      low.includes("quiero recibir las ");
+    if (!serp) return raw.trim();
+    const marker = /descripci[oó]n completa del empleo|full job description/gi;
+    let end = -1;
+    let match;
+    while ((match = marker.exec(raw))) end = match.index + match[0].length;
+    if (end >= 0) return raw.slice(end).trim();
+    return raw
+      .split("\n")
+      .filter((line) => !/post[uú]late r[aá]pidamente|clasificar por|otros candidatos|quiero recibir las /i.test(line))
+      .join("\n")
+      .trim();
+  }
+
+  function indeedDescription(pane, doc) {
+    const heading = pane.querySelector('[data-testid="vj-job-description-heading"]');
+    const block = heading && heading.parentElement;
+    let text = "";
+    if (block) {
+      text = elementToText(block);
+    } else {
+      const descEl =
+        pane.querySelector("#jobDescriptionText") ||
+        pane.querySelector(".jobsearch-JobComponent-description") ||
+        pane.querySelector('[data-testid="viewjob-job-content"]') ||
+        (doc && doc.querySelector("#jobDescriptionText"));
+      text = elementToText(descEl);
+    }
+    return String(text || "")
+      .replace(/^(descripci[oó]n completa del empleo|full job description)\s*/i, "")
+      .trim();
+  }
+
+  function extractIndeed(doc) {
+    const pane = indeedPane(doc) || doc;
+    const scoped = pane !== doc;
     const title = firstText(pane, [
+      '[data-testid="vj-job-title"]',
       '[data-testid="jobsearch-JobInfoHeader-title"]',
       ".jobsearch-JobInfoHeader-title",
       "h1.jobsearch-JobInfoHeader-title",
-      "h1",
     ]);
-    const company = firstText(pane, [
+    const companySelectors = [
+      '[data-testid="inlineHeader-companyName"] a',
       '[data-testid="inlineHeader-companyName"]',
       '[data-company-name="true"]',
-      '[data-testid="inlineHeader-companyName"] a',
-    ]);
-    const location = firstText(pane, [
-      '[data-testid="inlineHeader-companyLocation"]',
-      '[data-testid="job-location"]',
-    ]);
-
-    const other = pane.querySelector(
-      '[data-testid="jobsearch-OtherJobDetailsContainer"]'
+      '[data-testid="company-info-metadata"] a',
+      '[data-testid="desktop-job-header"] a',
+    ];
+    if (scoped) companySelectors.push('[data-testid="company-name"]');
+    const company = firstText(pane, companySelectors);
+    const location = indeedLocation(pane);
+    const extra = indeedFacts(pane).filter(
+      (line) => line.toLowerCase() !== location.toLowerCase(),
     );
-    const salaryBox = pane.querySelector("#salaryInfoAndJobType");
-    const extra = uniqueLines(
-      ((other || salaryBox)?.innerText || "").split("\n")
-    ).filter(
-      (line) =>
-        line !== "-" &&
-        line.length > 1 &&
-        !/\$|sueldo|salary|por mes|al mes|per month|a year/i.test(line)
-    );
-
-    const descEl =
-      pane.querySelector("#jobDescriptionText") ||
-      pane.querySelector(".jobsearch-JobComponent-description") ||
-      doc.querySelector("#jobDescriptionText");
-    const description = elementToText(descEl);
-
+    const description = stripIndeedSerp(indeedDescription(pane, doc));
     return { title, company, location, extra, description };
   }
 
@@ -339,52 +442,214 @@
     );
   }
 
-  function extractLinkedin(doc) {
-    const about = linkedinAboutJob(doc);
-    const pane =
-      about ||
-      doc.querySelector(".jobs-details") ||
-      doc.querySelector(".jobs-search__job-details") ||
-      doc.querySelector(".job-view-layout") ||
-      null;
+  const ABOUT_LABEL_RE = /^(acerca del empleo|about the job|about this job)$/i;
+  const ABOUT_STOP_RE =
+    /^(acerca de la empresa|about the company|personas que|m[aá]s empleos|more jobs|criterios de cualificaci[oó]n)$/i;
 
+  function findExactLabel(doc, pattern) {
+    if (!doc) return null;
+    const nodes = doc.querySelectorAll("h1, h2, h3, h4, span, p, strong, div");
+    let best = null;
+    for (const el of nodes) {
+      if (el.children.length > 3) continue;
+      const text = cleanLine(el.innerText || el.textContent || "");
+      if (!pattern.test(text) || text.length > 40) continue;
+      if (!best || best.contains(el)) best = el;
+    }
+    return best;
+  }
+
+  function textAfterNode(start) {
+    const chunks = [];
+    let node = start;
+    for (let depth = 0; depth < 5 && node; depth += 1) {
+      let sib = node.nextElementSibling;
+      let guard = 0;
+      const found = [];
+      while (sib && guard < 8) {
+        const first = cleanLine((sib.innerText || sib.textContent || "").split("\n")[0] || "");
+        if (ABOUT_STOP_RE.test(first)) break;
+        const text = elementToText(sib);
+        if (text.length > 40 && !/^(reactivar premium|mira una comparaci[oó]n|solicitud sencilla)\b/i.test(text)) {
+          found.push(text);
+        }
+        sib = sib.nextElementSibling;
+        guard += 1;
+      }
+      if (found.join("\n").length > 80) return found.join("\n\n");
+      node = node.parentElement;
+    }
+    return chunks.join("\n\n");
+  }
+
+  function descriptionAfterAboutLabel(doc) {
+    const label = findExactLabel(doc, ABOUT_LABEL_RE);
+    const beside = textAfterNode(label);
+    if (beside.length > 80) return beside;
+    const raw = (doc && (doc.body ? doc.body.innerText : doc.innerText)) || "";
+    const match = /acerca del empleo|about the job|about this job/i.exec(raw);
+    if (!match) return "";
+    let rest = raw.slice(match.index + match[0].length).trim();
+    const cut = rest.search(
+      /\n(?:acerca de la empresa|about the company|personas que tambi[eé]n|m[aá]s empleos de)\b/i,
+    );
+    if (cut > 40) rest = rest.slice(0, cut);
+    return normalizeBlock(rest).slice(0, 12000);
+  }
+
+  function linkedinActiveLink(doc, loc) {
+    const href = (loc && loc.href) || "";
+    const id = queryParam(href, ["currentJobId"]) || linkedinJobId(loc, doc);
+    if (!id || !doc) return null;
+    let best = null;
+    let bestLen = 0;
+    doc.querySelectorAll("a[href]").forEach((anchor) => {
+      const link = anchor.getAttribute("href") || "";
+      if (!link.includes(id)) return;
+      const text = cleanLine(anchor.innerText || anchor.textContent || "");
+      if (!text || isLinkedinSearchTitle(text) || text.length > 140) return;
+      if (/solicitud sencilla|guardar|ver más|see more/i.test(text)) return;
+      if (text.length > bestLen) {
+        best = anchor;
+        bestLen = text.length;
+      }
+    });
+    return best;
+  }
+
+  function cardAround(link) {
+    if (!link) return null;
+    let node = link;
+    let best = link.parentElement;
+    while (node && node.parentElement && node.parentElement.tagName !== "BODY") {
+      const parent = node.parentElement;
+      if (parent.querySelectorAll("a[href*='/jobs/view/']").length > 1) break;
+      node = parent;
+      const len = cleanLine(node.innerText || "").length;
+      if (len >= 20 && len <= 700) best = node;
+      if (len > 700) break;
+    }
+    return best;
+  }
+
+  function linkedinDescriptionEl(doc, pane) {
+    const selectors = [
+      '[id^="JobDetails_AboutTheJob_"]',
+      "#job-details",
+      ".jobs-box__html-content",
+      ".jobs-description-content__text",
+      ".jobs-description__content",
+      ".show-more-less-html__markup",
+      ".description__text",
+    ];
+    const scopes = [];
+    if (pane) scopes.push(pane);
+    if (doc && doc !== pane) scopes.push(doc);
+    for (const scope of scopes) {
+      for (const sel of selectors) {
+        const el = scope.querySelector(sel);
+        if (!el) continue;
+        if (
+          scope === doc &&
+          el.closest(
+            ".jobs-search-results-list, .scaffold-layout__list, .jobs-search-results__list",
+          )
+        ) {
+          continue;
+        }
+        const text = cleanLine(el.innerText || el.textContent || "");
+        if (text.length > 80) return el;
+      }
+    }
+    return null;
+  }
+
+  function extractLinkedin(doc, loc) {
+    const pane = linkedinDetailRoot(doc);
+    const active = linkedinActiveLink(doc, loc);
+    const card = cardAround(active) || linkedinSelectedCard(doc);
     const fromTitle = linkedinTitleCompany(doc);
-    const title =
+    const fromCard = {
+      title: firstText(card, [
+        ".job-card-list__title",
+        ".job-card-container__link",
+        "a[href*='/jobs/view/']",
+      ]),
+      company: firstText(card, [
+        ".artdeco-entity-lockup__subtitle",
+        ".job-card-container__company-name",
+      ]),
+    };
+    let title =
       firstText(pane, [
         ".job-details-jobs-unified-top-card__job-title h1",
         ".job-details-jobs-unified-top-card__job-title",
+        ".jobs-unified-top-card__job-title",
+        "h1.top-card-layout__title",
+        ".top-card-layout__title",
         "h1.t-24",
-        "h1",
-      ]) || fromTitle.title;
-    const companyEl = doc.querySelector(
+      ]) || "";
+    if (isLinkedinSearchTitle(title)) title = "";
+    const activeTitle = cleanLine((active && (active.innerText || active.textContent)) || "");
+    if (!title && activeTitle && !isLinkedinSearchTitle(activeTitle)) title = activeTitle;
+    if (!title && pane) {
+      const heading = firstText(pane, ["h1", "h2"]);
+      if (heading && !isLinkedinSearchTitle(heading)) title = heading;
+    }
+    if (!title && fromCard.title && !isLinkedinSearchTitle(fromCard.title)) {
+      title = fromCard.title;
+    }
+    if (!title && fromTitle.title && !isLinkedinSearchTitle(fromTitle.title)) {
+      title = fromTitle.title;
+    }
+
+    const companyEl = (pane || doc).querySelector(
       '[aria-label^="Empresa,"], [aria-label^="Company,"]',
     );
     const companyAria = cleanLine(
       (companyEl && companyEl.getAttribute("aria-label")) || "",
     );
-    const company =
-      firstText(pane || doc, [
+    let company =
+      firstText(pane, [
         ".job-details-jobs-unified-top-card__company-name a",
         ".job-details-jobs-unified-top-card__company-name",
         ".jobs-unified-top-card__company-name",
+        "a.topcard__org-name-link",
       ]) ||
+      fromCard.company ||
       (companyAria && companyAria.replace(/^(empresa|company)\s*,\s*/i, "")) ||
-      fromTitle.company;
+      (isLinkedinSearchTitle(fromTitle.company) ? "" : fromTitle.company);
+    if (!company && card) {
+      const cardLine = uniqueLines((card.innerText || "").split("\n")).find(
+        (line) =>
+          line !== title &&
+          !isLinkedinSearchTitle(line) &&
+          line.length < 80 &&
+          !/solicitud sencilla|guardar|visto|promocionado|coincidencias de aptitudes/i.test(line),
+      );
+      if (cardLine) company = cardLine;
+    }
     const location = firstText(pane, [
       ".job-details-jobs-unified-top-card__primary-description-container",
+      ".job-details-jobs-unified-top-card__bullet",
       ".jobs-unified-top-card__bullet",
+      ".topcard__flavor--bullet",
       ".jobs-unified-top-card__tertiary-description-container",
     ]);
 
-    const descEl =
-      about ||
-      (pane &&
-        (pane.querySelector("#job-details") ||
-          pane.querySelector(".jobs-description__content") ||
-          pane.querySelector(".jobs-box__html-content") ||
-          pane.querySelector(".jobs-description-content__text") ||
-          pane.querySelector(".jobs-description")));
-    const description = stripLinkedinSearchChrome(elementToText(descEl));
+    const descEl = linkedinDescriptionEl(doc, pane);
+    let description = stripLinkedinSearchChrome(elementToText(descEl));
+    description = description
+      .replace(/^(acerca del empleo|about the job|about this job)\s*/i, "")
+      .trim();
+    if (isLinkedinSearchTitle(description) || description.length < 80) {
+      const fromLabel = descriptionAfterAboutLabel(doc);
+      if (fromLabel.length > description.length) description = fromLabel;
+    }
+    description = description
+      .replace(/^(acerca del empleo|about the job|about this job)\s*/i, "")
+      .trim();
+    if (isLinkedinSearchTitle(description)) description = "";
 
     return { title, company, location, extra: [], description };
   }
@@ -685,9 +950,10 @@
     const locationRef =
       loc || (typeof location !== "undefined" ? location : { hostname: "", href: "" });
     const site = siteFromHost(locationRef.hostname);
+    const indeedPage = site === "indeed" || !!indeedPane(documentRef);
     let rec = null;
-    if (site === "indeed") rec = extractIndeed(documentRef);
-    else if (site === "linkedin") rec = extractLinkedin(documentRef);
+    if (indeedPage) rec = extractIndeed(documentRef);
+    else if (site === "linkedin") rec = extractLinkedin(documentRef, locationRef);
     else if (site === "glassdoor") rec = extractGlassdoor(documentRef);
     else if (site === "computrabajo") rec = extractComputrabajo(documentRef);
     else if (site === "occ") rec = extractOcc(documentRef);
@@ -708,6 +974,7 @@
     } else if (
       site !== "linkedin" &&
       site !== "occ" &&
+      !indeedPage &&
       (!rec || !(rec.description || "").length)
     ) {
       rec = extractGeneric(documentRef) || rec || {

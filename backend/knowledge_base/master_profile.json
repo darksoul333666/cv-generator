@@ -2637,7 +2637,7 @@
     {
       "id": "lang_english",
       "language": "English",
-      "level": "professional proficiency",
+      "level": "B2",
       "status": "user_validated",
       "evidenceLevel": "verified",
       "sourceCount": 2,
@@ -2651,7 +2651,7 @@
         "B1"
       ],
       "originalValues": {
-        "level": "professional proficiency"
+        "level": "B2"
       },
       "sourceRefs": [
         "src_cv_frontend_en",

@@ -35,7 +35,10 @@ def tailor_writing_rules() -> str:
         "experience: most recent job first. Include every employer from the last 6 years. "
         "Omit an employer that ended more than 6 years ago unless that job's technologies match the vacancy.\n"
         "Jobs whose technologies match the vacancy: 3 or 4 bullets, written with the vacancy's words. "
-        "Every other job: exactly 1 bullet that states what was built or led, using a fact from that job. "
+        "Every other job that stays on the CV: 2 or 3 bullets. "
+        "Each bullet is one distinct fact from that job's responsibilities or achievements: what was built, "
+        "the stack used, or the metric. Do not collapse several responsibilities into one short sentence, "
+        "and do not leave a job with a single line when the profile lists more than one responsibility. "
         "Do not write a generic line such as 'Production work with Ionic' or 'Trabajo en producción con Ionic'.\n"
         "position must be one entry from that job's positions list: the one that best matches the vacancy. "
         "Prefer a specific title over a generic one (React Native Developer, not Frontend, when the vacancy is React Native).\n"
@@ -83,7 +86,7 @@ def build_batch_optimizer_prompt(
         "Each item MUST include slot equal to its JOB number (1..N) and the fields "
         "target_role, match_score, summary, skills, keywords, experience.",
         "experience is an array of objects with EXACT keys: "
-        '{"company":"...","position":"...","dates":"...","employment_type":"full_time","bullets":["..."]}.',
+        '{"company":"...","position":"...","dates":"...","employment_type":"full_time","bullets":["...","..."]}.',
         "Use position as a string (not positions). Use bullets as an array of strings "
         "(not achievements/responsibilities). Copy companies and dates from the master.",
         "Do not mix jobs across items.",

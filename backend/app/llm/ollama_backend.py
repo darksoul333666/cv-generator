@@ -17,6 +17,7 @@ from ..locale_util import (
     detect_vacancy_locale,
     education_line,
     format_period,
+    language_lines,
     localize_cv_wording,
     polish_experience_title,
 )
@@ -395,33 +396,67 @@ def _focus_line(source: dict, role: str, locale: str) -> str:
     return body.rstrip(".") + "."
 
 
-def _one_real_bullet(source: dict, role: str, locale: str) -> str:
+def _usable_facts(source: dict, locale: str) -> list[str]:
     facts = _fact_sentences(source)
-    usable = [
-        fact
-        for fact in facts
-        if locale != "en" or not _SPANISH_FACT_RE.search(fact)
-    ]
-    if not usable:
-        return _focus_line(source, role, locale)
-    line = usable[0]
-    if len(line) < 80 and len(usable) > 1 and len(line) + len(usable[1]) <= 170:
-        line = f"{line}. {usable[1]}"
+    if locale == "en":
+        return [fact for fact in facts if not _SPANISH_FACT_RE.search(fact)]
+    return facts
+
+
+def _real_bullets(source: dict, role: str, locale: str, limit: int) -> list[str]:
+    """Un bullet por hecho del perfil. No funde varias responsabilidades en una frase."""
+    facts = _usable_facts(source, locale)
+    if not facts:
+        return []
     techs = _tech_names(source, 2)
-    if techs and not any(_norm(tech) in _norm(line) for tech in techs):
-        names = _join_names(techs, "y" if locale == "es" else "and")
-        line = f"{line} con {names}" if locale == "es" else f"{line} with {names}"
-    return localize_cv_wording(line.rstrip(".") + ".", locale)
+    out: list[str] = []
+    for index, fact in enumerate(facts):
+        line = fact
+        if index == 0 and techs and not any(_norm(tech) in _norm(line) for tech in techs):
+            names = _join_names(techs, "y" if locale == "es" else "and")
+            line = f"{line} con {names}" if locale == "es" else f"{line} with {names}"
+        out.append(localize_cv_wording(line.rstrip(".") + ".", locale))
+        if len(out) >= limit:
+            break
+    return out
+
+
+def _one_real_bullet(source: dict, role: str, locale: str) -> str:
+    bullets = _real_bullets(source, role, locale, 1)
+    return bullets[0] if bullets else _focus_line(source, role, locale)
 
 
 def _bullets_for_job(
     source: dict, model_bullets: list[str], vacancy: str, role: str, locale: str
 ) -> list[str]:
-    if _matches_vacancy(source, vacancy) and model_bullets:
-        return model_bullets[:4]
-    if model_bullets:
-        return model_bullets[:1]
-    return [_one_real_bullet(source, role, locale)]
+    matched = _matches_vacancy(source, vacancy)
+    cap = 4 if matched else 3
+    floor = 3 if matched else 2
+    chosen: list[str] = []
+    seen: set[str] = set()
+
+    def add(text: str, *, from_master: bool = False) -> None:
+        cleaned = " ".join(str(text).split()).strip()
+        key = _norm(cleaned)
+        if not cleaned or not key or key in seen:
+            return
+        if from_master and locale == "en" and _SPANISH_FACT_RE.search(cleaned):
+            return
+        seen.add(key)
+        chosen.append(cleaned)
+
+    for bullet in model_bullets:
+        add(bullet)
+        if len(chosen) >= cap:
+            break
+    if len(chosen) < floor:
+        for fact in _real_bullets(source, role, locale, cap):
+            add(fact, from_master=True)
+            if len(chosen) >= floor:
+                break
+    if not chosen:
+        return [_focus_line(source, role, locale)]
+    return chosen[:cap]
 
 
 def _contact(master: dict) -> dict[str, str]:
@@ -430,6 +465,7 @@ def _contact(master: dict) -> dict[str, str]:
         "email": str(contact.get("email") or ""),
         "phone": str(contact.get("phone") or ""),
         "linkedin": str(contact.get("linkedin") or ""),
+        "location": str(contact.get("location") or ""),
     }
 
 
@@ -558,11 +594,13 @@ def _ollama_result_to_cv(
         email=contact["email"] or base.email,
         phone=contact["phone"] or base.phone,
         linkedin=contact["linkedin"] or base.linkedin,
+        location=contact["location"] or base.location,
         summary=summary or base.summary,
         experience=experience or base.experience,
         stack=stack,
         tech_skills=stack_to_tech_skills(stack),
         education=education_line(master, locale) or base.education,
         certifications=cert_names(master, locale) or base.certifications,
+        languages=language_lines(master, locale) or base.languages,
         locale=locale,
     )

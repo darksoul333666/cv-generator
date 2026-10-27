@@ -17,7 +17,7 @@ from pydantic import BaseModel, ConfigDict
 
 from .cv_history import vacancy_title_from_text
 from .llm import llm_user_message, should_backoff_gemini
-from .vacancy_clean import parse_pasted_vacancy
+from .vacancy_clean import looks_like_search_heading, parse_pasted_vacancy
 
 logger = logging.getLogger(__name__)
 
@@ -425,6 +425,10 @@ def enqueue_optimize(
     blob = (parsed["text"] or "").strip()
     if not blob:
         raise ValueError("Pega el texto de la vacante.")
+    if looks_like_search_heading(blob):
+        raise ValueError(
+            "Eso es el título del listado, no la vacante. Abre la oferta y espera a que cargue la descripción."
+        )
     stored_url = (vacancy_url or parsed["url"] or "").strip() or None
     company = (company_name or parsed["company"] or "").strip()
     title = vacancy_title_from_text(blob)

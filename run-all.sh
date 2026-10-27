@@ -35,6 +35,17 @@ echo "Backend  → http://127.0.0.1:8000"
 ) &
 PIDS+=("$!")
 
+if ! command -v npm >/dev/null 2>&1; then
+  NVM_NPM="$(ls -d "$HOME/.nvm/versions/node"/*/bin/npm 2>/dev/null | tail -1 || true)"
+  if [[ -n "${NVM_NPM:-}" ]]; then
+    export PATH="$(dirname "$NVM_NPM"):$PATH"
+  fi
+fi
+if ! command -v npm >/dev/null 2>&1; then
+  echo "No se encontró npm. Instala Node 20+ o carga nvm en esta terminal." >&2
+  exit 1
+fi
+
 echo "Frontend → http://localhost:3000"
 (
   cd "$ROOT"

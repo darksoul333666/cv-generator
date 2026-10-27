@@ -170,6 +170,28 @@ def format_period(
 _TSU_DEGREE = "tsu en desarrollo de software multiplataforma"
 
 
+_LANGUAGE_NAMES = {
+    "en": {"spanish": "Spanish", "english": "English", "español": "Spanish", "espanol": "Spanish", "inglés": "English", "ingles": "English"},
+    "es": {"spanish": "Español", "english": "Inglés", "español": "Español", "espanol": "Español", "inglés": "Inglés", "ingles": "Inglés"},
+}
+
+
+def language_lines(master: dict, locale: Locale) -> list[str]:
+    """Idiomas con nivel declarado. El nivel CEFR (B2) se conserva en ambos idiomas."""
+    names = _LANGUAGE_NAMES.get(locale, _LANGUAGE_NAMES["es"])
+    lines: list[str] = []
+    for item in master.get("languages") or []:
+        if not isinstance(item, dict):
+            continue
+        raw_name = str(item.get("language") or "").strip()
+        level = str(item.get("level") or "").strip()
+        if not raw_name or not level:
+            continue
+        name = names.get(raw_name.lower(), raw_name)
+        lines.append(f"{name} — {level}")
+    return lines
+
+
 def education_line(master: dict, locale: Locale) -> str:
     lines: list[str] = []
     for item in master.get("education") or []:

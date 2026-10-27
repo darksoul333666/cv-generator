@@ -16,7 +16,7 @@ export function cvTemplateToBodyHtml(data: CVData): string {
   const s = data.stack;
   const parts: string[] = [];
 
-  const contact = [data.email, data.phone, data.linkedin]
+  const contact = [data.email, data.phone, data.linkedin, data.location ?? ""]
     .map((x) => x.trim())
     .filter(Boolean)
     .join("  |  ");
@@ -90,6 +90,14 @@ export function cvTemplateToBodyHtml(data: CVData): string {
   parts.push(
     `<p style="font-size:9.5pt;margin:0 0 8pt;color:#222;">${esc(data.education)}</p>`,
   );
+
+  const languages = (data.languages ?? []).map((item) => item.trim()).filter(Boolean);
+  if (languages.length) {
+    parts.push(sectionTitle(copy.languages));
+    parts.push(
+      `<p style="font-size:9.5pt;margin:0 0 8pt;color:#222;">${esc(languages.join("  |  "))}</p>`,
+    );
+  }
 
   parts.push(sectionTitle(copy.certifications));
   parts.push(

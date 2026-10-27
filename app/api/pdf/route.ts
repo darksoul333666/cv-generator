@@ -75,12 +75,16 @@ function normalizeCvProfile(raw: unknown): CvProfile | null {
     email: raw.email,
     phone: typeof raw.phone === "string" ? raw.phone : "",
     linkedin: typeof raw.linkedin === "string" ? raw.linkedin : "",
+    location: typeof raw.location === "string" ? raw.location : "",
     summary: typeof raw.summary === "string" ? raw.summary : "",
     experience,
     stack: normalizeStack(raw.stack),
     tech_skills: normalizeTechSkills(raw.tech_skills),
     education: typeof raw.education === "string" ? raw.education : "",
     certifications,
+    languages: Array.isArray(raw.languages)
+      ? raw.languages.filter((item): item is string => typeof item === "string")
+      : [],
     locale: raw.locale === "en" || raw.locale === "es" ? raw.locale : undefined,
   };
   return profile;

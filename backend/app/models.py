@@ -74,12 +74,14 @@ class CvDocument(BaseModel):
     email: str
     phone: str = ""
     linkedin: str = ""
+    location: str = ""
     summary: str = ""
     experience: List[ExperienceItem] = Field(default_factory=list)
     stack: StackBlock = Field(default_factory=StackBlock)
     tech_skills: TechSkills = Field(default_factory=TechSkills)
     education: str = ""
     certifications: List[str] = Field(default_factory=list)
+    languages: List[str] = Field(default_factory=list)
     locale: str = "es"
 
     model_config = {"extra": "ignore"}
