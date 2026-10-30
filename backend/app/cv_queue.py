@@ -61,6 +61,8 @@ class QueueJobRecord(BaseModel):
     saved_id: Optional[str] = None
     match_percent: float = 0
     cv_name: str = ""
+    # Id del CV del historial que se está regenerando (el original no se toca).
+    regenerated_from: Optional[str] = None
 
 
 class QueueEnqueueOut(BaseModel):
@@ -86,6 +88,21 @@ class QueueStatusOut(BaseModel):
 
 
 class QueueFlushOut(BaseModel):
+    started: int = 0
+    queued: int = 0
+    generating: int = 0
+    batch_size: int = BATCH_SIZE
+    message: str = ""
+
+
+class QueueRegenerateSkipped(BaseModel):
+    id: str
+    reason: str
+
+
+class QueueRegenerateOut(BaseModel):
+    job_ids: list[str] = []
+    skipped: list[QueueRegenerateSkipped] = []
     started: int = 0
     queued: int = 0
     generating: int = 0
@@ -459,6 +476,108 @@ def enqueue_optimize(
     return _out_for(record)
 
 
+REGENERATE_MAX = 30
+
+
+def _regenerated_name(name: str) -> str:
+    base = (name or "").strip()
+    if not base:
+        return ""
+    return base if base.endswith("(regenerado)") else f"{base} (regenerado)"[:200]
+
+
+def _pending_regeneration_of(original_id: str) -> Optional[QueueJobRecord]:
+    with _LOCK:
+        for r in _records():
+            if r.regenerated_from == original_id and r.status in PENDING_STATUSES:
+                return r
+    return None
+
+
+def _regen_queued() -> int:
+    with _LOCK:
+        return sum(1 for r in _records() if r.status == STATUS_QUEUED and r.regenerated_from)
+
+
+def enqueue_regeneration(item_ids: list[str]) -> QueueRegenerateOut:
+    """Vuelve a generar CVs del historial con la vacante guardada y el pipeline actual.
+
+    Cada CV regenerado es una entrada nueva (``regenerated_from`` apunta al original), así
+    se pueden comparar. Se envían en lotes de BATCH_SIZE por petición, como la cola normal,
+    y no esperan a juntar 5: un lote parcial sale enseguida.
+    """
+    from .cv_history import get_generated_cv
+
+    ids: list[str] = []
+    for raw in item_ids or []:
+        jid = str(raw or "").strip()
+        if jid and jid not in ids:
+            ids.append(jid)
+    if not ids:
+        raise ValueError("Selecciona al menos un CV para regenerar.")
+    if len(ids) > REGENERATE_MAX:
+        raise ValueError(f"Máximo {REGENERATE_MAX} CVs por regeneración.")
+    if pending_count() + len(ids) > _MAX_JOBS:
+        raise RuntimeError("La cola está llena. Espera a que terminen unos CVs.")
+
+    job_ids: list[str] = []
+    skipped: list[QueueRegenerateSkipped] = []
+    for jid in ids:
+        record = get_generated_cv(jid)
+        if record is None:
+            skipped.append(QueueRegenerateSkipped(id=jid, reason="No está en el historial (o aún no termina)."))
+            continue
+        text = (record.vacancy_text or "").strip()
+        if not text:
+            skipped.append(QueueRegenerateSkipped(id=jid, reason="No guardó el texto de la vacante."))
+            continue
+        existing = _pending_regeneration_of(jid)
+        if existing:
+            job_ids.append(existing.id)
+            continue
+        now = _utc_now_iso()
+        job = QueueJobRecord(
+            id=str(uuid.uuid4()),
+            status=STATUS_QUEUED,
+            vacancy_title=record.vacancy_title,
+            vacancy_text=text[:80_000],
+            company_name=(record.company_name or "")[:200],
+            vacancy_url=record.vacancy_url,
+            # Otra huella para que no choque con un alta normal de la misma vacante.
+            fingerprint=f"regen:{jid}:{now}",
+            created_at=now,
+            updated_at=now,
+            cv_name=_regenerated_name(record.cv_name or record.vacancy_title),
+            regenerated_from=jid,
+        )
+        _upsert(job)
+        job_ids.append(job.id)
+
+    queued, generating, _failed = _counts()
+    blocked = _quota_block_message()
+    if not job_ids:
+        message = "No se encoló nada."
+    elif blocked:
+        message = f"Encolados {len(job_ids)}. {blocked}"
+    elif generating > 0 or _busy:
+        message = f"Encolados {len(job_ids)}. Salen cuando termine el lote en curso."
+    else:
+        _signal(CMD_FLUSH)
+        message = (
+            f"Regenerando {len(job_ids)} CV{'s' if len(job_ids) != 1 else ''} "
+            f"en lotes de {BATCH_SIZE} (una petición por lote)."
+        )
+    started = 0 if (blocked or generating > 0 or _busy or not job_ids) else min(queued, BATCH_SIZE)
+    return QueueRegenerateOut(
+        job_ids=job_ids,
+        skipped=skipped,
+        started=started,
+        queued=queued,
+        generating=generating,
+        message=message,
+    )
+
+
 def flush_batch() -> QueueFlushOut:
     blocked = _quota_block_message()
     queued, generating, _failed = _counts()
@@ -571,6 +690,12 @@ def _finish_job(job: QueueJobRecord, tailored) -> None:
     job.cv_name = tailored.cv_name or ""
     job.updated_at = _utc_now_iso()
     job.error = ""
+    if job.regenerated_from:
+        from .cv_history import mark_regenerated
+
+        renamed = mark_regenerated(job.saved_id or job.id, job.regenerated_from)
+        if renamed:
+            job.cv_name = renamed
     _upsert(job)
     _notify(job)
 
@@ -615,8 +740,12 @@ async def _process_batch(force: bool) -> None:
         _fail_jobs(jobs, message)
     finally:
         _busy = False
-        if not quota_hit and queued_count() >= BATCH_SIZE and _quota_block_message() is None:
-            _signal(CMD_CHECK)
+        if not quota_hit and _quota_block_message() is None:
+            if queued_count() >= BATCH_SIZE:
+                _signal(CMD_CHECK)
+            elif _regen_queued() > 0:
+                # Una regeneración pedida a mano no espera a juntar 5.
+                _signal(CMD_FLUSH)
 
 
 async def _worker_loop() -> None:

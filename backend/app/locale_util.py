@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import re
-from typing import Optional
+from typing import Any, Optional
 
 Locale = str  # "en" | "es"
 
@@ -168,6 +168,7 @@ def format_period(
 
 
 _TSU_DEGREE = "tsu en desarrollo de software multiplataforma"
+_ING_DEGREE = "ingeniería en desarrollo y gestión de software"
 
 
 _LANGUAGE_NAMES = {
@@ -214,6 +215,11 @@ def education_line(master: dict, locale: Locale) -> str:
             degree = (
                 "Associate Degree in Multiplatform Software Development "
                 "(TSU en Desarrollo de Software Multiplataforma)"
+            )
+        elif locale == "en" and _ING_DEGREE in raw_degree.lower():
+            degree = (
+                "Bachelor of Engineering in Software Development and Management "
+                "(Ingeniería en Desarrollo y Gestión de Software)"
             )
         parts = [p for p in (degree, institution) if p]
         line = " — ".join(parts)
@@ -299,7 +305,11 @@ def polish_experience_title(company: str, position: str, vacancy_text: str = "")
         return title
     title = _FINTECH_TITLE_RE.sub("", title).strip(" ,—–-")
     if vacancy_asks_fintech(vacancy_text) and "fintech" not in title.lower():
-        title = f"{title} (Fintech)".strip()
+        if title.endswith(")"):
+            # «Full Stack (React Native + Backend)» → «… + Backend, Fintech)», sin doble paréntesis.
+            title = f"{title[:-1]}, Fintech)"
+        else:
+            title = f"{title} (Fintech)".strip()
     return title.strip()
 
 
@@ -307,6 +317,65 @@ _PERCENT_EN_RE = re.compile(
     r"(?P<n>\d+(?:[.,]\d+)?)\s*(?:percent|per\s*cent)\b",
     re.IGNORECASE,
 )
+# 25.0 / 30 al final de una frase, sin unidad. El punto que sigue es el de la oración.
+_BARE_NUMBER_RE = re.compile(
+    r"(?<![\w.])(?P<n>\d+(?:[.,]\d+)?)(?![\d%])"
+)
+_UNIT_AFTER_RE = re.compile(
+    r"\s+(?:a[nñ]os|years|ms|mb|gb|kb|px|segundos|seconds|minutos|minutes|horas|hours)\b",
+    re.IGNORECASE,
+)
+
+
+def _whole_number(raw: str) -> str:
+    try:
+        value = float(str(raw).replace(",", "."))
+    except (TypeError, ValueError):
+        return str(raw)
+    return str(int(value)) if value.is_integer() else str(value)
+
+
+def percent_metric_values(master: dict) -> set[str]:
+    """Cifras del perfil cuya unidad es percent. 7 años no entra aquí."""
+    values: set[str] = set()
+
+    def add(value: Any, unit: Any, safe: Any = None, status: Any = None) -> None:
+        if value is None or str(unit or "").lower() not in {"percent", "%"}:
+            return
+        if safe is False or str(status or "") in {"inferred", "conflicted", "requires_validation"}:
+            return
+        values.add(_whole_number(value))
+
+    for metric in master.get("metrics") or []:
+        if isinstance(metric, dict):
+            add(metric.get("value"), metric.get("unit"), metric.get("safeForCV"), metric.get("status"))
+    for job in master.get("experience") or []:
+        if not isinstance(job, dict):
+            continue
+        for ach in job.get("achievements") or []:
+            if not isinstance(ach, dict):
+                continue
+            metric = ach.get("metric") or {}
+            if isinstance(metric, dict):
+                add(metric.get("value"), metric.get("unit"), ach.get("safeForCV"), ach.get("status"))
+    return values
+
+
+def attach_percent_signs(text: str, values: set[str]) -> str:
+    """'errores en 25.0' → 'errores en 25%' cuando 25 es un porcentaje del perfil."""
+    if not text or not values:
+        return text
+
+    def repl(match: re.Match[str]) -> str:
+        raw = match.group("n")
+        if _whole_number(raw) not in values:
+            return match.group(0)
+        after = text[match.end() :]
+        if _UNIT_AFTER_RE.match(after):
+            return match.group(0)
+        return f"{_whole_number(raw)}%"
+
+    return _BARE_NUMBER_RE.sub(repl, text)
 
 # Solo contracciones/artículos donde el español lo pide. No tocar «más de 7»,
 # «pasarelas de pago», «virtualización de datos», «consumo de APIs».
@@ -361,41 +430,22 @@ def localize_cv_wording(text: str, locale: Locale) -> str:
     return text
 
 
-# Prosa, no nombres de tecnologías. «Angular», «React Native» y «NestJS» valen en ambos idiomas.
-_SPANISH_PROSE_RE = re.compile(
-    r"[áéíóúñ¿¡]|"
-    r"\b(del|para|mediante|con|una|unos|unas|los|las|años|anos|"
-    r"desarrollo|diseño|diseno|gesti[oó]n|aplicaci[oó]n|desarrollador|"
-    r"desarroll[eé]|implement[eé]|experiencia|resumen|responsabilidades)\b",
-    re.IGNORECASE,
-)
-_ENGLISH_PROSE_RE = re.compile(
-    r"\b(the|with|and|for|from|this|that|these|those|shipped|built|developed|"
-    r"using|reduced|improved|through|including|across|experience|features|"
-    r"production|responsibilities)\b",
-    re.IGNORECASE,
-)
-
 _SKILL_PHRASES_EN = {
     "virtualización de tablas": "Table virtualization",
     "virtualizacion de tablas": "Table virtualization",
 }
 
 
-def prose_matches_locale(text: str, locale: Locale) -> bool:
-    """False cuando una frase está en el otro idioma o mezcla los dos."""
-    raw = (text or "").strip()
-    if not raw:
-        return True
-    spanish = bool(_SPANISH_PROSE_RE.search(raw))
-    english = bool(_ENGLISH_PROSE_RE.search(raw))
-    if spanish and english:
-        return False
-    if locale == "en":
-        return not spanish
-    if locale == "es":
-        return not english
-    return True
+def prose_matches_locale(text: str, locale: Locale, protected: tuple[str, ...] = ()) -> bool:
+    """True si el texto está en ``locale`` o no hay evidencia para decir lo contrario.
+
+    Usa ``language_guard.detect_language`` (pistas de palabras funcionales y morfología,
+    con nombres propios y tecnologías enmascarados). Es un *chequeo*, no un traductor:
+    quien recibe False debe traducir o reportar, nunca borrar el texto.
+    """
+    from .language_guard import matches_locale
+
+    return matches_locale(text or "", locale, protected)
 
 
 def localize_skill_label(name: str, locale: Locale) -> str:

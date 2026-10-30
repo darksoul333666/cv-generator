@@ -7,9 +7,9 @@ import uuid
 from datetime import datetime, timezone
 from pathlib import Path
 from threading import RLock
-from typing import Any, Optional
+from typing import Any, List, Optional
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 from .models import CvDocument, TailorResponse
 from .vacancy_clean import suggested_cv_name
@@ -33,6 +33,9 @@ class GeneratedCvRecord(BaseModel):
     cv_name: str = ""
     company_name: str = ""
     vacancy_url: Optional[str] = None
+    # Fechas omitidas, bullets descartados y textos que no se pudieron traducir.
+    notes_to_verify: List[str] = Field(default_factory=list)
+    regenerated_from: Optional[str] = None
 
 
 class GeneratedCvSummary(BaseModel):
@@ -44,6 +47,7 @@ class GeneratedCvSummary(BaseModel):
     cv_name: str = ""
     company_name: str = ""
     vacancy_url: Optional[str] = None
+    regenerated_from: Optional[str] = None
 
 
 def vacancy_title_from_text(text: str, explicit: Optional[str] = None) -> str:
@@ -108,6 +112,7 @@ def list_generated_summaries() -> list[GeneratedCvSummary]:
             cv_name=r.cv_name or "",
             company_name=r.company_name or "",
             vacancy_url=r.vacancy_url,
+            regenerated_from=r.regenerated_from,
         )
         for r in records
     ]
@@ -147,12 +152,36 @@ def append_generated_cv(
         cv_name=name[:200],
         company_name=(company_name or "").strip()[:200],
         vacancy_url=(vacancy_url or "").strip()[:2000] or None,
+        notes_to_verify=list(tailor.notes_to_verify or []),
     )
     with _LOCK:
         raw_list = _load_raw()
         merged = [record.model_dump(mode="json")] + raw_list
         _save_raw(merged[:_MAX_ITEMS])
     return record
+
+
+def mark_regenerated(new_id: str, original_id: str) -> str:
+    """Enlaza un CV regenerado con su original y le pone «<nombre original> (regenerado)».
+
+    Devuelve el nombre asignado (vacío si no encontró el registro nuevo).
+    """
+    original = get_generated_cv(original_id)
+    base = ((original.cv_name or original.vacancy_title) if original else "").strip()
+    name = ""
+    if base:
+        name = base if base.endswith("(regenerado)") else f"{base} (regenerado)"
+    with _LOCK:
+        raw_list = _load_raw()
+        for i, item in enumerate(raw_list):
+            if item.get("id") == new_id:
+                item["regenerated_from"] = original_id
+                if name:
+                    item["cv_name"] = name[:200]
+                raw_list[i] = item
+                _save_raw(raw_list)
+                return str(item.get("cv_name") or "")
+    return ""
 
 
 def update_generated_cv_name(item_id: str, cv_name: str) -> Optional[GeneratedCvRecord]:

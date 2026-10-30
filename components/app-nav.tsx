@@ -7,6 +7,7 @@ const LINKS = [
   { href: "/", label: "Generar" },
   { href: "/historial", label: "Historial" },
   { href: "/skills", label: "Skills" },
+  { href: "/evidencia", label: "Evidencia" },
 ] as const;
 
 export function AppNav() {

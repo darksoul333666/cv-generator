@@ -1,6 +1,6 @@
 """El armado del CV no depende de que el modelo ordene, traduzca o recorte empleos."""
 
-from app.llm.ollama_backend import _bullets_for_job, _ollama_result_to_cv
+from app.llm.cv_builder import _bullets_for_job, result_to_cv
 from app.locale_util import cert_names
 from app.models import CvDocument
 from app.skill_stack import build_stack_from_master
@@ -98,14 +98,17 @@ def test_experience_stays_recent_first_and_keeps_omitted_jobs():
             },
         ],
     }
-    cv = _ollama_result_to_cv(data, _base(), _master(), "en", VACANCY)
+    cv = result_to_cv(data, _base(), _master(), "en", VACANCY)
     assert [job.company for job in cv.experience] == ["UffPay", "Grainchain Inc", "Lumston"]
     assert cv.experience[0].role == "React Native Developer"
     assert cv.location == "Mexico"
     assert cv.languages == ["English — B2"]
-    assert cv.experience[0].bullets == ["Built a React Native payments app for iOS and Android."]
+    assert cv.experience[0].bullets[0] == "Built a React Native payments app for iOS and Android."
     grain = cv.experience[1]
-    assert grain.bullets == ["Shipped production features with Angular and NgRx (35%)."]
+    # Antes salía «Shipped production features with Angular and NgRx (35%).»: una frase
+    # genérica que el perfil no dice. Ahora el logro real con su cifra.
+    assert not any("Shipped production features" in b for b in grain.bullets)
+    assert grain.bullets == ["Tablas (35%)."]
 
 
 def test_off_target_job_uses_the_real_work():
@@ -157,7 +160,10 @@ def test_school_awards_drop_and_programming_olympiad_stays():
     assert "high school" not in blob
 
 
-def test_english_vacancy_drops_spanish_prose():
+def test_english_vacancy_keeps_and_reports_spanish_prose_without_translator():
+    """Sin traductor no se borra ni se sustituye por texto genérico: se conserva y se reporta."""
+    from app.llm.cv_builder import _build_cv
+
     data = {
         "target_role": "Desarrollador React Native Senior",
         "summary": "Desarrollador con experiencia en aplicaciones móviles y APIs.",
@@ -169,14 +175,18 @@ def test_english_vacancy_drops_spanish_prose():
             }
         ],
     }
-    cv = _ollama_result_to_cv(data, _base(), _master(), "en", VACANCY)
-    blob = " ".join([cv.title, cv.summary, *cv.experience[0].bullets])
-    assert "Desarroll" not in blob
-    assert "con experiencia" not in blob.lower()
-    assert "React Native" in cv.experience[0].bullets[0]
+    cv, report = _build_cv(data, _base(), _master(), "en", VACANCY)
+    assert cv.summary == "Desarrollador con experiencia en aplicaciones móviles y APIs."
+    assert "aligned to this role" not in cv.summary
+    assert cv.experience[0].bullets[0] == "Desarrollé la app de pagos con React Native para iOS y Android."
+    unresolved = {item["path"] for item in report["language"]["unresolved"]}
+    assert {"title", "summary", "experience[0].bullets[0]"} <= unresolved
+    assert any("Idioma: summary" in note for note in report["notes"])
 
 
-def test_spanish_vacancy_drops_english_prose():
+def test_spanish_vacancy_keeps_and_reports_english_prose_without_translator():
+    from app.llm.cv_builder import _build_cv
+
     data = {
         "target_role": "Senior React Native Developer",
         "summary": "Senior developer with experience shipping iOS and Android apps.",
@@ -188,9 +198,9 @@ def test_spanish_vacancy_drops_english_prose():
             }
         ],
     }
-    cv = _ollama_result_to_cv(data, _base(), _master(), "es", VACANCY)
-    blob = " ".join([cv.summary, *cv.experience[0].bullets]).lower()
-    assert " with " not in f" {blob} "
-    assert "built " not in blob
-    assert "pagos" in blob or "react native" in blob
-
+    cv, report = _build_cv(data, _base(), _master(), "es", VACANCY)
+    assert cv.summary == "Senior developer with experience shipping iOS and Android apps."
+    assert "Built a React Native payments app for iOS and Android." in cv.experience[0].bullets
+    assert "App fintech en React Native para pagos." in cv.experience[0].bullets
+    unresolved = {item["path"] for item in report["language"]["unresolved"]}
+    assert {"summary", "experience[0].bullets[0]"} <= unresolved

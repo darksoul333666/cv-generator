@@ -131,6 +131,53 @@ export async function getMasterProfile(): Promise<MasterProfile> {
   return res.json() as Promise<MasterProfile>;
 }
 
+export type EvidenceGap = {
+  experienceId: string;
+  company: string;
+  kind: "achievement" | "scope" | "hidden";
+  achievementIndex?: number;
+  description?: string;
+  metric?: string;
+  missing: string[];
+  current?: Record<string, unknown>;
+  question: string;
+};
+
+export type EvidenceInput = {
+  experienceId: string;
+  achievementIndex?: number | null;
+  context?: string;
+  action?: string;
+  measurement?: string;
+  technologies?: string[];
+  before?: string;
+  after?: string;
+  teamSize?: string;
+  highlights?: string[];
+  roles?: string[];
+  responsibilities?: string[];
+  showInCv?: boolean;
+};
+
+/** Cifras sin «cómo» y cargos sin alcance declarado. */
+export async function getEvidenceGaps(): Promise<EvidenceGap[]> {
+  const res = await fetch(`${apiBase()}/v1/master-profile/evidence-gaps`, { method: "GET" });
+  if (!res.ok) throw new Error(await readApiError(res, res.statusText));
+  const body = (await res.json()) as { gaps: EvidenceGap[] };
+  return body.gaps;
+}
+
+export async function putEvidence(input: EvidenceInput): Promise<EvidenceGap[]> {
+  const res = await fetch(`${apiBase()}/v1/master-profile/evidence`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(input),
+  });
+  if (!res.ok) throw new Error(await readApiError(res, res.statusText));
+  const body = (await res.json()) as { gaps: EvidenceGap[] };
+  return body.gaps;
+}
+
 export async function putMasterPatch(input: {
   skills?: MasterSkills;
   experience?: ExperiencePatchItem[];
@@ -333,6 +380,16 @@ export type QueueRetryFailedResult = {
   message: string;
 };
 
+export type QueueRegenerateResult = {
+  job_ids: string[];
+  skipped: { id: string; reason: string }[];
+  started: number;
+  queued: number;
+  generating: number;
+  batch_size: number;
+  message: string;
+};
+
 async function readApiError(res: Response, fallback: string): Promise<string> {
   const err = await res.json().catch(() => ({}));
   if (typeof err === "object" && err && "detail" in err) {
@@ -384,6 +441,17 @@ export async function retryFailedQueueBatch(): Promise<QueueRetryFailedResult> {
   const res = await fetch(`${apiBase()}/v1/queue/retry-failed`, { method: "POST" });
   if (!res.ok) throw new Error(await readApiError(res, res.statusText));
   return res.json() as Promise<QueueRetryFailedResult>;
+}
+
+/** Regenera CVs del historial con la vacante guardada (lotes de 5 por petición). */
+export async function regenerateCvHistory(ids: string[]): Promise<QueueRegenerateResult> {
+  const res = await fetch(`${apiBase()}/v1/history/regenerate`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ ids }),
+  });
+  if (!res.ok) throw new Error(await readApiError(res, res.statusText));
+  return res.json() as Promise<QueueRegenerateResult>;
 }
 
 export async function renameCvHistoryItem(

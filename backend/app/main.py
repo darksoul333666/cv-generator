@@ -25,10 +25,12 @@ from .cv_queue import (
     BATCH_SIZE,
     QueueEnqueueOut,
     QueueFlushOut,
+    QueueRegenerateOut,
     QueueRetryFailedOut,
     QueueStatusOut,
     STATUS_ERROR,
     enqueue_optimize,
+    enqueue_regeneration,
     failed_count,
     flush_batch,
     generating_count,
@@ -58,14 +60,17 @@ from .vacancy_pipeline import (
     vacancy_blob_from_text_and_url,
     run_match_for_blob,
 )
-from .compact_master import export_ollama_profile, load_ollama_profile
-from .locale_util import language_lines
+from .compact_master import load_compact_profile
+from .locale_util import language_lines, attach_percent_signs, percent_metric_values
 from .career_kb import (
+    EvidenceIn,
     ExperienceEditItem,
     ExperienceEditsIn,
     ProfileContentIn,
     UserValidationIn,
+    apply_evidence,
     apply_experience_edits,
+    evidence_gaps,
     apply_profile_content,
     apply_user_validation,
     sync_skill_catalog,
@@ -74,6 +79,7 @@ from .models import (
     CvDocument,
     HistoryDetailOut,
     HistoryListResponse,
+    HistoryRegenerateIn,
     HistoryRenameIn,
     HistorySummaryOut,
     MasterSkills,
@@ -181,7 +187,6 @@ def _save_master_profile(raw: dict) -> None:
         encoding="utf-8",
     )
     os.replace(tmp, path)
-    export_ollama_profile(raw)
 
 
 def _skills_empty(skills: Optional[dict]) -> bool:
@@ -222,6 +227,9 @@ def list_cvs() -> list[CvDocument]:
 def get_cv(cv_id: str) -> CvDocument:
     p = _kb_path_for(cv_id)
     if not p.exists():
+        for cv in load_all_cvs():
+            if cv.id == cv_id:
+                return cv
         raise HTTPException(status_code=404, detail="CV no encontrado")
     data = json.loads(p.read_text(encoding="utf-8"))
     return CvDocument.model_validate(data)
@@ -247,10 +255,10 @@ def get_master_profile() -> dict:
     return _load_master_profile()
 
 
-@app.get("/v1/master-profile/ollama")
-def get_ollama_profile() -> dict:
-    """Perfil compacto que consume el modelo Ollama cv-optimizer."""
-    return load_ollama_profile()
+@app.get("/v1/master-profile/compact")
+def get_compact_profile() -> dict:
+    """Perfil compacto que recibe el modelo (para depurar qué ve Gemini/OpenAI)."""
+    return load_compact_profile()
 
 
 @app.put("/v1/master-profile/skills")
@@ -269,6 +277,21 @@ def put_master_validation(body: UserValidationIn) -> dict:
         apply_user_validation(raw, body.field.strip(), body.resolvedValue.strip())
         _save_master_profile(raw)
         return raw
+
+
+@app.get("/v1/master-profile/evidence-gaps")
+def get_evidence_gaps() -> dict:
+    """Cifras sin «cómo» y cargos sin alcance: lo que el CV todavía no puede argumentar."""
+    return {"gaps": evidence_gaps(_load_master_profile())}
+
+
+@app.put("/v1/master-profile/evidence")
+def put_evidence(body: EvidenceIn) -> dict:
+    with _locked_master():
+        raw = _load_master_profile()
+        apply_evidence(raw, body)
+        _save_master_profile(raw)
+        return {"gaps": evidence_gaps(raw)}
 
 
 @app.put("/v1/master-profile/experience")
@@ -304,7 +327,7 @@ def _with_profile_location(cv: Optional[CvDocument]) -> Optional[CvDocument]:
         return cv
     updates: dict = {}
     try:
-        master = load_ollama_profile()
+        master = load_compact_profile()
     except Exception:
         return cv
     if not (cv.location or "").strip():
@@ -316,6 +339,21 @@ def _with_profile_location(cv: Optional[CvDocument]) -> Optional[CvDocument]:
         lines = language_lines(master, cv.locale or "es")
         if lines:
             updates["languages"] = lines
+    percents = percent_metric_values(master)
+    summary = attach_percent_signs(cv.summary or "", percents)
+    if summary != (cv.summary or ""):
+        updates["summary"] = summary
+    jobs = []
+    bullets_changed = False
+    for job in cv.experience:
+        bullets = [attach_percent_signs(item, percents) for item in job.bullets]
+        if bullets != list(job.bullets):
+            bullets_changed = True
+            jobs.append(job.model_copy(update={"bullets": bullets}))
+        else:
+            jobs.append(job)
+    if bullets_changed:
+        updates["experience"] = jobs
     if not updates:
         return cv
     return cv.model_copy(update=updates)
@@ -329,6 +367,7 @@ def _tailor_from_history(item_id: str) -> TailorResponse:
         cv=_with_profile_location(record.cv),
         match_percent=record.match_percent,
         reason=record.reason,
+        notes_to_verify=record.notes_to_verify,
         saved_id=record.id,
         cv_name=record.cv_name or None,
         company_name=record.company_name or None,
@@ -356,6 +395,7 @@ def _history_from_queue(job) -> HistorySummaryOut:
         status=job.status,
         error=job.error or "",
         queue_position=pos,
+        regenerated_from=job.regenerated_from,
     )
 
 
@@ -481,6 +521,8 @@ async def get_cv_history_item(item_id: str) -> HistoryDetailOut:
             company_name=record.company_name or "",
             vacancy_url=record.vacancy_url,
             status="ready",
+            notes_to_verify=record.notes_to_verify,
+            regenerated_from=record.regenerated_from,
         )
     job = get_queue_job(item_id)
     if job is None:
@@ -499,6 +541,7 @@ async def get_cv_history_item(item_id: str) -> HistoryDetailOut:
         status=job.status,
         error=job.error or "",
         queue_position=queue_position(job.id) or None,
+        regenerated_from=job.regenerated_from,
     )
 
 
@@ -518,7 +561,20 @@ async def rename_cv_history_item(item_id: str, body: HistoryRenameIn) -> History
         cv_name=record.cv_name or "",
         company_name=record.company_name or "",
         vacancy_url=record.vacancy_url,
+        notes_to_verify=record.notes_to_verify,
+        regenerated_from=record.regenerated_from,
     )
+
+
+@app.post("/v1/history/regenerate", response_model=QueueRegenerateOut)
+async def regenerate_cv_history_items(body: HistoryRegenerateIn) -> QueueRegenerateOut:
+    """Regenera CVs del historial (uno o varios) con la vacante guardada, en lotes de 5."""
+    try:
+        return enqueue_regeneration(body.ids)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e)) from e
+    except RuntimeError as e:
+        raise HTTPException(status_code=429, detail=str(e)) from e
 
 
 @app.post("/v1/tailor", response_model=TailorResponse)

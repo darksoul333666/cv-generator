@@ -4,7 +4,7 @@ import json
 import re
 from pathlib import Path
 
-from .models import CvDocument, MatchResponse
+from .models import CvDocument
 
 
 def _kb_dir() -> Path:
@@ -12,11 +12,25 @@ def _kb_dir() -> Path:
 
 
 def load_all_cvs() -> list[CvDocument]:
+    """Plantillas base para el matcher.
+
+    Las plantillas opcionales ``knowledge_base/cv_*.json`` se siguen leyendo si alguien las
+    agrega. Sin ellas (estado actual desde ebc18f7) la base sale del perfil maestro, que es la
+    única fuente de verdad: el pipeline nunca queda sin plantilla.
+    """
     out: list[CvDocument] = []
     for p in sorted(_kb_dir().glob("cv_*.json")):
         data = json.loads(p.read_text(encoding="utf-8"))
         out.append(CvDocument.model_validate(data))
-    return out
+    if out:
+        return out
+    from .compact_master import base_cv_from_master, load_compact_profile
+
+    try:
+        master = load_compact_profile()
+    except FileNotFoundError:
+        return []
+    return [base_cv_from_master(master)]
 
 
 def _tokenize(text: str) -> set[str]:

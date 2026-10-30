@@ -77,12 +77,35 @@ const achievementSchema = z.object({
   evidenceLevel: evidenceLevelSchema.optional(),
   safeForCV: z.boolean().optional(),
   requiresUserValidation: z.boolean().optional(),
+  /** Cómo se logró y cómo se midió la cifra (pantalla Evidencia). */
+  evidenceDetail: z.record(z.string(), z.unknown()).optional(),
+  project: z.string().optional(),
+});
+
+const periodSchema = z.object({
+  startDate: isoYearOrMonth,
+  endDate: z.union([isoYearOrMonth, z.null()]).optional(),
+  current: z.boolean().optional(),
+  note: z.string().optional(),
 });
 
 const experienceSchema = z.object({
   id: z.string().min(1),
   company: z.string().min(1),
-  roles: z.array(z.string()).min(1),
+  roles: z.array(z.string()),
+  /** false: se queda en el perfil (línea de tiempo) pero no sale en CVs. */
+  showInCv: z.boolean().optional(),
+  showInCvNote: z.string().optional(),
+  /** Etapas anteriores en la misma empresa (p. ej. UffPay 2024 y 2026–hoy). */
+  additionalPeriods: z.array(periodSchema).optional(),
+  /** Tamaño del equipo y lo que demuestra el cargo (pantalla Evidencia). */
+  roleScope: z
+    .object({
+      teamSize: z.union([z.number(), z.string()]).optional(),
+      highlights: z.array(z.string()).optional(),
+      source: z.string().optional(),
+    })
+    .optional(),
   employmentType: z.string().nullable(),
   startDate: z.union([isoYearOrMonth, z.null()]),
   endDate: z.union([isoYearOrMonth, z.null()]),
@@ -101,6 +124,11 @@ const experienceSchema = z.object({
   sourceRefs: z.array(z.string()),
   evidenceLevel: evidenceLevelSchema,
   sourceCount: z.number().int().nonnegative(),
+}).superRefine((ex, ctx) => {
+  // Un empleo oculto en CVs puede no tener cargo confirmado todavía.
+  if (ex.roles.length === 0 && ex.showInCv !== false) {
+    ctx.addIssue({ code: "custom", path: ["roles"], message: "Agrega al menos un rol" });
+  }
 });
 
 const projectSchema = z.object({

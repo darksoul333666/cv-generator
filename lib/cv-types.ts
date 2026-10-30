@@ -98,6 +98,8 @@ export type HistorySummary = {
   status?: HistoryJobStatus;
   error?: string;
   queue_position?: number | null;
+  /** Id del CV original cuando esta entrada es una regeneración. */
+  regenerated_from?: string | null;
 };
 
 export type HistoryDetail = {
@@ -114,6 +116,9 @@ export type HistoryDetail = {
   status?: HistoryJobStatus;
   error?: string;
   queue_position?: number | null;
+  regenerated_from?: string | null;
+  /** Fechas omitidas, bullets descartados y textos sin traducir (verificación del backend). */
+  notes_to_verify?: string[];
 };
 
 export function pickCvData(profile: CvProfile): CVData {

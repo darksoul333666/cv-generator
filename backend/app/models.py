@@ -184,6 +184,7 @@ class HistorySummaryOut(BaseModel):
     status: str = "ready"
     error: str = ""
     queue_position: Optional[int] = None
+    regenerated_from: Optional[str] = None
 
 
 class HistoryDetailOut(BaseModel):
@@ -200,6 +201,14 @@ class HistoryDetailOut(BaseModel):
     status: str = "ready"
     error: str = ""
     queue_position: Optional[int] = None
+    notes_to_verify: List[str] = Field(default_factory=list)
+    regenerated_from: Optional[str] = None
+
+
+class HistoryRegenerateIn(BaseModel):
+    """Ids de CVs ya generados para volver a generar con la vacante guardada."""
+
+    ids: List[str] = Field(..., min_length=1)
 
 
 class HistoryRenameIn(BaseModel):

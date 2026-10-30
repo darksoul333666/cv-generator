@@ -10,13 +10,13 @@ from typing import Any, Dict, List, Optional, Tuple
 from google import genai
 from google.genai import types
 
-from ..compact_master import load_ollama_profile, profile_for_prompt
+from ..compact_master import load_compact_profile, profile_for_prompt
 from ..locale_util import detect_vacancy_locale
 from ..models import CvDocument
 from .parse_json import parse_json_object, response_text
-from .prompts import build_batch_optimizer_prompt, build_matcher_prompt, build_ollama_optimizer_prompt
-from .result_pack import align_batch_items, pack_optimizer
-from .schemas import MatcherOut, OptimizerBatchOut, OptimizerOut
+from .prompts import build_batch_optimizer_prompt, build_matcher_prompt, build_optimizer_prompt
+from .result_pack import align_batch_items, make_translator, pack_optimizer
+from .schemas import MatcherOut, OptimizerBatchOut, OptimizerOut, TranslationOut
 
 logger = logging.getLogger(__name__)
 
@@ -184,9 +184,9 @@ class GeminiCvLlmBackend:
     def _tailor_cv_sync(
         self, vacancy_text: str, cv: CvDocument
     ) -> Tuple[CvDocument, float, str, List[str], List[str], List[str], Dict[str, Any]]:
-        master = load_ollama_profile()
+        master = load_compact_profile()
         locale = detect_vacancy_locale(vacancy_text)
-        prompt = build_ollama_optimizer_prompt(
+        prompt = build_optimizer_prompt(
             vacancy_text, profile_for_prompt(master), locale
         )
         response = self._generate(
@@ -202,7 +202,17 @@ class GeminiCvLlmBackend:
             vacancy_text,
             provider=self.provider_id,
             model=self._model_name,
+            translator=self._translator(master),
         )
+
+    def _translator(self, master: dict):
+        def call(prompt: str) -> str:
+            response = self._generate(
+                prompt, TranslationOut, max_output_tokens=4096, n=1, kind="translate"
+            )
+            return response_text(response)
+
+        return make_translator(call, master)
 
     async def tailor_cv(
         self, vacancy_text: str, cv: CvDocument
@@ -216,7 +226,7 @@ class GeminiCvLlmBackend:
     ) -> list[Tuple[CvDocument, float, str, List[str], List[str], List[str], Dict[str, Any]]]:
         if not items:
             return []
-        master = load_ollama_profile()
+        master = load_compact_profile()
         prompt_jobs: list[tuple[int, str, str]] = []
         locales: list[str] = []
         for i, (vacancy_text, _cv) in enumerate(items, start=1):
@@ -254,6 +264,7 @@ class GeminiCvLlmBackend:
                 provider=self.provider_id,
                 model=self._model_name,
                 extra_meta={"batch_size": n, "batch_slot": i + 1, "http_calls": 1},
+                translator=self._translator(master),
             )
             out.append(packed)
         return out

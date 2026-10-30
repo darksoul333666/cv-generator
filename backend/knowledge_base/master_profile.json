@@ -142,7 +142,7 @@
       "positioning": "Frontend senior enfocado en Angular para dashboards y aplicaciones empresariales de alto tráfico, con estado reactivo (NgRx, RxJS, Signals) y performance de tablas/virtualización.",
       "sellingPoints": [
         "Dashboards financieros en Grainchain con Angular, Angular Material y NgRx",
-        "Reducción reportada de ~35% en tiempos de renderizado (tablas/virtualización)",
+        "Tablas de préstamos en Grainchain: carga de 8 s a 3 s con virtual scroll y paginación",
         "i18n con ngx-translate, lazy loading y change detection",
         "Liderazgo técnico previo (Monkey Cave) y entrega en clientes enterprise (Lumston)",
         "Formularios, validación y PDF con pdfmake en Volaris Manifest (Angular 16)",
@@ -169,7 +169,7 @@
         "Stack actual: Angular, React, Next.js, TypeScript",
         "SSR, routing y optimización de carga en Lumston",
         "Stripe Payments en aplicaciones fintech",
-        "Reducción reportada de ~30% en tiempos de carga y ~20% en tiempo de desarrollo",
+        "Volaris Manifest: carga de vuelos de 10 s a 3 s; ~20% menos tiempo de desarrollo medido con story points y DORA",
         "Formularios, validación, APIs y PDF con pdfmake en Volaris Manifest (Angular 16)",
         "Drizline en Angular 18: Redux, Tailwind CSS y login de Microsoft"
       ],
@@ -1647,11 +1647,13 @@
         "AdonisJS",
         "Cybersource",
         "Neonet",
-        "Redux"
+        "Redux",
+        "Sentry",
+        "AWS CloudWatch"
       ],
       "achievements": [
         {
-          "description": "Reducción de errores en flujos de pago mediante validaciones y UX",
+          "description": "Reducción de errores en flujos de pago: pagos rechazados, correos y mensajes que no se enviaban y cierres inesperados de la app",
           "metric": {
             "value": 25.0,
             "unit": "percent",
@@ -1660,7 +1662,17 @@
           "status": "user_validated",
           "evidenceLevel": "claimed",
           "safeForCV": true,
-          "requiresUserValidation": false
+          "requiresUserValidation": false,
+          "evidenceDetail": {
+            "action": "Validaciones, mejoras de UX y depuración de fallas en producción",
+            "technologies": [
+              "Sentry",
+              "AWS CloudWatch",
+              "DevTools"
+            ],
+            "measurement": "Seguimiento de errores con Sentry, logs de CloudWatch y reportes",
+            "source": "Declarado por el usuario el 2026-10-30"
+          }
         },
         {
           "description": "Optimización de tiempos de respuesta en APIs",
@@ -1692,7 +1704,47 @@
       "evidenceLevel": "verified",
       "sourceCount": 5,
       "current": true,
-      "sortOrder": 0
+      "sortOrder": 0,
+      "dateConflict": {
+        "status": "user_resolved",
+        "field": "experience.UffPay.startDate",
+        "detectedAt": "2026-10-27",
+        "candidates": [
+          {
+            "startDate": "2024-01",
+            "endDate": "2024-07",
+            "current": false,
+            "source": "userValidation.resolved: experience.UffPay.startDate → «2024-01 – 2024-07» (2026-08-20); sourceValues de CVs 2025–2026 (inicio 2024-01, fin 2024-07)"
+          },
+          {
+            "startDate": "2026-04",
+            "endDate": null,
+            "current": true,
+            "source": "valor actual del perfil y userValidation.resolved: experience.UffPay.startDate → «2026-04 – Actualidad» (2026-08-20); no aparece en ningún CV fuente"
+          }
+        ],
+        "note": "Dos resoluciones del usuario registradas el mismo día (userValidation.resolved, 2026-08-20) se contradicen y el repositorio no tiene otra evidencia para elegir. startDate/endDate se dejan como estaban, pero el generador no imprime este periodo hasta que se resuelva con PUT /v1/master-profile/validations (o editando las fechas en el perfil).",
+        "resolvedValue": "Dos etapas: 2024-01 – 2024-07 y 2026-04 – Actualidad",
+        "resolvedAt": "2026-10-27",
+        "resolvedVia": "usuario en conversación"
+      },
+      "additionalPeriods": [
+        {
+          "startDate": "2024-01",
+          "endDate": "2024-07",
+          "note": "Primera etapa, en paralelo con Lumston."
+        }
+      ],
+      "roleScope": {
+        "teamSize": 4,
+        "highlights": [
+          "Desarrollo de punta a punta de la app móvil en React Native",
+          "Backend con AdonisJS además de la app",
+          "Integraciones de pago con Cybersource y Neonet",
+          "Monitoreo en producción con Sentry y AWS CloudWatch"
+        ],
+        "source": "Declarado por el usuario el 2026-10-30"
+      }
     },
     {
       "id": "exp_grainchain",
@@ -1747,16 +1799,31 @@
       ],
       "achievements": [
         {
-          "description": "Reducción de tiempos de renderizado en tablas/virtualización",
+          "description": "Reducción del tiempo de carga de las tablas de préstamos de 8 s a 3 s",
           "metric": {
-            "value": 35.0,
+            "value": 62.0,
             "unit": "percent",
             "type": "user_metric"
           },
           "status": "user_validated",
           "evidenceLevel": "claimed",
           "safeForCV": true,
-          "requiresUserValidation": false
+          "requiresUserValidation": false,
+          "evidenceDetail": {
+            "context": "Tablas de préstamos de unas 100 filas que tardaban 8 s en cargar",
+            "action": "Virtual scroll y paginación",
+            "measurement": "Tiempo de carga antes y después del cambio",
+            "before": {
+              "value": 8,
+              "unit": "s"
+            },
+            "after": {
+              "value": 3,
+              "unit": "s"
+            },
+            "note": "El perfil decía 35%; el usuario lo reemplazó por la medición 8 s → 3 s (62%, redondeado hacia abajo de 62.5%).",
+            "source": "Declarado por el usuario el 2026-10-30"
+          }
         }
       ],
       "evidence": [
@@ -1778,7 +1845,47 @@
       "evidenceLevel": "verified",
       "sourceCount": 6,
       "current": false,
-      "sortOrder": 1
+      "sortOrder": 1,
+      "roleScope": {
+        "teamSize": 4,
+        "highlights": [
+          "Responsable principal del frontend",
+          "Decisiones de arquitectura del frontend: estructura, manejo de estado y patrones",
+          "Code reviews y mentoría a otros desarrolladores"
+        ],
+        "source": "Declarado por el usuario el 2026-10-30"
+      }
+    },
+    {
+      "id": "exp_corus",
+      "company": "Corus",
+      "roles": [],
+      "employmentType": null,
+      "startDate": "2025-08",
+      "endDate": "2026-01",
+      "current": false,
+      "dateStatus": "verified",
+      "sourceValues": {},
+      "originalValues": {},
+      "userValidated": true,
+      "conflicts": [],
+      "domain": [
+        "consulting"
+      ],
+      "responsibilities": [],
+      "technologies": [],
+      "achievements": [],
+      "evidence": [
+        "Declarado por el usuario el 2026-10-27: consultora, Ago 2025 – Ene 2026, en paralelo con Grainchain. No hay documentos. UNRESOLVED: cargo, actividades y tecnologías."
+      ],
+      "sourceRefs": [
+        "user"
+      ],
+      "evidenceLevel": "claimed",
+      "sourceCount": 1,
+      "showInCv": false,
+      "showInCvNote": "Registrada para que la línea de tiempo cuadre. No sale en CVs hasta tener cargo y actividades (decisión del usuario).",
+      "sortOrder": 2
     },
     {
       "id": "exp_lumston",
@@ -1830,16 +1937,32 @@
       ],
       "achievements": [
         {
-          "description": "Reducción de tiempos de carga mediante optimización de componentes y estado",
+          "description": "Reducción del tiempo de carga de vuelos en Volaris Manifest de 10 s a 3 s",
           "metric": {
-            "value": 30.0,
+            "value": 70.0,
             "unit": "percent",
             "type": "user_metric"
           },
           "status": "user_validated",
           "evidenceLevel": "claimed",
           "safeForCV": true,
-          "requiresUserValidation": false
+          "requiresUserValidation": false,
+          "evidenceDetail": {
+            "context": "Carga de vuelos en la app de manifiestos de Volaris",
+            "action": "Lazy loading y paginación",
+            "measurement": "Tiempo de carga antes y después del cambio",
+            "before": {
+              "value": 10,
+              "unit": "s"
+            },
+            "after": {
+              "value": 3,
+              "unit": "s"
+            },
+            "note": "El perfil decía 30%; el usuario lo reemplazó por la medición 10 s → 3 s (70%).",
+            "source": "Declarado por el usuario el 2026-10-30"
+          },
+          "project": "Volaris Manifest"
         },
         {
           "description": "Entrega continua de features reduciendo tiempos de desarrollo",
@@ -1851,7 +1974,15 @@
           "status": "user_validated",
           "evidenceLevel": "claimed",
           "safeForCV": true,
-          "requiresUserValidation": false
+          "requiresUserValidation": false,
+          "evidenceDetail": {
+            "action": "Componentes reutilizables y patrones de arquitectura como Clean Architecture",
+            "technologies": [
+              "Clean Architecture"
+            ],
+            "measurement": "Story points y métricas DORA (código nuevo, recode y rework)",
+            "source": "Declarado por el usuario el 2026-10-30"
+          }
         }
       ],
       "evidence": [
@@ -1873,7 +2004,17 @@
       "evidenceLevel": "verified",
       "sourceCount": 6,
       "current": false,
-      "sortOrder": 2
+      "sortOrder": 3,
+      "roleScope": {
+        "teamSize": "6–8",
+        "highlights": [
+          "Frontend principal de Volaris Manifest",
+          "Trabajo simultáneo en proyectos de varios clientes: Volaris, Doña Tota, Tecnológico de Monterrey y Baker Tilly",
+          "Definición de métricas de calidad del equipo con DORA y story points",
+          "Code reviews y mentoría a otros desarrolladores"
+        ],
+        "source": "Declarado por el usuario el 2026-10-30"
+      }
     },
     {
       "id": "exp_monkey_cave",
@@ -1918,10 +2059,12 @@
         "Reuniones con cliente y gestión de aplicaciones en tienda (CV histórico)",
         "Selección de tecnologías/frameworks (CV histórico)"
       ],
-      "technologies": [],
+      "technologies": [
+        "SonarQube"
+      ],
       "achievements": [
         {
-          "description": "Mejora de eficiencia del equipo mediante buenas prácticas y sprints",
+          "description": "Aumento de actividades cerradas por sprint",
           "metric": {
             "value": 25.0,
             "unit": "percent",
@@ -1930,7 +2073,36 @@
           "status": "user_validated",
           "evidenceLevel": "claimed",
           "safeForCV": true,
-          "requiresUserValidation": false
+          "requiresUserValidation": false,
+          "evidenceDetail": {
+            "action": "Code reviews, estándares y patrones de arquitectura, métricas DORA y SonarQube",
+            "technologies": [
+              "SonarQube"
+            ],
+            "measurement": "Actividades cerradas por sprint",
+            "note": "Antes decía «Mejora de eficiencia del equipo»; el usuario precisó que el 25% es de actividades cerradas por sprint.",
+            "source": "Declarado por el usuario el 2026-10-30"
+          }
+        },
+        {
+          "description": "Reducción de bugs en producción y mejores tiempos de liberación",
+          "metric": {
+            "value": null,
+            "unit": "",
+            "type": ""
+          },
+          "status": "user_validated",
+          "evidenceLevel": "claimed",
+          "safeForCV": true,
+          "requiresUserValidation": false,
+          "evidenceDetail": {
+            "action": "Métricas DORA, SonarQube, estándares y patrones de arquitectura",
+            "technologies": [
+              "SonarQube"
+            ],
+            "measurement": "Sin cifra: mejora observada por el equipo",
+            "source": "Declarado por el usuario el 2026-10-30"
+          }
         }
       ],
       "evidence": [
@@ -1948,7 +2120,39 @@
       "evidenceLevel": "verified",
       "sourceCount": 4,
       "current": false,
-      "sortOrder": 3
+      "sortOrder": 4,
+      "dateConflict": {
+        "status": "user_resolved",
+        "field": "experience.MonkeyCave.dates",
+        "detectedAt": "2026-10-27",
+        "candidates": [
+          {
+            "startDate": "2020-01",
+            "endDate": "2023-01",
+            "current": false,
+            "source": "userValidation.resolved: experience.MonkeyCave.dates → «2020-01 – 2023-01» (2026-08-20); CVs Frontend/Full Stack 2025–2026"
+          },
+          {
+            "startDate": "2022-01",
+            "endDate": "2023-05",
+            "current": false,
+            "source": "valor actual del perfil y userValidation.resolved: experience.MonkeyCave.dates → «2022-01 – 2023-05» (2026-08-20); ningún CV fuente trae este rango completo"
+          }
+        ],
+        "note": "Dos resoluciones del usuario registradas el mismo día (userValidation.resolved, 2026-08-20) se contradicen y el repositorio no tiene otra evidencia para elegir. startDate/endDate se dejan como estaban, pero el generador no imprime este periodo hasta que se resuelva con PUT /v1/master-profile/validations (o editando las fechas en el perfil).",
+        "resolvedValue": "2022-01 – 2023-05",
+        "resolvedAt": "2026-10-27",
+        "resolvedVia": "usuario en conversación"
+      },
+      "roleScope": {
+        "teamSize": 5,
+        "highlights": [
+          "Liderazgo técnico de un equipo de 5 personas",
+          "Calidad de código con SonarQube y métricas DORA",
+          "Definición de estándares y patrones de arquitectura"
+        ],
+        "source": "Declarado por el usuario el 2026-10-30"
+      }
     },
     {
       "id": "exp_deva_software",
@@ -2000,7 +2204,7 @@
       "evidenceLevel": "verified",
       "sourceCount": 1,
       "current": false,
-      "sortOrder": 4
+      "sortOrder": 5
     },
     {
       "id": "exp_multiplica",
@@ -2047,7 +2251,7 @@
       "evidenceLevel": "verified",
       "sourceCount": 1,
       "current": false,
-      "sortOrder": 5
+      "sortOrder": 6
     },
     {
       "id": "exp_nano_degree",
@@ -2096,7 +2300,7 @@
       "evidenceLevel": "verified",
       "sourceCount": 1,
       "current": false,
-      "sortOrder": 6
+      "sortOrder": 7
     },
     {
       "id": "exp_ctz",
@@ -2145,7 +2349,7 @@
       "evidenceLevel": "verified",
       "sourceCount": 1,
       "current": false,
-      "sortOrder": 7
+      "sortOrder": 8
     }
   ],
   "projects": [
@@ -2373,7 +2577,16 @@
         "Biblioteca de contenido",
         "Ejercicios de relajación"
       ],
-      "technologies": [],
+      "technologies": [
+        "React Native 0.74",
+        "Express Js",
+        "Typescript",
+        "Web Sockets",
+        "Web RTC",
+        "Android",
+        "IOS",
+        "Figma"
+      ],
       "scale": null,
       "status": "mentioned",
       "evidenceLevel": "mentioned",
@@ -2411,7 +2624,14 @@
         "Inventario con cámara y códigos de barra",
         "Publicación de inventario rezagado en e-commerce"
       ],
-      "technologies": [],
+      "technologies": [
+        "Ionic",
+        "Angular",
+        "Typescript",
+        "Botstrap",
+        "Android",
+        "Ios"
+      ],
       "scale": null,
       "status": "mentioned",
       "evidenceLevel": "mentioned",
@@ -2449,7 +2669,11 @@
         "Compra por transferencias electrónicas y otros medios de pago",
         "Instalable como PWA"
       ],
-      "technologies": [],
+      "technologies": [
+        "React",
+        "Typescript",
+        "Tailwind"
+      ],
       "scale": null,
       "status": "mentioned",
       "evidenceLevel": "mentioned",
@@ -2728,12 +2952,17 @@
     {
       "id": "project_altos_aceros",
       "name": "Altos Aceros",
-      "type": "unknown",
+      "type": "web-application",
       "description": "Desarrollo completo para Altos Aceros (Lumston). El propósito del producto, el tipo de aplicación y las tecnologías siguen sin confirmarse.",
       "domain": [],
       "platforms": [],
       "features": [],
-      "technologies": [],
+      "technologies": [
+        "Angular 15",
+        "Nest JS",
+        "Bootstrap",
+        "Rxjs"
+      ],
       "scale": null,
       "status": "claimed",
       "evidenceLevel": "claimed",
@@ -2755,7 +2984,7 @@
       "id": "project_grainchain_safra",
       "name": "Safra Bank",
       "type": "web-application",
-      "description": "Desarrollo completo de Safra Bank en Grainchain. Alcance y stack sin detallar. El 35% de renderizado no se atribuye a este proyecto.",
+      "description": "Desarrollo completo de Safra Bank en Grainchain. Alcance y stack sin detallar. La mejora de las tablas de préstamos (8 s → 3 s) no se atribuye a este proyecto.",
       "domain": [
         "financial_technology"
       ],
@@ -2763,7 +2992,16 @@
         "Web"
       ],
       "features": [],
-      "technologies": [],
+      "technologies": [
+        "Angular 19",
+        "Typescript",
+        "Signals",
+        "Interceptors",
+        "I18n",
+        "NestJS",
+        "Codecommit",
+        "Codepipelines"
+      ],
       "scale": null,
       "status": "claimed",
       "evidenceLevel": "claimed",
@@ -2772,8 +3010,8 @@
       "evidence": [
         "User project update 2026-10-27",
         "UNRESOLVED: alcance de Safra Bank.",
-        "UNRESOLVED: si la métrica de 35% pertenece a este proyecto. Hoy projectId de metric_exp_grainchain_0 es null.",
-        "Confirmado por el usuario el 2026-10-27: desarrollo completo. El 35% sigue solo en Grainchain."
+        "UNRESOLVED: si la mejora de tablas (8 s → 3 s) pertenece a este proyecto. Hoy projectId de metric_exp_grainchain_0 es null.",
+        "Confirmado por el usuario el 2026-10-27: desarrollo completo. La mejora de tablas sigue solo en Grainchain."
       ],
       "sourceRefs": [
         "src_user_project_update_2026_10_27"
@@ -2832,6 +3070,24 @@
   ],
   "education": [
     {
+      "degree": "Ingeniería en Desarrollo y Gestión de Software",
+      "institution": "Universidad Tecnológica del Centro de Veracruz",
+      "startDate": null,
+      "endDate": "2022",
+      "graduationYear": 2022,
+      "status": "user_validated",
+      "id": "edu_ing_utcv",
+      "evidenceLevel": "claimed",
+      "sourceCount": 1,
+      "userValidated": true,
+      "sourceRefs": [
+        "user"
+      ],
+      "evidence": [
+        "Declarado por el usuario el 2026-10-27: Ingeniería terminada en 2022 en la UTCV. Ningún CV fuente la menciona. UNRESOLVED: año de inicio."
+      ]
+    },
+    {
       "degree": "TSU en Desarrollo de Software Multiplataforma (también referido como TSU Desarrollo y Gestión de Software / Associate's Degree in Multiplatform Software Development)",
       "institution": "Universidad Tecnológica del Centro de Veracruz",
       "startDate": "2019",
@@ -2845,7 +3101,9 @@
       "sourceRefs": [
         "src_cv_frontend_en",
         "src_cv_historical"
-      ]
+      ],
+      "showInCv": false,
+      "showInCvNote": "El usuario pidió el 2026-10-27 mostrar solo la Ingeniería en los CVs. El TSU se conserva en el perfil."
     },
     {
       "degree": "Técnico en soporte y mantenimiento a equipo de cómputo",
@@ -2860,7 +3118,9 @@
       "userValidated": true,
       "sourceRefs": [
         "src_cv_historical"
-      ]
+      ],
+      "showInCv": false,
+      "showInCvNote": "El usuario pidió el 2026-10-30 ocultarlo en los CVs. Se conserva en el perfil."
     },
     {
       "degree": "Técnico en Informática",
@@ -2875,14 +3135,16 @@
       "userValidated": true,
       "sourceRefs": [
         "src_cv_historical"
-      ]
+      ],
+      "showInCv": false,
+      "showInCvNote": "El usuario pidió el 2026-10-30 ocultarlo en los CVs. Se conserva en el perfil."
     }
   ],
   "certifications": [
     {
       "name": "AWS Machine Learning Certification",
       "issuer": "AWS",
-      "year": null,
+      "year": 2024,
       "status": "verified",
       "id": "cert_aws_ml",
       "evidenceLevel": "documented",
@@ -3093,7 +3355,7 @@
       "value": 25.0,
       "unit": "percent",
       "type": "user_metric",
-      "description": "Reducción de errores en flujos de pago mediante validaciones y UX",
+      "description": "Reducción de errores en flujos de pago: pagos rechazados, correos y mensajes que no se enviaban y cierres inesperados de la app",
       "company": "UffPay",
       "project": "",
       "status": "user_validated",
@@ -3132,10 +3394,10 @@
     },
     {
       "id": "metric_exp_grainchain_0",
-      "value": 35.0,
+      "value": 62.0,
       "unit": "percent",
       "type": "user_metric",
-      "description": "Reducción de tiempos de renderizado en tablas/virtualización",
+      "description": "Reducción del tiempo de carga de las tablas de préstamos de 8 s a 3 s",
       "company": "Grainchain Inc",
       "project": "",
       "status": "user_validated",
@@ -3153,16 +3415,16 @@
     },
     {
       "id": "metric_exp_lumston_0",
-      "value": 30.0,
+      "value": 70.0,
       "unit": "percent",
       "type": "user_metric",
-      "description": "Reducción de tiempos de carga mediante optimización de componentes y estado",
+      "description": "Reducción del tiempo de carga de vuelos en Volaris Manifest de 10 s a 3 s",
       "company": "Lumston",
-      "project": "",
+      "project": "Volaris Manifest",
       "status": "user_validated",
       "confidence": "high",
       "experienceId": "exp_lumston",
-      "projectId": null,
+      "projectId": "project_volaris_manifest",
       "evidenceLevel": "claimed",
       "sourceCount": 1,
       "userValidated": true,
@@ -3198,7 +3460,7 @@
       "value": 25.0,
       "unit": "percent",
       "type": "user_metric",
-      "description": "Mejora de eficiencia del equipo mediante buenas prácticas y sprints",
+      "description": "Aumento de actividades cerradas por sprint",
       "company": "Monkey Cave",
       "project": "",
       "status": "user_validated",
@@ -3389,7 +3651,7 @@
       ],
       "sellingPoints": [
         "Dashboards financieros Angular + NgRx",
-        "Performance de tablas y virtualización (~35% claimed)",
+        "Performance de tablas: 8 s → 3 s con virtual scroll y paginación (Grainchain)",
         "i18n, Signals, RxJS",
         "Formularios, validación y PDF con pdfmake en Volaris Manifest (Angular 16)",
         "Angular 16, guards, interceptores y Redux en Tecnológico de Monterrey",
@@ -3737,11 +3999,12 @@
         "2023-01",
         "2024-01"
       ],
-      "preferredValue": "2026-04 – Actualidad",
+      "preferredValue": "2024-01 – 2024-07 y 2026-04 – Actualidad (dos etapas)",
       "resolution": "user_validated",
       "userValidated": true,
       "impact": "critical",
-      "evidenceLevel": "conflicted"
+      "evidenceLevel": "conflicted",
+      "note": "Resuelto por el usuario el 2026-10-27. Tuvo empleos simultáneos; los solapes son reales."
     },
     {
       "id": "conflict_experience_monkeycave_dates",
@@ -3755,7 +4018,8 @@
       "resolution": "user_validated",
       "userValidated": true,
       "impact": "critical",
-      "evidenceLevel": "conflicted"
+      "evidenceLevel": "conflicted",
+      "note": "Resuelto por el usuario el 2026-10-27. Tuvo empleos simultáneos; los solapes son reales."
     },
     {
       "id": "conflict_experience_lumston_mobilestack",
@@ -3867,11 +4131,12 @@
         "35% en CV RN, knowledge_base y summary Frontend",
         "no está en los bullets de Grainchain del PDF Frontend/Full Stack (ahí se habla de charts/dashboards)"
       ],
-      "preferredValue": "35% en CV RN, knowledge_base y summary Frontend",
+      "preferredValue": "8 s → 3 s (62%), tablas de préstamos",
       "resolution": "user_validated",
       "userValidated": true,
       "impact": "high",
-      "evidenceLevel": "conflicted"
+      "evidenceLevel": "conflicted",
+      "note": "El usuario reemplazó el 35% por la medición 8 s → 3 s el 2026-10-30."
     }
   ],
   "careerTimeline": [
@@ -3899,7 +4164,13 @@
       },
       "userValidated": true,
       "kind": "employment",
-      "current": true
+      "current": true,
+      "additionalPeriods": [
+        {
+          "startDate": "2024-01",
+          "endDate": "2024-07"
+        }
+      ]
     },
     {
       "id": "tl_exp_grainchain",
@@ -3921,6 +4192,20 @@
           "2026-04"
         ]
       },
+      "userValidated": true,
+      "kind": "employment",
+      "current": false
+    },
+    {
+      "id": "tl_exp_corus",
+      "experienceId": "exp_corus",
+      "company": "Corus",
+      "role": "",
+      "roles": [],
+      "startDate": "2025-08",
+      "endDate": "2026-01",
+      "dateStatus": "verified",
+      "sourceValues": {},
       "userValidated": true,
       "kind": "employment",
       "current": false
@@ -4032,7 +4317,7 @@
     }
   ],
   "yearsOfExperience": {
-    "value": 7.3,
+    "value": 7.4,
     "source": "computed_from_user_validated_dates",
     "status": "computed",
     "evidenceLevel": "verified",
@@ -4047,13 +4332,12 @@
   "userValidation": {
     "pending": [
       "Confirmar base de datos y servicios AWS además de Lambda en Tecnológico de Monterrey.",
-      "Fechas laborales no modificadas: UffPay en el perfil es 2026-04–actual y el recordatorio de esta actualización dice 2024-01–2024-07.",
-      "Fechas laborales no modificadas: Monkey Cave en el perfil es 2022-01–2023-05 y userValidation.resolved dice 2020-01–2023-01.",
       "Baker Tilly: falta el nombre del modelo. El entrenamiento confirmado es SageMaker y buckets de S3.",
       "Plataforma de video: falta el nombre oficial, el cliente y el proveedor de generación. La contribución ya es desarrollo completo.",
       "Altos Aceros: la contribución es desarrollo completo. Faltan propósito, tipo de aplicación y tecnologías.",
-      "Safra Bank: la contribución es desarrollo completo. Faltan alcance y stack. El 35% no se atribuye a este proyecto.",
-      "Blackeagle: la contribución es desarrollo completo. Falta confirmar si la empresa es Hoppi / Get Together."
+      "Safra Bank: la contribución es desarrollo completo. Faltan alcance y stack. La mejora de tablas (8 s → 3 s) no se atribuye a este proyecto.",
+      "Blackeagle: la contribución es desarrollo completo. Falta confirmar si la empresa es Hoppi / Get Together.",
+      "UffPay: falta el cómo y la medición del 30% en tiempos de respuesta de APIs."
     ],
     "resolved": [
       {
@@ -4449,9 +4733,76 @@
         "resolvedValue": "identity_experience_education",
         "resolvedAt": "2026-10-05",
         "source": "user"
+      },
+      {
+        "field": "experience.UffPay.startDate",
+        "previousValues": [],
+        "resolvedValue": "2024-01 – 2024-07 y 2026-04 – Actualidad (dos etapas)",
+        "resolvedAt": "2026-10-27",
+        "source": "user"
+      },
+      {
+        "field": "experience.MonkeyCave.dates",
+        "previousValues": [],
+        "resolvedValue": "2022-01 – 2023-05",
+        "resolvedAt": "2026-10-27",
+        "source": "user"
+      },
+      {
+        "field": "experience.Corus",
+        "previousValues": [],
+        "resolvedValue": "2025-08 – 2026-01, no se muestra en CVs",
+        "resolvedAt": "2026-10-27",
+        "source": "user"
+      },
+      {
+        "field": "metrics.Grainchain.render_time_reduction",
+        "previousValues": [
+          "35%"
+        ],
+        "resolvedValue": "8 s → 3 s (62%)",
+        "resolvedAt": "2026-10-30",
+        "source": "user"
+      },
+      {
+        "field": "metrics.Lumston.load_time_reduction",
+        "previousValues": [
+          "30%"
+        ],
+        "resolvedValue": "10 s → 3 s (70%), Volaris Manifest",
+        "resolvedAt": "2026-10-30",
+        "source": "user"
+      },
+      {
+        "field": "profile.content",
+        "previousValues": [],
+        "resolvedValue": "identity_experience_education",
+        "resolvedAt": "2026-10-30",
+        "source": "user"
+      },
+      {
+        "field": "profile.content",
+        "previousValues": [],
+        "resolvedValue": "identity_experience_education",
+        "resolvedAt": "2026-10-30",
+        "source": "user"
+      },
+      {
+        "field": "education.cvVisibility",
+        "previousValues": [],
+        "resolvedValue": "Ocultar CETIS 164 y Escuela Secundaria Técnica en CVs",
+        "resolvedAt": "2026-10-30",
+        "source": "user"
+      },
+      {
+        "field": "certifications.AWS Machine Learning Certification.year",
+        "previousValues": [],
+        "resolvedValue": "2024",
+        "resolvedAt": "2026-10-30",
+        "source": "user"
       }
     ],
-    "lastUpdated": "2026-10-27"
+    "lastUpdated": "2026-10-30"
   },
   "jobMatching": {
     "enabled": true,
@@ -4486,7 +4837,12 @@
     "preferDocumentedEvidence": true,
     "adaptToJobDescription": true,
     "suppressIrrelevantSkills": true,
-    "preserveCareerHistory": true
+    "preserveCareerHistory": true,
+    "omitContactFields": [
+      "location"
+    ],
+    "omitContactFieldsNote": "Regla de presentación validada por el usuario (conflicts: profile.contact.location → «omitido en CVs 2025–2026», 2026-08-20). profile.contact.location conserva el dato («Mexico»); solo no se imprime en el CV.",
+    "overlappingEmploymentNote": "El usuario confirmó (2026-10-27) que tuvo varios empleos al mismo tiempo. Los solapes de fechas no son errores."
   },
   "evidenceRules": {
     "safeToClaimStatuses": [
@@ -4575,7 +4931,9 @@
       "scope": [
         "frontend-positioning"
       ],
-      "id": "src_kb_cv1"
+      "id": "src_kb_cv1",
+      "status": "removed",
+      "note": "Archivo eliminado del repositorio en el commit ebc18f7 (2026-10-27). Se conserva como referencia histórica de evidencia; recuperable con git show ebc18f7~1:backend/knowledge_base/cv_1.json. Ya no se lee en tiempo de ejecución."
     },
     {
       "name": "backend/knowledge_base/cv_2.json",
@@ -4584,7 +4942,9 @@
       "scope": [
         "react-native-positioning"
       ],
-      "id": "src_kb_cv2"
+      "id": "src_kb_cv2",
+      "status": "removed",
+      "note": "Archivo eliminado del repositorio en el commit ebc18f7 (2026-10-27). Se conserva como referencia histórica de evidencia; recuperable con git show ebc18f7~1:backend/knowledge_base/cv_2.json. Ya no se lee en tiempo de ejecución."
     },
     {
       "name": "backend/knowledge_base/cv_3.json",
@@ -4593,7 +4953,9 @@
       "scope": [
         "fullstack-positioning"
       ],
-      "id": "src_kb_cv3"
+      "id": "src_kb_cv3",
+      "status": "removed",
+      "note": "Archivo eliminado del repositorio en el commit ebc18f7 (2026-10-27). Se conserva como referencia histórica de evidencia; recuperable con git show ebc18f7~1:backend/knowledge_base/cv_3.json. Ya no se lee en tiempo de ejecución."
     },
     {
       "name": "Desktop/Sortalia/README_OBJECTIVE_PROJECT.md",

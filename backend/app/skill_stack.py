@@ -8,6 +8,7 @@ from typing import Iterable, List, Optional
 from .models import StackBlock, TechSkills
 
 _PER_ROW = 10
+_OVERLAY_PER_ROW = 6
 
 _STYLING = {
     "css3",
@@ -478,6 +479,14 @@ def _guess_overlay_row(name: str) -> str:
     return "backend"
 
 
+_ROLE_OR_NOTE_RE = re.compile(
+    r"\b(?:senior|junior|semi[- ]?senior|sr\.?|jr\.?|lead|engineer|developer|desarrollador|ingeniero|"
+    r"programador|equivalen\w*|similar|experience|experiencia|years?|años)\b"
+    r"|^full[- ]?stack$|^frontend$|^backend$",
+    re.IGNORECASE,
+)
+
+
 def _clean_overlay_name(raw: str) -> str:
     name = str(raw or "").strip()
     if not name or len(name) > 48:
@@ -485,6 +494,9 @@ def _clean_overlay_name(raw: str) -> str:
     if len(name.split()) > 5:
         return ""
     if _norm(name) in _OVERLAY_SKIP:
+        return ""
+    # «Senior Full Stack», «NestJS equivalence»: títulos o notas del modelo, no habilidades.
+    if _ROLE_OR_NOTE_RE.search(name):
         return ""
     return name
 
@@ -516,14 +528,119 @@ def _overlay_rows(extras: Optional[Iterable[str]]) -> dict[str, list[str]]:
     return buckets
 
 
-def _merge_row(base: list[str], overlay: list[str]) -> list[str]:
+def _merge_row(
+    base: list[str],
+    overlay: list[str],
+    vacancy: str = "",
+    aliases: Optional[dict[str, list[str]]] = None,
+) -> list[str]:
+    """Primero lo del perfil que pide la vacante, luego lo que agregó el modelo, luego el resto."""
     if not overlay:
         return base
     seen = {_norm(n) for n in overlay}
     rest = [n for n in base if _norm(n) not in seen]
-    merged = overlay + rest
-    cap = max(_PER_ROW, len(overlay))
-    return merged[:cap]
+    hits = [n for n in rest if vacancy and _in_vacancy(n, vacancy, aliases or {})]
+    others = [n for n in rest if n not in hits]
+    # Lo que pide la vacante entra, pero una fila no pasa de _PER_ROW + 2: más parece relleno.
+    merged = hits + overlay[:_OVERLAY_PER_ROW] + others
+    return merged[: _PER_ROW + 2]
+
+
+# --- Duplicados entre filas -------------------------------------------------------------------
+# El modelo agrega skills de la vacante con otra grafía («APIs REST» vs «REST APIs»), con
+# paréntesis («Testing (Jest, Karma)» vs «Jest») o como variantes de un mismo concepto
+# («Pagos», «Pago electrónico», «Integraciones de pago»). Se quedan una sola vez.
+
+_CONCEPT_STOP = {
+    "de", "del", "la", "las", "el", "los", "y", "e", "en", "con", "para", "and", "of", "the", "for", "with",
+    "api", "apis", "rest", "web", "app", "apps", "datos", "data", "sistemas", "systems",
+}
+
+
+def _base_label(name: str) -> str:
+    return re.sub(r"\s*\([^)]*\)\s*", " ", name).strip()
+
+
+def _inner_items(name: str) -> list[str]:
+    m = re.search(r"\(([^)]*)\)", name)
+    if not m:
+        return []
+    return [p.strip() for p in m.group(1).split(",") if p.strip()]
+
+
+def _alias_lookup(aliases: dict[str, list[str]]) -> dict[str, str]:
+    lookup: dict[str, str] = {}
+    for canon, values in aliases.items():
+        lookup[_norm(canon)] = _norm(canon)
+        for alias in values:
+            lookup.setdefault(_norm(alias), _norm(canon))
+    return lookup
+
+
+def _canon(name: str, lookup: dict[str, str]) -> str:
+    key = _norm(_base_label(name))
+    return lookup.get(key, key)
+
+
+def _stems(name: str) -> set[str]:
+    words = re.findall(r"[a-záéíóúñü0-9]+", _norm(_base_label(name)))
+    return {w[:4] for w in words if len(w) >= 3 and w not in _CONCEPT_STOP}
+
+
+def _dedupe_overlay(
+    base_rows: dict[str, list[str]],
+    extra: dict[str, list[str]],
+    aliases: dict[str, list[str]],
+    inventory: set[str],
+) -> dict[str, list[str]]:
+    """Quita del overlay lo que ya está en el perfil o en otra fila, con cualquier grafía."""
+    lookup = _alias_lookup(aliases)
+    seen: set[str] = set()
+    for names in base_rows.values():
+        for name in names:
+            seen.add(_canon(name, lookup))
+            seen.update(_canon(i, lookup) for i in _inner_items(name))
+    concepts: list[tuple[str, str, int]] = []  # (row, nombre, índice) de conceptos del overlay
+    out: dict[str, list[str]] = {row: [] for row in extra}
+    for row, names in extra.items():
+        for name in names:
+            key = _canon(name, lookup)
+            inner = [_canon(i, lookup) for i in _inner_items(name)]
+            if key in seen and not (inner and not set(inner) <= seen):
+                continue
+            if inner and key not in inventory:
+                # «Testing (Jest, Karma)»: se agregan solo los nombres que faltan, sin la etiqueta.
+                for item in _inner_items(name):
+                    ikey = _canon(item, lookup)
+                    if ikey not in seen:
+                        seen.add(ikey)
+                        out[row].append(item)
+                seen.add(key)
+                continue
+            is_concept = key not in inventory and key not in lookup
+            if is_concept:
+                mine = _stems(name)
+                clash = None
+                for idx, (crow, cname, cpos) in enumerate(concepts):
+                    other = _stems(cname)
+                    if mine and other and mine & other:
+                        clash = idx
+                        break
+                if clash is not None:
+                    crow, cname, cpos = concepts[clash]
+                    keep_new = bool(_inner_items(name)) and not _inner_items(cname) or (
+                        not _inner_items(cname) and len(name) > len(cname)
+                    )
+                    if keep_new:
+                        out[crow][cpos] = name
+                        concepts[clash] = (crow, name, cpos)
+                    seen.add(key)
+                    continue
+                concepts.append((row, name, len(out[row])))
+            seen.add(key)
+            seen.update(inner)
+            out[row].append(name)
+    return out
 
 
 def build_stack_from_master(
@@ -542,20 +659,27 @@ def build_stack_from_master(
     if not _vacancy_wants_payments(vacancy_text or ""):
         for row, names in extra.items():
             extra[row] = [name for name in names if _norm(name) not in _PAYMENTS]
-    frontend = _merge_row(_sort_row(rows["frontend"], vacancy, aliases), extra["frontend"])
-    styling = _merge_row(_sort_row(rows["styling"], vacancy, aliases), extra["styling"])
-    backend = _merge_row(_sort_row(rows["backend"], vacancy, aliases), extra["backend"])
-    state = _merge_row(_sort_row(rows["state"], vacancy, aliases), extra["state"])
+    inventory = {_norm(n) for n in (master.get("skill_inventory") or [])}
+    for names in (master.get("skills") or {}).values() if isinstance(master.get("skills"), dict) else []:
+        if isinstance(names, list):
+            inventory.update(_norm(n) for n in names)
+    extra = _dedupe_overlay(rows, extra, aliases, inventory)
+    frontend = _merge_row(_sort_row(rows["frontend"], vacancy, aliases), extra["frontend"], vacancy, aliases)
+    styling = _merge_row(_sort_row(rows["styling"], vacancy, aliases), extra["styling"], vacancy, aliases)
+    backend = _merge_row(_sort_row(rows["backend"], vacancy, aliases), extra["backend"], vacancy, aliases)
+    state = _merge_row(_sort_row(rows["state"], vacancy, aliases), extra["state"], vacancy, aliases)
     cloud = _merge_row(
         _fold_aws(_sort_row(rows["cloud"], vacancy, aliases, cap=False), vacancy)[:_PER_ROW],
         extra["cloud"],
+        vacancy,
+        aliases,
     )
-    mobile = _merge_row(_sort_row(rows["mobile"], vacancy, aliases), extra["mobile"])
+    mobile = _merge_row(_sort_row(rows["mobile"], vacancy, aliases), extra["mobile"], vacancy, aliases)
     architecture = _merge_row(
-        _sort_row(rows["architecture"], vacancy, aliases), extra["architecture"]
+        _sort_row(rows["architecture"], vacancy, aliases), extra["architecture"], vacancy, aliases
     )
-    testing = _merge_row(_sort_row(rows["testing"], vacancy, aliases), extra["testing"])
-    quality = _merge_row(_sort_row(rows["quality"], vacancy, aliases), extra["quality"])
+    testing = _merge_row(_sort_row(rows["testing"], vacancy, aliases), extra["testing"], vacancy, aliases)
+    quality = _merge_row(_sort_row(rows["quality"], vacancy, aliases), extra["quality"], vacancy, aliases)
     return StackBlock(
         frontend=_join(frontend, vacancy, aliases, original),
         styling=_join(styling, vacancy, aliases, original),

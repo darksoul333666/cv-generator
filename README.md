@@ -20,7 +20,7 @@ python3 --version
 /usr/bin/python3 --version
 ```
 
-- Una clave de [Google AI Studio](https://aistudio.google.com/apikey) (Gemini), de [OpenAI](https://platform.openai.com/api-keys), o [Ollama](https://ollama.com/) corriendo en local
+- Una clave de [Google AI Studio](https://aistudio.google.com/apikey) (Gemini), o de [OpenAI](https://platform.openai.com/api-keys)
 - Chrome, solo si vas a usar la extensión
 
 ### 1. Clonar e instalar el frontend
@@ -66,7 +66,6 @@ Edita `backend/.env` y deja un solo proveedor activo:
 |---|---|
 | `gemini` (default) | `GEMINI_API_KEY` y `GEMINI_MODEL` |
 | `openai` | `OPENAI_API_KEY` y `OPENAI_MODEL` |
-| `ollama` | Ollama en `OLLAMA_HOST` (default `http://127.0.0.1:11434`) y el modelo `OLLAMA_MODEL` |
 
 Ejemplo mínimo con Gemini:
 
@@ -185,7 +184,7 @@ Vacante (web o extensión)
      parse vacante (Empresa/URL se quedan
      en historial; no van al LLM)
                  │
-     cola (lote de 5) ──► Gemini o Ollama
+     cola (lote de 5) ──► Gemini u OpenAI
                  │
      perfil maestro + plantilla keyword
                  │
@@ -249,15 +248,40 @@ Fuente de verdad: `backend/knowledge_base/master_profile.json`. Cómo reemplazar
 
 `compact_master.py` arma el JSON corto que ve el modelo (experiencias, métricas, inventario de skills). Educación y certificaciones **no las reescribe el LLM**: salen fijas (`locale_util`).
 
-Plantillas en `knowledge_base/cv_*.json` solo sirven al *matcher* por keywords (`matcher.py`). El tailor usa el maestro.
+`knowledge_base/cv_1.json`, `cv_2.json` y `cv_3.json` se eliminaron en `ebc18f7`: eran copias viejas del perfil (p. ej. UffPay «Ene 2023 – Jul 2024») y el tailor ya no las usaba para hechos. El *matcher* (`matcher.py`) sigue leyendo `cv_*.json` si alguien agrega plantillas; sin ellas usa una base derivada del maestro (`compact_master.base_cv_from_master`, id `master_profile`) que solo trae identidad y contacto. El perfil compacto que ve el modelo se calcula en cada generación (`GET /v1/master-profile/compact` para revisarlo); ya no se exporta a disco. En `sources[]` del maestro, `src_kb_cv1..3` quedan como evidencia histórica (`status: removed`, recuperables con `git show ebc18f7~1:<ruta>`).
+
+#### Verificación antes de entregar un CV
+
+`_build_cv` (en `llm/cv_builder.py`, compartido por Gemini y OpenAI) devuelve el CV y un reporte. Las notas salen en `notes_to_verify` (respuesta del API e historial) y en `raw_meta.verification`.
+
+- **Fechas en conflicto.** Un empleo con `dateConflict.status: "unresolved"` (hoy UffPay y Monkey Cave) sale sin periodo y sus fechas no se mandan al modelo. Las `dates` que escriba el modelo nunca se usan. Se resuelve con `PUT /v1/master-profile/validations` (`experience.UffPay.startDate` / `experience.MonkeyCave.dates`, valor `AAAA-MM – AAAA-MM` o `AAAA-MM – Actualidad`) o cambiando la fecha en el editor; guardar el perfil con las mismas fechas no cuenta como resolución.
+- **Hechos sin respaldo.** Se descarta un bullet con una cifra que no está en ese empleo, una cifra junto a un proyecto que `metrics[]` no asigna a ese proyecto (el 35% es de Grainchain, no de Safra Bank) o una tecnología que solo está en la vacante. Las tecnologías de la vacante pueden ir en skills/keywords, no en la experiencia. Si faltan bullets se rellena con hechos del maestro, nunca con frases genéricas.
+- **Proyectos incompletos.** Sin tecnologías ni funcionalidades confirmadas (Altos Aceros, Safra Bank) o `status: incomplete` no van al prompt; siguen en el maestro. Las notas internas de las descripciones («sin confirmar») se quitan y los `UNRESOLVED:` de `evidence` se pasan como `unknown[]`.
+- **Idioma.** `language_guard.py` detecta `en` / `es` / `mixed` / `unknown` por texto (palabras funcionales, verbos, títulos y morfología; empresas, proyectos y tecnologías no votan). Lo que está en el otro idioma o mezclado se manda a traducir al mismo proveedor; la traducción se acepta solo si queda en el idioma pedido y conserva números, fechas y nombres protegidos. Hay un reintento; si falla, se conserva el texto original y se reporta. Nunca se borra contenido ni se cambia por un texto genérico. `unknown` (p. ej. «Angular, NgRx») se deja igual. Es una heurística: limitaciones en el docstring del módulo.
+- **Ubicación.** `profile.contact.location` guarda el dato («Mexico»), pero no se imprime: `cvGenerationRules.omitContactFields` (y la resolución del conflicto de ubicación como «omitido en CVs 2025–2026») lo excluyen del CV.
+
+### Regenerar CVs del historial
+
+En **Historial**, «Regenerar este CV» (detalle) o marca varios y pulsa «Regenerar N». Usa la vacante guardada y el pipeline actual, así se prueban cambios sin buscar la vacante otra vez. Cada regeneración es una entrada nueva («<nombre> (regenerado)», con enlace al original); el original no se toca. Sale en lotes de 5 por petición y un lote parcial no espera a juntar 5. API: `POST /v1/history/regenerate` con `{"ids": [...]}` (máx. 30).
+
+Los cargos de cada empleo se eligen entre los cargos validados del perfil según la familia del puesto al que te postulas (React Native/móvil, Frontend, Full Stack, Backend). Si un empleo no tiene un cargo de esa familia, se deja el real y sale una nota en «Para revisar».
+
+### Tests del backend
+
+```bash
+backend/.venv/bin/pip install pytest
+cd backend && .venv/bin/python -m pytest -q
+```
+
+No llaman a ningún modelo: `tests/fakes.py` sustituye la llamada HTTP por respuestas fijas (incluida la traducción) y los E2E corren el pipeline completo contra `knowledge_base/master_profile.json`.
 
 ### Flujo de un CV
 
 1. `POST /v1/queue` (extensión o “Añadir al lote”) o `POST /v1/optimize` (espera el resultado).
 2. `cv_queue.py` — jobs en `optimize_queue.json`. Al juntar **5**, una llamada `tailor_cv_batch`. “Generar lote” hace flush de 1–4.
-3. `vacancy_pipeline.py` — limpia texto, elige plantilla, llama al LLM, `append_generated_cv`.
-4. `llm/gemini_backend.py` (prod) u `ollama_backend.py`. Prompts en `llm/prompts.py`.
-5. `_ollama_result_to_cv` (compartido) — empresas solo las del maestro; fechas del maestro; `%` en vez de `percent`; skills del maestro + overlay de la vacante (C#/.NET si el modelo los pide); stack en `skill_stack.py`.
+3. `vacancy_pipeline.py` — limpia texto, elige plantilla (base del maestro si no hay `cv_*.json`), llama al LLM, `append_generated_cv`.
+4. `llm/gemini_backend.py` u `llm/openai_backend.py`. Prompts en `llm/prompts.py`.
+5. `_build_cv` en `llm/cv_builder.py` (compartido; `result_to_cv` devuelve solo el CV) — empresas solo las del maestro; fechas del maestro (omitidas si están en conflicto); verificación de hechos; paso de idioma con traducción validada; `%` en vez de `percent`; skills del maestro + overlay de la vacante (C#/.NET si el modelo los pide); stack en `skill_stack.py`.
 
 No reintentar 429 de Gemini (cuota diaria).
 

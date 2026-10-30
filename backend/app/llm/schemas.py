@@ -185,7 +185,7 @@ class OptimizerExperienceOut(BaseModel):
 
 
 class OptimizerOut(BaseModel):
-    """Salida de cv-optimizer / perfil maestro (Gemini, OpenAI o Ollama)."""
+    """Salida de cv-optimizer / perfil maestro (Gemini u OpenAI)."""
 
     model_config = ConfigDict(extra="ignore")
 
@@ -223,3 +223,9 @@ class OptimizerBatchOut(BaseModel):
     @classmethod
     def _aliases(cls, value: Any) -> Any:
         return normalize_optimizer_batch(value)
+
+
+class TranslationOut(BaseModel):
+    """Salida del paso de traducción validada (language_guard.repair_language)."""
+
+    items: List[str] = Field(default_factory=list)

@@ -98,6 +98,57 @@ def _parse_range(value: str) -> tuple[str | None, str | None]:
     return (start if date_re.match(start) else None, end if date_re.match(end) else None)
 
 
+_PRESENT_RE = re.compile(r"^(actualidad|present|presente|current|actual)$", re.IGNORECASE)
+
+
+def _range_parts(value: str) -> tuple[str | None, str | None, bool]:
+    """«2024-01 – 2024-07» / «2026-04 – Actualidad» / «2024-01» → (inicio, fin, actual)."""
+    parts = [p.strip() for p in re.split(r"\s+[–-]\s+|\s*–\s*", value.strip()) if p.strip()]
+    date_re = re.compile(r"^\d{4}(-\d{2})?$")
+    start = parts[0] if parts and date_re.match(parts[0]) else None
+    end: str | None = None
+    current = False
+    if len(parts) >= 2:
+        if _PRESENT_RE.match(parts[1]):
+            current = True
+        elif date_re.match(parts[1]):
+            end = parts[1]
+    return start, end, current
+
+
+def date_conflict_open(ex: dict[str, Any]) -> bool:
+    conflict = ex.get("dateConflict")
+    return isinstance(conflict, dict) and str(conflict.get("status") or "").lower() in {"unresolved", "pending"}
+
+
+def _close_date_conflict(ex: dict[str, Any], resolved_value: str, via: str) -> None:
+    conflict = ex.get("dateConflict")
+    if not isinstance(conflict, dict):
+        return
+    conflict["status"] = "user_resolved"
+    conflict["resolvedValue"] = resolved_value
+    conflict["resolvedAt"] = date.today().isoformat()
+    conflict["resolvedVia"] = via
+
+
+def _dates_changed(ex: dict[str, Any], start: Any, end: Any, current: bool) -> bool:
+    return (start, end, bool(current)) != (ex.get("startDate"), ex.get("endDate"), bool(ex.get("current")))
+
+
+def _set_validated_range(ex: dict[str, Any], resolved_value: str, via: str) -> None:
+    """Una validación explícita del usuario con un rango cierra el conflicto de fechas."""
+    start, end, current = _range_parts(resolved_value)
+    if start:
+        ex["startDate"] = start
+    if end or current:
+        ex["endDate"] = None if current else end
+        ex["current"] = current
+    ex["userValidated"] = True
+    if ex.get("startDate") and (ex.get("endDate") or ex.get("current")):
+        ex["dateStatus"] = "verified"
+        _close_date_conflict(ex, resolved_value, via)
+
+
 def apply_user_validation(raw: dict[str, Any], field: str, resolved_value: str) -> dict[str, Any]:
     conflict = next((c for c in raw.get("conflicts") or [] if c.get("field") == field), None)
     previous = list(conflict.get("values") or []) if conflict else []
@@ -124,22 +175,13 @@ def apply_user_validation(raw: dict[str, Any], field: str, resolved_value: str) 
             ex["dateStatus"] = "verified"
         _sync_timeline(raw, "exp_grainchain")
     elif field == "experience.UffPay.startDate":
+        # Antes guardaba el rango completo («2024-01 – 2024-07») dentro de startDate.
         ex = _find_exp(raw, "exp_uffpay")
-        ex["startDate"] = resolved_value
-        ex["userValidated"] = True
-        if ex.get("endDate"):
-            ex["dateStatus"] = "verified"
+        _set_validated_range(ex, resolved_value, "PUT /v1/master-profile/validations")
         _sync_timeline(raw, "exp_uffpay")
     elif field == "experience.MonkeyCave.dates":
-        start, end = _parse_range(resolved_value)
         ex = _find_exp(raw, "exp_monkey_cave")
-        if start:
-            ex["startDate"] = start
-        if end:
-            ex["endDate"] = end
-        ex["userValidated"] = True
-        if ex.get("startDate") and ex.get("endDate"):
-            ex["dateStatus"] = "verified"
+        _set_validated_range(ex, resolved_value, "PUT /v1/master-profile/validations")
         _sync_timeline(raw, "exp_monkey_cave")
     elif field == "languages.English.level":
         for lang in raw.get("languages") or []:
@@ -155,6 +197,7 @@ def apply_user_validation(raw: dict[str, Any], field: str, resolved_value: str) 
         conflict["preferredValue"] = resolved_value
         conflict["resolution"] = "user_validated"
         conflict["userValidated"] = True
+        conflict.pop("conflictingResolutions", None)
 
     uv = raw.setdefault(
         "userValidation",
@@ -312,19 +355,32 @@ def apply_experience_edits(raw: dict[str, Any], items: list[ExperienceEditItem])
         orig.setdefault("endDate", ex.get("endDate"))
         orig.setdefault("employmentType", ex.get("employmentType"))
 
+        # Reenviar las mismas fechas no resuelve un conflicto abierto; cambiarlas sí.
+        changed = _dates_changed(ex, start, end, item.current)
+        keep_conflict = date_conflict_open(ex) and not changed
         ex["startDate"] = start
         ex["endDate"] = end
         ex["current"] = bool(item.current)
         ex["employmentType"] = emp
         ex["sortOrder"] = index
         ex["userValidated"] = True
-        if start and (end or item.current):
+        if keep_conflict:
+            ex["dateStatus"] = "conflicted"
+        elif start and (end or item.current):
             ex["dateStatus"] = "verified"
             ex["evidenceLevel"] = "verified"
+            if date_conflict_open(ex):
+                _close_date_conflict(
+                    ex, f"{start} – {'Actualidad' if item.current else end}", "editor de experiencia"
+                )
         elif start or end:
             ex["dateStatus"] = "requires_validation"
 
         ordered.append(ex)
+
+        if keep_conflict or not changed:
+            # Guardar sin tocar las fechas no es una resolución del usuario: no se registra.
+            continue
 
         resolved_range = " – ".join(
             [
@@ -550,6 +606,44 @@ def _achievement_dict(item: AchievementIn) -> Optional[dict[str, Any]]:
     }
 
 
+# Campos que el editor de Skills no conoce y no debe borrar al guardar.
+_ACHIEVEMENT_EXTRAS = ("evidenceDetail", "project")
+
+
+def _metric_key(ach: dict[str, Any]) -> tuple:
+    metric = ach.get("metric") or {}
+    value = metric.get("value")
+    try:
+        value = float(value) if value is not None else None
+    except (TypeError, ValueError):
+        pass
+    return (value, str(metric.get("unit") or "").lower())
+
+
+def _keep_achievement_extras(new: dict[str, Any], previous: list[Any], position: int) -> dict[str, Any]:
+    """Conserva la evidencia (cómo, medición, antes/después) y el proyecto del logro anterior.
+
+    Empareja por descripción; si cambió, por la misma cifra; si no, por posición con la misma cifra.
+    """
+    old_items = [a for a in previous if isinstance(a, dict)]
+    desc = " ".join(str(new.get("description") or "").lower().split())
+    match = next(
+        (a for a in old_items if " ".join(str(a.get("description") or "").lower().split()) == desc), None
+    )
+    if match is None and _metric_key(new)[0] is not None:
+        same = [a for a in old_items if _metric_key(a) == _metric_key(new)]
+        if len(same) == 1:
+            match = same[0]
+    if match is None and position < len(previous) and isinstance(previous[position], dict):
+        if _metric_key(previous[position]) == _metric_key(new):
+            match = previous[position]
+    if match:
+        for key in _ACHIEVEMENT_EXTRAS:
+            if key in match and key not in new:
+                new[key] = match[key]
+    return new
+
+
 def _blank_experience(item_id: str) -> dict[str, Any]:
     return {
         "id": item_id,
@@ -588,7 +682,9 @@ def _apply_experience_content(raw: dict[str, Any], items: list[ExperienceContent
         roles = _clean_str_list(item.roles)
         if not company:
             raise HTTPException(status_code=400, detail="Cada experiencia necesita empresa")
-        if not roles:
+        hidden = (existing.get(item_id) or {}).get("showInCv") is False
+        if not roles and not hidden:
+            # Un empleo oculto en CVs (p. ej. Corus, cargo aún sin confirmar) puede no tener rol.
             raise HTTPException(status_code=400, detail=f"Agrega al menos un rol en {company}")
         emp = (item.employmentType or "").strip() or None
         if emp and emp not in ALLOWED_EMPLOYMENT:
@@ -600,13 +696,15 @@ def _apply_experience_content(raw: dict[str, Any], items: list[ExperienceContent
                 status_code=400,
                 detail=f"La fecha fin no puede ser anterior al inicio ({company})",
             )
+        previous = list((existing.get(item_id) or {}).get("achievements") or [])
         achievements = []
-        for ach in item.achievements:
+        for position, ach in enumerate(item.achievements):
             dumped = _achievement_dict(ach)
             if dumped:
-                achievements.append(dumped)
+                achievements.append(_keep_achievement_extras(dumped, previous, position))
 
         ex = existing.get(item_id) or _blank_experience(item_id)
+        keep_conflict = date_conflict_open(ex) and not _dates_changed(ex, start, end, item.current)
         ex["company"] = company
         ex["roles"] = roles
         ex["employmentType"] = emp
@@ -620,8 +718,15 @@ def _apply_experience_content(raw: dict[str, Any], items: list[ExperienceContent
         ex["userValidated"] = True
         if str(ex.get("evidenceLevel") or "") in {"", "inferred", "conflicted"}:
             ex["evidenceLevel"] = "documented"
-        if start and (end or item.current):
+        if keep_conflict:
+            # Guardar el perfil con las mismas fechas no las convierte en verificadas.
+            ex["dateStatus"] = "conflicted"
+        elif start and (end or item.current):
             ex["dateStatus"] = "verified"
+            if date_conflict_open(ex):
+                _close_date_conflict(
+                    ex, f"{start} – {'Actualidad' if item.current else end}", "editor de perfil"
+                )
         elif start or end:
             ex["dateStatus"] = "claimed"
         ordered.append(ex)
@@ -657,6 +762,16 @@ def _apply_experience_content(raw: dict[str, Any], items: list[ExperienceContent
     return ordered
 
 
+def _project_id(raw: dict[str, Any], name: Any) -> Optional[str]:
+    key = str(name or "").strip().lower()
+    if not key:
+        return None
+    for project in raw.get("projects") or []:
+        if isinstance(project, dict) and str(project.get("name") or "").strip().lower() == key:
+            return project.get("id")
+    return None
+
+
 def _sync_experience_metrics(raw: dict[str, Any], experiences: list[dict[str, Any]]) -> None:
     kept_companies = {str(ex.get("company") or "").strip().lower() for ex in experiences}
     kept: list[dict[str, Any]] = []
@@ -684,11 +799,11 @@ def _sync_experience_metrics(raw: dict[str, Any], experiences: list[dict[str, An
                     "type": str(metric.get("type") or "user_metric"),
                     "description": ach.get("description") or "",
                     "company": ex.get("company") or "",
-                    "project": "",
+                    "project": ach.get("project") or "",
                     "status": "user_validated",
                     "confidence": "high",
                     "experienceId": ex["id"],
-                    "projectId": None,
+                    "projectId": _project_id(raw, ach.get("project")),
                     "evidenceLevel": "claimed",
                     "sourceCount": 1,
                     "userValidated": True,
@@ -899,5 +1014,165 @@ def apply_profile_content(raw: dict[str, Any], content: ProfileContentIn) -> dic
             "source": "user",
         }
     )
+    uv["lastUpdated"] = date.today().isoformat()
+    return raw
+
+
+# --- Evidencia de logros y alcance de cargos --------------------------------------------------
+
+_POINT_RE = re.compile(r"^\s*(\d+(?:[.,]\d+)?)\s*(ms|s|seg|segundos|min|minutos|%)?\s*$", re.IGNORECASE)
+_POINT_UNITS = {"seg": "s", "segundos": "s", "minutos": "min"}
+
+
+class EvidenceIn(BaseModel):
+    """Respuesta del usuario sobre cómo logró una cifra o qué alcance tuvo su cargo."""
+
+    experienceId: str = Field(min_length=1)
+    achievementIndex: Optional[int] = None
+    context: Optional[str] = None
+    action: Optional[str] = None
+    measurement: Optional[str] = None
+    technologies: Optional[List[str]] = None
+    before: Optional[str] = None
+    after: Optional[str] = None
+    teamSize: Optional[str] = None
+    highlights: Optional[List[str]] = None
+    # Empleo oculto (p. ej. Corus): cargo, actividades y si ya puede salir en CVs.
+    roles: Optional[List[str]] = None
+    responsibilities: Optional[List[str]] = None
+    showInCv: Optional[bool] = None
+
+
+def _metric_label(metric: Any) -> str:
+    if not isinstance(metric, dict) or metric.get("value") is None:
+        return ""
+    value = metric["value"]
+    if isinstance(value, float) and value.is_integer():
+        value = int(value)
+    unit = str(metric.get("unit") or "")
+    return f"{value}%" if unit.lower() in {"percent", "%"} else f"{value} {unit}".strip()
+
+
+def evidence_gaps(raw: dict[str, Any]) -> list[dict[str, Any]]:
+    """Lo que falta para que el CV pueda argumentar cada cifra y cada cargo.
+
+    - Cada logro con cifra necesita ``action`` (cómo se logró) y ``measurement`` (cómo se midió).
+    - Cada empleo visible necesita ``roleScope`` (tamaño del equipo y lo que demuestra el cargo).
+    - Un empleo oculto sin cargo (p. ej. Corus) se lista para poder activarlo después.
+    """
+    gaps: list[dict[str, Any]] = []
+    for ex in raw.get("experience") or []:
+        if not isinstance(ex, dict):
+            continue
+        base = {"experienceId": ex.get("id"), "company": ex.get("company") or ""}
+        if ex.get("showInCv") is False:
+            if not ex.get("roles") or not ex.get("responsibilities"):
+                gaps.append({**base, "kind": "hidden", "missing": ["roles", "responsibilities"],
+                             "question": f"{base['company']} no sale en tus CVs: falta tu cargo y qué hiciste ahí."})
+            continue
+        for index, ach in enumerate(ex.get("achievements") or []):
+            if not isinstance(ach, dict) or ach.get("safeForCV") is False:
+                continue
+            label = _metric_label(ach.get("metric"))
+            if not label:
+                continue
+            detail = ach.get("evidenceDetail") or {}
+            missing = [key for key in ("action", "measurement") if not str(detail.get(key) or "").strip()]
+            if missing:
+                gaps.append({
+                    **base,
+                    "kind": "achievement",
+                    "achievementIndex": index,
+                    "description": ach.get("description") or "",
+                    "metric": label,
+                    "missing": missing,
+                    "current": detail,
+                    "question": f"{base['company']} · {ach.get('description')} ({label}): ¿qué hiciste exactamente y cómo se midió?",
+                })
+        scope = ex.get("roleScope") or {}
+        missing_scope = [key for key in ("teamSize", "highlights") if not scope.get(key)]
+        if missing_scope:
+            gaps.append({
+                **base,
+                "kind": "scope",
+                "missing": missing_scope,
+                "current": scope,
+                "question": f"{base['company']}: ¿de qué tamaño era el equipo y qué demuestra tu cargo (responsabilidad, liderazgo, decisiones)?",
+            })
+    return gaps
+
+
+def _parse_point(text: Optional[str]) -> Optional[dict[str, Any]]:
+    if text is None or not text.strip():
+        return None
+    m = _POINT_RE.match(text)
+    if not m:
+        raise HTTPException(status_code=400, detail=f"Valor no válido: «{text}». Usa por ejemplo «8 s» o «500 ms».")
+    value = float(m.group(1).replace(",", "."))
+    unit = (m.group(2) or "").lower()
+    unit = _POINT_UNITS.get(unit, unit)
+    return {"value": int(value) if value.is_integer() else value, "unit": unit}
+
+
+def apply_evidence(raw: dict[str, Any], body: EvidenceIn) -> dict[str, Any]:
+    """Guarda la evidencia de un logro (``achievementIndex``) o el alcance del cargo (sin índice)."""
+    ex = _find_exp(raw, body.experienceId)
+    source = f"Declarado por el usuario el {date.today().isoformat()}"
+    if body.achievementIndex is not None:
+        achievements = ex.get("achievements") or []
+        if not 0 <= body.achievementIndex < len(achievements):
+            raise HTTPException(status_code=400, detail="Logro no encontrado")
+        ach = achievements[body.achievementIndex]
+        detail = dict(ach.get("evidenceDetail") or {})
+        for key in ("context", "action", "measurement"):
+            value = getattr(body, key)
+            if value is not None and value.strip():
+                detail[key] = " ".join(value.split())
+        if body.technologies is not None:
+            techs = _clean_str_list(body.technologies)
+            if techs:
+                detail["technologies"] = techs
+        for key in ("before", "after"):
+            point = _parse_point(getattr(body, key))
+            if point:
+                detail[key] = point
+        detail["source"] = source
+        ach["evidenceDetail"] = detail
+    elif body.roles is not None or body.responsibilities is not None or body.showInCv is not None:
+        if body.roles is not None:
+            roles = _clean_str_list(body.roles)
+            if roles:
+                ex["roles"] = roles
+        if body.responsibilities is not None:
+            items = _clean_str_list(body.responsibilities)
+            if items:
+                ex["responsibilities"] = items
+        if body.technologies is not None:
+            techs = _clean_str_list(body.technologies)
+            if techs:
+                ex["technologies"] = techs
+        if body.showInCv is True:
+            if not ex.get("roles") or not ex.get("responsibilities"):
+                raise HTTPException(
+                    status_code=400,
+                    detail=f"{ex.get('company')} necesita cargo y al menos una actividad para salir en CVs.",
+                )
+            ex.pop("showInCv", None)
+            ex.pop("showInCvNote", None)
+        elif body.showInCv is False:
+            ex["showInCv"] = False
+        ex.setdefault("evidence", []).append(f"{source}: cargo/actividades actualizados desde Evidencia.")
+    else:
+        scope = dict(ex.get("roleScope") or {})
+        if body.teamSize is not None and body.teamSize.strip():
+            size = body.teamSize.strip()
+            scope["teamSize"] = int(size) if size.isdigit() else size
+        if body.highlights is not None:
+            highlights = _clean_str_list(body.highlights)
+            if highlights:
+                scope["highlights"] = highlights
+        scope["source"] = source
+        ex["roleScope"] = scope
+    uv = raw.setdefault("userValidation", {"pending": [], "resolved": [], "lastUpdated": None})
     uv["lastUpdated"] = date.today().isoformat()
     return raw

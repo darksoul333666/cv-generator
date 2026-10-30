@@ -2,7 +2,15 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState, type KeyboardEvent } from "react";
 import { useSearchParams } from "next/navigation";
-import { getCvHistoryItem, listCvHistory, renameCvHistoryItem, retryQueuedCv, flushQueueBatch, retryFailedQueueBatch } from "@/lib/api";
+import {
+  getCvHistoryItem,
+  listCvHistory,
+  regenerateCvHistory,
+  renameCvHistoryItem,
+  retryQueuedCv,
+  flushQueueBatch,
+  retryFailedQueueBatch,
+} from "@/lib/api";
 import { defaultCvSaveName, docxDownloadName, pdfDownloadName, resolveCvSaveName } from "@/lib/cv-filename";
 import {
   pickCvData,
@@ -91,6 +99,9 @@ export function HistoryWorkbench() {
   const [queuedCount, setQueuedCount] = useState(0);
   const [generatingCount, setGeneratingCount] = useState(0);
   const [failedCount, setFailedCount] = useState(0);
+  const [regenIds, setRegenIds] = useState<Set<string>>(() => new Set());
+  const [regenerating, setRegenerating] = useState(false);
+  const [notice, setNotice] = useState<string | null>(null);
   const dateFromRef = useRef<HTMLInputElement>(null);
   const itemRefs = useRef(new Map<string, HTMLButtonElement>());
   const didAutofocus = useRef(false);
@@ -254,9 +265,52 @@ export function HistoryWorkbench() {
     }
   }, [detail, refreshList]);
 
+  const regenerate = useCallback(
+    async (ids: string[]) => {
+      if (!ids.length) return;
+      setRegenerating(true);
+      setError(null);
+      setNotice(null);
+      try {
+        const res = await regenerateCvHistory(ids);
+        const skipped = res.skipped.length
+          ? ` · ${res.skipped.length} omitido${res.skipped.length === 1 ? "" : "s"}: ${res.skipped
+              .map((s) => s.reason)
+              .join(" ")}`
+          : "";
+        setNotice(`${res.message}${skipped}`);
+        setRegenIds(new Set());
+        await refreshList(true);
+        if (res.job_ids[0]) setSelectedId(res.job_ids[0]);
+      } catch (e) {
+        setError(e instanceof Error ? e.message : "No se pudo regenerar");
+      } finally {
+        setRegenerating(false);
+      }
+    },
+    [refreshList],
+  );
+
+  const toggleRegen = useCallback((id: string) => {
+    setRegenIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }, []);
+
   const selected = useMemo(
     () => items.find((item) => item.id === selectedId) || null,
     [items, selectedId],
+  );
+
+  const nameById = useMemo(
+    () =>
+      new Map(
+        items.map((item) => [item.id, item.cv_name || item.target_role || item.vacancy_title]),
+      ),
+    [items],
   );
 
   const companies = useMemo(
@@ -286,6 +340,13 @@ export function HistoryWorkbench() {
         }),
     [items, dateFrom, dateTo, company, role],
   );
+
+  const readyVisibleIds = useMemo(
+    () => filtered.filter((item) => jobStatus(item) === "ready").map((item) => item.id),
+    [filtered],
+  );
+  const allVisibleChecked =
+    readyVisibleIds.length > 0 && readyVisibleIds.every((id) => regenIds.has(id));
 
   const clearFilters = useCallback(() => {
     setDateFrom("");
@@ -339,8 +400,10 @@ export function HistoryWorkbench() {
         </h1>
         <p className="max-w-2xl text-sm leading-relaxed text-zinc-600">
           Las vacantes se acumulan en un lote de 5. Al llenarse se generan
-          juntas; si hay menos, pulsa Generar lote. Flechas, Inicio y Fin
-          recorren la lista.
+          juntas; si hay menos, pulsa Generar lote. Para probar cambios sin
+          buscar vacantes de nuevo, marca CVs y pulsa Regenerar: se crean
+          entradas nuevas con la misma vacante y el original se conserva.
+          Flechas, Inicio y Fin recorren la lista.
         </p>
         {queuedCount > 0 || generatingCount > 0 || failedCount > 0 ? (
           <div className="mt-3 flex flex-wrap items-center gap-3">
@@ -384,6 +447,12 @@ export function HistoryWorkbench() {
       {error ? (
         <p className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-800" role="alert">
           {error}
+        </p>
+      ) : null}
+
+      {notice ? (
+        <p className="rounded-md bg-teal-50 px-3 py-2 text-sm text-teal-900" role="status">
+          {notice}
         </p>
       ) : null}
 
@@ -477,6 +546,33 @@ export function HistoryWorkbench() {
                 Quitar filtros
               </button>
             ) : null}
+            {readyVisibleIds.length > 0 ? (
+              <div className="flex flex-wrap items-center gap-2 border-t border-zinc-100 pt-2">
+                <label className="flex items-center gap-1.5 text-xs text-zinc-700">
+                  <input
+                    type="checkbox"
+                    checked={allVisibleChecked}
+                    onChange={() =>
+                      setRegenIds(allVisibleChecked ? new Set() : new Set(readyVisibleIds))
+                    }
+                    className="h-3.5 w-3.5 accent-zinc-900"
+                  />
+                  Marcar visibles
+                </label>
+                <button
+                  type="button"
+                  onClick={() => void regenerate([...regenIds])}
+                  disabled={regenerating || regenIds.size === 0}
+                  className="ml-auto rounded-lg bg-zinc-900 px-2.5 py-1 text-xs font-medium text-white hover:bg-zinc-800 disabled:opacity-40"
+                >
+                  {regenerating
+                    ? "Encolando…"
+                    : regenIds.size > batchSize
+                      ? `Regenerar ${regenIds.size} (${Math.ceil(regenIds.size / batchSize)} lotes)`
+                      : `Regenerar${regenIds.size ? ` ${regenIds.size}` : ""}`}
+                </button>
+              </div>
+            ) : null}
             {filtered.length === 0 ? (
               <p className="px-1 py-2 text-sm text-zinc-500">
                 {hasActiveFilters
@@ -495,8 +591,17 @@ export function HistoryWorkbench() {
                     selectedId && filtered.some((entry) => entry.id === selectedId)
                       ? item.id === selectedId
                       : item.id === filtered[0]?.id;
+                  const ready = jobStatus(item) === "ready";
                   return (
-                    <li key={item.id} role="presentation">
+                    <li key={item.id} role="presentation" className="flex items-start gap-2">
+                      <input
+                        type="checkbox"
+                        aria-label={`Marcar para regenerar: ${item.cv_name || item.vacancy_title}`}
+                        checked={regenIds.has(item.id)}
+                        disabled={!ready}
+                        onChange={() => toggleRegen(item.id)}
+                        className="mt-3 h-3.5 w-3.5 shrink-0 accent-zinc-900 disabled:opacity-30"
+                      />
                       <button
                         id={`historial-${item.id}`}
                         ref={(el) => {
@@ -509,7 +614,7 @@ export function HistoryWorkbench() {
                         tabIndex={tabStop ? 0 : -1}
                         onClick={() => setSelectedId(item.id)}
                         onKeyDown={(e) => onListKeyDown(e, item.id)}
-                        className={`w-full rounded-lg px-3 py-2 text-left text-sm transition ${
+                        className={`min-w-0 flex-1 rounded-lg px-3 py-2 text-left text-sm transition ${
                           active
                             ? "bg-zinc-900 text-white"
                             : "bg-zinc-50 text-zinc-800 hover:bg-zinc-100"
@@ -535,6 +640,15 @@ export function HistoryWorkbench() {
                             }`}
                           >
                             {statusLabel(jobStatus(item), item.queue_position)}
+                          </span>
+                        ) : null}
+                        {item.regenerated_from ? (
+                          <span
+                            className={`ml-1 mt-1 inline-block rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide ${
+                              active ? "bg-white/15 text-zinc-100" : "bg-zinc-200 text-zinc-700"
+                            }`}
+                          >
+                            Regenerado
                           </span>
                         ) : null}
                         {item.company_name ? (
@@ -585,6 +699,22 @@ export function HistoryWorkbench() {
                   </h2>
                   {selected ? (
                     <p className="text-xs text-zinc-500">{formatWhen(detail.created_at)}</p>
+                  ) : null}
+                  {detail.regenerated_from ? (
+                    <p className="text-xs text-zinc-600">
+                      Regenerado de{" "}
+                      {nameById.has(detail.regenerated_from) ? (
+                        <button
+                          type="button"
+                          onClick={() => setSelectedId(detail.regenerated_from ?? null)}
+                          className="font-medium underline underline-offset-2 hover:text-zinc-900"
+                        >
+                          {nameById.get(detail.regenerated_from)}
+                        </button>
+                      ) : (
+                        "un CV que ya no está en el historial"
+                      )}
+                    </p>
                   ) : null}
                   {detail.company_name ? (
                     <p className="text-zinc-700">
@@ -641,8 +771,29 @@ export function HistoryWorkbench() {
                       {retrying ? "Reencolando…" : "Reintentar generación"}
                     </button>
                   ) : null}
+                  {detail.notes_to_verify && detail.notes_to_verify.length > 0 ? (
+                    <details className="rounded-md border border-amber-200 bg-amber-50 p-3 text-xs text-amber-900">
+                      <summary className="cursor-pointer font-medium">
+                        Para revisar ({detail.notes_to_verify.length})
+                      </summary>
+                      <ul className="mt-2 list-disc space-y-1 pl-4">
+                        {detail.notes_to_verify.map((note, i) => (
+                          <li key={i}>{note}</li>
+                        ))}
+                      </ul>
+                    </details>
+                  ) : null}
                   {detail.cv ? (
                     <div className="flex flex-wrap gap-2">
+                      <button
+                        type="button"
+                        onClick={() => void regenerate([detail.id])}
+                        disabled={regenerating}
+                        className="rounded-lg bg-zinc-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-zinc-800 disabled:opacity-60"
+                        title="Vuelve a generar con la misma vacante y los cambios actuales. El original se conserva."
+                      >
+                        {regenerating ? "Encolando…" : "Regenerar este CV"}
+                      </button>
                       <button
                         type="button"
                         onClick={onDownload}
