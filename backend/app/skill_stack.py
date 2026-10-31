@@ -88,7 +88,32 @@ _ANGULAR_FAMILY = {
 
 _VUE_FAMILY = {"vue"}
 
+# Herramientas de observabilidad y automatización: van con Cloud & DevOps, no con Backend.
+_OPS_TOOLS = {
+    "sentry",
+    "cloudwatch",
+    "aws cloudwatch",
+    "datadog",
+    "new relic",
+    "grafana",
+    "prometheus",
+    "n8n",
+    "zapier",
+}
+
 _OVERLAY_SKIP = {
+    # Conceptos vagos que un ATS no busca y un reclutador lee como relleno.
+    "apis",
+    "backend apis",
+    "backend",
+    "frontend",
+    "monitoring",
+    "monitoreo",
+    "workflow automation",
+    "automation",
+    "automatización",
+    "integrations",
+    "integraciones",
     "mobile",
     "payments",
     "payment",
@@ -265,6 +290,8 @@ def _is_technique(name: str) -> bool:
 
 def _category_for(name: str, source_cat: str) -> str:
     key = _norm(name)
+    if key in _OPS_TOOLS:
+        return "cloud"
     if key in _QUALITY:
         return "quality"
     if key in _STYLING or source_cat in {"styling"}:
@@ -450,6 +477,8 @@ def _vacancy_wants_payments(vacancy: str) -> bool:
 
 def _guess_overlay_row(name: str) -> str:
     key = _norm(name)
+    if key in _OPS_TOOLS:
+        return "cloud"
     if key in {"jest", "karma", "jasmine", "e2e", "detox", "tdd", "cypress", "mocha"} or "testing" in key:
         return "testing"
     if key in {"bitrise", "ci/cd", "github actions", "fastlane"}:
@@ -643,6 +672,29 @@ def _dedupe_overlay(
     return out
 
 
+def _spelling_key(name: str) -> str:
+    """«React», «React.js» y «ReactJS» son la misma skill; «Node.js» y «Node» también."""
+    base = _norm(re.sub(r"\s*\([^)]*\)\s*", " ", name))
+    compact = re.sub(r"[\s.\-]", "", base)
+    return compact[:-2] if compact.endswith("js") and len(compact) > 4 else compact
+
+
+def _dedupe_spellings(rows: list[list[str]]) -> list[list[str]]:
+    """Una skill aparece una sola vez en todo el bloque, con la primera grafía que salió."""
+    seen: set[str] = set()
+    out: list[list[str]] = []
+    for names in rows:
+        kept: list[str] = []
+        for name in names:
+            key = _spelling_key(name)
+            if key in seen:
+                continue
+            seen.add(key)
+            kept.append(name)
+        out.append(kept)
+    return out
+
+
 def build_stack_from_master(
     master: dict,
     vacancy_text: str = "",
@@ -680,6 +732,9 @@ def build_stack_from_master(
     )
     testing = _merge_row(_sort_row(rows["testing"], vacancy, aliases), extra["testing"], vacancy, aliases)
     quality = _merge_row(_sort_row(rows["quality"], vacancy, aliases), extra["quality"], vacancy, aliases)
+    (frontend, mobile, styling, backend, state, cloud, architecture, testing, quality) = _dedupe_spellings(
+        [frontend, mobile, styling, backend, state, cloud, architecture, testing, quality]
+    )
     return StackBlock(
         frontend=_join(frontend, vacancy, aliases, original),
         styling=_join(styling, vacancy, aliases, original),

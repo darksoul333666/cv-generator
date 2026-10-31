@@ -196,8 +196,11 @@ class FakeLLM:
     """
 
     def __init__(self, optimizer: dict, translations: Optional[dict] = None,
-                 translate_hook: Optional[Callable[[list[str], str], list[str]]] = None):
+                 translate_hook: Optional[Callable[[list[str], str], list[str]]] = None,
+                 proofread_hook: Optional[Callable[[list[str]], list[str]]] = None):
         self.optimizer = optimizer
+        self.proofread_hook = proofread_hook
+        self.proofread_batches: list[list[dict]] = []
         self.translations = translations if translations is not None else TRANSLATIONS
         self.translate_hook = translate_hook
         self.optimizer_prompts: list[str] = []
@@ -212,6 +215,12 @@ class FakeLLM:
                 return json.dumps({"items": self.translate_hook(items, locale)}, ensure_ascii=False)
             table = self.translations.get(locale, {})
             return json.dumps({"items": [table.get(text, text) for text in items]}, ensure_ascii=False)
+        if prompt.startswith("You are a professional CV editor"):
+            items = json.loads(prompt.split("ITEMS\n", 1)[1])
+            self.proofread_batches.append(items)
+            texts = [item["text"] for item in items]
+            out = self.proofread_hook(texts) if self.proofread_hook else texts
+            return json.dumps({"items": out}, ensure_ascii=False)
         self.optimizer_prompts.append(prompt)
         return json.dumps(self.optimizer, ensure_ascii=False)
 

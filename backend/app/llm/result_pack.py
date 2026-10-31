@@ -3,14 +3,15 @@
 from __future__ import annotations
 
 import logging
+import os
 from typing import Any, Callable, Dict, List, Optional, Tuple
 
 from ..compact_master import protected_terms
 from ..language_guard import Translator
 from ..models import CvDocument
-from .cv_builder import _build_cv
+from .cv_builder import Proofreader, _build_cv
 from .parse_json import parse_json_object
-from .prompts import build_translation_prompt
+from .prompts import build_proofread_prompt, build_translation_prompt
 
 logger = logging.getLogger(__name__)
 
@@ -27,8 +28,9 @@ def pack_optimizer(
     attempts: int = 1,
     extra_meta: Optional[Dict[str, Any]] = None,
     translator: Optional[Translator] = None,
+    proofreader: Optional[Proofreader] = None,
 ) -> Tuple[CvDocument, float, str, List[str], List[str], List[str], Dict[str, Any]]:
-    cv_out, report = _build_cv(data, cv, master, locale, vacancy_text, translator)
+    cv_out, report = _build_cv(data, cv, master, locale, vacancy_text, translator, proofreader)
     for note in report.get("notes") or []:
         logger.warning("[verify] %s", note)
     match_percent = float(data.get("match_score") or 0)
@@ -44,6 +46,7 @@ def pack_optimizer(
         "attempts": attempts,
         "locale": locale,
         "verification": {k: v for k, v in report.items() if k != "notes"},
+        "quality_score": (report.get("quality") or {}).get("score"),
     }
     if extra_meta:
         raw_meta.update(extra_meta)
@@ -69,6 +72,32 @@ def make_translator(
         return [str(item) for item in items]
 
     return translate
+
+
+def proofread_enabled() -> bool:
+    """CV_PROOFREAD=0 apaga la revisión de redacción con el LLM (una llamada extra por CV)."""
+    return os.getenv("CV_PROOFREAD", "1").strip().lower() not in {"0", "false", "no", "off"}
+
+
+def make_proofreader(call_json: Callable[[str], Any], master: dict) -> Optional[Proofreader]:
+    """Envuelve una llamada JSON del proveedor como corrector de estilo por lotes.
+
+    Lo que devuelve se valida en ``cv_builder`` (cifras, nombres protegidos, longitud); un texto
+    que no pasa se queda como estaba.
+    """
+    if not proofread_enabled():
+        return None
+    protected = protected_terms(master)
+
+    def proofread(texts: list[str], locale: str, hints: list[list[str]]) -> list[str]:
+        raw = call_json(build_proofread_prompt(texts, locale, protected, hints))
+        data = raw if isinstance(raw, dict) else parse_json_object(str(raw), context="proofread")
+        items = data.get("items") if isinstance(data, dict) else None
+        if not isinstance(items, list) or len(items) != len(texts):
+            raise ValueError("la revisión de redacción no trajo items[] completos")
+        return [str(item.get("text") if isinstance(item, dict) else item) for item in items]
+
+    return proofread
 
 
 def align_batch_items(raw_items: list[dict], n: int) -> list[Optional[dict]]:

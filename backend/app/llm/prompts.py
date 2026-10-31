@@ -60,6 +60,11 @@ def tailor_writing_rules() -> str:
         "Prefer a specific title over a generic one (React Native Developer, not Frontend, when the vacancy is React Native).\n"
         "Each bullet is one sentence of at most 22 words (one printed line when possible). Mention each metric "
         "once. Do not repeat the same phrase twice in a bullet. Short and concrete beats complete.\n"
+        "Writing quality weighs as much as content: recruiters and screening tools discard a CV for one "
+        "typo. Never use first person (I, my, we / yo, mi, nosotros): a CV omits the subject. Never repeat "
+        "a word (\"as as\") or a list item (\"SonarQube, standards and SonarQube\"). Every bullet is a "
+        "complete sentence that starts with a past-tense verb; no noun fragments such as 'Inventory "
+        "management…' or 'Design, planning, coding…'. Re-read every sentence before answering.\n"
         "In Spanish, percentages are 35% (never the English word percent, and never 35.0). "
         "Use del/de la/de los only when grammar needs them "
         "(del estado, de la UX, de los tiempos). Keep más de 7 años, pasarelas de pago, consumo de APIs.\n"
@@ -210,4 +215,36 @@ def build_translation_prompt(texts: list[str], locale: str, protected: list[str]
         "- If a string is already in the target language, return it unchanged.\n"
         'Return only JSON: {"items": ["...", "..."]} with exactly the same number of strings, in the same order.\n\n'
         f"ITEMS\n{json.dumps(texts, ensure_ascii=False)}"
+    )
+
+
+def build_proofread_prompt(
+    texts: list[str], locale: str, protected: list[str], hints: list[list[str]] | None = None
+) -> str:
+    """Corrección de estilo y gramática de fragmentos de un CV. Se valida después (cv_builder)."""
+    lang = "Spanish" if locale == "es" else "English"
+    keep = ", ".join(protected[:150])
+    items = [
+        {"text": text, "problems": (hints[i] if hints and i < len(hints) else [])}
+        for i, text in enumerate(texts)
+    ]
+    verb_rule = (
+        "start with a past-tense verb in first person singular without the pronoun (Desarrollé, Reduje, Lideré)"
+        if locale == "es"
+        else "start with a strong past-tense verb (Built, Reduced, Led)"
+    )
+    return (
+        f"You are a professional CV editor. Proofread each item in ITEMS, written in {lang}. "
+        "Recruiters reject CVs for small writing mistakes, so fix every one of them.\n"
+        "Fix: grammar, spelling, repeated words (\"as as\"), repeated phrases or list items, awkward or "
+        "unnatural wording, wrong prepositions, missing articles, inconsistent tense, first person "
+        "(remove I/my/we; a CV omits the subject), and fragments without a verb.\n"
+        f"Bullets (items whose text does not look like a multi-sentence summary) must {verb_rule}.\n"
+        "Each item may list detected problems; fix those first, but also fix anything else you notice.\n"
+        "Never change the facts: keep every number, percentage, time (8 s, 3 s), team size and year exactly; "
+        "do not add technologies, clients, results or claims; do not remove a metric or a technology. "
+        f"These names must stay exactly as written when present: {keep}.\n"
+        "Keep the same language and roughly the same length. If an item is already correct, return it unchanged.\n"
+        'Return only JSON: {"items": ["...", "..."]} with exactly the same number of strings, in the same order.\n\n'
+        f"ITEMS\n{json.dumps(items, ensure_ascii=False)}"
     )

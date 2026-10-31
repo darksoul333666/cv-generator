@@ -1684,7 +1684,21 @@
           "status": "user_validated",
           "evidenceLevel": "claimed",
           "safeForCV": true,
-          "requiresUserValidation": false
+          "requiresUserValidation": false,
+          "evidenceDetail": {
+            "context": "Por medio de React Dev tools se analizaron los tiempos de renderizado de cada componente, en Sentry se analizaron los reportes de crasheos y como estos se redujeron",
+            "action": "Paginación de peticiones Virtualización Indexación en base de datos Uso de caché en consultas concurrentes",
+            "measurement": "React Dev tools, Sentry",
+            "before": {
+              "value": 8,
+              "unit": "s"
+            },
+            "after": {
+              "value": 3,
+              "unit": "s"
+            },
+            "source": "Declarado por el usuario el 2026-10-31"
+          }
         }
       ],
       "evidence": [
@@ -2300,13 +2314,28 @@
       "evidenceLevel": "verified",
       "sourceCount": 1,
       "current": false,
-      "sortOrder": 7
+      "sortOrder": 7,
+      "roleScope": {
+        "teamSize": 5,
+        "highlights": [
+          "Desarrollo Móvil usando Ionic",
+          "Desarrollo Angular",
+          "Súbida a playstore",
+          "Subida a Appstore",
+          "Captura de media (fotos, videos, documentos) desde ionic",
+          "Capacitor"
+        ],
+        "source": "Declarado por el usuario el 2026-10-31"
+      }
     },
     {
       "id": "exp_ctz",
       "company": "Centro Tecnológico Zongolica",
       "roles": [
-        "Mobile Developer"
+        "Mobile Developer Jr",
+        "Fullstack Developer Jr",
+        "Frontend Developer Jr",
+        "Backend Developer Jr"
       ],
       "employmentType": "onsite",
       "startDate": "2019-04",
@@ -2335,6 +2364,7 @@
       ],
       "technologies": [
         "Ionic",
+        "Angular",
         "Stripe",
         "Mercado Pago",
         "PayPal"
@@ -2349,7 +2379,17 @@
       "evidenceLevel": "verified",
       "sourceCount": 1,
       "current": false,
-      "sortOrder": 8
+      "sortOrder": 8,
+      "roleScope": {
+        "teamSize": 3,
+        "highlights": [
+          "Conocimiento de HTML",
+          "Conocimiento de Javascript",
+          "Conocimiento de Ionic",
+          "Conocimiento de Angular"
+        ],
+        "source": "Declarado por el usuario el 2026-10-31"
+      }
     }
   ],
   "projects": [
@@ -2402,7 +2442,7 @@
     {
       "id": "project_sortalia",
       "name": "SORTALIA",
-      "type": "personal-product",
+      "type": "mobile-application, web-application",
       "description": "Plataforma de sorteos de lujo (mobile + web) para explorar ediciones, comprar boletos, gestionar números, historial, notificaciones y administración básica. Descripciones y arquitectura escritas por el autor en READMEs del repo.",
       "domain": [
         "e-commerce",
@@ -2907,7 +2947,7 @@
     },
     {
       "id": "project_healthcare_ai_video",
-      "name": "AI Video Creation and Editing Platform",
+      "name": "Acolyte",
       "type": "web-application",
       "description": "Desarrollo completo. Nombre y cliente de salud en EE. UU. sin confirmar. React: videos por prompt y edición con imágenes, video, música y evaluaciones.",
       "domain": [
@@ -2923,7 +2963,12 @@
         "Creación de encuestas y evaluaciones"
       ],
       "technologies": [
-        "React"
+        "React",
+        "Context API",
+        "Cognito",
+        "Amplify",
+        "Canvas",
+        "React Navigation"
       ],
       "scale": null,
       "status": "claimed",
@@ -3727,8 +3772,7 @@
         "Baker Tilly Legal Chatbot",
         "UffPay",
         "SORTALIA",
-        "Blackeagle",
-        "AI Video Creation and Editing Platform"
+        "Blackeagle"
       ],
       "secondarySkills": [
         "React Native",
@@ -4303,9 +4347,12 @@
       "id": "tl_exp_ctz",
       "experienceId": "exp_ctz",
       "company": "Centro Tecnológico Zongolica",
-      "role": "Mobile Developer",
+      "role": "Mobile Developer Jr",
       "roles": [
-        "Mobile Developer"
+        "Mobile Developer Jr",
+        "Fullstack Developer Jr",
+        "Frontend Developer Jr",
+        "Backend Developer Jr"
       ],
       "startDate": "2019-04",
       "endDate": "2019-11",
@@ -4800,9 +4847,37 @@
         "resolvedValue": "2024",
         "resolvedAt": "2026-10-30",
         "source": "user"
+      },
+      {
+        "field": "profile.content",
+        "previousValues": [],
+        "resolvedValue": "identity_experience_education",
+        "resolvedAt": "2026-10-31",
+        "source": "user"
+      },
+      {
+        "field": "profile.content",
+        "previousValues": [],
+        "resolvedValue": "identity_experience_education",
+        "resolvedAt": "2026-10-31",
+        "source": "user"
+      },
+      {
+        "field": "profile.content",
+        "previousValues": [],
+        "resolvedValue": "identity_experience_education",
+        "resolvedAt": "2026-10-31",
+        "source": "user"
+      },
+      {
+        "field": "profile.content",
+        "previousValues": [],
+        "resolvedValue": "identity_experience_education",
+        "resolvedAt": "2026-10-31",
+        "source": "user"
       }
     ],
-    "lastUpdated": "2026-10-30"
+    "lastUpdated": "2026-10-31"
   },
   "jobMatching": {
     "enabled": true,

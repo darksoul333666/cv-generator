@@ -10,7 +10,7 @@ from __future__ import annotations
 import json
 import logging
 import re
-from typing import Any, Optional
+from typing import Any, Callable, Optional
 
 from ..compact_master import protected_terms
 from ..language_guard import LanguageItem, Translator, detect_language, protected_in, repair_language
@@ -26,9 +26,13 @@ from ..locale_util import (
     polish_experience_title,
 )
 from ..models import CvDocument, ExperienceItem
+from ..text_quality import ERROR, Issue, clean_text, find_issues, kind_for_path, quality_score
 from ..skill_stack import build_stack_from_master, stack_to_tech_skills, vacancy_skill_keywords
 
 logger = logging.getLogger(__name__)
+
+# (textos, locale, problemas detectados por texto) → textos corregidos, mismo orden.
+Proofreader = Callable[[list[str], str, list[list[str]]], list[str]]
 
 
 def _norm(text: str) -> str:
@@ -804,27 +808,112 @@ def _strip_methodology(text: str, tools: list[str]) -> str:
     return re.sub(r"\s{2,}", " ", cleaned).strip()
 
 
-def _years_phrase(summary: str, master: dict, locale: str) -> str:
-    """«7 años Senior Full Stack Engineer…» → «Más de 7 años de experiencia como Senior…».
+def _ym_index(ym: Any) -> Optional[int]:
+    m = re.match(r"^(\d{4})-(\d{2})", str(ym or ""))
+    if not m:
+        return None
+    return int(m.group(1)) * 12 + int(m.group(2)) - 1
 
-    Solo toca el arranque cuando le falta el conector; usa years_experience del perfil.
+
+def _today_ym() -> str:
+    from datetime import date
+
+    today = date.today()
+    return f"{today.year:04d}-{today.month:02d}"
+
+
+def shown_years(sources: list[dict], today: Optional[str] = None) -> Optional[float]:
+    """Años de experiencia que un lector puede comprobar con las fechas impresas en el CV.
+
+    Une los meses de los empleos visibles (los simultáneos cuentan una vez). Si el CV dice
+    «7+» pero las fechas visibles empiezan en 2020, el reclutador hace la cuenta y desconfía.
     """
-    years = master.get("years_experience")
-    try:
-        whole = int(float(years))
-    except (TypeError, ValueError):
+    months: set[int] = set()
+    now = _ym_index(today or _today_ym())
+    for source in sources:
+        start = _ym_index(source.get("start_date"))
+        if start is None:
+            continue
+        end = now if source.get("current") or not source.get("end_date") else _ym_index(source.get("end_date"))
+        if end is None or end < start:
+            continue
+        months.update(range(start, end + 1))
+    if not months:
+        return None
+    return round(len(months) / 12, 1)
+
+
+def _years_value(master: dict, shown: Optional[float]) -> Optional[float]:
+    """El menor entre lo validado en el perfil y lo que se puede comprobar en el CV."""
+    values = []
+    for raw in (master.get("years_experience"), shown):
+        try:
+            if raw is not None:
+                values.append(float(raw))
+        except (TypeError, ValueError):
+            continue
+    return min(values) if values else None
+
+
+_EN_YEARS = re.compile(
+    r"^\s*(?:more than\s+|over\s+)?(\d+)\+?\s+years?\b(\s+of\s+experience\b)?(\s+(?:as|of)\b)?",
+    re.IGNORECASE,
+)
+_ES_YEARS = re.compile(
+    r"^\s*(?:m[aá]s de\s+)?(\d+)\+?\s+a[nñ]os\b(\s+de\s+experiencia\b)?(\s+(?:como|de|en)\b)?",
+    re.IGNORECASE,
+)
+_YEARS_ANYWHERE = {
+    "en": re.compile(r"\b(\d+)\+?(\s+years?)\b", re.IGNORECASE),
+    "es": re.compile(r"\b(?:m[aá]s de\s+)?(\d+)\+?(\s+a[nñ]os)\b", re.IGNORECASE),
+}
+
+
+def _years_phrase(summary: str, master: dict, locale: str, shown: Optional[float] = None) -> str:
+    """Normaliza los años del resumen.
+
+    - «7 años Senior Full Stack…» → «Más de 6 años de experiencia como Senior…».
+    - «7+ years as a Full Stack…» → «6+ years of experience as a Full Stack…» (sin «as as»).
+    - Un número que no coincide con las fechas visibles se reemplaza por el calculado.
+    """
+    years = _years_value(master, shown)
+    if years is None:
         return summary
-    plus = float(years) > whole
+    whole = int(years)
+    plus = years > whole
+    if whole < 1:
+        return summary
     if locale == "es":
-        m = re.match(r"^\s*(?:m[aá]s de\s+)?(\d+)\+?\s+a[nñ]os\s+(?!de\b)", summary, flags=re.IGNORECASE)
-        if m and int(m.group(1)) == whole:
-            lead = f"Más de {whole} años" if plus else f"{whole} años"
-            return f"{lead} de experiencia como {summary[m.end():]}"
-    else:
-        m = re.match(r"^\s*(\d+)\+?\s+years\s+(?!of\b)", summary, flags=re.IGNORECASE)
-        if m and int(m.group(1)) == whole:
-            return f"{whole}{'+' if plus else ''} years of experience as {summary[m.end():]}"
-    return summary
+        lead = f"Más de {whole} años" if plus else f"{whole} años"
+        m = _ES_YEARS.match(summary)
+        if m:
+            rest = summary[m.end():].lstrip()
+            connector = (m.group(3) or "").strip().lower()
+            if m.group(2):
+                joint = f" {connector} " if connector else " "
+                return f"{lead} de experiencia{joint}{rest}".rstrip()
+            if connector in {"de", "en"}:
+                return f"{lead} de experiencia {connector} {rest}".rstrip()
+            if re.match(r"^\w+(?:ando|iendo)\b", rest, re.IGNORECASE):
+                return f"{lead} de experiencia {rest}".rstrip()
+            return f"{lead} de experiencia como {rest}".rstrip()
+        pattern = _YEARS_ANYWHERE["es"]
+        return pattern.sub(lambda mm: f"{'más de ' if plus else ''}{whole}{mm.group(2)}", summary, count=1)
+    lead = f"{whole}{'+' if plus else ''} years"
+    m = _EN_YEARS.match(summary)
+    if m:
+        rest = summary[m.end():].lstrip()
+        connector = (m.group(3) or "").strip().lower()
+        if m.group(2):
+            joint = f" {connector} " if connector else " "
+            return f"{lead} of experience{joint}{rest}".rstrip()
+        if connector == "of":
+            return f"{lead} of {rest}".rstrip()
+        if re.match(r"^(?:\w+ing|in|with|across|building)\b", rest, re.IGNORECASE):
+            return f"{lead} of experience {rest}".rstrip()
+        return f"{lead} of experience as {rest}".rstrip()
+    pattern = _YEARS_ANYWHERE["en"]
+    return pattern.sub(lambda mm: f"{whole}{'+' if plus else ''}{mm.group(2)}", summary, count=1)
 
 
 _SENIOR_RE = re.compile(r"\b(senior|junior|semi-senior)\b")
@@ -1051,6 +1140,122 @@ def _verification_notes(report: dict) -> list[str]:
             f"Idioma: {item['path']} sigue en «{item['detected']}» (se pidió «{language.get('locale')}»; "
             f"motivo: {item['reason']}). Se conservó el texto original."
         )
+    notes.extend(_quality_notes(report.get("quality") or {}))
+    return notes
+
+_NUMBER_RE = re.compile(r"\d+(?:[.,]\d+)?")
+
+
+def _proofread_problem(before: str, after: str, protected: list[str]) -> str:
+    """Motivo para rechazar una corrección del LLM; vacío si es aceptable."""
+    if not after or not after.strip():
+        return "vino vacío"
+    if "\n" in after.strip():
+        return "trae saltos de línea"
+    if sorted(_NUMBER_RE.findall(before)) != sorted(_NUMBER_RE.findall(after)):
+        return "cambió una cifra"
+    low_after = after.lower()
+    for term in protected:
+        t = str(term).strip()
+        if len(t) > 1 and _mentions(t, before) and t.lower() not in low_after:
+            return f"quitó «{t}»"
+    ratio = len(after) / max(1, len(before))
+    if ratio < 0.6 or ratio > 1.6:
+        return "cambió demasiado la longitud"
+    return ""
+
+
+def _hints(path: str, text: str, locale: str) -> list[str]:
+    kind = kind_for_path(path)
+    return [i.message for i in find_issues(path, text, kind, locale)] if kind else []
+
+
+def _quality_pass(
+    fields: dict[str, str],
+    locale: str,
+    protected: list[str],
+    proofreader: Optional[Proofreader],
+) -> tuple[dict[str, str], dict]:
+    """Redacción: arreglos seguros, revisión del LLM validada y puntaje final.
+
+    1. ``clean_text`` en todo lo visible (palabras y frases repetidas, puntuación).
+    2. Si hay corrector, una pasada sobre resumen y bullets; una segunda solo para lo que
+       siga con problemas. Cada corrección se valida: mismas cifras y mismos nombres
+       protegidos; si no pasa, se queda el texto anterior.
+    3. Problemas que quedan y puntaje 0–10 (un error pesa 2, un aviso 0.75).
+    """
+    out = dict(fields)
+    autofixed: list[dict] = []
+    for path, text in fields.items():
+        result = clean_text(text, capitalize=kind_for_path(path) is not None)
+        if result.fixes:
+            autofixed.append({"path": path, "before": text, "after": result.text, "fixes": result.fixes})
+            out[path] = result.text
+
+    proof = {"ran": False, "changed": [], "rejected": [], "error": ""}
+    targets = [p for p in out if kind_for_path(p) in {"summary", "bullet"} and out[p].strip()]
+    if proofreader and targets:
+        for attempt in range(2):
+            if attempt == 0:
+                batch = targets
+            else:
+                batch = [p for p in targets if _hints(p, out[p], locale)]
+                if not batch:
+                    break
+            hints = [_hints(p, out[p], locale) for p in batch]
+            try:
+                revised = proofreader([out[p] for p in batch], locale, hints)
+            except Exception as exc:  # noqa: BLE001 - la revisión es opcional; nunca rompe el CV
+                proof["error"] = str(exc)[:300]
+                logger.warning("[quality] revisión de redacción falló: %s", exc)
+                break
+            proof["ran"] = True
+            for path, new in zip(batch, revised):
+                before = out[path]
+                candidate = clean_text(str(new or "")).text
+                if candidate == before:
+                    continue
+                problem = _proofread_problem(before, candidate, protected)
+                if problem:
+                    proof["rejected"].append({"path": path, "before": before, "after": candidate, "reason": problem})
+                    continue
+                proof["changed"].append({"path": path, "before": before, "after": candidate})
+                out[path] = candidate
+
+    issues: list[Issue] = []
+    for path, text in out.items():
+        kind = kind_for_path(path)
+        if kind:
+            issues.extend(find_issues(path, text, kind, locale))
+    report = {
+        "score": quality_score(issues),
+        "errors": sum(1 for i in issues if i.severity == ERROR),
+        "warnings": sum(1 for i in issues if i.severity != ERROR),
+        "issues": [i.as_dict() for i in issues],
+        "autofixed": autofixed,
+        "proofread": proof,
+    }
+    return out, report
+
+
+def _quality_notes(quality: dict) -> list[str]:
+    if not quality:
+        return []
+    notes: list[str] = []
+    score = quality.get("score")
+    if score is not None and (quality.get("errors") or quality.get("warnings")):
+        notes.append(
+            f"Redacción: {score}/10 ({quality.get('errors', 0)} errores, {quality.get('warnings', 0)} avisos). "
+            "Revísalo antes de enviar el CV."
+        )
+    for item in quality.get("issues") or []:
+        level = "Error" if item.get("severity") == ERROR else "Aviso"
+        notes.append(f"{level} de redacción en {item['path']}: {item['message']}. Texto: «{item['text']}»")
+    for item in (quality.get("proofread") or {}).get("rejected") or []:
+        notes.append(
+            f"Se descartó una corrección de redacción en {item['path']} porque {item['reason']}. "
+            f"Propuesta: «{item['after']}»"
+        )
     return notes
 
 
@@ -1061,8 +1266,9 @@ def _build_cv(
     locale: str = "es",
     vacancy_text: str = "",
     translator: Optional[Translator] = None,
+    proofreader: Optional[Proofreader] = None,
 ) -> tuple[CvDocument, dict]:
-    """JSON del optimizer → CvDocument + reporte de verificación (fechas, hechos, idioma)."""
+    """JSON del optimizer → CvDocument + reporte de verificación (fechas, hechos, idioma, redacción)."""
     companies = _company_index(master)
     allowed = {_norm(c) for c in (master.get("allowed_companies") or companies.keys())}
     personal = {_norm(n) for n in (master.get("personal_products_not_employment") or [])}
@@ -1096,11 +1302,9 @@ def _build_cv(
             bool(source.get("current")),
             locale,
         ) or str(source.get("dates") or "").strip()
-        extra = [
-            format_period(p.get("start_date"), p.get("end_date"), bool(p.get("current")), locale)
-            for p in source.get("extra_periods") or []
-        ]
-        return " · ".join(part for part in [main, *extra] if part)
+        # Una sola etapa por empresa: la principal (la más reciente). Las etapas anteriores
+        # (``extra_periods``) siguen en el perfil, pero dos rangos en una línea confunden.
+        return main
 
     built: dict[str, ExperienceItem] = {}
     for raw in data.get("experience") or []:
@@ -1203,7 +1407,8 @@ def _build_cv(
     )
     summary = localize_cv_wording(str(data.get("summary") or "").strip(), locale) or base.summary
     summary = _strip_methodology(summary, _all_tools(master))
-    summary = _years_phrase(summary, master, locale)
+    shown = shown_years([companies.get(_norm(job.company)) or {} for job in experience])
+    summary = _years_phrase(summary, master, locale, shown)
     all_unbacked: set[str] = set()
     for source in companies.values():
         all_unbacked |= _unbacked_tokens(source)
@@ -1264,6 +1469,21 @@ def _build_cv(
         for job in experience
     ]
 
+    # Redacción: lo último antes de armar el CV, sobre el texto final ya traducido.
+    polish: dict[str, str] = {"title": title, "summary": summary}
+    for i, job in enumerate(experience):
+        for j, bullet in enumerate(job.bullets):
+            polish[f"experience[{i}].bullets[{j}]"] = bullet
+    polished, quality = _quality_pass(polish, locale, protected, proofreader)
+    title = polished["title"]
+    summary = polished["summary"]
+    experience = [
+        job.model_copy(
+            update={"bullets": [polished[f"experience[{i}].bullets[{j}]"] for j in range(len(job.bullets))]}
+        )
+        for i, job in enumerate(experience)
+    ]
+
     report = {
         "title_family": family,
         "off_family_titles": off_family,
@@ -1272,6 +1492,7 @@ def _build_cv(
         "weak_bullets": weak,
         "summary_claims": _summary_problems(summary, master),
         "language": language_report,
+        "quality": quality,
     }
     report["notes"] = _verification_notes(report)
 
@@ -1304,7 +1525,8 @@ def result_to_cv(
     locale: str = "es",
     vacancy_text: str = "",
     translator: Optional[Translator] = None,
+    proofreader: Optional[Proofreader] = None,
 ) -> CvDocument:
     """Igual que ``_build_cv`` pero solo devuelve el CV."""
-    cv, _report = _build_cv(data, base, master, locale, vacancy_text, translator)
+    cv, _report = _build_cv(data, base, master, locale, vacancy_text, translator, proofreader)
     return cv

@@ -121,7 +121,8 @@ def test_all_english_cv_is_not_sent_to_translator(compact):
     grain = next(j for j in cv.experience if j.company == "Grainchain Inc")
     assert grain.bullets[:3] == data["experience"][0]["bullets"]
     assert all("Built financial dashboards" not in t for batch in calls for t in batch)
-    assert cv.summary == data["summary"]
+    # Mismo texto; solo los años se ajustan a lo que muestran las fechas del CV (6.8 → 6+).
+    assert cv.summary == data["summary"].replace("7+", "6+")
 
 
 def test_all_spanish_text_is_detected_as_spanish(protected):
@@ -298,7 +299,8 @@ def test_e2e_english_generation(monkeypatch):
     assert any("8 s to 3 s (62%)" in b for b in jobs["Grainchain Inc"].bullets)
 
     # Fechas del maestro (nunca las del modelo, que escribió «Jan 2023 – Jul 2024»).
-    assert jobs["UffPay"].period == "Apr 2026 – Present · Jan 2024 – Jul 2024"
+    # Una sola etapa por empresa en el CV: la más reciente.
+    assert jobs["UffPay"].period == "Apr 2026 – Present"
     assert jobs["Monkey Cave"].period == "Jan 2022 – May 2023"
     assert jobs["Grainchain Inc"].period == "Jun 2025 – Apr 2026"
     assert "Corus" not in jobs
@@ -354,7 +356,7 @@ def test_e2e_spanish_generation(monkeypatch):
     assert "Desarrollo de dashboards financieros con Angular y Angular Material." not in sent
     assert "Integración de Stripe Payments en aplicaciones fintech." not in sent
     assert jobs["Grainchain Inc"].period == "Jun 2025 – Abr 2026"
-    assert jobs["UffPay"].period == "Abr 2026 – Actualidad · Ene 2024 – Jul 2024"
+    assert jobs["UffPay"].period == "Abr 2026 – Actualidad"
     assert jobs["Monkey Cave"].period == "Ene 2022 – May 2023"
     assert cv.location == ""
 
@@ -367,7 +369,7 @@ def test_e2e_failed_translation_keeps_content(monkeypatch):
     _match, tailored = _run_pipeline(monkeypatch, EN_VACANCY, fake)
     jobs = {job.company: job for job in tailored.cv.experience}
     assert "Reducción de errores en flujos de pago mediante validaciones y UX (25%)." in jobs["UffPay"].bullets
-    assert tailored.cv.summary.startswith("Senior Frontend Developer with 7+ years")
+    assert tailored.cv.summary.startswith("Senior Frontend Developer with 6+ years")
     assert any(n.startswith("Idioma: ") for n in tailored.notes_to_verify)
     assert len(fake.translation_batches) == 1  # error del proveedor: no se reintenta, se reporta
 
@@ -418,8 +420,9 @@ def test_two_stage_uffpay_and_resolved_dates_in_prompt_and_cv(compact):
     assert prompt_jobs["UffPay"]["dates"] == "Apr 2026 – Present · Jan 2024 – Jul 2024"
     base = CvDocument(id="b", name="x", email="")
     for locale, uff, mc in [
-        ("en", "Apr 2026 – Present · Jan 2024 – Jul 2024", "Jan 2022 – May 2023"),
-        ("es", "Abr 2026 – Actualidad · Ene 2024 – Jul 2024", "Ene 2022 – May 2023"),
+        # El perfil y el prompt conservan las dos etapas; el CV muestra solo la más reciente.
+        ("en", "Apr 2026 – Present", "Jan 2022 – May 2023"),
+        ("es", "Abr 2026 – Actualidad", "Ene 2022 – May 2023"),
     ]:
         cv, report = _build_cv({"target_role": "Frontend", "summary": "", "experience": []}, base, compact, locale, EN_VACANCY)
         periods = {j.company: j.period for j in cv.experience}

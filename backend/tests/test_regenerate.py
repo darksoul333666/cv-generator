@@ -103,7 +103,7 @@ def test_regenerate_one_cv_creates_new_entry_and_keeps_original(tmp_stores):
     assert new.cv_name == "CV Acme (regenerado)"
     # Pipeline actual: fechas en conflicto omitidas, sin ubicación, con notas de verificación.
     uff = next(j for j in new.cv.experience if j.company == "UffPay")
-    assert uff.period == "Apr 2026 – Present · Jan 2024 – Jul 2024"
+    assert uff.period == "Apr 2026 – Present"
     assert new.cv.location == ""
     assert new.notes_to_verify  # p. ej. el bullet de Safra Bank descartado
 

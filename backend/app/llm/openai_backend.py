@@ -14,7 +14,7 @@ from ..locale_util import detect_vacancy_locale
 from ..models import CvDocument
 from .parse_json import parse_json_object
 from .prompts import build_batch_optimizer_prompt, build_optimizer_prompt
-from .result_pack import align_batch_items, make_translator, pack_optimizer
+from .result_pack import align_batch_items, make_proofreader, make_translator, pack_optimizer
 from .schemas import OptimizerBatchOut, OptimizerOut
 
 logger = logging.getLogger(__name__)
@@ -174,6 +174,13 @@ class OpenAICvLlmBackend:
             provider=self.provider_id,
             model=self._model_name,
             translator=self._translator(master),
+            proofreader=self._proofreader(master),
+        )
+
+    def _proofreader(self, master: dict):
+        return make_proofreader(
+            lambda prompt: self._chat_json(prompt, max_tokens=4096, n=1, kind="proofread"),
+            master,
         )
 
     def _translator(self, master: dict):
@@ -225,6 +232,7 @@ class OpenAICvLlmBackend:
                 model=self._model_name,
                 extra_meta={"batch_size": n, "batch_slot": i + 1, "http_calls": 1},
                 translator=self._translator(master),
+                proofreader=self._proofreader(master),
             )
             out.append(packed)
         return out

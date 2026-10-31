@@ -238,8 +238,9 @@ def test_summary_years_phrase_and_senior_capitalized(master):
             "summary": "7 años Senior Full Stack Engineer especializado en React y Node.js/TypeScript.",
             "experience": [{"company": "Grainchain Inc", "position": "Senior Frontend Developer", "bullets": []}]}
     cv, _ = _cv(master, data)
-    assert cv.summary.startswith("Más de 7 años de experiencia como Senior Full Stack Engineer")
+    # El perfil dice 7.4, pero las fechas visibles empiezan en enero de 2020: «Más de 6».
+    assert cv.summary.startswith("Más de 6 años de experiencia como Senior Full Stack Engineer")
     assert cv.title == "Ingeniero Full Stack Senior"
-    data_ok = dict(data, summary="Más de 7 años de experiencia como ingeniero Full Stack.")
+    data_ok = dict(data, summary="Más de 6 años de experiencia como ingeniero Full Stack.")
     cv2, _ = _cv(master, data_ok)
-    assert cv2.summary == "Más de 7 años de experiencia como ingeniero Full Stack."
+    assert cv2.summary == "Más de 6 años de experiencia como ingeniero Full Stack."

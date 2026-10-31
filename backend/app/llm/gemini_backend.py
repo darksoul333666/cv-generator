@@ -15,7 +15,7 @@ from ..locale_util import detect_vacancy_locale
 from ..models import CvDocument
 from .parse_json import parse_json_object, response_text
 from .prompts import build_batch_optimizer_prompt, build_matcher_prompt, build_optimizer_prompt
-from .result_pack import align_batch_items, make_translator, pack_optimizer
+from .result_pack import align_batch_items, make_proofreader, make_translator, pack_optimizer
 from .schemas import MatcherOut, OptimizerBatchOut, OptimizerOut, TranslationOut
 
 logger = logging.getLogger(__name__)
@@ -203,7 +203,17 @@ class GeminiCvLlmBackend:
             provider=self.provider_id,
             model=self._model_name,
             translator=self._translator(master),
+            proofreader=self._proofreader(master),
         )
+
+    def _proofreader(self, master: dict):
+        def call(prompt: str) -> str:
+            response = self._generate(
+                prompt, TranslationOut, max_output_tokens=4096, n=1, kind="proofread"
+            )
+            return response_text(response)
+
+        return make_proofreader(call, master)
 
     def _translator(self, master: dict):
         def call(prompt: str) -> str:
@@ -265,6 +275,7 @@ class GeminiCvLlmBackend:
                 model=self._model_name,
                 extra_meta={"batch_size": n, "batch_slot": i + 1, "http_calls": 1},
                 translator=self._translator(master),
+                proofreader=self._proofreader(master),
             )
             out.append(packed)
         return out
