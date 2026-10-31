@@ -77,6 +77,8 @@ class Experience(_Loose):
     technologies: List[str] = Field(default_factory=list)
     achievements: List[Achievement] = Field(default_factory=list)
     roleScope: Optional[RoleScope] = None
+    openQuestions: List[str] = Field(default_factory=list)
+    notes: List[str] = Field(default_factory=list)
 
     _dates = field_validator("startDate", "endDate")(_check_date)
 
@@ -89,6 +91,8 @@ class Project(_Loose):
     contribution: Literal["", "full", "frontend", "backend", "lead"] = ""
     experienceId: Optional[str] = None
     engagement: Optional[Literal["", "employment", "freelance", "personal"]] = None
+    openQuestions: List[str] = Field(default_factory=list)
+    notes: List[str] = Field(default_factory=list)
 
 
 class Education(_Loose):
@@ -97,6 +101,8 @@ class Education(_Loose):
     institution: str = ""
     startDate: Optional[str] = None
     endDate: Optional[str] = None
+    openQuestions: List[str] = Field(default_factory=list)
+    notes: List[str] = Field(default_factory=list)
 
     _dates = field_validator("startDate", "endDate")(_check_date)
 
@@ -308,6 +314,21 @@ def validate_profile(raw: Any) -> tuple[list[str], list[str]]:
     warnings += _tech_warnings(raw)
     warnings += _skill_duplicate_warnings(raw)
     warnings += _alias_warnings(raw)
+    legacy = sorted(
+        {
+            key
+            for section in ("experience", "projects", "education", "certifications", "languages")
+            for item in raw.get(section) or []
+            if isinstance(item, dict)
+            for key in ("evidence", "sourceValues", "originalValues", "sourceCount")
+            if key in item
+        }
+    )
+    if legacy or (raw.get("userValidation") or {}).get("resolved"):
+        warnings.append(
+            "notas internas en formato viejo (" + ", ".join(legacy or ["userValidation.resolved"])
+            + "): corre python -m app.migrate_profile"
+        )
     if raw.get("skillCatalog"):
         warnings.append("skillCatalog es formato viejo: guarda las skills desde la app para quitarlo")
     open_conflicts = [c for c in raw.get("conflicts") or [] if isinstance(c, dict) and not c.get("userValidated")]

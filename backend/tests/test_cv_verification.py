@@ -500,8 +500,9 @@ def test_unresolved_dates_never_reach_prompt_or_cv():
 
 
 def test_saving_profile_with_same_dates_does_not_promote_conflict():
+    from app.profile_history import PENDING_KEY
+
     raw = _raw_with_open_conflict()
-    before = len(raw["userValidation"]["resolved"])
     items = [
         ExperienceEditItem(
             id=e["id"],
@@ -516,7 +517,7 @@ def test_saving_profile_with_same_dates_does_not_promote_conflict():
     by_id = {e["id"]: e for e in raw["experience"]}
     assert date_conflict_open(by_id["exp_uffpay"])
     assert by_id["exp_uffpay"]["dateStatus"] == "conflicted"
-    new = raw["userValidation"]["resolved"][before:]
+    new = raw.get(PENDING_KEY) or []  # decisiones que irían al historial
     assert not any(r["field"] in {"experience.UffPay.startDate", "experience.MonkeyCave.dates"} for r in new)
     assert build_compact_profile(raw)["experience"][0]["dates_verified"] is False
 

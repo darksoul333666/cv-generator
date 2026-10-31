@@ -1,0 +1,893 @@
+{
+  "resolved": [
+    {
+      "field": "profile.contact.email",
+      "previousValues": [
+        "jairoantoniocamarillotinoco@gmail.com",
+        "Jailiz123456@gmail.com"
+      ],
+      "resolvedValue": "jairoantoniocamarillotinoco@gmail.com",
+      "resolvedAt": "2026-08-20",
+      "source": "user"
+    },
+    {
+      "field": "profile.contact.phone",
+      "previousValues": [
+        "+52 271 352 9511",
+        "271 217 0477"
+      ],
+      "resolvedValue": "+52 271 352 9511",
+      "resolvedAt": "2026-08-20",
+      "source": "user"
+    },
+    {
+      "field": "profile.contact.location",
+      "previousValues": [
+        "Yanga Veracruz 94930 (solo CV histórico)",
+        "omitido en CVs 2025–2026"
+      ],
+      "resolvedValue": "omitido en CVs 2025–2026",
+      "resolvedAt": "2026-08-20",
+      "source": "user"
+    },
+    {
+      "field": "yearsOfExperience",
+      "previousValues": [
+        "7+",
+        "6+",
+        "4"
+      ],
+      "resolvedValue": "7+",
+      "resolvedAt": "2026-08-20",
+      "source": "user"
+    },
+    {
+      "field": "experience.Grainchain.startDate",
+      "previousValues": [
+        "2025-01",
+        "2025-06"
+      ],
+      "resolvedValue": "2025-06",
+      "resolvedAt": "2026-08-20",
+      "source": "user"
+    },
+    {
+      "field": "experience.UffPay.startDate",
+      "previousValues": [
+        "2023-01",
+        "2024-01"
+      ],
+      "resolvedValue": "2024-01",
+      "resolvedAt": "2026-08-20",
+      "source": "user"
+    },
+    {
+      "field": "experience.MonkeyCave.dates",
+      "previousValues": [
+        "2020-01 – 2023-01",
+        "2020-06 – 2022-01",
+        "2022-01 – actualidad (CV histórico)"
+      ],
+      "resolvedValue": "2020-01 – 2023-01",
+      "resolvedAt": "2026-08-20",
+      "source": "user"
+    },
+    {
+      "field": "experience.Lumston.mobileStack",
+      "previousValues": [
+        "Angular y Next.js (CVs Frontend/Full Stack)",
+        "React Native (CV RN)"
+      ],
+      "resolvedValue": "Angular y Next.js (CVs Frontend/Full Stack)",
+      "resolvedAt": "2026-08-20",
+      "source": "user"
+    },
+    {
+      "field": "experience.earlyCareer",
+      "previousValues": [
+        "CVs 2025–2026 consolidan 2020–2023 como Monkey Cave",
+        "CV histórico separa Deva Software, Multiplica, Nano Degree, CTZ"
+      ],
+      "resolvedValue": "CVs 2025–2026 consolidan 2020–2023 como Monkey Cave",
+      "resolvedAt": "2026-08-20",
+      "source": "user"
+    },
+    {
+      "field": "languages.English.level",
+      "previousValues": [
+        "professional proficiency",
+        "B1"
+      ],
+      "resolvedValue": "professional proficiency",
+      "resolvedAt": "2026-08-20",
+      "source": "user"
+    },
+    {
+      "field": "certifications.NDG Linux Essentials",
+      "previousValues": [
+        "presente en CV RN, knowledge_base y CV histórico",
+        "ausente en PDF Frontend English y PDF Full Stack"
+      ],
+      "resolvedValue": "presente en CV RN, knowledge_base y CV histórico",
+      "resolvedAt": "2026-08-20",
+      "source": "user"
+    },
+    {
+      "field": "skills.Vue",
+      "previousValues": [
+        "listado en PDF Frontend English",
+        "ausente en el resto de CVs"
+      ],
+      "resolvedValue": "listado en PDF Frontend English",
+      "resolvedAt": "2026-08-20",
+      "source": "user"
+    },
+    {
+      "field": "skills.fullstackOnlyCloudAndSupport",
+      "previousValues": [
+        "Lambda, API Gateway, CloudFront, CloudWatch, Glue, Athena, L3/L4 support, RCA: solo CV Full Stack skills list",
+        "no aparecen como bullets de experiencia en otros CVs"
+      ],
+      "resolvedValue": "Lambda, API Gateway, CloudFront, CloudWatch, Glue, Athena, L3/L4 support, RCA: solo CV Full Stack skills list",
+      "resolvedAt": "2026-08-20",
+      "source": "user"
+    },
+    {
+      "field": "projects.historical.technologies",
+      "previousValues": [
+        "El PDF histórico muestra bloques compartidos 'Tecnologías aplicadas' (React Native, Express.js, MongoDB, Angular, Laravel, Postgres, Ionic, MySQL, React) sin asignar stack único a cada proyecto"
+      ],
+      "resolvedValue": "El PDF histórico muestra bloques compartidos 'Tecnologías aplicadas' (React Native, Express.js, MongoDB, Angular, Laravel, Postgres, Ionic, MySQL, React) sin asignar stack único a cada proyecto",
+      "resolvedAt": "2026-08-20",
+      "source": "user"
+    },
+    {
+      "field": "projects.SORTALIA.backend",
+      "previousValues": [
+        "README_OBJECTIVE_PROJECT.md: Node.js + Express.js + Prisma",
+        "sortalia-api/README.md: NestJS + TypeScript + PostgreSQL + Prisma"
+      ],
+      "resolvedValue": "README_OBJECTIVE_PROJECT.md: Node.js + Express.js + Prisma",
+      "resolvedAt": "2026-08-20",
+      "source": "user"
+    },
+    {
+      "field": "metrics.Grainchain.render_time_reduction",
+      "previousValues": [
+        "35% en CV RN, knowledge_base y summary Frontend",
+        "no está en los bullets de Grainchain del PDF Frontend/Full Stack (ahí se habla de charts/dashboards)"
+      ],
+      "resolvedValue": "35% en CV RN, knowledge_base y summary Frontend",
+      "resolvedAt": "2026-08-20",
+      "source": "user"
+    },
+    {
+      "field": "experience.Grainchain.startDate",
+      "previousValues": [
+        "2025-01",
+        "2025-06"
+      ],
+      "resolvedValue": "2025-06 – 2026-04",
+      "resolvedAt": "2026-08-20",
+      "source": "user"
+    },
+    {
+      "field": "experience.UffPay.startDate",
+      "previousValues": [
+        "2023-01",
+        "2024-01"
+      ],
+      "resolvedValue": "2024-01 – 2024-07",
+      "resolvedAt": "2026-08-20",
+      "source": "user"
+    },
+    {
+      "field": "experience",
+      "previousValues": [],
+      "resolvedValue": "order_dates_employmentType",
+      "resolvedAt": "2026-08-20",
+      "source": "user"
+    },
+    {
+      "field": "experience.Grainchain.startDate",
+      "previousValues": [
+        "2025-01",
+        "2025-06"
+      ],
+      "resolvedValue": "2025-06 – 2026-04",
+      "resolvedAt": "2026-08-20",
+      "source": "user"
+    },
+    {
+      "field": "experience.UffPay.startDate",
+      "previousValues": [
+        "2023-01",
+        "2024-01"
+      ],
+      "resolvedValue": "2024-01 – 2024-07",
+      "resolvedAt": "2026-08-20",
+      "source": "user"
+    },
+    {
+      "field": "experience",
+      "previousValues": [],
+      "resolvedValue": "order_dates_employmentType",
+      "resolvedAt": "2026-08-20",
+      "source": "user"
+    },
+    {
+      "field": "experience.Grainchain.startDate",
+      "previousValues": [
+        "2025-01",
+        "2025-06"
+      ],
+      "resolvedValue": "2025-06 – 2026-04",
+      "resolvedAt": "2026-08-20",
+      "source": "user"
+    },
+    {
+      "field": "experience.UffPay.startDate",
+      "previousValues": [
+        "2023-01",
+        "2024-01"
+      ],
+      "resolvedValue": "2024-01 – 2024-07",
+      "resolvedAt": "2026-08-20",
+      "source": "user"
+    },
+    {
+      "field": "experience",
+      "previousValues": [],
+      "resolvedValue": "order_dates_employmentType",
+      "resolvedAt": "2026-08-20",
+      "source": "user"
+    },
+    {
+      "field": "experience.Grainchain.startDate",
+      "previousValues": [
+        "2025-01",
+        "2025-06"
+      ],
+      "resolvedValue": "2025-06 – 2026-04",
+      "resolvedAt": "2026-08-20",
+      "source": "user"
+    },
+    {
+      "field": "experience.UffPay.startDate",
+      "previousValues": [
+        "2023-01",
+        "2024-01"
+      ],
+      "resolvedValue": "2024-01 – 2024-07",
+      "resolvedAt": "2026-08-20",
+      "source": "user"
+    },
+    {
+      "field": "experience",
+      "previousValues": [],
+      "resolvedValue": "order_dates_employmentType",
+      "resolvedAt": "2026-08-20",
+      "source": "user"
+    },
+    {
+      "field": "experience.UffPay.startDate",
+      "previousValues": [
+        "2023-01",
+        "2024-01"
+      ],
+      "resolvedValue": "2026-04 – Actualidad",
+      "resolvedAt": "2026-08-20",
+      "source": "user"
+    },
+    {
+      "field": "experience.Grainchain.startDate",
+      "previousValues": [
+        "2025-01",
+        "2025-06"
+      ],
+      "resolvedValue": "2025-06 – 2026-04",
+      "resolvedAt": "2026-08-20",
+      "source": "user"
+    },
+    {
+      "field": "experience.MonkeyCave.dates",
+      "previousValues": [
+        "2020-01 – 2023-01",
+        "2020-06 – 2022-01",
+        "2022-01 – actualidad (CV histórico)"
+      ],
+      "resolvedValue": "2022-01 – 2023-05",
+      "resolvedAt": "2026-08-20",
+      "source": "user"
+    },
+    {
+      "field": "experience",
+      "previousValues": [],
+      "resolvedValue": "order_dates_employmentType",
+      "resolvedAt": "2026-08-20",
+      "source": "user"
+    },
+    {
+      "field": "experience.UffPay.startDate",
+      "previousValues": [
+        "2023-01",
+        "2024-01"
+      ],
+      "resolvedValue": "2026-04 – Actualidad",
+      "resolvedAt": "2026-08-20",
+      "source": "user"
+    },
+    {
+      "field": "experience.Grainchain.startDate",
+      "previousValues": [
+        "2025-01",
+        "2025-06"
+      ],
+      "resolvedValue": "2025-06 – 2026-04",
+      "resolvedAt": "2026-08-20",
+      "source": "user"
+    },
+    {
+      "field": "experience.MonkeyCave.dates",
+      "previousValues": [
+        "2020-01 – 2023-01",
+        "2020-06 – 2022-01",
+        "2022-01 – actualidad (CV histórico)"
+      ],
+      "resolvedValue": "2022-01 – 2023-05",
+      "resolvedAt": "2026-08-20",
+      "source": "user"
+    },
+    {
+      "field": "experience",
+      "previousValues": [],
+      "resolvedValue": "order_dates_employmentType",
+      "resolvedAt": "2026-08-20",
+      "source": "user"
+    },
+    {
+      "field": "profile.content",
+      "previousValues": [],
+      "resolvedValue": "identity_experience_education",
+      "resolvedAt": "2026-10-05",
+      "source": "user"
+    },
+    {
+      "field": "profile.content",
+      "previousValues": [],
+      "resolvedValue": "identity_experience_education",
+      "resolvedAt": "2026-10-05",
+      "source": "user"
+    },
+    {
+      "field": "profile.content",
+      "previousValues": [],
+      "resolvedValue": "identity_experience_education",
+      "resolvedAt": "2026-10-05",
+      "source": "user"
+    },
+    {
+      "field": "profile.content",
+      "previousValues": [],
+      "resolvedValue": "identity_experience_education",
+      "resolvedAt": "2026-10-05",
+      "source": "user"
+    },
+    {
+      "field": "profile.content",
+      "previousValues": [],
+      "resolvedValue": "identity_experience_education",
+      "resolvedAt": "2026-10-05",
+      "source": "user"
+    },
+    {
+      "field": "profile.content",
+      "previousValues": [],
+      "resolvedValue": "identity_experience_education",
+      "resolvedAt": "2026-10-05",
+      "source": "user"
+    },
+    {
+      "field": "profile.content",
+      "previousValues": [],
+      "resolvedValue": "identity_experience_education",
+      "resolvedAt": "2026-10-05",
+      "source": "user"
+    },
+    {
+      "field": "experience.UffPay.startDate",
+      "previousValues": [],
+      "resolvedValue": "2024-01 – 2024-07 y 2026-04 – Actualidad (dos etapas)",
+      "resolvedAt": "2026-10-27",
+      "source": "user"
+    },
+    {
+      "field": "experience.MonkeyCave.dates",
+      "previousValues": [],
+      "resolvedValue": "2022-01 – 2023-05",
+      "resolvedAt": "2026-10-27",
+      "source": "user"
+    },
+    {
+      "field": "experience.Corus",
+      "previousValues": [],
+      "resolvedValue": "2025-08 – 2026-01, no se muestra en CVs",
+      "resolvedAt": "2026-10-27",
+      "source": "user"
+    },
+    {
+      "field": "metrics.Grainchain.render_time_reduction",
+      "previousValues": [
+        "35%"
+      ],
+      "resolvedValue": "8 s → 3 s (62%)",
+      "resolvedAt": "2026-10-30",
+      "source": "user"
+    },
+    {
+      "field": "metrics.Lumston.load_time_reduction",
+      "previousValues": [
+        "30%"
+      ],
+      "resolvedValue": "10 s → 3 s (70%), Volaris Manifest",
+      "resolvedAt": "2026-10-30",
+      "source": "user"
+    },
+    {
+      "field": "profile.content",
+      "previousValues": [],
+      "resolvedValue": "identity_experience_education",
+      "resolvedAt": "2026-10-30",
+      "source": "user"
+    },
+    {
+      "field": "profile.content",
+      "previousValues": [],
+      "resolvedValue": "identity_experience_education",
+      "resolvedAt": "2026-10-30",
+      "source": "user"
+    },
+    {
+      "field": "education.cvVisibility",
+      "previousValues": [],
+      "resolvedValue": "Ocultar CETIS 164 y Escuela Secundaria Técnica en CVs",
+      "resolvedAt": "2026-10-30",
+      "source": "user"
+    },
+    {
+      "field": "certifications.AWS Machine Learning Certification.year",
+      "previousValues": [],
+      "resolvedValue": "2024",
+      "resolvedAt": "2026-10-30",
+      "source": "user"
+    },
+    {
+      "field": "profile.content",
+      "previousValues": [],
+      "resolvedValue": "identity_experience_education",
+      "resolvedAt": "2026-10-31",
+      "source": "user"
+    },
+    {
+      "field": "profile.content",
+      "previousValues": [],
+      "resolvedValue": "identity_experience_education",
+      "resolvedAt": "2026-10-31",
+      "source": "user"
+    },
+    {
+      "field": "profile.content",
+      "previousValues": [],
+      "resolvedValue": "identity_experience_education",
+      "resolvedAt": "2026-10-31",
+      "source": "user"
+    },
+    {
+      "field": "profile.content",
+      "previousValues": [],
+      "resolvedValue": "identity_experience_education",
+      "resolvedAt": "2026-10-31",
+      "source": "user"
+    },
+    {
+      "field": "experience.UffPay.Neonet",
+      "previousValues": [
+        "Neonet: aparece en CVs Frontend/Full Stack y knowledge_base cv_1/cv_3; el CV RN solo menciona Cybersource"
+      ],
+      "resolvedValue": "Integró Neonet en UffPay",
+      "resolvedAt": "2026-10-31",
+      "source": "user"
+    },
+    {
+      "field": "projects.Saldo HVAC.company",
+      "previousValues": [
+        "Relación con el proyecto Saldo HVAC no está explícita en el texto (mismo dominio HVAC)"
+      ],
+      "resolvedValue": "Nano Degree",
+      "resolvedAt": "2026-10-31",
+      "source": "user"
+    },
+    {
+      "field": "languages.Spanish.level",
+      "previousValues": [
+        "Ningún CV declara explícitamente español nativo; se infiere del idioma de varios documentos. Requiere validación si se quiere afirmar en un CV."
+      ],
+      "resolvedValue": "Native",
+      "resolvedAt": "2026-10-31",
+      "source": "user"
+    },
+    {
+      "field": "projects.SORTALIA.backend",
+      "previousValues": [
+        "README_OBJECTIVE_PROJECT.md: Node.js + Express.js + Prisma",
+        "sortalia-api/README.md: NestJS + TypeScript + PostgreSQL + Prisma"
+      ],
+      "resolvedValue": "NestJS",
+      "resolvedAt": "2026-10-31",
+      "source": "user"
+    },
+    {
+      "field": "projects.Acolyte.company",
+      "previousValues": [],
+      "resolvedValue": "Lumston",
+      "resolvedAt": "2026-10-31",
+      "source": "user"
+    },
+    {
+      "field": "projects.Acolyte.name",
+      "previousValues": [
+        "Plataforma de video"
+      ],
+      "resolvedValue": "Acolyte",
+      "resolvedAt": "2026-10-31",
+      "source": "user"
+    },
+    {
+      "field": "projects.Acolyte.client",
+      "previousValues": [],
+      "resolvedValue": "Acolyte",
+      "resolvedAt": "2026-10-31",
+      "source": "user"
+    },
+    {
+      "field": "projects.Acolyte.stack",
+      "previousValues": [],
+      "resolvedValue": "OpenAI (generación de video) y backend con Django",
+      "resolvedAt": "2026-10-31",
+      "source": "user"
+    },
+    {
+      "field": "projects.Acolyte.contribution",
+      "previousValues": [
+        "Desarrollo completo"
+      ],
+      "resolvedValue": "Solo frontend",
+      "resolvedAt": "2026-10-31",
+      "source": "user"
+    },
+    {
+      "field": "projects.contribution",
+      "previousValues": [],
+      "resolvedValue": "Desarrollo completo en: Drizline, Baker Tilly Legal Chatbot, Altos Aceros, Safra Bank, Blackeagle, Fatima's Bakery, Hoppi get together, Desansiedad, Saldo HVAC, Pilsar",
+      "resolvedAt": "2026-10-31",
+      "source": "user"
+    },
+    {
+      "field": "projects.contribution",
+      "previousValues": [
+        "«Desarrollo completo» dentro de la descripción"
+      ],
+      "resolvedValue": "Campo contribution: full en 12 proyectos, frontend en Acolyte y Volaris Manifest",
+      "resolvedAt": "2026-10-31",
+      "source": "user"
+    },
+    {
+      "field": "profile.cleanup",
+      "previousValues": [],
+      "resolvedValue": "Fase 2 de la revisión: llaves sin uso, notas internas, grafías, skills, métricas obsoletas",
+      "resolvedAt": "2026-10-31",
+      "source": "user"
+    },
+    {
+      "field": "experience.UffPay.achievements.api.measurement",
+      "previousValues": [
+        "React Dev tools, Sentry"
+      ],
+      "resolvedValue": "React DevTools, en segundos",
+      "resolvedAt": "2026-10-31",
+      "source": "user"
+    },
+    {
+      "field": "experience.MonkeyCave.technologies",
+      "previousValues": [
+        "SonarQube"
+      ],
+      "resolvedValue": "React Native CLI, Express.js, MongoDB, MongoDB Atlas, Mongoose, Firebase, Google Maps",
+      "resolvedAt": "2026-10-31",
+      "source": "user"
+    },
+    {
+      "field": "projects.Hoppi.company",
+      "previousValues": [],
+      "resolvedValue": "Monkey Cave",
+      "resolvedAt": "2026-10-31",
+      "source": "user"
+    },
+    {
+      "field": "experience.Lumston.technologies",
+      "previousValues": [
+        "React Native"
+      ],
+      "resolvedValue": "Sin React Native",
+      "resolvedAt": "2026-10-31",
+      "source": "user"
+    },
+    {
+      "field": "certifications.AWS Machine Learning Certification",
+      "previousValues": [
+        "AWS Machine Learning Certification (2024)"
+      ],
+      "resolvedValue": "Eliminada: el usuario no tiene esa certificación",
+      "resolvedAt": "2026-10-31",
+      "source": "user"
+    },
+    {
+      "field": "projects.Blackeagle.company",
+      "previousValues": [
+        "Hoppi / Get Together (sin confirmar)"
+      ],
+      "resolvedValue": "UffPay",
+      "resolvedAt": "2026-10-31",
+      "source": "user"
+    },
+    {
+      "field": "education.Ingeniería.startDate",
+      "previousValues": [],
+      "resolvedValue": "2018",
+      "resolvedAt": "2026-10-31",
+      "source": "user"
+    },
+    {
+      "field": "education.TSU",
+      "previousValues": [
+        "TSU en Desarrollo de Software Multiplataforma (2019 – 2022)"
+      ],
+      "resolvedValue": "Eliminado: solo se conserva la Ingeniería (2018 – 2022)",
+      "resolvedAt": "2026-10-31",
+      "source": "user"
+    },
+    {
+      "field": "certifications.cert_stripe_dev",
+      "previousValues": [
+        "Stripe Developer Certification (2024)"
+      ],
+      "resolvedValue": "Stripe Professional Payments Developer (2024)",
+      "resolvedAt": "2026-10-31",
+      "source": "user"
+    },
+    {
+      "field": "certifications.cert_ccna",
+      "previousValues": [
+        "CCNA: Switching and Routing (2020)"
+      ],
+      "resolvedValue": "CCNA R&S: Introduction to Networks (2019)",
+      "resolvedAt": "2026-10-31",
+      "source": "user"
+    },
+    {
+      "field": "certifications.cert_it_essentials",
+      "previousValues": [
+        "IT Essentials: Hardware and Software (2019)"
+      ],
+      "resolvedValue": "IT Essentials: PC Hardware and Software (2019)",
+      "resolvedAt": "2026-10-31",
+      "source": "user"
+    },
+    {
+      "field": "certifications.cert_ndg_linux",
+      "previousValues": [
+        "NDG Linux Essentials (2020)"
+      ],
+      "resolvedValue": "NDG Linux Essentials (2019)",
+      "resolvedAt": "2026-10-31",
+      "source": "user"
+    },
+    {
+      "field": "experience.UffPay.achievements.api",
+      "previousValues": [
+        "30%",
+        "8 s → 3 s quitado por error el 2026-10-31"
+      ],
+      "resolvedValue": "De 8 s a 3 s (62%)",
+      "resolvedAt": "2026-10-31",
+      "source": "user"
+    },
+    {
+      "field": "skills",
+      "previousValues": [],
+      "resolvedValue": "Agregadas: AWS Amplify, Amazon SageMaker, AWS CodeCommit, Axios, React Context API, Canvas, pdfmake, Figma, Capacitor, WebSockets, WebRTC, Zod",
+      "resolvedAt": "2026-10-31",
+      "source": "user"
+    },
+    {
+      "field": "experience.achievements",
+      "previousValues": [],
+      "resolvedValue": "Cifras nuevas: Hoppi (28 s → 2 s, 5,000 descargas), Multiplica (20,000 usuarios/día), Nano Degree (5 → 1 día, 1,100 productos), CTZ (400 usuarios); módulo navbar en Deva",
+      "resolvedAt": "2026-10-31",
+      "source": "user"
+    },
+    {
+      "field": "projects.experienceId",
+      "previousValues": [],
+      "resolvedValue": "Proyectos ligados a su empleo por id; «Fullstack» unificado como «Full Stack»",
+      "resolvedAt": "2026-10-31",
+      "source": "user"
+    },
+    {
+      "field": "experience.Lumston.roles",
+      "previousValues": [
+        "React Native Developer"
+      ],
+      "resolvedValue": "Quitado: no usó React Native en Lumston",
+      "resolvedAt": "2026-10-31",
+      "source": "user"
+    },
+    {
+      "field": "projects.engagement",
+      "previousValues": [
+        "proyectos propios"
+      ],
+      "resolvedValue": "SORTALIA, Fatima's Bakery, Desansiedad y Pilsar: freelance para clientes, sin relación laboral",
+      "resolvedAt": "2026-10-31",
+      "source": "user"
+    },
+    {
+      "field": "projects.freelance",
+      "previousValues": [
+        "SORTALIA",
+        "Fatima's Bakery: más de 40 sucursales"
+      ],
+      "resolvedValue": "Sortalia 200 usuarios; Fatima's Bakery 15 sucursales; Desansiedad 3,000 usuarios; Pilsar más de 230 compras",
+      "resolvedAt": "2026-10-31",
+      "source": "user"
+    },
+    {
+      "field": "experience.wording",
+      "previousValues": [
+        "Hechos en forma de sustantivo"
+      ],
+      "resolvedValue": "Responsabilidades, logros y alcance reescritos con verbo en pasado (sin cambiar datos)",
+      "resolvedAt": "2026-10-31",
+      "source": "user"
+    },
+    {
+      "field": "schema",
+      "previousValues": [
+        "skillAliases",
+        "traducción del título y regla Fintech en el código"
+      ],
+      "resolvedValue": "Alias en skillCatalog; degreeEn en educación; titleQualifiers en UffPay",
+      "resolvedAt": "2026-10-31",
+      "source": "user"
+    },
+    {
+      "field": "profile.content",
+      "previousValues": [],
+      "resolvedValue": "identity_experience_education",
+      "resolvedAt": "2026-10-31",
+      "source": "user"
+    }
+  ],
+  "previousValues": {
+    "experience.exp_uffpay": {
+      "sourceValues": {
+        "startDate": [
+          "2023-01",
+          "2024-01"
+        ],
+        "endDate": [
+          "2024-07"
+        ]
+      },
+      "originalValues": {
+        "startDate": "2023-01",
+        "endDate": "2024-07",
+        "employmentType": "freelance"
+      }
+    },
+    "experience.exp_grainchain": {
+      "sourceValues": {
+        "startDate": [
+          "2025-01",
+          "2025-06"
+        ],
+        "endDate": [
+          "2026-04"
+        ]
+      },
+      "originalValues": {
+        "startDate": "2025-01",
+        "endDate": "2026-04",
+        "employmentType": null
+      }
+    },
+    "experience.exp_lumston": {
+      "sourceValues": {},
+      "originalValues": {
+        "startDate": "2023-05",
+        "endDate": "2025-06",
+        "employmentType": null
+      }
+    },
+    "experience.exp_monkey_cave": {
+      "sourceValues": {
+        "ranges": [
+          "2020-01 – 2023-01",
+          "2020-06 – 2022-01",
+          "2022-01 – actualidad (CV histórico)"
+        ]
+      },
+      "originalValues": {
+        "startDate": "2020-01",
+        "endDate": "2023-01",
+        "employmentType": "remote"
+      }
+    },
+    "experience.exp_deva_software": {
+      "sourceValues": {},
+      "originalValues": {
+        "startDate": "2021-06",
+        "endDate": "2022-01",
+        "employmentType": "remote"
+      }
+    },
+    "experience.exp_multiplica": {
+      "sourceValues": {},
+      "originalValues": {
+        "startDate": "2021-02",
+        "endDate": "2021-06",
+        "employmentType": "remote"
+      }
+    },
+    "experience.exp_nano_degree": {
+      "sourceValues": {},
+      "originalValues": {
+        "startDate": "2020-01",
+        "endDate": "2021-02",
+        "employmentType": "remote"
+      }
+    },
+    "experience.exp_ctz": {
+      "sourceValues": {},
+      "originalValues": {
+        "startDate": "2019-04",
+        "endDate": "2019-11",
+        "employmentType": "onsite"
+      }
+    },
+    "languages.lang_spanish": {
+      "sourceValues": [
+        "native (inferred from document language)"
+      ],
+      "originalValues": {
+        "level": "native"
+      }
+    },
+    "languages.lang_english": {
+      "sourceValues": [
+        "professional proficiency",
+        "B1"
+      ],
+      "originalValues": {
+        "level": "B2"
+      }
+    },
+    "yearsOfExperience": {
+      "sourceValues": [
+        "7+",
+        "6+",
+        "4"
+      ]
+    }
+  }
+}

@@ -7,6 +7,8 @@ from typing import Any, List, Literal, Optional
 from fastapi import HTTPException
 from pydantic import BaseModel, Field
 
+from .profile_history import remember
+
 
 class UserValidationIn(BaseModel):
     field: str = Field(min_length=1)
@@ -168,21 +170,8 @@ def apply_user_validation(raw: dict[str, Any], field: str, resolved_value: str) 
         conflict["userValidated"] = True
         conflict.pop("conflictingResolutions", None)
 
-    uv = raw.setdefault(
-        "userValidation",
-        {"pending": [], "resolved": [], "lastUpdated": None},
-    )
-    uv["pending"] = [p for p in uv.get("pending") or [] if p != field]
-    uv.setdefault("resolved", []).append(
-        {
-            "field": field,
-            "previousValues": previous,
-            "resolvedValue": resolved_value,
-            "resolvedAt": date.today().isoformat(),
-            "source": "user",
-        }
-    )
-    uv["lastUpdated"] = date.today().isoformat()
+    _drop_pending(raw, field)
+    remember(raw, field, resolved_value, previous)
     return raw
 
 
@@ -294,6 +283,14 @@ def _maybe_compute_yoe(raw: dict[str, Any]) -> None:
     yoe["evidenceLevel"] = "verified"
 
 
+def _drop_pending(raw: dict[str, Any], field: str) -> None:
+    uv = raw.get("userValidation")
+    if isinstance(uv, dict):
+        uv["pending"] = [p for p in uv.get("pending") or [] if p != field]
+        uv.pop("resolved", None)  # formato viejo: el historial vive en profile_history.json
+        uv.pop("lastUpdated", None)
+
+
 def _mark_conflict_resolved(raw: dict[str, Any], field: str, resolved_value: str) -> None:
     conflict = next((c for c in raw.get("conflicts") or [] if c.get("field") == field), None)
     previous = list(conflict.get("values") or []) if conflict else []
@@ -301,21 +298,8 @@ def _mark_conflict_resolved(raw: dict[str, Any], field: str, resolved_value: str
         conflict["preferredValue"] = resolved_value
         conflict["resolution"] = "user_validated"
         conflict["userValidated"] = True
-    uv = raw.setdefault(
-        "userValidation",
-        {"pending": [], "resolved": [], "lastUpdated": None},
-    )
-    uv["pending"] = [p for p in uv.get("pending") or [] if p != field]
-    uv.setdefault("resolved", []).append(
-        {
-            "field": field,
-            "previousValues": previous,
-            "resolvedValue": resolved_value,
-            "resolvedAt": date.today().isoformat(),
-            "source": "user",
-        }
-    )
-    uv["lastUpdated"] = date.today().isoformat()
+    _drop_pending(raw, field)
+    remember(raw, field, resolved_value, previous)
 
 
 def apply_experience_edits(raw: dict[str, Any], items: list[ExperienceEditItem]) -> dict[str, Any]:
@@ -344,13 +328,12 @@ def apply_experience_edits(raw: dict[str, Any], items: list[ExperienceEditItem])
                     detail=f"La fecha fin no puede ser anterior al inicio ({ex.get('company')})",
                 )
 
-        orig = ex.setdefault("originalValues", {})
-        orig.setdefault("startDate", ex.get("startDate"))
-        orig.setdefault("endDate", ex.get("endDate"))
-        orig.setdefault("employmentType", ex.get("employmentType"))
-
         # Reenviar las mismas fechas no resuelve un conflicto abierto; cambiarlas sí.
         changed = _dates_changed(ex, start, end, item.current)
+        if changed:
+            before = f"{ex.get('startDate') or '?'} – {'Actualidad' if ex.get('current') else ex.get('endDate') or '?'}"
+            after = f"{start or '?'} – {'Actualidad' if item.current else end or '?'}"
+            remember(raw, f"experience.{ex.get('id')}.dates", after, [before])
         keep_conflict = date_conflict_open(ex) and not changed
         ex["startDate"] = start
         ex["endDate"] = end
@@ -394,20 +377,6 @@ def apply_experience_edits(raw: dict[str, Any], items: list[ExperienceEditItem])
     raw.pop("careerTimeline", None)  # ya no se guarda; se calcula de experience
 
     _maybe_compute_yoe(raw)
-    uv = raw.setdefault(
-        "userValidation",
-        {"pending": [], "resolved": [], "lastUpdated": None},
-    )
-    uv.setdefault("resolved", []).append(
-        {
-            "field": "experience",
-            "previousValues": [],
-            "resolvedValue": "order_dates_employmentType",
-            "resolvedAt": date.today().isoformat(),
-            "source": "user",
-        }
-    )
-    uv["lastUpdated"] = date.today().isoformat()
     return raw
 
 
@@ -537,7 +506,6 @@ def _set_contact_value(raw: dict[str, Any], key: str, value: str) -> None:
             "value": None,
             "status": "user_validated",
             "evidenceLevel": "verified",
-            "sourceCount": 1,
             "userValidated": True,
             "candidates": [],
         }
@@ -639,18 +607,14 @@ def _blank_experience(item_id: str) -> dict[str, Any]:
         "current": False,
         "sortOrder": 0,
         "dateStatus": "claimed",
-        "sourceValues": {},
-        "originalValues": {},
         "userValidated": True,
         "conflicts": [],
         "domain": [],
         "responsibilities": [],
         "technologies": [],
         "achievements": [],
-        "evidence": [],
         "sourceRefs": ["user"],
         "evidenceLevel": "documented",
-        "sourceCount": 1,
     }
 
 
@@ -775,9 +739,7 @@ def _apply_projects(raw: dict[str, Any], items: list[ProjectContentIn]) -> set[s
             "scale": None,
             "status": "user_validated",
             "evidenceLevel": "documented",
-            "sourceCount": 1,
             "userValidated": True,
-            "evidence": [],
             "sourceRefs": ["user"],
             "isEmployment": False,
         }
@@ -820,7 +782,6 @@ def _apply_education(raw: dict[str, Any], items: list[EducationContentIn]) -> No
             "graduationYear": None,
             "status": "user_validated",
             "evidenceLevel": "documented",
-            "sourceCount": 1,
             "userValidated": True,
             "sourceRefs": ["user"],
         }
@@ -851,7 +812,6 @@ def _apply_certifications(raw: dict[str, Any], items: list[CertificationContentI
             "year": None,
             "status": "user_validated",
             "evidenceLevel": "documented",
-            "sourceCount": 1,
             "userValidated": True,
             "sourceRefs": ["user"],
         }
@@ -880,7 +840,6 @@ def _apply_languages(raw: dict[str, Any], items: list[LanguageContentIn]) -> Non
             "level": level,
             "status": "user_validated",
             "evidenceLevel": "documented",
-            "sourceCount": 1,
             "userValidated": True,
             "conflicts": [],
             "sourceRefs": ["user"],
@@ -947,20 +906,6 @@ def apply_profile_content(raw: dict[str, Any], content: ProfileContentIn) -> dic
         project_ids,
         project_names,
     )
-    uv = raw.setdefault(
-        "userValidation",
-        {"pending": [], "resolved": [], "lastUpdated": None},
-    )
-    uv.setdefault("resolved", []).append(
-        {
-            "field": "profile.content",
-            "previousValues": [],
-            "resolvedValue": "identity_experience_education",
-            "resolvedAt": date.today().isoformat(),
-            "source": "user",
-        }
-    )
-    uv["lastUpdated"] = date.today().isoformat()
     return raw
 
 
@@ -1107,7 +1052,7 @@ def apply_evidence(raw: dict[str, Any], body: EvidenceIn) -> dict[str, Any]:
             ex.pop("showInCvNote", None)
         elif body.showInCv is False:
             ex["showInCv"] = False
-        ex.setdefault("evidence", []).append(f"{source}: cargo/actividades actualizados desde Evidencia.")
+        remember(raw, f"experience.{ex.get('id')}.content", "cargo/actividades actualizados desde Evidencia", source=source)
     else:
         scope = dict(ex.get("roleScope") or {})
         if body.teamSize is not None and body.teamSize.strip():
@@ -1119,6 +1064,4 @@ def apply_evidence(raw: dict[str, Any], body: EvidenceIn) -> dict[str, Any]:
                 scope["highlights"] = highlights
         scope["source"] = source
         ex["roleScope"] = scope
-    uv = raw.setdefault("userValidation", {"pending": [], "resolved": [], "lastUpdated": None})
-    uv["lastUpdated"] = date.today().isoformat()
     return raw

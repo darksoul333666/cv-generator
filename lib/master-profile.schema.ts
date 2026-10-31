@@ -90,6 +90,9 @@ const periodSchema = z.object({
 });
 
 const experienceSchema = z.object({
+  // Lo que falta saber (va al modelo como «no lo afirmes») y aclaraciones del usuario.
+  openQuestions: z.array(z.string()).optional(),
+  notes: z.array(z.string()).optional(),
   id: z.string().min(1),
   company: z.string().min(1),
   roles: z.array(z.string()),
@@ -113,7 +116,7 @@ const experienceSchema = z.object({
   current: z.boolean().optional(),
   sortOrder: z.number().int().nonnegative().optional(),
   dateStatus: z.string(),
-  sourceValues: z.record(z.string(), z.unknown()),
+  sourceValues: z.record(z.string(), z.unknown()).optional(),
   originalValues: z.record(z.string(), z.unknown()).optional(),
   userValidated: z.boolean(),
   conflicts: z.array(z.string()),
@@ -121,10 +124,10 @@ const experienceSchema = z.object({
   responsibilities: z.array(z.string()),
   technologies: z.array(z.string()),
   achievements: z.array(achievementSchema),
-  evidence: z.array(z.string()),
+  evidence: z.array(z.string()).optional(),
   sourceRefs: z.array(z.string()),
   evidenceLevel: evidenceLevelSchema,
-  sourceCount: z.number().int().nonnegative(),
+  sourceCount: z.number().int().nonnegative().optional(),
 }).superRefine((ex, ctx) => {
   // Un empleo oculto en CVs puede no tener cargo confirmado todavía.
   if (ex.roles.length === 0 && ex.showInCv !== false) {
@@ -133,6 +136,9 @@ const experienceSchema = z.object({
 });
 
 const projectSchema = z.object({
+  // Lo que falta saber (va al modelo como «no lo afirmes») y aclaraciones del usuario.
+  openQuestions: z.array(z.string()).optional(),
+  notes: z.array(z.string()).optional(),
   id: z.string().min(1),
   name: z.string().min(1),
   type: z.string(),
@@ -144,9 +150,9 @@ const projectSchema = z.object({
   scale: z.string().nullable(),
   status: z.string(),
   evidenceLevel: evidenceLevelSchema,
-  sourceCount: z.number().int().nonnegative(),
+  sourceCount: z.number().int().nonnegative().optional(),
   userValidated: z.boolean(),
-  evidence: z.array(z.string()),
+  evidence: z.array(z.string()).optional(),
   sourceRefs: z.array(z.string()),
   isEmployment: z.boolean(),
   /** Tu parte en el proyecto. Vacío = sin definir. */
@@ -171,7 +177,7 @@ const metricSchema = z.object({
   status: z.string(),
   confidence: z.string(),
   evidenceLevel: evidenceLevelSchema,
-  sourceCount: z.number().int().nonnegative(),
+  sourceCount: z.number().int().nonnegative().optional(),
   userValidated: z.boolean(),
   safeForCV: z.boolean(),
   requiresUserValidation: z.boolean(),
@@ -221,10 +227,12 @@ export const masterProfileSchema = z
         graduationYear: z.number().int().nullable(),
         status: z.string(),
         evidenceLevel: evidenceLevelSchema,
-        sourceCount: z.number(),
+        sourceCount: z.number().optional(),
         userValidated: z.boolean(),
         sourceRefs: z.array(z.string()),
         evidence: z.array(z.string()).optional(),
+        openQuestions: z.array(z.string()).optional(),
+        notes: z.array(z.string()).optional(),
         showInCv: z.boolean().optional(),
         showInCvNote: z.string().optional(),
       }),
@@ -241,7 +249,7 @@ export const masterProfileSchema = z
         url: z.string().optional(),
         status: z.string(),
         evidenceLevel: evidenceLevelSchema,
-        sourceCount: z.number(),
+        sourceCount: z.number().optional(),
         userValidated: z.boolean(),
         sourceRefs: z.array(z.string()),
       }),
@@ -253,7 +261,7 @@ export const masterProfileSchema = z
         level: z.string().nullable(),
         status: z.string(),
         evidenceLevel: evidenceLevelSchema,
-        sourceCount: z.number(),
+        sourceCount: z.number().optional(),
         userValidated: z.boolean(),
         conflicts: z.array(z.string()),
         sourceValues: z.array(z.string()).optional(),
@@ -306,7 +314,7 @@ export const masterProfileSchema = z
         startDate: z.union([isoYearOrMonth, z.null()]),
         endDate: z.union([isoYearOrMonth, z.null()]),
         dateStatus: z.string(),
-        sourceValues: z.record(z.string(), z.unknown()),
+        sourceValues: z.record(z.string(), z.unknown()).optional(),
         userValidated: z.boolean(),
         kind: z.string(),
         current: z.boolean().optional(),
@@ -323,6 +331,7 @@ export const masterProfileSchema = z
     }),
     userValidation: z.object({
       pending: z.array(z.string()),
+      // Formato viejo: el historial vive en profile_history.json.
       resolved: z.array(
         z.object({
           field: z.string(),
@@ -331,8 +340,8 @@ export const masterProfileSchema = z
           resolvedAt: z.string(),
           source: z.literal("user"),
         }),
-      ),
-      lastUpdated: z.string().nullable(),
+      ).optional(),
+      lastUpdated: z.string().nullable().optional(),
     }),
     cvGenerationRules: z.object({
       neverInvent: z.boolean(),

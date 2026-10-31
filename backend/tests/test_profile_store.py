@@ -123,3 +123,64 @@ def test_old_skill_catalog_is_replaced_by_skill_aliases_on_save(raw):
     assert data["skillAliases"]["Node.js"] == ["NodeJS"]
     assert "Delphi" not in data["skillAliases"]  # ya no está en skills
     assert "TypeScript" not in data["skillAliases"]  # sin alias no hace falta
+
+# --- Notas internas e historial (formato 3) ---------------------------------------------------
+
+
+def test_migration_splits_evidence_into_questions_and_notes():
+    from app.migrate_profile import migrate
+
+    raw = {
+        "projects": [
+            {
+                "id": "p1",
+                "name": "X",
+                "sourceRefs": ["src_a"],
+                "sourceCount": 2,
+                "evidence": [
+                    "cvs/CV.pdf",
+                    "User project update 2026-10-27",
+                    "UNRESOLVED: fechas del proyecto.",
+                    "Confirmado por el usuario el 2026-10-31: desarrollo completo.",
+                ],
+            }
+        ],
+        "experience": [{"id": "e1", "company": "A", "sourceValues": {"startDate": ["2020-01"]}, "originalValues": {}}],
+        "userValidation": {"pending": ["algo"], "resolved": [{"field": "f", "resolvedValue": "v"}], "lastUpdated": "x"},
+    }
+    raw, resolved, previous, _stats = migrate(raw)
+    project = raw["projects"][0]
+    assert project["openQuestions"] == ["fechas del proyecto"]
+    assert project["notes"] == ["Confirmado por el usuario el 2026-10-31: desarrollo completo."]
+    assert "evidence" not in project and "sourceCount" not in project
+    assert "sourceValues" not in raw["experience"][0]
+    assert previous == {"experience.e1": {"sourceValues": {"startDate": ["2020-01"]}, "originalValues": {}}}
+    assert resolved == [{"field": "f", "resolvedValue": "v"}]
+    assert raw["userValidation"] == {"pending": ["algo"]}
+
+
+def test_open_questions_reach_the_prompt_as_unknown(raw):
+    from app.compact_master import build_compact_profile
+
+    data = copy.deepcopy(raw)
+    project = next(p for p in data["projects"] if p.get("openQuestions"))
+    compact = build_compact_profile(data)
+    sent = next((p for p in compact["projects"] if p["name"] == project["name"]), None)
+    if sent is not None:
+        assert set(project["openQuestions"][:1]) <= set(sent["unknown"])
+
+
+def test_decisions_go_to_the_history_file_not_the_profile(tmp_path):
+    from app.career_kb import apply_user_validation
+    from app.profile_history import read_history
+
+    data = json.loads((kb_dir() / "master_profile.json").read_text(encoding="utf-8"))
+    target = tmp_path / "master_profile.json"
+    apply_user_validation(data, "yearsOfExperience", "7")
+    write_profile(data, target)
+    saved = json.loads(target.read_text(encoding="utf-8"))
+    assert "_historyPending" not in saved
+    assert "resolved" not in (saved.get("userValidation") or {})
+    history = read_history(tmp_path / "profile_history.json")
+    assert history["resolved"][-1]["field"] == "yearsOfExperience"
+    assert history["resolved"][-1]["resolvedValue"] == "7"

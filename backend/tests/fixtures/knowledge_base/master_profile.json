@@ -15,7 +15,6 @@
         "value": "jairoantoniocamarillotinoco@gmail.com",
         "status": "user_validated",
         "evidenceLevel": "verified",
-        "sourceCount": 2,
         "userValidated": true,
         "candidates": [
           {
@@ -43,7 +42,6 @@
         "value": "+52 271 352 9511",
         "status": "user_validated",
         "evidenceLevel": "verified",
-        "sourceCount": 2,
         "userValidated": true,
         "candidates": [
           {
@@ -71,7 +69,6 @@
         "value": "linkedin.com/in/jairo-camarillo-218aaa216",
         "status": "user_validated",
         "evidenceLevel": "verified",
-        "sourceCount": 3,
         "userValidated": true,
         "candidates": [
           {
@@ -90,7 +87,6 @@
         "value": "Mexico",
         "status": "user_validated",
         "evidenceLevel": "verified",
-        "sourceCount": 1,
         "userValidated": true,
         "candidates": [
           {
@@ -264,20 +260,6 @@
       "startDate": "2026-04",
       "endDate": null,
       "dateStatus": "verified",
-      "sourceValues": {
-        "startDate": [
-          "2023-01",
-          "2024-01"
-        ],
-        "endDate": [
-          "2024-07"
-        ]
-      },
-      "originalValues": {
-        "startDate": "2023-01",
-        "endDate": "2024-07",
-        "employmentType": "freelance"
-      },
       "userValidated": true,
       "conflicts": [],
       "domain": [
@@ -344,13 +326,6 @@
           }
         }
       ],
-      "evidence": [
-        "cvs/CV-JairoCamarillo-Frontend-English.docx (1).pdf",
-        "cvs/CV-JairoCamarillo-FullStack.docx (2).pdf",
-        "cvs/CV-JairoCamarillo-ReactNative _ English.docx (2).pdf",
-        "backend/knowledge_base/cv_1.json",
-        "Desktop/UffPagoApp/README.md"
-      ],
       "sourceRefs": [
         "src_cv_frontend_en",
         "src_cv_fullstack_en",
@@ -359,7 +334,6 @@
         "src_uffpay_app"
       ],
       "evidenceLevel": "verified",
-      "sourceCount": 5,
       "current": true,
       "sortOrder": 0,
       "additionalPeriods": [
@@ -393,20 +367,6 @@
       "startDate": "2025-06",
       "endDate": "2026-04",
       "dateStatus": "verified",
-      "sourceValues": {
-        "startDate": [
-          "2025-01",
-          "2025-06"
-        ],
-        "endDate": [
-          "2026-04"
-        ]
-      },
-      "originalValues": {
-        "startDate": "2025-01",
-        "endDate": "2026-04",
-        "employmentType": null
-      },
       "userValidated": true,
       "conflicts": [],
       "domain": [
@@ -461,14 +421,6 @@
           }
         }
       ],
-      "evidence": [
-        "cvs/CV-JairoCamarillo-Frontend-English.docx (1).pdf",
-        "cvs/CV-JairoCamarillo-FullStack.docx (2).pdf",
-        "cvs/CV-JairoCamarillo-ReactNative _ English.docx (2).pdf",
-        "backend/knowledge_base/cv_1.json",
-        "backend/knowledge_base/cv_2.json",
-        "backend/knowledge_base/cv_3.json"
-      ],
       "sourceRefs": [
         "src_cv_frontend_en",
         "src_cv_fullstack_en",
@@ -478,7 +430,6 @@
         "src_kb_cv3"
       ],
       "evidenceLevel": "verified",
-      "sourceCount": 6,
       "current": false,
       "sortOrder": 1,
       "roleScope": {
@@ -500,8 +451,6 @@
       "endDate": "2026-01",
       "current": false,
       "dateStatus": "verified",
-      "sourceValues": {},
-      "originalValues": {},
       "userValidated": true,
       "conflicts": [],
       "domain": [
@@ -510,17 +459,19 @@
       "responsibilities": [],
       "technologies": [],
       "achievements": [],
-      "evidence": [
-        "Declarado por el usuario el 2026-10-27: consultora, Ago 2025 – Ene 2026, en paralelo con Grainchain. No hay documentos. UNRESOLVED: cargo, actividades y tecnologías."
-      ],
       "sourceRefs": [
         "user"
       ],
       "evidenceLevel": "claimed",
-      "sourceCount": 1,
       "showInCv": false,
       "showInCvNote": "Registrada para que la línea de tiempo cuadre. No sale en CVs hasta tener cargo y actividades (decisión del usuario).",
-      "sortOrder": 2
+      "sortOrder": 2,
+      "openQuestions": [
+        "cargo, actividades y tecnologías"
+      ],
+      "notes": [
+        "Declarado por el usuario el 2026-10-27: consultora, Ago 2025 – Ene 2026, en paralelo con Grainchain. No hay documentos."
+      ]
     },
     {
       "id": "exp_lumston",
@@ -534,12 +485,6 @@
       "startDate": "2023-05",
       "endDate": "2025-06",
       "dateStatus": "verified",
-      "sourceValues": {},
-      "originalValues": {
-        "startDate": "2023-05",
-        "endDate": "2025-06",
-        "employmentType": null
-      },
       "userValidated": true,
       "conflicts": [],
       "domain": [
@@ -614,14 +559,6 @@
           }
         }
       ],
-      "evidence": [
-        "cvs/CV-JairoCamarillo-Frontend-English.docx (1).pdf",
-        "cvs/CV-JairoCamarillo-FullStack.docx (2).pdf",
-        "cvs/CV-JairoCamarillo-ReactNative _ English.docx (2).pdf",
-        "backend/knowledge_base/cv_1.json",
-        "backend/knowledge_base/cv_2.json",
-        "backend/knowledge_base/cv_3.json"
-      ],
       "sourceRefs": [
         "src_cv_frontend_en",
         "src_cv_fullstack_en",
@@ -631,7 +568,6 @@
         "src_kb_cv3"
       ],
       "evidenceLevel": "verified",
-      "sourceCount": 6,
       "current": false,
       "sortOrder": 3,
       "roleScope": {
@@ -656,18 +592,6 @@
       "startDate": "2022-01",
       "endDate": "2023-05",
       "dateStatus": "verified",
-      "sourceValues": {
-        "ranges": [
-          "2020-01 – 2023-01",
-          "2020-06 – 2022-01",
-          "2022-01 – actualidad (CV histórico)"
-        ]
-      },
-      "originalValues": {
-        "startDate": "2020-01",
-        "endDate": "2023-01",
-        "employmentType": "remote"
-      },
       "userValidated": true,
       "conflicts": [],
       "domain": [
@@ -729,12 +653,6 @@
           }
         }
       ],
-      "evidence": [
-        "cvs/CV-JairoCamarillo-Frontend-English.docx (1).pdf",
-        "cvs/CV-JairoCamarillo-FullStack.docx (2).pdf",
-        "cvs/CV-JairoCamarillo-ReactNative _ English.docx (2).pdf",
-        "cvs/JairoCamarilloCV.pdf"
-      ],
       "sourceRefs": [
         "src_cv_frontend_en",
         "src_cv_fullstack_en",
@@ -742,7 +660,6 @@
         "src_cv_historical"
       ],
       "evidenceLevel": "verified",
-      "sourceCount": 4,
       "current": false,
       "sortOrder": 4,
       "roleScope": {
@@ -765,12 +682,6 @@
       "startDate": "2021-06",
       "endDate": "2022-01",
       "dateStatus": "verified",
-      "sourceValues": {},
-      "originalValues": {
-        "startDate": "2021-06",
-        "endDate": "2022-01",
-        "employmentType": "remote"
-      },
       "userValidated": true,
       "conflicts": [],
       "domain": [
@@ -793,14 +704,10 @@
         "Node.js"
       ],
       "achievements": [],
-      "evidence": [
-        "cvs/JairoCamarilloCV.pdf"
-      ],
       "sourceRefs": [
         "src_cv_historical"
       ],
       "evidenceLevel": "verified",
-      "sourceCount": 1,
       "current": false,
       "sortOrder": 5
     },
@@ -814,12 +721,6 @@
       "startDate": "2021-02",
       "endDate": "2021-06",
       "dateStatus": "verified",
-      "sourceValues": {},
-      "originalValues": {
-        "startDate": "2021-02",
-        "endDate": "2021-06",
-        "employmentType": "remote"
-      },
       "userValidated": true,
       "conflicts": [],
       "domain": [
@@ -838,14 +739,10 @@
         "Redux"
       ],
       "achievements": [],
-      "evidence": [
-        "cvs/JairoCamarilloCV.pdf"
-      ],
       "sourceRefs": [
         "src_cv_historical"
       ],
       "evidenceLevel": "verified",
-      "sourceCount": 1,
       "current": false,
       "sortOrder": 6
     },
@@ -859,12 +756,6 @@
       "startDate": "2020-01",
       "endDate": "2021-02",
       "dateStatus": "verified",
-      "sourceValues": {},
-      "originalValues": {
-        "startDate": "2020-01",
-        "endDate": "2021-02",
-        "employmentType": "remote"
-      },
       "userValidated": true,
       "conflicts": [],
       "domain": [
@@ -886,14 +777,10 @@
         "Capacitor"
       ],
       "achievements": [],
-      "evidence": [
-        "cvs/JairoCamarilloCV.pdf"
-      ],
       "sourceRefs": [
         "src_cv_historical"
       ],
       "evidenceLevel": "verified",
-      "sourceCount": 1,
       "current": false,
       "sortOrder": 7,
       "roleScope": {
@@ -922,12 +809,6 @@
       "startDate": "2019-04",
       "endDate": "2019-11",
       "dateStatus": "verified",
-      "sourceValues": {},
-      "originalValues": {
-        "startDate": "2019-04",
-        "endDate": "2019-11",
-        "employmentType": "onsite"
-      },
       "userValidated": true,
       "conflicts": [],
       "domain": [
@@ -951,14 +832,10 @@
         "JavaScript"
       ],
       "achievements": [],
-      "evidence": [
-        "cvs/JairoCamarilloCV.pdf"
-      ],
       "sourceRefs": [
         "src_cv_historical"
       ],
       "evidenceLevel": "verified",
-      "sourceCount": 1,
       "current": false,
       "sortOrder": 8,
       "roleScope": {
@@ -1001,13 +878,7 @@
       "scale": "high-traffic fintech (claim en summaries de CV; no hay cifra de usuarios en fuentes)",
       "status": "verified",
       "evidenceLevel": "documented",
-      "sourceCount": 3,
       "userValidated": true,
-      "evidence": [
-        "cvs/CV-JairoCamarillo-Frontend-English.docx (1).pdf",
-        "cvs/CV-JairoCamarillo-ReactNative _ English.docx (2).pdf",
-        "Desktop/UffPagoApp/README.md"
-      ],
       "sourceRefs": [
         "src_cv_frontend_en",
         "src_cv_rn_en",
@@ -1064,14 +935,7 @@
       "scale": "MVP (según README_OBJECTIVE_PROJECT y sortalia-api README)",
       "status": "claimed",
       "evidenceLevel": "claimed",
-      "sourceCount": 3,
       "userValidated": true,
-      "evidence": [
-        "Desktop/Sortalia/README_OBJECTIVE_PROJECT.md",
-        "Desktop/sortalia-api/README.md",
-        "Desktop/Sortalia/package.json",
-        "Confirmado por el usuario el 2026-10-31: el backend está hecho solo con NestJS (sin Express.js)."
-      ],
       "sourceRefs": [
         "src_sortalia_objective",
         "src_sortalia_api",
@@ -1093,7 +957,10 @@
         "authentication",
         "mobile + web"
       ],
-      "contribution": "full"
+      "contribution": "full",
+      "notes": [
+        "Confirmado por el usuario el 2026-10-31: el backend está hecho solo con NestJS (sin Express.js)."
+      ]
     },
     {
       "id": "project_fatimas_bakery",
@@ -1126,20 +993,18 @@
       "scale": "más de 40 sucursales (claim del CV histórico)",
       "status": "mentioned",
       "evidenceLevel": "mentioned",
-      "sourceCount": 2,
       "userValidated": true,
-      "evidence": [
-        "cvs/JairoCamarilloCV.pdf",
-        "Actualización 2026-10-27: el usuario declaró Angular, Laravel y PostgreSQL. Responsabilidades personales, pruebas y fechas siguen sin confirmarse.",
-        "Confirmado por el usuario el 2026-10-27: desarrollo completo. No se inventó stack adicional.",
-        "Confirmado por el usuario el 2026-10-31 (revisión de contribuciones): desarrollo completo."
-      ],
       "sourceRefs": [
         "src_cv_historical",
         "src_user_project_update_2026_10_27"
       ],
       "isEmployment": false,
-      "contribution": "full"
+      "contribution": "full",
+      "notes": [
+        "Actualización 2026-10-27: el usuario declaró Angular, Laravel y PostgreSQL. Responsabilidades personales, pruebas y fechas siguen sin confirmarse.",
+        "Confirmado por el usuario el 2026-10-27: desarrollo completo. No se inventó stack adicional.",
+        "Confirmado por el usuario el 2026-10-31 (revisión de contribuciones): desarrollo completo."
+      ]
     },
     {
       "id": "project_hoppi",
@@ -1165,20 +1030,18 @@
       "scale": null,
       "status": "mentioned",
       "evidenceLevel": "mentioned",
-      "sourceCount": 2,
       "userValidated": true,
-      "evidence": [
-        "cvs/JairoCamarilloCV.pdf",
-        "Actualización 2026-10-27: la descripción de producto coincide con el registro existente. Stack, responsabilidades personales y fechas siguen sin confirmarse. No se creó un segundo proyecto Hoppi.",
-        "Confirmado por el usuario el 2026-10-27: desarrollo completo. No se inventó stack adicional.",
-        "Confirmado por el usuario el 2026-10-31 (revisión de contribuciones): desarrollo completo."
-      ],
       "sourceRefs": [
         "src_cv_historical",
         "src_user_project_update_2026_10_27"
       ],
       "isEmployment": false,
-      "contribution": "full"
+      "contribution": "full",
+      "notes": [
+        "Actualización 2026-10-27: la descripción de producto coincide con el registro existente. Stack, responsabilidades personales y fechas siguen sin confirmarse. No se creó un segundo proyecto Hoppi.",
+        "Confirmado por el usuario el 2026-10-27: desarrollo completo. No se inventó stack adicional.",
+        "Confirmado por el usuario el 2026-10-31 (revisión de contribuciones): desarrollo completo."
+      ]
     },
     {
       "id": "project_desansiedad",
@@ -1210,20 +1073,17 @@
       "scale": null,
       "status": "mentioned",
       "evidenceLevel": "mentioned",
-      "sourceCount": 2,
       "userValidated": true,
-      "evidence": [
-        "cvs/JairoCamarilloCV.pdf",
-        "Actualización 2026-10-27: no hubo hechos nuevos verificados para Desansiedad. Se conserva el registro existente.",
-        "Confirmado por el usuario el 2026-10-27: desarrollo completo. No se inventó stack adicional.",
-        "Confirmado por el usuario el 2026-10-31 (revisión de contribuciones): desarrollo completo."
-      ],
       "sourceRefs": [
         "src_cv_historical",
         "src_user_project_update_2026_10_27"
       ],
       "isEmployment": false,
-      "contribution": "full"
+      "contribution": "full",
+      "notes": [
+        "Confirmado por el usuario el 2026-10-27: desarrollo completo. No se inventó stack adicional.",
+        "Confirmado por el usuario el 2026-10-31 (revisión de contribuciones): desarrollo completo."
+      ]
     },
     {
       "id": "project_saldo_hvac",
@@ -1255,21 +1115,18 @@
       "scale": null,
       "status": "mentioned",
       "evidenceLevel": "mentioned",
-      "sourceCount": 2,
       "userValidated": true,
-      "evidence": [
-        "cvs/JairoCamarilloCV.pdf",
-        "Actualización 2026-10-27: no hubo hechos nuevos verificados para Saldo HVAC. Se conserva el registro existente.",
-        "Confirmado por el usuario el 2026-10-27: desarrollo completo. No se inventó stack adicional.",
-        "Confirmado por el usuario el 2026-10-31: app desarrollada para la empresa Nano Degree.",
-        "Confirmado por el usuario el 2026-10-31 (revisión de contribuciones): desarrollo completo."
-      ],
       "sourceRefs": [
         "src_cv_historical",
         "src_user_project_update_2026_10_27"
       ],
       "isEmployment": false,
-      "contribution": "full"
+      "contribution": "full",
+      "notes": [
+        "Confirmado por el usuario el 2026-10-27: desarrollo completo. No se inventó stack adicional.",
+        "Confirmado por el usuario el 2026-10-31: app desarrollada para la empresa Nano Degree.",
+        "Confirmado por el usuario el 2026-10-31 (revisión de contribuciones): desarrollo completo."
+      ]
     },
     {
       "id": "project_pilsar",
@@ -1300,20 +1157,17 @@
       "scale": null,
       "status": "mentioned",
       "evidenceLevel": "mentioned",
-      "sourceCount": 2,
       "userValidated": true,
-      "evidence": [
-        "cvs/JairoCamarilloCV.pdf",
-        "Actualización 2026-10-27: no hubo hechos nuevos verificados para Pilsar. Se conserva el registro existente.",
-        "Confirmado por el usuario el 2026-10-27: desarrollo completo. No se inventó stack adicional.",
-        "Confirmado por el usuario el 2026-10-31 (revisión de contribuciones): desarrollo completo."
-      ],
       "sourceRefs": [
         "src_cv_historical",
         "src_user_project_update_2026_10_27"
       ],
       "isEmployment": false,
-      "contribution": "full"
+      "contribution": "full",
+      "notes": [
+        "Confirmado por el usuario el 2026-10-27: desarrollo completo. No se inventó stack adicional.",
+        "Confirmado por el usuario el 2026-10-31 (revisión de contribuciones): desarrollo completo."
+      ]
     },
     {
       "id": "project_volaris_manifest",
@@ -1342,16 +1196,7 @@
       "scale": null,
       "status": "claimed",
       "evidenceLevel": "claimed",
-      "sourceCount": 1,
       "userValidated": true,
-      "evidence": [
-        "User project update 2026-10-27",
-        "Rol declarado por el usuario: Main Frontend Developer.",
-        "UNRESOLVED: herramientas de pruebas.",
-        "UNRESOLVED: fechas del proyecto.",
-        "Empresa Lumston y cliente Volaris son entidades distintas.",
-        "Confirmado por el usuario el 2026-10-27: Angular 16 y pdfmake (lo escribió como pdf.make)."
-      ],
       "sourceRefs": [
         "src_user_project_update_2026_10_27"
       ],
@@ -1367,7 +1212,16 @@
         "REST APIs",
         "PDF"
       ],
-      "contribution": "frontend"
+      "contribution": "frontend",
+      "openQuestions": [
+        "herramientas de pruebas",
+        "fechas del proyecto"
+      ],
+      "notes": [
+        "Rol declarado por el usuario: Main Frontend Developer.",
+        "Empresa Lumston y cliente Volaris son entidades distintas.",
+        "Confirmado por el usuario el 2026-10-27: Angular 16 y pdfmake (lo escribió como pdf.make)."
+      ]
     },
     {
       "id": "project_tecnologico_monterrey",
@@ -1396,16 +1250,7 @@
       "scale": null,
       "status": "claimed",
       "evidenceLevel": "claimed",
-      "sourceCount": 1,
       "userValidated": true,
-      "evidence": [
-        "User project update 2026-10-27",
-        "UNRESOLVED: base de datos.",
-        "UNRESOLVED: servicios de AWS además de Lambda.",
-        "UNRESOLVED: herramientas de pruebas.",
-        "UNRESOLVED: fechas del proyecto.",
-        "Empresa Lumston y cliente Tecnológico de Monterrey son entidades distintas."
-      ],
       "sourceRefs": [
         "src_user_project_update_2026_10_27"
       ],
@@ -1422,7 +1267,16 @@
         "AWS Lambda",
         "route guards"
       ],
-      "contribution": "full"
+      "contribution": "full",
+      "openQuestions": [
+        "base de datos",
+        "servicios de AWS además de Lambda",
+        "herramientas de pruebas",
+        "fechas del proyecto"
+      ],
+      "notes": [
+        "Empresa Lumston y cliente Tecnológico de Monterrey son entidades distintas."
+      ]
     },
     {
       "id": "project_drizline_dona_tota",
@@ -1454,18 +1308,7 @@
       "scale": null,
       "status": "claimed",
       "evidenceLevel": "claimed",
-      "sourceCount": 1,
       "userValidated": true,
-      "evidence": [
-        "User project update 2026-10-27",
-        "UNRESOLVED: servicios de AWS además de Lambda y Amplify.",
-        "UNRESOLVED: herramientas de pruebas.",
-        "UNRESOLVED: fechas del proyecto.",
-        "DiDi, Uber Eats y Rappi son integraciones del producto. No convertir cada una en un logro personal distinto del trabajo de sincronización descrito.",
-        "Empresa Lumston, producto Drizline y cliente Doña Tota son entidades distintas.",
-        "Confirmado por el usuario el 2026-10-27: Angular 18 y desarrollo completo.",
-        "Confirmado por el usuario el 2026-10-31 (revisión de contribuciones): desarrollo completo."
-      ],
       "sourceRefs": [
         "src_user_project_update_2026_10_27"
       ],
@@ -1483,7 +1326,18 @@
         "AWS Amplify",
         "authentication"
       ],
-      "contribution": "full"
+      "contribution": "full",
+      "openQuestions": [
+        "servicios de AWS además de Lambda y Amplify",
+        "herramientas de pruebas",
+        "fechas del proyecto"
+      ],
+      "notes": [
+        "DiDi, Uber Eats y Rappi son integraciones del producto. No convertir cada una en un logro personal distinto del trabajo de sincronización descrito.",
+        "Empresa Lumston, producto Drizline y cliente Doña Tota son entidades distintas.",
+        "Confirmado por el usuario el 2026-10-27: Angular 18 y desarrollo completo.",
+        "Confirmado por el usuario el 2026-10-31 (revisión de contribuciones): desarrollo completo."
+      ]
     },
     {
       "id": "project_bakertilly_legal_chatbot",
@@ -1510,18 +1364,7 @@
       "scale": "Cientos de archivos legales (declarado por el usuario, no auditado)",
       "status": "claimed",
       "evidenceLevel": "claimed",
-      "sourceCount": 1,
       "userValidated": true,
-      "evidence": [
-        "User project update 2026-10-27",
-        "UNRESOLVED: base de datos vectorial o servicio de vectorización.",
-        "UNRESOLVED: modelo o proveedor del chatbot.",
-        "UNRESOLVED: herramientas de pruebas y fechas.",
-        "Empresa Lumston y cliente Baker Tilly son entidades distintas.",
-        "Confirmado por el usuario el 2026-10-27: desarrollo completo; entrenamiento con SageMaker y buckets de S3.",
-        "UNRESOLVED: nombre del modelo y si la base vectorial es distinta de S3.",
-        "Confirmado por el usuario el 2026-10-31 (revisión de contribuciones): desarrollo completo."
-      ],
       "sourceRefs": [
         "src_user_project_update_2026_10_27"
       ],
@@ -1534,7 +1377,18 @@
         "Angular",
         "AWS"
       ],
-      "contribution": "full"
+      "contribution": "full",
+      "openQuestions": [
+        "base de datos vectorial o servicio de vectorización",
+        "modelo o proveedor del chatbot",
+        "herramientas de pruebas y fechas",
+        "nombre del modelo y si la base vectorial es distinta de S3"
+      ],
+      "notes": [
+        "Empresa Lumston y cliente Baker Tilly son entidades distintas.",
+        "Confirmado por el usuario el 2026-10-27: desarrollo completo; entrenamiento con SageMaker y buckets de S3.",
+        "Confirmado por el usuario el 2026-10-31 (revisión de contribuciones): desarrollo completo."
+      ]
     },
     {
       "id": "project_healthcare_ai_video",
@@ -1564,17 +1418,7 @@
       "scale": null,
       "status": "claimed",
       "evidenceLevel": "claimed",
-      "sourceCount": 1,
       "userValidated": true,
-      "evidence": [
-        "User project update 2026-10-27",
-        "evidenceLevel: user_described_but_incomplete.",
-        "UNRESOLVED: versión de React, estado, pruebas y fechas.",
-        "Confirmado por el usuario el 2026-10-31: proyecto desarrollado en Lumston.",
-        "Confirmado por el usuario el 2026-10-31: Acolyte es la «plataforma de video»; el nombre del proyecto es Acolyte.",
-        "Confirmado por el usuario el 2026-10-31: Acolyte es también el nombre del cliente.",
-        "Confirmado por el usuario el 2026-10-31: su contribución fue solo el frontend. El backend (Django) y la generación de video (OpenAI) son del proyecto, no trabajo suyo; no atribuírselos."
-      ],
       "sourceRefs": [
         "src_user_project_update_2026_10_27"
       ],
@@ -1585,7 +1429,17 @@
       "relevantWhenVacancyNeeds": [
         "React"
       ],
-      "contribution": "frontend"
+      "contribution": "frontend",
+      "openQuestions": [
+        "versión de React, estado, pruebas y fechas"
+      ],
+      "notes": [
+        "evidenceLevel: user_described_but_incomplete.",
+        "Confirmado por el usuario el 2026-10-31: proyecto desarrollado en Lumston.",
+        "Confirmado por el usuario el 2026-10-31: Acolyte es la «plataforma de video»; el nombre del proyecto es Acolyte.",
+        "Confirmado por el usuario el 2026-10-31: Acolyte es también el nombre del cliente.",
+        "Confirmado por el usuario el 2026-10-31: su contribución fue solo el frontend. El backend (Django) y la generación de video (OpenAI) son del proyecto, no trabajo suyo; no atribuírselos."
+      ]
     },
     {
       "id": "project_altos_aceros",
@@ -1604,21 +1458,22 @@
       "scale": null,
       "status": "claimed",
       "evidenceLevel": "claimed",
-      "sourceCount": 1,
       "userValidated": true,
-      "evidence": [
-        "User project update 2026-10-27",
-        "Se conserva el nombre porque el usuario lo incluyó. No se inventan detalles.",
-        "Confirmado por el usuario el 2026-10-27: desarrollo completo. UNRESOLVED: propósito, tipo de aplicación y tecnologías.",
-        "Confirmado por el usuario el 2026-10-31 (revisión de contribuciones): desarrollo completo."
-      ],
       "sourceRefs": [
         "src_user_project_update_2026_10_27"
       ],
       "isEmployment": false,
       "relevantForRoles": [],
       "relevantWhenVacancyNeeds": [],
-      "contribution": "full"
+      "contribution": "full",
+      "openQuestions": [
+        "propósito, tipo de aplicación y tecnologías"
+      ],
+      "notes": [
+        "Se conserva el nombre porque el usuario lo incluyó. No se inventan detalles.",
+        "Confirmado por el usuario el 2026-10-27: desarrollo completo.",
+        "Confirmado por el usuario el 2026-10-31 (revisión de contribuciones): desarrollo completo."
+      ]
     },
     {
       "id": "project_grainchain_safra",
@@ -1646,23 +1501,23 @@
       "scale": null,
       "status": "claimed",
       "evidenceLevel": "claimed",
-      "sourceCount": 1,
       "userValidated": true,
-      "evidence": [
-        "User project update 2026-10-27",
-        "UNRESOLVED: alcance de Safra Bank.",
-        "UNRESOLVED: si la mejora de tablas (8 s → 3 s) pertenece a este proyecto. Hoy projectId de metric_exp_grainchain_0 es null.",
-        "Confirmado por el usuario el 2026-10-27: desarrollo completo. La mejora de tablas sigue solo en Grainchain.",
-        "Confirmado por el usuario el 2026-10-31 (revisión de contribuciones): desarrollo completo.",
-        "UNRESOLVED: la mejora de tablas (8 s → 3 s) es de Grainchain; no atribuirla a Safra Bank."
-      ],
       "sourceRefs": [
         "src_user_project_update_2026_10_27"
       ],
       "isEmployment": false,
       "relevantForRoles": [],
       "relevantWhenVacancyNeeds": [],
-      "contribution": "full"
+      "contribution": "full",
+      "openQuestions": [
+        "alcance de Safra Bank",
+        "si la mejora de tablas (8 s → 3 s) pertenece a este proyecto. Hoy projectId de metric_exp_grainchain_0 es null",
+        "la mejora de tablas (8 s → 3 s) es de Grainchain; no atribuirla a Safra Bank"
+      ],
+      "notes": [
+        "Confirmado por el usuario el 2026-10-27: desarrollo completo. La mejora de tablas sigue solo en Grainchain.",
+        "Confirmado por el usuario el 2026-10-31 (revisión de contribuciones): desarrollo completo."
+      ]
     },
     {
       "id": "project_blackeagle",
@@ -1689,15 +1544,7 @@
       "scale": null,
       "status": "claimed",
       "evidenceLevel": "claimed",
-      "sourceCount": 1,
       "userValidated": true,
-      "evidence": [
-        "User project update 2026-10-27",
-        "UNRESOLVED: base de datos, autenticación, pruebas y fechas.",
-        "UNRESOLVED: si Blackeagle pertenece a Hoppi / Get Together. No se atribuye empresa hasta confirmarlo.",
-        "Confirmado por el usuario el 2026-10-27: desarrollo completo.",
-        "Confirmado por el usuario el 2026-10-31 (revisión de contribuciones): desarrollo completo."
-      ],
       "sourceRefs": [
         "src_user_project_update_2026_10_27"
       ],
@@ -1711,7 +1558,15 @@
         "NestJS",
         "Python"
       ],
-      "contribution": "full"
+      "contribution": "full",
+      "openQuestions": [
+        "base de datos, autenticación, pruebas y fechas",
+        "si Blackeagle pertenece a Hoppi / Get Together. No se atribuye empresa hasta confirmarlo"
+      ],
+      "notes": [
+        "Confirmado por el usuario el 2026-10-27: desarrollo completo.",
+        "Confirmado por el usuario el 2026-10-31 (revisión de contribuciones): desarrollo completo."
+      ]
     }
   ],
   "education": [
@@ -1724,15 +1579,17 @@
       "status": "user_validated",
       "id": "edu_ing_utcv",
       "evidenceLevel": "claimed",
-      "sourceCount": 1,
       "userValidated": true,
       "sourceRefs": [
         "user"
       ],
-      "evidence": [
-        "Declarado por el usuario el 2026-10-27: Ingeniería terminada en 2022 en la UTCV. Ningún CV fuente la menciona. UNRESOLVED: año de inicio."
+      "degreeEn": "Bachelor of Engineering in Software Development and Management",
+      "openQuestions": [
+        "año de inicio"
       ],
-      "degreeEn": "Bachelor of Engineering in Software Development and Management"
+      "notes": [
+        "Declarado por el usuario el 2026-10-27: Ingeniería terminada en 2022 en la UTCV. Ningún CV fuente la menciona."
+      ]
     },
     {
       "degree": "TSU en Desarrollo de Software Multiplataforma (también referido como TSU Desarrollo y Gestión de Software / Associate's Degree in Multiplatform Software Development)",
@@ -1743,7 +1600,6 @@
       "status": "verified",
       "id": "edu_tsu_utcv",
       "evidenceLevel": "documented",
-      "sourceCount": 3,
       "userValidated": true,
       "sourceRefs": [
         "src_cv_frontend_en",
@@ -1761,7 +1617,6 @@
       "status": "mentioned",
       "id": "edu_tecnico_cetis_164",
       "evidenceLevel": "mentioned",
-      "sourceCount": 1,
       "userValidated": true,
       "sourceRefs": [
         "src_cv_historical"
@@ -1778,7 +1633,6 @@
       "status": "mentioned",
       "id": "edu_tecnico_informatica",
       "evidenceLevel": "mentioned",
-      "sourceCount": 1,
       "userValidated": true,
       "sourceRefs": [
         "src_cv_historical"
@@ -1795,7 +1649,6 @@
       "status": "verified",
       "id": "cert_aws_ml",
       "evidenceLevel": "documented",
-      "sourceCount": 3,
       "userValidated": true,
       "sourceRefs": [
         "src_cv_frontend_en",
@@ -1809,7 +1662,6 @@
       "status": "verified",
       "id": "cert_stripe_dev",
       "evidenceLevel": "documented",
-      "sourceCount": 3,
       "userValidated": true,
       "sourceRefs": [
         "src_cv_frontend_en",
@@ -1823,7 +1675,6 @@
       "status": "claimed",
       "id": "cert_ndg_linux",
       "evidenceLevel": "claimed",
-      "sourceCount": 2,
       "userValidated": true,
       "sourceRefs": [
         "src_cv_frontend_en",
@@ -1837,7 +1688,6 @@
       "status": "verified",
       "id": "cert_ccna",
       "evidenceLevel": "documented",
-      "sourceCount": 3,
       "userValidated": true,
       "sourceRefs": [
         "src_cv_frontend_en",
@@ -1851,7 +1701,6 @@
       "status": "mentioned",
       "id": "cert_it_essentials",
       "evidenceLevel": "mentioned",
-      "sourceCount": 1,
       "userValidated": true,
       "sourceRefs": [
         "src_cv_historical"
@@ -1864,7 +1713,6 @@
       "status": "verified",
       "id": "cert_olympiad_programming_2017",
       "evidenceLevel": "documented",
-      "sourceCount": 3,
       "userValidated": true,
       "sourceRefs": [
         "src_cv_frontend_en",
@@ -1878,7 +1726,6 @@
       "status": "mentioned",
       "id": "cert_olympiad_conocimiento_2016",
       "evidenceLevel": "mentioned",
-      "sourceCount": 1,
       "userValidated": true,
       "sourceRefs": [
         "src_cv_historical"
@@ -1891,7 +1738,6 @@
       "status": "mentioned",
       "id": "cert_ortografia_2014",
       "evidenceLevel": "mentioned",
-      "sourceCount": 1,
       "userValidated": true,
       "sourceRefs": [
         "src_cv_historical"
@@ -1904,7 +1750,6 @@
       "status": "mentioned",
       "id": "cert_olympiad_infantil_2011",
       "evidenceLevel": "mentioned",
-      "sourceCount": 1,
       "userValidated": true,
       "sourceRefs": [
         "src_cv_historical"
@@ -1918,15 +1763,8 @@
       "level": "Native",
       "status": "user_validated",
       "evidenceLevel": "verified",
-      "sourceCount": 0,
       "userValidated": true,
       "conflicts": [],
-      "sourceValues": [
-        "native (inferred from document language)"
-      ],
-      "originalValues": {
-        "level": "native"
-      },
       "sourceRefs": [
         "src_cv_historical"
       ]
@@ -1937,16 +1775,8 @@
       "level": "B2",
       "status": "user_validated",
       "evidenceLevel": "verified",
-      "sourceCount": 2,
       "userValidated": true,
       "conflicts": [],
-      "sourceValues": [
-        "professional proficiency",
-        "B1"
-      ],
-      "originalValues": {
-        "level": "B2"
-      },
       "sourceRefs": [
         "src_cv_frontend_en",
         "src_cv_historical"
@@ -2318,11 +2148,6 @@
     "source": "computed_from_user_validated_dates",
     "status": "computed",
     "evidenceLevel": "verified",
-    "sourceValues": [
-      "7+",
-      "6+",
-      "4"
-    ],
     "userValidated": true,
     "note": "Valor del perfil completo (incluye 2019). El CV usa el menor entre este valor y lo que muestran las fechas visibles."
   },
@@ -2334,598 +2159,7 @@
       "Safra Bank: la contribución es desarrollo completo. Faltan alcance y stack. La mejora de tablas (8 s → 3 s) no se atribuye a este proyecto.",
       "Blackeagle: la contribución es desarrollo completo. Falta confirmar si la empresa es Hoppi / Get Together.",
       "UffPay: falta el cómo y la medición del 30% en tiempos de respuesta de APIs."
-    ],
-    "resolved": [
-      {
-        "field": "profile.contact.email",
-        "previousValues": [
-          "jairoantoniocamarillotinoco@gmail.com",
-          "Jailiz123456@gmail.com"
-        ],
-        "resolvedValue": "jairoantoniocamarillotinoco@gmail.com",
-        "resolvedAt": "2026-08-20",
-        "source": "user"
-      },
-      {
-        "field": "profile.contact.phone",
-        "previousValues": [
-          "+52 271 352 9511",
-          "271 217 0477"
-        ],
-        "resolvedValue": "+52 271 352 9511",
-        "resolvedAt": "2026-08-20",
-        "source": "user"
-      },
-      {
-        "field": "profile.contact.location",
-        "previousValues": [
-          "Yanga Veracruz 94930 (solo CV histórico)",
-          "omitido en CVs 2025–2026"
-        ],
-        "resolvedValue": "omitido en CVs 2025–2026",
-        "resolvedAt": "2026-08-20",
-        "source": "user"
-      },
-      {
-        "field": "yearsOfExperience",
-        "previousValues": [
-          "7+",
-          "6+",
-          "4"
-        ],
-        "resolvedValue": "7+",
-        "resolvedAt": "2026-08-20",
-        "source": "user"
-      },
-      {
-        "field": "experience.Grainchain.startDate",
-        "previousValues": [
-          "2025-01",
-          "2025-06"
-        ],
-        "resolvedValue": "2025-06",
-        "resolvedAt": "2026-08-20",
-        "source": "user"
-      },
-      {
-        "field": "experience.UffPay.startDate",
-        "previousValues": [
-          "2023-01",
-          "2024-01"
-        ],
-        "resolvedValue": "2024-01",
-        "resolvedAt": "2026-08-20",
-        "source": "user"
-      },
-      {
-        "field": "experience.MonkeyCave.dates",
-        "previousValues": [
-          "2020-01 – 2023-01",
-          "2020-06 – 2022-01",
-          "2022-01 – actualidad (CV histórico)"
-        ],
-        "resolvedValue": "2020-01 – 2023-01",
-        "resolvedAt": "2026-08-20",
-        "source": "user"
-      },
-      {
-        "field": "experience.Lumston.mobileStack",
-        "previousValues": [
-          "Angular y Next.js (CVs Frontend/Full Stack)",
-          "React Native (CV RN)"
-        ],
-        "resolvedValue": "Angular y Next.js (CVs Frontend/Full Stack)",
-        "resolvedAt": "2026-08-20",
-        "source": "user"
-      },
-      {
-        "field": "experience.earlyCareer",
-        "previousValues": [
-          "CVs 2025–2026 consolidan 2020–2023 como Monkey Cave",
-          "CV histórico separa Deva Software, Multiplica, Nano Degree, CTZ"
-        ],
-        "resolvedValue": "CVs 2025–2026 consolidan 2020–2023 como Monkey Cave",
-        "resolvedAt": "2026-08-20",
-        "source": "user"
-      },
-      {
-        "field": "languages.English.level",
-        "previousValues": [
-          "professional proficiency",
-          "B1"
-        ],
-        "resolvedValue": "professional proficiency",
-        "resolvedAt": "2026-08-20",
-        "source": "user"
-      },
-      {
-        "field": "certifications.NDG Linux Essentials",
-        "previousValues": [
-          "presente en CV RN, knowledge_base y CV histórico",
-          "ausente en PDF Frontend English y PDF Full Stack"
-        ],
-        "resolvedValue": "presente en CV RN, knowledge_base y CV histórico",
-        "resolvedAt": "2026-08-20",
-        "source": "user"
-      },
-      {
-        "field": "skills.Vue",
-        "previousValues": [
-          "listado en PDF Frontend English",
-          "ausente en el resto de CVs"
-        ],
-        "resolvedValue": "listado en PDF Frontend English",
-        "resolvedAt": "2026-08-20",
-        "source": "user"
-      },
-      {
-        "field": "skills.fullstackOnlyCloudAndSupport",
-        "previousValues": [
-          "Lambda, API Gateway, CloudFront, CloudWatch, Glue, Athena, L3/L4 support, RCA: solo CV Full Stack skills list",
-          "no aparecen como bullets de experiencia en otros CVs"
-        ],
-        "resolvedValue": "Lambda, API Gateway, CloudFront, CloudWatch, Glue, Athena, L3/L4 support, RCA: solo CV Full Stack skills list",
-        "resolvedAt": "2026-08-20",
-        "source": "user"
-      },
-      {
-        "field": "projects.historical.technologies",
-        "previousValues": [
-          "El PDF histórico muestra bloques compartidos 'Tecnologías aplicadas' (React Native, Express.js, MongoDB, Angular, Laravel, Postgres, Ionic, MySQL, React) sin asignar stack único a cada proyecto"
-        ],
-        "resolvedValue": "El PDF histórico muestra bloques compartidos 'Tecnologías aplicadas' (React Native, Express.js, MongoDB, Angular, Laravel, Postgres, Ionic, MySQL, React) sin asignar stack único a cada proyecto",
-        "resolvedAt": "2026-08-20",
-        "source": "user"
-      },
-      {
-        "field": "projects.SORTALIA.backend",
-        "previousValues": [
-          "README_OBJECTIVE_PROJECT.md: Node.js + Express.js + Prisma",
-          "sortalia-api/README.md: NestJS + TypeScript + PostgreSQL + Prisma"
-        ],
-        "resolvedValue": "README_OBJECTIVE_PROJECT.md: Node.js + Express.js + Prisma",
-        "resolvedAt": "2026-08-20",
-        "source": "user"
-      },
-      {
-        "field": "metrics.Grainchain.render_time_reduction",
-        "previousValues": [
-          "35% en CV RN, knowledge_base y summary Frontend",
-          "no está en los bullets de Grainchain del PDF Frontend/Full Stack (ahí se habla de charts/dashboards)"
-        ],
-        "resolvedValue": "35% en CV RN, knowledge_base y summary Frontend",
-        "resolvedAt": "2026-08-20",
-        "source": "user"
-      },
-      {
-        "field": "experience.Grainchain.startDate",
-        "previousValues": [
-          "2025-01",
-          "2025-06"
-        ],
-        "resolvedValue": "2025-06 – 2026-04",
-        "resolvedAt": "2026-08-20",
-        "source": "user"
-      },
-      {
-        "field": "experience.UffPay.startDate",
-        "previousValues": [
-          "2023-01",
-          "2024-01"
-        ],
-        "resolvedValue": "2024-01 – 2024-07",
-        "resolvedAt": "2026-08-20",
-        "source": "user"
-      },
-      {
-        "field": "experience",
-        "previousValues": [],
-        "resolvedValue": "order_dates_employmentType",
-        "resolvedAt": "2026-08-20",
-        "source": "user"
-      },
-      {
-        "field": "experience.Grainchain.startDate",
-        "previousValues": [
-          "2025-01",
-          "2025-06"
-        ],
-        "resolvedValue": "2025-06 – 2026-04",
-        "resolvedAt": "2026-08-20",
-        "source": "user"
-      },
-      {
-        "field": "experience.UffPay.startDate",
-        "previousValues": [
-          "2023-01",
-          "2024-01"
-        ],
-        "resolvedValue": "2024-01 – 2024-07",
-        "resolvedAt": "2026-08-20",
-        "source": "user"
-      },
-      {
-        "field": "experience",
-        "previousValues": [],
-        "resolvedValue": "order_dates_employmentType",
-        "resolvedAt": "2026-08-20",
-        "source": "user"
-      },
-      {
-        "field": "experience.Grainchain.startDate",
-        "previousValues": [
-          "2025-01",
-          "2025-06"
-        ],
-        "resolvedValue": "2025-06 – 2026-04",
-        "resolvedAt": "2026-08-20",
-        "source": "user"
-      },
-      {
-        "field": "experience.UffPay.startDate",
-        "previousValues": [
-          "2023-01",
-          "2024-01"
-        ],
-        "resolvedValue": "2024-01 – 2024-07",
-        "resolvedAt": "2026-08-20",
-        "source": "user"
-      },
-      {
-        "field": "experience",
-        "previousValues": [],
-        "resolvedValue": "order_dates_employmentType",
-        "resolvedAt": "2026-08-20",
-        "source": "user"
-      },
-      {
-        "field": "experience.Grainchain.startDate",
-        "previousValues": [
-          "2025-01",
-          "2025-06"
-        ],
-        "resolvedValue": "2025-06 – 2026-04",
-        "resolvedAt": "2026-08-20",
-        "source": "user"
-      },
-      {
-        "field": "experience.UffPay.startDate",
-        "previousValues": [
-          "2023-01",
-          "2024-01"
-        ],
-        "resolvedValue": "2024-01 – 2024-07",
-        "resolvedAt": "2026-08-20",
-        "source": "user"
-      },
-      {
-        "field": "experience",
-        "previousValues": [],
-        "resolvedValue": "order_dates_employmentType",
-        "resolvedAt": "2026-08-20",
-        "source": "user"
-      },
-      {
-        "field": "experience.UffPay.startDate",
-        "previousValues": [
-          "2023-01",
-          "2024-01"
-        ],
-        "resolvedValue": "2026-04 – Actualidad",
-        "resolvedAt": "2026-08-20",
-        "source": "user"
-      },
-      {
-        "field": "experience.Grainchain.startDate",
-        "previousValues": [
-          "2025-01",
-          "2025-06"
-        ],
-        "resolvedValue": "2025-06 – 2026-04",
-        "resolvedAt": "2026-08-20",
-        "source": "user"
-      },
-      {
-        "field": "experience.MonkeyCave.dates",
-        "previousValues": [
-          "2020-01 – 2023-01",
-          "2020-06 – 2022-01",
-          "2022-01 – actualidad (CV histórico)"
-        ],
-        "resolvedValue": "2022-01 – 2023-05",
-        "resolvedAt": "2026-08-20",
-        "source": "user"
-      },
-      {
-        "field": "experience",
-        "previousValues": [],
-        "resolvedValue": "order_dates_employmentType",
-        "resolvedAt": "2026-08-20",
-        "source": "user"
-      },
-      {
-        "field": "experience.UffPay.startDate",
-        "previousValues": [
-          "2023-01",
-          "2024-01"
-        ],
-        "resolvedValue": "2026-04 – Actualidad",
-        "resolvedAt": "2026-08-20",
-        "source": "user"
-      },
-      {
-        "field": "experience.Grainchain.startDate",
-        "previousValues": [
-          "2025-01",
-          "2025-06"
-        ],
-        "resolvedValue": "2025-06 – 2026-04",
-        "resolvedAt": "2026-08-20",
-        "source": "user"
-      },
-      {
-        "field": "experience.MonkeyCave.dates",
-        "previousValues": [
-          "2020-01 – 2023-01",
-          "2020-06 – 2022-01",
-          "2022-01 – actualidad (CV histórico)"
-        ],
-        "resolvedValue": "2022-01 – 2023-05",
-        "resolvedAt": "2026-08-20",
-        "source": "user"
-      },
-      {
-        "field": "experience",
-        "previousValues": [],
-        "resolvedValue": "order_dates_employmentType",
-        "resolvedAt": "2026-08-20",
-        "source": "user"
-      },
-      {
-        "field": "profile.content",
-        "previousValues": [],
-        "resolvedValue": "identity_experience_education",
-        "resolvedAt": "2026-10-05",
-        "source": "user"
-      },
-      {
-        "field": "profile.content",
-        "previousValues": [],
-        "resolvedValue": "identity_experience_education",
-        "resolvedAt": "2026-10-05",
-        "source": "user"
-      },
-      {
-        "field": "profile.content",
-        "previousValues": [],
-        "resolvedValue": "identity_experience_education",
-        "resolvedAt": "2026-10-05",
-        "source": "user"
-      },
-      {
-        "field": "profile.content",
-        "previousValues": [],
-        "resolvedValue": "identity_experience_education",
-        "resolvedAt": "2026-10-05",
-        "source": "user"
-      },
-      {
-        "field": "profile.content",
-        "previousValues": [],
-        "resolvedValue": "identity_experience_education",
-        "resolvedAt": "2026-10-05",
-        "source": "user"
-      },
-      {
-        "field": "profile.content",
-        "previousValues": [],
-        "resolvedValue": "identity_experience_education",
-        "resolvedAt": "2026-10-05",
-        "source": "user"
-      },
-      {
-        "field": "profile.content",
-        "previousValues": [],
-        "resolvedValue": "identity_experience_education",
-        "resolvedAt": "2026-10-05",
-        "source": "user"
-      },
-      {
-        "field": "experience.UffPay.startDate",
-        "previousValues": [],
-        "resolvedValue": "2024-01 – 2024-07 y 2026-04 – Actualidad (dos etapas)",
-        "resolvedAt": "2026-10-27",
-        "source": "user"
-      },
-      {
-        "field": "experience.MonkeyCave.dates",
-        "previousValues": [],
-        "resolvedValue": "2022-01 – 2023-05",
-        "resolvedAt": "2026-10-27",
-        "source": "user"
-      },
-      {
-        "field": "experience.Corus",
-        "previousValues": [],
-        "resolvedValue": "2025-08 – 2026-01, no se muestra en CVs",
-        "resolvedAt": "2026-10-27",
-        "source": "user"
-      },
-      {
-        "field": "metrics.Grainchain.render_time_reduction",
-        "previousValues": [
-          "35%"
-        ],
-        "resolvedValue": "8 s → 3 s (62%)",
-        "resolvedAt": "2026-10-30",
-        "source": "user"
-      },
-      {
-        "field": "metrics.Lumston.load_time_reduction",
-        "previousValues": [
-          "30%"
-        ],
-        "resolvedValue": "10 s → 3 s (70%), Volaris Manifest",
-        "resolvedAt": "2026-10-30",
-        "source": "user"
-      },
-      {
-        "field": "profile.content",
-        "previousValues": [],
-        "resolvedValue": "identity_experience_education",
-        "resolvedAt": "2026-10-30",
-        "source": "user"
-      },
-      {
-        "field": "profile.content",
-        "previousValues": [],
-        "resolvedValue": "identity_experience_education",
-        "resolvedAt": "2026-10-30",
-        "source": "user"
-      },
-      {
-        "field": "education.cvVisibility",
-        "previousValues": [],
-        "resolvedValue": "Ocultar CETIS 164 y Escuela Secundaria Técnica en CVs",
-        "resolvedAt": "2026-10-30",
-        "source": "user"
-      },
-      {
-        "field": "certifications.AWS Machine Learning Certification.year",
-        "previousValues": [],
-        "resolvedValue": "2024",
-        "resolvedAt": "2026-10-30",
-        "source": "user"
-      },
-      {
-        "field": "profile.content",
-        "previousValues": [],
-        "resolvedValue": "identity_experience_education",
-        "resolvedAt": "2026-10-31",
-        "source": "user"
-      },
-      {
-        "field": "profile.content",
-        "previousValues": [],
-        "resolvedValue": "identity_experience_education",
-        "resolvedAt": "2026-10-31",
-        "source": "user"
-      },
-      {
-        "field": "profile.content",
-        "previousValues": [],
-        "resolvedValue": "identity_experience_education",
-        "resolvedAt": "2026-10-31",
-        "source": "user"
-      },
-      {
-        "field": "profile.content",
-        "previousValues": [],
-        "resolvedValue": "identity_experience_education",
-        "resolvedAt": "2026-10-31",
-        "source": "user"
-      },
-      {
-        "field": "experience.UffPay.Neonet",
-        "previousValues": [
-          "Neonet: aparece en CVs Frontend/Full Stack y knowledge_base cv_1/cv_3; el CV RN solo menciona Cybersource"
-        ],
-        "resolvedValue": "Integró Neonet en UffPay",
-        "resolvedAt": "2026-10-31",
-        "source": "user"
-      },
-      {
-        "field": "projects.Saldo HVAC.company",
-        "previousValues": [
-          "Relación con el proyecto Saldo HVAC no está explícita en el texto (mismo dominio HVAC)"
-        ],
-        "resolvedValue": "Nano Degree",
-        "resolvedAt": "2026-10-31",
-        "source": "user"
-      },
-      {
-        "field": "languages.Spanish.level",
-        "previousValues": [
-          "Ningún CV declara explícitamente español nativo; se infiere del idioma de varios documentos. Requiere validación si se quiere afirmar en un CV."
-        ],
-        "resolvedValue": "Native",
-        "resolvedAt": "2026-10-31",
-        "source": "user"
-      },
-      {
-        "field": "projects.SORTALIA.backend",
-        "previousValues": [
-          "README_OBJECTIVE_PROJECT.md: Node.js + Express.js + Prisma",
-          "sortalia-api/README.md: NestJS + TypeScript + PostgreSQL + Prisma"
-        ],
-        "resolvedValue": "NestJS",
-        "resolvedAt": "2026-10-31",
-        "source": "user"
-      },
-      {
-        "field": "projects.Acolyte.company",
-        "previousValues": [],
-        "resolvedValue": "Lumston",
-        "resolvedAt": "2026-10-31",
-        "source": "user"
-      },
-      {
-        "field": "projects.Acolyte.name",
-        "previousValues": [
-          "Plataforma de video"
-        ],
-        "resolvedValue": "Acolyte",
-        "resolvedAt": "2026-10-31",
-        "source": "user"
-      },
-      {
-        "field": "projects.Acolyte.client",
-        "previousValues": [],
-        "resolvedValue": "Acolyte",
-        "resolvedAt": "2026-10-31",
-        "source": "user"
-      },
-      {
-        "field": "projects.Acolyte.stack",
-        "previousValues": [],
-        "resolvedValue": "OpenAI (generación de video) y backend con Django",
-        "resolvedAt": "2026-10-31",
-        "source": "user"
-      },
-      {
-        "field": "projects.Acolyte.contribution",
-        "previousValues": [
-          "Desarrollo completo"
-        ],
-        "resolvedValue": "Solo frontend",
-        "resolvedAt": "2026-10-31",
-        "source": "user"
-      },
-      {
-        "field": "projects.contribution",
-        "previousValues": [],
-        "resolvedValue": "Desarrollo completo en: Drizline, Baker Tilly Legal Chatbot, Altos Aceros, Safra Bank, Blackeagle, Fatima's Bakery, Hoppi get together, Desansiedad, Saldo HVAC, Pilsar",
-        "resolvedAt": "2026-10-31",
-        "source": "user"
-      },
-      {
-        "field": "projects.contribution",
-        "previousValues": [
-          "«Desarrollo completo» dentro de la descripción"
-        ],
-        "resolvedValue": "Campo contribution: full en 12 proyectos, frontend en Acolyte y Volaris Manifest",
-        "resolvedAt": "2026-10-31",
-        "source": "user"
-      },
-      {
-        "field": "profile.cleanup",
-        "previousValues": [],
-        "resolvedValue": "Fase 2 de la revisión: llaves sin uso, notas internas, grafías, skills, métricas obsoletas",
-        "resolvedAt": "2026-10-31",
-        "source": "user"
-      }
-    ],
-    "lastUpdated": "2026-10-31"
+    ]
   },
   "cvGenerationRules": {
     "neverInvent": true,

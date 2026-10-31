@@ -121,7 +121,7 @@ export type Experience = {
   current?: boolean;
   sortOrder?: number;
   dateStatus: DateStatus | string;
-  sourceValues: Record<string, unknown>;
+  sourceValues?: Record<string, unknown>;
   originalValues?: Record<string, unknown>;
   userValidated: boolean;
   conflicts: string[];
@@ -129,10 +129,14 @@ export type Experience = {
   responsibilities: string[];
   technologies: string[];
   achievements: Achievement[];
-  evidence: string[];
+  evidence?: string[];
+  /** Lo que falta saber; va al modelo como «no lo afirmes». */
+  openQuestions?: string[];
+  /** Aclaraciones y confirmaciones del usuario. */
+  notes?: string[];
   sourceRefs: string[];
   evidenceLevel: EvidenceLevel;
-  sourceCount: number;
+  sourceCount?: number;
 };
 
 export type ProjectContribution = "" | "full" | "frontend" | "backend" | "lead";
@@ -166,9 +170,13 @@ export type Project = {
   scale: string | null;
   status: string;
   evidenceLevel: EvidenceLevel;
-  sourceCount: number;
+  sourceCount?: number;
   userValidated: boolean;
-  evidence: string[];
+  evidence?: string[];
+  /** Lo que falta saber; va al modelo como «no lo afirmes». */
+  openQuestions?: string[];
+  /** Aclaraciones y confirmaciones del usuario. */
+  notes?: string[];
   sourceRefs: string[];
   isEmployment: boolean;
   contribution?: ProjectContribution;
@@ -191,10 +199,14 @@ export type Education = {
   graduationYear: number | null;
   status: string;
   evidenceLevel: EvidenceLevel;
-  sourceCount: number;
+  sourceCount?: number;
   userValidated: boolean;
   sourceRefs: string[];
   evidence?: string[];
+  /** Lo que falta saber; va al modelo como «no lo afirmes». */
+  openQuestions?: string[];
+  /** Aclaraciones y confirmaciones del usuario. */
+  notes?: string[];
   showInCv?: boolean;
   showInCvNote?: string;
 };
@@ -210,7 +222,7 @@ export type Certification = {
   url?: string;
   status: string;
   evidenceLevel: EvidenceLevel;
-  sourceCount: number;
+  sourceCount?: number;
   userValidated: boolean;
   sourceRefs: string[];
 };
@@ -221,7 +233,7 @@ export type Language = {
   level: string | null;
   status: string;
   evidenceLevel: EvidenceLevel;
-  sourceCount: number;
+  sourceCount?: number;
   userValidated: boolean;
   conflicts: string[];
   sourceValues?: string[];
@@ -240,7 +252,7 @@ export type Metric = {
   status: string;
   confidence: string;
   evidenceLevel: EvidenceLevel;
-  sourceCount: number;
+  sourceCount?: number;
   userValidated: boolean;
   safeForCV: boolean;
   requiresUserValidation: boolean;
@@ -258,7 +270,7 @@ export type CareerTimelineEntry = {
   startDate: string | null;
   endDate: string | null;
   dateStatus: string;
-  sourceValues: Record<string, unknown>;
+  sourceValues?: Record<string, unknown>;
   userValidated: boolean;
   kind: string;
   current?: boolean;
@@ -300,8 +312,9 @@ export type UserValidationResolved = {
 
 export type UserValidation = {
   pending: string[];
-  resolved: UserValidationResolved[];
-  lastUpdated: string | null;
+  /** Formato viejo: el historial vive en profile_history.json. */
+  resolved?: UserValidationResolved[];
+  lastUpdated?: string | null;
 };
 
 export type CvGenerationRules = {

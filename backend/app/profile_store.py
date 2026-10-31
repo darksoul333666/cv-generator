@@ -6,7 +6,8 @@ para trabajar sobre un perfil de prueba fijo), y para guardar con:
 1. validación (``profile_schema.validate_profile``): un perfil con errores no se guarda;
 2. respaldo con fecha del archivo anterior en ``knowledge_base/backups/`` (se guardan los
    últimos ``BACKUPS_KEPT``);
-3. escritura atómica (``.tmp`` + ``os.replace``).
+3. escritura atómica (``.tmp`` + ``os.replace``);
+4. las decisiones anotadas con ``profile_history.remember`` pasan a ``profile_history.json``.
 """
 
 from __future__ import annotations
@@ -77,8 +78,10 @@ def backup_profile(path: Path | None = None) -> Path | None:
 
 def write_profile(raw: dict, path: Path | None = None, *, validate: bool = True) -> list[str]:
     """Valida, respalda el archivo anterior y escribe. Devuelve los avisos de la validación."""
+    from .profile_history import PENDING_KEY, append_history
     from .profile_schema import validate_profile
 
+    pending = raw.pop(PENDING_KEY, None) or []
     warnings: list[str] = []
     if validate:
         errors, warnings = validate_profile(raw)
@@ -89,6 +92,8 @@ def write_profile(raw: dict, path: Path | None = None, *, validate: bool = True)
     tmp = target.with_name(target.name + ".tmp")
     tmp.write_text(dumps_profile(raw), encoding="utf-8")
     os.replace(tmp, target)
+    if pending:
+        append_history(pending, path=target.parent / "profile_history.json")
     for warning in warnings:
         logger.info("[profile] aviso: %s", warning)
     return warnings

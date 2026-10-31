@@ -214,7 +214,13 @@ def cv_facing_text(text: str) -> str:
 
 
 def _unresolved_items(item: dict) -> list[str]:
+    """Lo que falta saber de un proyecto: ``openQuestions`` (y «UNRESOLVED: …» del formato viejo
+    ``evidence``). Va al prompt como ``unknown`` para que el modelo no lo afirme."""
     out: list[str] = []
+    for question in item.get("openQuestions") or []:
+        text = str(question).strip().rstrip(".")
+        if text and text[:120] not in out:
+            out.append(text[:120])
     for ev in item.get("evidence") or []:
         text = str(ev)
         idx = text.upper().find("UNRESOLVED:")
