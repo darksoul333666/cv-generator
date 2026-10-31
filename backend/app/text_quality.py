@@ -110,11 +110,19 @@ class CleanResult:
     fixes: list[str] = field(default_factory=list)
 
 
+_FULLSTACK_RE = re.compile(r"\bfullstack\b", re.IGNORECASE)
+
+
 def clean_text(text: str, *, capitalize: bool = True) -> CleanResult:
     """Aplica todos los arreglos seguros y dice cuáles cambiaron algo."""
     original = text or ""
     fixes: list[str] = []
     out = fix_spacing(original)
+    # Una sola grafía para el ATS: «Fullstack» → «Full Stack» (como en el perfil).
+    step = _FULLSTACK_RE.sub("Full Stack", out)
+    if step != out:
+        fixes.append("«Fullstack» → «Full Stack»")
+        out = step
     step = fix_repeated_words(out)
     if step != out:
         fixes.append("palabra repetida")
@@ -197,7 +205,7 @@ def find_issues(path: str, text: str, kind: str, locale: str) -> list[Issue]:
         add("unbalanced_parens", ERROR, "paréntesis sin cerrar")
     if re.search(r"\s{2,}|\s[,;:]|\s\.(?![A-Za-z0-9])|,,|\.\.(?!\.)", value):
         add("punctuation", ERROR, "espacios o puntuación mal puestos")
-    if kind in {"summary", "bullet"}:
+    if kind in {"summary", "bullet", "project"}:
         pattern = _FIRST_PERSON.get(locale)
         if pattern and pattern.search(value):
             add("first_person", WARNING, "usa primera persona; en un CV se omite el sujeto")
@@ -234,4 +242,6 @@ def kind_for_path(path: str) -> Optional[str]:
         return "title"
     if ".bullets[" in path:
         return "bullet"
+    if path.startswith("projects[") and path.endswith(".line"):
+        return "project"
     return None

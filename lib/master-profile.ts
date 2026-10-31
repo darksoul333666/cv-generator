@@ -161,6 +161,8 @@ export type Project = {
   sourceRefs: string[];
   isEmployment: boolean;
   contribution?: ProjectContribution;
+  experienceId?: string | null;
+  engagement?: "employment" | "freelance" | "personal";
   relevantForRoles?: string[];
   relevantWhenVacancyNeeds?: string[];
 };
@@ -187,6 +189,10 @@ export type Certification = {
   name: string;
   issuer: string;
   year: number | null;
+  issuedOn?: string;
+  expires?: string | null;
+  credentialId?: string;
+  url?: string;
   status: string;
   evidenceLevel: EvidenceLevel;
   sourceCount: number;

@@ -200,3 +200,33 @@ def test_angular_vacancy_still_works(master):
 def test_dotnet_keeps_its_space():
     assert clean_text("Built APIs with C# and .NET , using Azure .").text == "Built APIs with C# and .NET, using Azure."
     assert find_issues("summary", "Built APIs with .NET.", "summary", "en") == []
+
+
+def test_profile_how_in_spanish_is_translated_in_an_english_cv(master):
+    """_fix_how pone el «cómo» del perfil (en español) en un bullet en inglés: se traduce completo."""
+    data = {
+        "target_role": "Senior Frontend Developer",
+        "summary": "Senior Frontend Developer building Angular products.",
+        "experience": [{
+            "company": "Grainchain Inc",
+            "position": "Senior Frontend Developer",
+            "bullets": ["Reduced loan table load time from 8 s to 3 s (62%) with lazy loading and caching."],
+        }],
+    }
+    sent: list[str] = []
+
+    def translator(texts, locale):
+        sent.extend(texts)
+        return [t.replace("virtual scroll y paginación", "virtual scrolling and pagination") for t in texts]
+
+    cv, report = _build_cv(data, CvDocument(id="b", name="x", email=""), master, "en", EN_VACANCY, translator)
+    grain = next(j for j in cv.experience if j.company == "Grainchain Inc")
+    assert any("virtual scroll y paginación" in t for t in sent)
+    assert any("virtual scrolling and pagination" in b for b in grain.bullets)
+    assert not any(" y paginación" in b for b in grain.bullets)
+
+
+def test_fullstack_is_spelled_one_way():
+    assert clean_text("Fullstack Developer with React.").text == "Full Stack Developer with React."
+    assert clean_text("Desarrollador fullstack.").text == "Desarrollador Full Stack."
+    assert clean_text("Full Stack Developer.").text == "Full Stack Developer."

@@ -68,29 +68,10 @@ _MONTHS_ES = {
     12: "Dic",
 }
 
-# (en, es) keyed by a normalized form of the master name
+# (en, es) keyed by a normalized form of the master name.
+# Los nombres oficiales de certificaciones (Stripe, Cisco) no se traducen: van tal cual en ambos idiomas.
 _CERT_I18N_RAW = {
-    "aws machine learning certification": (
-        "AWS Machine Learning Certification",
-        "Certificación en Machine Learning — AWS",
-    ),
-    "stripe developer certification": (
-        "Stripe Developer Certification",
-        "Certificación de Desarrollador Stripe",
-    ),
     "ndg linux essentials": ("NDG Linux Essentials", "NDG Linux Essentials"),
-    "ccna: switching and routing": (
-        "CCNA: Switching and Routing",
-        "CCNA: Conmutación y Enrutamiento",
-    ),
-    "ccna: conmutación y enrutamiento": (
-        "CCNA: Switching and Routing",
-        "CCNA: Conmutación y Enrutamiento",
-    ),
-    "it essentials: hardware and software": (
-        "IT Essentials: Hardware and Software",
-        "IT Essentials: Hardware and Software",
-    ),
     "tercer lugar — olimpiada de programación": (
         "3rd Place — Programming Olympiad",
         "Tercer lugar — Olimpiada de Programación",
@@ -375,6 +356,9 @@ def attach_percent_signs(text: str, values: set[str]) -> str:
 
     def repl(match: re.Match[str]) -> str:
         raw = match.group("n")
+        # «20,000 usuarios» o «20.000»: separador de miles, no un 20%.
+        if re.fullmatch(r"\d{1,3}(?:[.,]\d{3})+", raw):
+            return match.group(0)
         if _whole_number(raw) not in values:
             return match.group(0)
         after = text[match.end() :]

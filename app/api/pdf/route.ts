@@ -58,6 +58,17 @@ function normalizeCvProfile(raw: unknown): CvProfile | null {
         }))
     : [];
 
+  const projects = Array.isArray(raw.projects)
+    ? raw.projects
+        .filter(isRecord)
+        .map((p) => ({
+          name: typeof p.name === "string" ? p.name : "",
+          line: typeof p.line === "string" ? p.line : "",
+          stack: typeof p.stack === "string" ? p.stack : "",
+        }))
+        .filter((p) => p.name && p.line)
+    : [];
+
   const certifications = Array.isArray(raw.certifications)
     ? raw.certifications.filter((c): c is string => typeof c === "string")
     : [];
@@ -78,6 +89,7 @@ function normalizeCvProfile(raw: unknown): CvProfile | null {
     location: typeof raw.location === "string" ? raw.location : "",
     summary: typeof raw.summary === "string" ? raw.summary : "",
     experience,
+    projects,
     stack: normalizeStack(raw.stack),
     tech_skills: normalizeTechSkills(raw.tech_skills),
     education: typeof raw.education === "string" ? raw.education : "",

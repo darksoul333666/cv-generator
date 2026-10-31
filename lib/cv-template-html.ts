@@ -66,6 +66,21 @@ export function cvTemplateToBodyHtml(data: CVData): string {
     parts.push(`</ul></div>`);
   }
 
+  const projects = (data.projects ?? []).filter((p) => p.name.trim() && p.line.trim());
+  if (projects.length) {
+    parts.push(sectionTitle(copy.projects));
+    parts.push(
+      `<ul class="cv-list" style="margin:0 0 8pt;padding-left:18px;font-size:9pt;color:#222;list-style:disc outside;">`,
+    );
+    for (const p of projects) {
+      const stack = p.stack.trim() ? ` <span style="color:#4A5568;">${esc(copy.stack)}: ${esc(p.stack)}.</span>` : "";
+      parts.push(
+        `<li style="margin:0 0 2pt;display:list-item;list-style:disc outside;"><strong>${esc(p.name)}</strong> — ${esc(p.line)}${stack}</li>`,
+      );
+    }
+    parts.push(`</ul>`);
+  }
+
   const skillRows: [string, string][] = [
     [copy.frontend, s.frontend],
     [copy.styling, s.styling],

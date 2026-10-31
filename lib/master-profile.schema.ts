@@ -150,6 +150,10 @@ const projectSchema = z.object({
   isEmployment: z.boolean(),
   /** Tu parte en el proyecto. Vacío = sin definir. */
   contribution: z.enum(["", "full", "frontend", "backend", "lead"]).optional(),
+  /** Empleo al que pertenece (id de experience). Vacío = proyecto propio. */
+  experienceId: z.string().nullable().optional(),
+  /** employment = hecho dentro de un empleo; freelance = para un cliente sin relación laboral. */
+  engagement: z.enum(["employment", "freelance", "personal"]).optional(),
   relevantForRoles: z.array(z.string()).optional(),
   relevantWhenVacancyNeeds: z.array(z.string()).optional(),
 });
@@ -227,6 +231,10 @@ export const masterProfileSchema = z
         name: z.string(),
         issuer: z.string(),
         year: z.number().int().nullable(),
+        issuedOn: z.string().optional(),
+        expires: z.string().nullable().optional(),
+        credentialId: z.string().optional(),
+        url: z.string().optional(),
         status: z.string(),
         evidenceLevel: evidenceLevelSchema,
         sourceCount: z.number(),

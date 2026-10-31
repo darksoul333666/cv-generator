@@ -8,7 +8,7 @@
       "Senior Full Stack Engineer",
       "Senior React Native Developer",
       "Technical Leader",
-      "Fullstack Developer"
+      "Full Stack Developer"
     ],
     "contact": {
       "email": {
@@ -147,7 +147,12 @@
       "SSR",
       "lazy loading",
       "virtualización de tablas",
-      "Responsive design"
+      "Responsive design",
+      "Axios",
+      "React Context API",
+      "Canvas",
+      "pdfmake",
+      "Figma"
     ],
     "backend": [
       "Node.js",
@@ -157,7 +162,10 @@
       "REST APIs",
       "Laravel",
       "Prisma",
-      "Mongoose"
+      "Mongoose",
+      "WebSockets",
+      "WebRTC",
+      "Zod"
     ],
     "mobile": [
       "React Native",
@@ -167,7 +175,8 @@
       "CodePush",
       "Firebase",
       "React Navigation",
-      "Google Maps"
+      "Google Maps",
+      "Capacitor"
     ],
     "databases": [
       "PostgreSQL",
@@ -196,7 +205,9 @@
       "AWS Athena",
       "Serverless",
       "Cloudinary",
-      "Firebase Cloud Messaging"
+      "Firebase Cloud Messaging",
+      "AWS Amplify",
+      "Amazon SageMaker"
     ],
     "devops": [
       "Docker",
@@ -207,7 +218,8 @@
       "SonarQube",
       "ESLint",
       "Code reviews",
-      "Sentry"
+      "Sentry",
+      "AWS CodeCommit"
     ],
     "testing": [
       "Jest",
@@ -1502,6 +1514,138 @@
       "evidenceLevel": "documented",
       "sourceCount": null,
       "userValidated": true
+    },
+    {
+      "id": "skill_aws_amplify",
+      "canonical": "AWS Amplify",
+      "aliases": [],
+      "categories": [
+        "cloud"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": true
+    },
+    {
+      "id": "skill_amazon_sagemaker",
+      "canonical": "Amazon SageMaker",
+      "aliases": [],
+      "categories": [
+        "cloud"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": true
+    },
+    {
+      "id": "skill_aws_codecommit",
+      "canonical": "AWS CodeCommit",
+      "aliases": [],
+      "categories": [
+        "devops"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": true
+    },
+    {
+      "id": "skill_axios",
+      "canonical": "Axios",
+      "aliases": [],
+      "categories": [
+        "frontend"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": true
+    },
+    {
+      "id": "skill_react_context_api",
+      "canonical": "React Context API",
+      "aliases": [],
+      "categories": [
+        "frontend"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": true
+    },
+    {
+      "id": "skill_canvas",
+      "canonical": "Canvas",
+      "aliases": [],
+      "categories": [
+        "frontend"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": true
+    },
+    {
+      "id": "skill_pdfmake",
+      "canonical": "pdfmake",
+      "aliases": [],
+      "categories": [
+        "frontend"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": true
+    },
+    {
+      "id": "skill_figma",
+      "canonical": "Figma",
+      "aliases": [],
+      "categories": [
+        "frontend"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": true
+    },
+    {
+      "id": "skill_capacitor",
+      "canonical": "Capacitor",
+      "aliases": [],
+      "categories": [
+        "mobile"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": true
+    },
+    {
+      "id": "skill_websockets",
+      "canonical": "WebSockets",
+      "aliases": [],
+      "categories": [
+        "backend"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": true
+    },
+    {
+      "id": "skill_webrtc",
+      "canonical": "WebRTC",
+      "aliases": [],
+      "categories": [
+        "backend"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": true
+    },
+    {
+      "id": "skill_zod",
+      "canonical": "Zod",
+      "aliases": [],
+      "categories": [
+        "backend"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": true
     }
   ],
   "experience": [
@@ -1580,7 +1724,7 @@
         {
           "description": "Optimización de tiempos de respuesta en APIs",
           "metric": {
-            "value": 30.0,
+            "value": 62.0,
             "unit": "percent",
             "type": "user_metric"
           },
@@ -1590,10 +1734,17 @@
           "requiresUserValidation": false,
           "evidenceDetail": {
             "context": "Por medio de React Dev tools se analizaron los tiempos de renderizado de cada componente, en Sentry se analizaron los reportes de crasheos y como estos se redujeron",
-            "action": "Paginación de peticiones Virtualización Indexación en base de datos Uso de caché en consultas concurrentes",
-            "measurement": "React DevTools, comparando los tiempos en segundos antes y después",
-            "source": "Declarado por el usuario el 2026-10-31",
-            "note": "2026-10-31: se quitaron before 8 s / after 3 s (eran la cifra de Grainchain). El usuario midió con React DevTools en segundos. Pendiente: los segundos de antes y después, y si la mejora es de las APIs o de la carga de pantallas (React DevTools mide el frontend)."
+            "action": "Paginación de peticiones, virtualización, indexación en la base de datos y caché en consultas concurrentes",
+            "measurement": "React DevTools, tiempo en segundos antes y después",
+            "source": "Confirmado por el usuario el 2026-10-31: de 8 s a 3 s.",
+            "before": {
+              "value": 8,
+              "unit": "s"
+            },
+            "after": {
+              "value": 3,
+              "unit": "s"
+            }
           }
         }
       ],
@@ -1777,7 +1928,6 @@
       "company": "Lumston",
       "roles": [
         "Frontend Developer",
-        "React Native Developer",
         "Full Stack / Frontend Developer"
       ],
       "employmentType": "full-time",
@@ -1984,6 +2134,55 @@
             "measurement": "Sin cifra: mejora observada por el equipo",
             "source": "Declarado por el usuario el 2026-10-30"
           }
+        },
+        {
+          "description": "Reducción del tiempo de carga del carrusel de usuarios de Hoppi de 28 s a 2 s",
+          "metric": {
+            "value": 92.0,
+            "unit": "percent",
+            "type": "user_metric"
+          },
+          "status": "user_validated",
+          "evidenceLevel": "claimed",
+          "safeForCV": true,
+          "requiresUserValidation": false,
+          "evidenceDetail": {
+            "action": "Migración de toda la base de datos de PostgreSQL a MongoDB",
+            "technologies": [
+              "PostgreSQL",
+              "MongoDB",
+              "Mongoose"
+            ],
+            "measurement": "Tiempo de carga del carrusel antes y después",
+            "before": {
+              "value": 28,
+              "unit": "s"
+            },
+            "after": {
+              "value": 2,
+              "unit": "s"
+            },
+            "note": "92% redondeado hacia abajo de 92.9%.",
+            "source": "Declarado por el usuario el 2026-10-31"
+          },
+          "project": "Hoppi get together"
+        },
+        {
+          "description": "Publicación de Hoppi en Play Store y App Store: 5,000 descargas y más de 4,000 usuarios",
+          "metric": {
+            "value": 5000,
+            "unit": "downloads",
+            "type": "scale"
+          },
+          "status": "user_validated",
+          "evidenceLevel": "claimed",
+          "safeForCV": true,
+          "requiresUserValidation": false,
+          "evidenceDetail": {
+            "context": "Más de 4,000 usuarios registrados entre Play Store y App Store",
+            "source": "Declarado por el usuario el 2026-10-31"
+          },
+          "project": "Hoppi get together"
         }
       ],
       "evidence": [
@@ -2016,7 +2215,7 @@
       "id": "exp_deva_software",
       "company": "Deva Software",
       "roles": [
-        "Fullstack Developer (React Native, NodeJS)"
+        "Full Stack Developer (React Native, Node.js)"
       ],
       "employmentType": "remote",
       "startDate": "2021-06",
@@ -2035,6 +2234,7 @@
         "fullstack"
       ],
       "responsibilities": [
+        "Desarrollo del módulo de navegación (navbar) con categorías y productos",
         "Código sostenible y escalable con equipos de backend, frontend, QA y DevOps",
         "Creación de screens a partir de UX/maquetación",
         "Desarrollo de módulos de lógica de negocio",
@@ -2094,7 +2294,24 @@
         "Angular",
         "Redux"
       ],
-      "achievements": [],
+      "achievements": [
+        {
+          "description": "Desarrollo del módulo de enrolamiento que usan los asesores en campo para registrar a las clientas de Compartamos Banco, con cerca de 20,000 usuarios procesados al día",
+          "metric": {
+            "value": 20000,
+            "unit": "users/day",
+            "type": "scale"
+          },
+          "status": "user_validated",
+          "evidenceLevel": "claimed",
+          "safeForCV": true,
+          "requiresUserValidation": false,
+          "evidenceDetail": {
+            "context": "Asesores en campo de Compartamos Banco registran a sus clientas",
+            "source": "Declarado por el usuario el 2026-10-31"
+          }
+        }
+      ],
       "evidence": [
         "cvs/JairoCamarilloCV.pdf"
       ],
@@ -2142,7 +2359,35 @@
         "Angular",
         "Capacitor"
       ],
-      "achievements": [],
+      "achievements": [
+        {
+          "description": "Reducción del tiempo de inventario de 5 días a 1 día con la app Saldo HVAC, gestionando más de 1,100 productos",
+          "metric": {
+            "value": 80.0,
+            "unit": "percent",
+            "type": "user_metric"
+          },
+          "status": "user_validated",
+          "evidenceLevel": "claimed",
+          "safeForCV": true,
+          "requiresUserValidation": false,
+          "evidenceDetail": {
+            "context": "Inventario de más de 1,100 productos",
+            "action": "App móvil con inventario por cámara y código de barras",
+            "before": {
+              "value": 5,
+              "unit": "días"
+            },
+            "after": {
+              "value": 1,
+              "unit": "día"
+            },
+            "measurement": "Días que tomaba el inventario antes y después",
+            "source": "Declarado por el usuario el 2026-10-31"
+          },
+          "project": "Saldo HVAC"
+        }
+      ],
       "evidence": [
         "cvs/JairoCamarilloCV.pdf"
       ],
@@ -2171,7 +2416,7 @@
       "company": "Centro Tecnológico Zongolica",
       "roles": [
         "Mobile Developer Jr",
-        "Fullstack Developer Jr",
+        "Full Stack Developer Jr",
         "Frontend Developer Jr",
         "Backend Developer Jr"
       ],
@@ -2205,9 +2450,26 @@
         "Mercado Pago",
         "PayPal",
         "HTML5",
-        "JavaScript"
+        "JavaScript (ES6+)"
       ],
-      "achievements": [],
+      "achievements": [
+        {
+          "description": "App móvil con 400 usuarios para el pago de servicios de internet, soporte técnico y productos de tecnología",
+          "metric": {
+            "value": 400,
+            "unit": "users",
+            "type": "scale"
+          },
+          "status": "user_validated",
+          "evidenceLevel": "claimed",
+          "safeForCV": true,
+          "requiresUserValidation": false,
+          "evidenceDetail": {
+            "context": "Una sola app móvil",
+            "source": "Declarado por el usuario el 2026-10-31"
+          }
+        }
+      ],
       "evidence": [
         "cvs/JairoCamarilloCV.pdf"
       ],
@@ -2271,11 +2533,13 @@
         "src_uffpay_app"
       ],
       "isEmployment": false,
-      "contribution": "full"
+      "contribution": "full",
+      "experienceId": "exp_uffpay",
+      "engagement": "employment"
     },
     {
       "id": "project_sortalia",
-      "name": "SORTALIA",
+      "name": "Sortalia",
       "type": "mobile-application, web-application",
       "description": "Plataforma de sorteos de lujo (mobile + web) para explorar ediciones, comprar boletos, gestionar números, historial, notificaciones y administración básica.",
       "domain": [
@@ -2318,7 +2582,7 @@
         "Firebase Cloud Messaging",
         "Cloudinary"
       ],
-      "scale": "MVP (según README_OBJECTIVE_PROJECT y sortalia-api README)",
+      "scale": "200 usuarios",
       "status": "claimed",
       "evidenceLevel": "claimed",
       "sourceCount": 3,
@@ -2327,7 +2591,9 @@
         "Desktop/Sortalia/README_OBJECTIVE_PROJECT.md",
         "Desktop/sortalia-api/README.md",
         "Desktop/Sortalia/package.json",
-        "Confirmado por el usuario el 2026-10-31: el backend está hecho solo con NestJS (sin Express.js)."
+        "Confirmado por el usuario el 2026-10-31: el backend está hecho solo con NestJS (sin Express.js).",
+        "Confirmado por el usuario el 2026-10-31: proyecto freelance para un cliente, sin relación laboral.",
+        "Confirmado por el usuario el 2026-10-31: 200 usuarios."
       ],
       "sourceRefs": [
         "src_sortalia_objective",
@@ -2350,7 +2616,10 @@
         "authentication",
         "mobile + web"
       ],
-      "contribution": "full"
+      "contribution": "full",
+      "engagement": "freelance",
+      "experienceId": null,
+      "cvLine": "Plataforma de sorteos de lujo (móvil y web) con 200 usuarios: compra de boletos, notificaciones y panel de administración."
     },
     {
       "id": "project_fatimas_bakery",
@@ -2380,7 +2649,7 @@
         "Laravel",
         "PostgreSQL"
       ],
-      "scale": "más de 40 sucursales (claim del CV histórico)",
+      "scale": "15 sucursales",
       "status": "mentioned",
       "evidenceLevel": "mentioned",
       "sourceCount": 2,
@@ -2389,14 +2658,19 @@
         "cvs/JairoCamarilloCV.pdf",
         "Actualización 2026-10-27: el usuario declaró Angular, Laravel y PostgreSQL. Responsabilidades personales, pruebas y fechas siguen sin confirmarse.",
         "Confirmado por el usuario el 2026-10-27: desarrollo completo. No se inventó stack adicional.",
-        "Confirmado por el usuario el 2026-10-31 (revisión de contribuciones): desarrollo completo."
+        "Confirmado por el usuario el 2026-10-31 (revisión de contribuciones): desarrollo completo.",
+        "Confirmado por el usuario el 2026-10-31: proyecto freelance para un cliente, sin relación laboral.",
+        "Confirmado por el usuario el 2026-10-31: 15 sucursales."
       ],
       "sourceRefs": [
         "src_cv_historical",
         "src_user_project_update_2026_10_27"
       ],
       "isEmployment": false,
-      "contribution": "full"
+      "contribution": "full",
+      "engagement": "freelance",
+      "experienceId": null,
+      "cvLine": "Sistema web de ventas, pedidos, inventario, nómina y facturación CFDI usado en 15 sucursales."
     },
     {
       "id": "project_hoppi",
@@ -2430,9 +2704,10 @@
         "MongoDB Atlas",
         "Mongoose",
         "Firebase",
-        "Google Maps"
+        "Google Maps",
+        "PostgreSQL"
       ],
-      "scale": null,
+      "scale": "5,000 descargas y más de 4,000 usuarios (Play Store y App Store)",
       "status": "mentioned",
       "evidenceLevel": "mentioned",
       "sourceCount": 2,
@@ -2448,7 +2723,9 @@
         "src_user_project_update_2026_10_27"
       ],
       "isEmployment": false,
-      "contribution": "full"
+      "contribution": "full",
+      "experienceId": "exp_monkey_cave",
+      "engagement": "employment"
     },
     {
       "id": "project_desansiedad",
@@ -2477,7 +2754,7 @@
         "WebRTC",
         "Figma"
       ],
-      "scale": null,
+      "scale": "3,000 usuarios",
       "status": "mentioned",
       "evidenceLevel": "mentioned",
       "sourceCount": 2,
@@ -2486,14 +2763,19 @@
         "cvs/JairoCamarilloCV.pdf",
         "Actualización 2026-10-27: no hubo hechos nuevos verificados para Desansiedad. Se conserva el registro existente.",
         "Confirmado por el usuario el 2026-10-27: desarrollo completo. No se inventó stack adicional.",
-        "Confirmado por el usuario el 2026-10-31 (revisión de contribuciones): desarrollo completo."
+        "Confirmado por el usuario el 2026-10-31 (revisión de contribuciones): desarrollo completo.",
+        "Confirmado por el usuario el 2026-10-31: proyecto freelance para un cliente, sin relación laboral.",
+        "Confirmado por el usuario el 2026-10-31: 3,000 usuarios."
       ],
       "sourceRefs": [
         "src_cv_historical",
         "src_user_project_update_2026_10_27"
       ],
       "isEmployment": false,
-      "contribution": "full"
+      "contribution": "full",
+      "engagement": "freelance",
+      "experienceId": null,
+      "cvLine": "App iOS/Android de videollamadas con especialistas y ejercicios de relajación, con 3,000 usuarios."
     },
     {
       "id": "project_saldo_hvac",
@@ -2522,7 +2804,7 @@
         "TypeScript",
         "Bootstrap"
       ],
-      "scale": null,
+      "scale": "Más de 1,100 productos en inventario",
       "status": "mentioned",
       "evidenceLevel": "mentioned",
       "sourceCount": 2,
@@ -2539,7 +2821,9 @@
         "src_user_project_update_2026_10_27"
       ],
       "isEmployment": false,
-      "contribution": "full"
+      "contribution": "full",
+      "experienceId": "exp_nano_degree",
+      "engagement": "employment"
     },
     {
       "id": "project_pilsar",
@@ -2567,7 +2851,7 @@
         "TypeScript",
         "TailwindCSS"
       ],
-      "scale": null,
+      "scale": "Más de 230 compras hechas desde la web",
       "status": "mentioned",
       "evidenceLevel": "mentioned",
       "sourceCount": 2,
@@ -2576,14 +2860,19 @@
         "cvs/JairoCamarilloCV.pdf",
         "Actualización 2026-10-27: no hubo hechos nuevos verificados para Pilsar. Se conserva el registro existente.",
         "Confirmado por el usuario el 2026-10-27: desarrollo completo. No se inventó stack adicional.",
-        "Confirmado por el usuario el 2026-10-31 (revisión de contribuciones): desarrollo completo."
+        "Confirmado por el usuario el 2026-10-31 (revisión de contribuciones): desarrollo completo.",
+        "Confirmado por el usuario el 2026-10-31: proyecto freelance para un cliente, sin relación laboral.",
+        "Confirmado por el usuario el 2026-10-31: Más de 230 compras hechas desde la web."
       ],
       "sourceRefs": [
         "src_cv_historical",
         "src_user_project_update_2026_10_27"
       ],
       "isEmployment": false,
-      "contribution": "full"
+      "contribution": "full",
+      "engagement": "freelance",
+      "experienceId": null,
+      "cvLine": "PWA de catálogo con pagos por transferencia y más de 230 compras hechas desde la web."
     },
     {
       "id": "project_volaris_manifest",
@@ -2637,7 +2926,9 @@
         "REST APIs",
         "PDF"
       ],
-      "contribution": "frontend"
+      "contribution": "frontend",
+      "experienceId": "exp_lumston",
+      "engagement": "employment"
     },
     {
       "id": "project_tecnologico_monterrey",
@@ -2692,7 +2983,9 @@
         "AWS Lambda",
         "route guards"
       ],
-      "contribution": "full"
+      "contribution": "full",
+      "experienceId": "exp_lumston",
+      "engagement": "employment"
     },
     {
       "id": "project_drizline_dona_tota",
@@ -2753,7 +3046,9 @@
         "AWS Amplify",
         "authentication"
       ],
-      "contribution": "full"
+      "contribution": "full",
+      "experienceId": "exp_lumston",
+      "engagement": "employment"
     },
     {
       "id": "project_bakertilly_legal_chatbot",
@@ -2804,7 +3099,9 @@
         "Angular",
         "AWS"
       ],
-      "contribution": "full"
+      "contribution": "full",
+      "experienceId": "exp_lumston",
+      "engagement": "employment"
     },
     {
       "id": "project_healthcare_ai_video",
@@ -2855,7 +3152,9 @@
       "relevantWhenVacancyNeeds": [
         "React"
       ],
-      "contribution": "frontend"
+      "contribution": "frontend",
+      "experienceId": "exp_lumston",
+      "engagement": "employment"
     },
     {
       "id": "project_altos_aceros",
@@ -2888,7 +3187,9 @@
       "isEmployment": false,
       "relevantForRoles": [],
       "relevantWhenVacancyNeeds": [],
-      "contribution": "full"
+      "contribution": "full",
+      "experienceId": "exp_lumston",
+      "engagement": "employment"
     },
     {
       "id": "project_grainchain_safra",
@@ -2932,7 +3233,9 @@
       "isEmployment": false,
       "relevantForRoles": [],
       "relevantWhenVacancyNeeds": [],
-      "contribution": "full"
+      "contribution": "full",
+      "experienceId": "exp_grainchain",
+      "engagement": "employment"
     },
     {
       "id": "project_blackeagle",
@@ -2981,7 +3284,9 @@
         "NestJS",
         "Python"
       ],
-      "contribution": "full"
+      "contribution": "full",
+      "experienceId": "exp_uffpay",
+      "engagement": "employment"
     }
   ],
   "education": [
@@ -3041,59 +3346,73 @@
   ],
   "certifications": [
     {
-      "name": "Stripe Developer Certification",
+      "name": "Stripe Professional Payments Developer",
       "issuer": "Stripe",
       "year": 2024,
       "status": "verified",
       "id": "cert_stripe_dev",
-      "evidenceLevel": "documented",
+      "evidenceLevel": "verified",
       "sourceCount": 3,
       "userValidated": true,
       "sourceRefs": [
         "src_cv_frontend_en",
-        "src_cv_rn_en"
-      ]
+        "src_cv_rn_en",
+        "src_user_certificates_2026_10_31"
+      ],
+      "issuedOn": "2024-03-23",
+      "credentialId": "98698789",
+      "url": "https://stripecertifications.credential.net/e2a7616f-eaea-454c-bea8-87eca989c97e",
+      "expires": null
     },
     {
       "name": "NDG Linux Essentials",
-      "issuer": "NDG / Cisco Networking Academy",
-      "year": 2020,
-      "status": "claimed",
-      "id": "cert_ndg_linux",
-      "evidenceLevel": "claimed",
-      "sourceCount": 2,
-      "userValidated": true,
-      "sourceRefs": [
-        "src_cv_frontend_en",
-        "src_cv_rn_en"
-      ]
-    },
-    {
-      "name": "CCNA: Switching and Routing",
-      "issuer": "Cisco",
-      "year": 2020,
+      "issuer": "Cisco Networking Academy (NDG)",
+      "year": 2019,
       "status": "verified",
-      "id": "cert_ccna",
-      "evidenceLevel": "documented",
+      "id": "cert_ndg_linux",
+      "evidenceLevel": "verified",
       "sourceCount": 3,
       "userValidated": true,
       "sourceRefs": [
         "src_cv_frontend_en",
-        "src_cv_rn_en"
-      ]
+        "src_cv_rn_en",
+        "src_user_certificates_2026_10_31"
+      ],
+      "issuedOn": "2019-12-06",
+      "credentialId": "87736531-929d-4c82-a000-bdc7046e3fef"
     },
     {
-      "name": "IT Essentials: Hardware and Software",
-      "issuer": "Cisco",
+      "name": "CCNA R&S: Introduction to Networks",
+      "issuer": "Cisco Networking Academy",
       "year": 2019,
-      "status": "mentioned",
-      "id": "cert_it_essentials",
-      "evidenceLevel": "mentioned",
-      "sourceCount": 1,
+      "status": "verified",
+      "id": "cert_ccna",
+      "evidenceLevel": "verified",
+      "sourceCount": 3,
       "userValidated": true,
       "sourceRefs": [
-        "src_cv_historical"
-      ]
+        "src_cv_frontend_en",
+        "src_cv_rn_en",
+        "src_user_certificates_2026_10_31"
+      ],
+      "issuedOn": "2019-05-01",
+      "credentialId": "ce7f7657-aa43-4a84-93f5-3300fd5859b7"
+    },
+    {
+      "name": "IT Essentials: PC Hardware and Software",
+      "issuer": "Cisco Networking Academy",
+      "year": 2019,
+      "status": "verified",
+      "id": "cert_it_essentials",
+      "evidenceLevel": "verified",
+      "sourceCount": 2,
+      "userValidated": true,
+      "sourceRefs": [
+        "src_cv_historical",
+        "src_user_certificates_2026_10_31"
+      ],
+      "issuedOn": "2019-01-16",
+      "credentialId": "73acb74c-c75a-4286-b6b7-6f16a8b8b178"
     },
     {
       "name": "Tercer lugar — Olimpiada de Programación",
@@ -3215,7 +3534,7 @@
     },
     {
       "id": "metric_exp_uffpay_1",
-      "value": 30.0,
+      "value": 62.0,
       "unit": "percent",
       "type": "user_metric",
       "description": "Optimización de tiempos de respuesta en APIs",
@@ -3232,7 +3551,15 @@
       "requiresUserValidation": false,
       "sourceRefs": [
         "user"
-      ]
+      ],
+      "before": {
+        "value": 8,
+        "unit": "s"
+      },
+      "after": {
+        "value": 3,
+        "unit": "s"
+      }
     },
     {
       "id": "metric_exp_grainchain_0",
@@ -3317,6 +3644,96 @@
       "sourceRefs": [
         "user"
       ]
+    },
+    {
+      "id": "metric_exp_monkey_cave_2",
+      "value": 92.0,
+      "unit": "percent",
+      "type": "user_metric",
+      "description": "Reducción del tiempo de carga del carrusel de usuarios de Hoppi de 28 s a 2 s",
+      "company": "Monkey Cave",
+      "project": "Hoppi get together",
+      "status": "user_validated",
+      "confidence": "high",
+      "experienceId": "exp_monkey_cave",
+      "projectId": "project_hoppi",
+      "evidenceLevel": "claimed",
+      "sourceCount": 1,
+      "userValidated": true,
+      "safeForCV": true,
+      "requiresUserValidation": false
+    },
+    {
+      "id": "metric_exp_monkey_cave_3",
+      "value": 5000,
+      "unit": "downloads",
+      "type": "scale",
+      "description": "Publicación de Hoppi en Play Store y App Store: 5,000 descargas y más de 4,000 usuarios",
+      "company": "Monkey Cave",
+      "project": "Hoppi get together",
+      "status": "user_validated",
+      "confidence": "high",
+      "experienceId": "exp_monkey_cave",
+      "projectId": "project_hoppi",
+      "evidenceLevel": "claimed",
+      "sourceCount": 1,
+      "userValidated": true,
+      "safeForCV": true,
+      "requiresUserValidation": false
+    },
+    {
+      "id": "metric_exp_multiplica_0",
+      "value": 20000,
+      "unit": "users/day",
+      "type": "scale",
+      "description": "Desarrollo del módulo de enrolamiento que usan los asesores en campo para registrar a las clientas de Compartamos Banco, con cerca de 20,000 usuarios procesados al día",
+      "company": "Multiplica",
+      "project": "",
+      "status": "user_validated",
+      "confidence": "high",
+      "experienceId": "exp_multiplica",
+      "projectId": null,
+      "evidenceLevel": "claimed",
+      "sourceCount": 1,
+      "userValidated": true,
+      "safeForCV": true,
+      "requiresUserValidation": false
+    },
+    {
+      "id": "metric_exp_nano_degree_0",
+      "value": 80.0,
+      "unit": "percent",
+      "type": "user_metric",
+      "description": "Reducción del tiempo de inventario de 5 días a 1 día con la app Saldo HVAC, gestionando más de 1,100 productos",
+      "company": "Nano Degree",
+      "project": "Saldo HVAC",
+      "status": "user_validated",
+      "confidence": "high",
+      "experienceId": "exp_nano_degree",
+      "projectId": "project_saldo_hvac",
+      "evidenceLevel": "claimed",
+      "sourceCount": 1,
+      "userValidated": true,
+      "safeForCV": true,
+      "requiresUserValidation": false
+    },
+    {
+      "id": "metric_exp_ctz_0",
+      "value": 400,
+      "unit": "users",
+      "type": "scale",
+      "description": "App móvil con 400 usuarios para el pago de servicios de internet, soporte técnico y productos de tecnología",
+      "company": "Centro Tecnológico Zongolica",
+      "project": "",
+      "status": "user_validated",
+      "confidence": "high",
+      "experienceId": "exp_ctz",
+      "projectId": null,
+      "evidenceLevel": "claimed",
+      "sourceCount": 1,
+      "userValidated": true,
+      "safeForCV": true,
+      "requiresUserValidation": false
     }
   ],
   "skillAliases": {
@@ -3544,7 +3961,7 @@
         "Drizline",
         "Baker Tilly Legal Chatbot",
         "UffPay",
-        "SORTALIA",
+        "Sortalia",
         "Blackeagle"
       ],
       "secondarySkills": [
@@ -3616,7 +4033,7 @@
       ],
       "priorityProjectLabels": [
         "UffPay",
-        "SORTALIA",
+        "Sortalia",
         "Hoppi get together",
         "Desansiedad"
       ],
@@ -3700,7 +4117,7 @@
         "Tecnológico de Monterrey",
         "Drizline",
         "UffPay",
-        "SORTALIA",
+        "Sortalia",
         "Fatima's Bakery",
         "Blackeagle",
         "Baker Tilly Legal Chatbot"
@@ -3714,7 +4131,7 @@
       "sellingPoints": [
         "De UI a API y AWS",
         "AdonisJS + React Native en UffPay",
-        "NestJS/PostgreSQL/Prisma en SORTALIA",
+        "NestJS/PostgreSQL/Prisma en Sortalia",
         "Soporte y performance listados en CV Full Stack",
         "Frontend y backend con NestJS y AWS Lambda en Tecnológico de Monterrey y Drizline",
         "Entrenamiento del chatbot de Baker Tilly con SageMaker y buckets de S3"
@@ -3821,7 +4238,6 @@
       "role": "Frontend Developer",
       "roles": [
         "Frontend Developer",
-        "React Native Developer",
         "Full Stack / Frontend Developer"
       ],
       "startDate": "2023-05",
@@ -3859,9 +4275,9 @@
       "id": "tl_exp_deva_software",
       "experienceId": "exp_deva_software",
       "company": "Deva Software",
-      "role": "Fullstack Developer (React Native, NodeJS)",
+      "role": "Full Stack Developer (React Native, Node.js)",
       "roles": [
-        "Fullstack Developer (React Native, NodeJS)"
+        "Full Stack Developer (React Native, Node.js)"
       ],
       "startDate": "2021-06",
       "endDate": "2022-01",
@@ -3910,7 +4326,7 @@
       "role": "Mobile Developer Jr",
       "roles": [
         "Mobile Developer Jr",
-        "Fullstack Developer Jr",
+        "Full Stack Developer Jr",
         "Frontend Developer Jr",
         "Backend Developer Jr"
       ],
@@ -3941,8 +4357,7 @@
       "Confirmar base de datos y servicios AWS además de Lambda en Tecnológico de Monterrey.",
       "Baker Tilly: falta el nombre del modelo. El entrenamiento confirmado es SageMaker y buckets de S3.",
       "Altos Aceros: la contribución es desarrollo completo. Faltan propósito, tipo de aplicación y tecnologías.",
-      "Safra Bank: la contribución es desarrollo completo. Faltan alcance y stack. La mejora de tablas (8 s → 3 s) no se atribuye a este proyecto.",
-      "UffPay 30%: faltan los segundos de antes y después, y confirmar si la mejora es de las APIs o de la carga de pantallas (se midió con React DevTools)."
+      "Safra Bank: la contribución es desarrollo completo. Faltan alcance y stack. La mejora de tablas (8 s → 3 s) no se atribuye a este proyecto."
     ],
     "resolved": [
       {
@@ -4600,6 +5015,101 @@
         "resolvedValue": "Eliminado: solo se conserva la Ingeniería (2018 – 2022)",
         "resolvedAt": "2026-10-31",
         "source": "user"
+      },
+      {
+        "field": "certifications.cert_stripe_dev",
+        "previousValues": [
+          "Stripe Developer Certification (2024)"
+        ],
+        "resolvedValue": "Stripe Professional Payments Developer (2024)",
+        "resolvedAt": "2026-10-31",
+        "source": "user"
+      },
+      {
+        "field": "certifications.cert_ccna",
+        "previousValues": [
+          "CCNA: Switching and Routing (2020)"
+        ],
+        "resolvedValue": "CCNA R&S: Introduction to Networks (2019)",
+        "resolvedAt": "2026-10-31",
+        "source": "user"
+      },
+      {
+        "field": "certifications.cert_it_essentials",
+        "previousValues": [
+          "IT Essentials: Hardware and Software (2019)"
+        ],
+        "resolvedValue": "IT Essentials: PC Hardware and Software (2019)",
+        "resolvedAt": "2026-10-31",
+        "source": "user"
+      },
+      {
+        "field": "certifications.cert_ndg_linux",
+        "previousValues": [
+          "NDG Linux Essentials (2020)"
+        ],
+        "resolvedValue": "NDG Linux Essentials (2019)",
+        "resolvedAt": "2026-10-31",
+        "source": "user"
+      },
+      {
+        "field": "experience.UffPay.achievements.api",
+        "previousValues": [
+          "30%",
+          "8 s → 3 s quitado por error el 2026-10-31"
+        ],
+        "resolvedValue": "De 8 s a 3 s (62%)",
+        "resolvedAt": "2026-10-31",
+        "source": "user"
+      },
+      {
+        "field": "skills",
+        "previousValues": [],
+        "resolvedValue": "Agregadas: AWS Amplify, Amazon SageMaker, AWS CodeCommit, Axios, React Context API, Canvas, pdfmake, Figma, Capacitor, WebSockets, WebRTC, Zod",
+        "resolvedAt": "2026-10-31",
+        "source": "user"
+      },
+      {
+        "field": "experience.achievements",
+        "previousValues": [],
+        "resolvedValue": "Cifras nuevas: Hoppi (28 s → 2 s, 5,000 descargas), Multiplica (20,000 usuarios/día), Nano Degree (5 → 1 día, 1,100 productos), CTZ (400 usuarios); módulo navbar en Deva",
+        "resolvedAt": "2026-10-31",
+        "source": "user"
+      },
+      {
+        "field": "projects.experienceId",
+        "previousValues": [],
+        "resolvedValue": "Proyectos ligados a su empleo por id; «Fullstack» unificado como «Full Stack»",
+        "resolvedAt": "2026-10-31",
+        "source": "user"
+      },
+      {
+        "field": "experience.Lumston.roles",
+        "previousValues": [
+          "React Native Developer"
+        ],
+        "resolvedValue": "Quitado: no usó React Native en Lumston",
+        "resolvedAt": "2026-10-31",
+        "source": "user"
+      },
+      {
+        "field": "projects.engagement",
+        "previousValues": [
+          "proyectos propios"
+        ],
+        "resolvedValue": "SORTALIA, Fatima's Bakery, Desansiedad y Pilsar: freelance para clientes, sin relación laboral",
+        "resolvedAt": "2026-10-31",
+        "source": "user"
+      },
+      {
+        "field": "projects.freelance",
+        "previousValues": [
+          "SORTALIA",
+          "Fatima's Bakery: más de 40 sucursales"
+        ],
+        "resolvedValue": "Sortalia 200 usuarios; Fatima's Bakery 15 sucursales; Desansiedad 3,000 usuarios; Pilsar más de 230 compras",
+        "resolvedAt": "2026-10-31",
+        "source": "user"
       }
     ],
     "lastUpdated": "2026-10-31"
@@ -4754,6 +5264,17 @@
       "scope": [
         "projects"
       ]
+    },
+    {
+      "id": "src_user_certificates_2026_10_31",
+      "name": "Certificados en PDF (Cisco Networking Academy) y credencial de Stripe en Accredible",
+      "type": "certificate",
+      "language": "en",
+      "scope": [
+        "certifications"
+      ],
+      "status": "verified",
+      "note": "Revisados el 2026-10-31."
     }
   ]
 }

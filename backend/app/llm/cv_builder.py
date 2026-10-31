@@ -25,7 +25,7 @@ from ..locale_util import (
     localize_skill_label,
     polish_experience_title,
 )
-from ..models import CvDocument, ExperienceItem
+from ..models import CvDocument, ExperienceItem, ProjectItem
 from ..text_quality import ERROR, Issue, clean_text, find_issues, kind_for_path, quality_score
 from ..skill_stack import build_stack_from_master, stack_to_tech_skills, vacancy_skill_keywords
 
@@ -316,7 +316,11 @@ def _fact_sentences(source: dict) -> list[str]:
         action = str(detail.get("action") or "").strip()
         if action and not (_how_stems(detail) & {w[:5] for w in re.findall(r"[a-z0-9]+", _plain(desc)) if len(w) >= 4}):
             desc = f"{desc} mediante {_lower_first(action)}"
-        if own_metric and own_metric not in desc:
+        # La cifra va entre paréntesis solo si la frase no la dice ya (p. ej. «20,000 usuarios»).
+        number = re.sub(r"\D", "", own_metric.split(" ")[0]) if own_metric else ""
+        if own_metric and own_metric not in desc and not (
+            number and not own_metric.endswith("%") and number in re.sub(r"[,.\s]", "", desc)
+        ):
             desc = f"{desc} ({own_metric})"
         sentences.append(desc)
     scope = _scope_lines(source)
@@ -667,12 +671,23 @@ _IMPLIED_TECH = {
 }
 
 
+_LEGAL_SUFFIX_RE = re.compile(r"\s+(?:inc|llc|ltd|s\.?a\.?(?: de c\.?v\.?)?|corp|co)\.?$", re.IGNORECASE)
+
+
 def _linked_projects(source: dict, master: dict) -> list[dict]:
-    company = _norm(source.get("company") or "")
-    if not company:
-        return []
+    """Proyectos de un empleo: por ``experience_id``; si el proyecto no lo tiene, por el nombre
+    de la empresa en su descripción («Lumston, cliente Volaris»), sin «Inc» ni «S.A.»."""
+    exp_id = source.get("id")
+    company = _norm(_LEGAL_SUFFIX_RE.sub("", str(source.get("company") or "").strip()))
     out = []
     for project in master.get("projects") or []:
+        linked = project.get("experience_id")
+        if linked:
+            if exp_id and linked == exp_id:
+                out.append(project)
+            continue
+        if not company:
+            continue
         text = _norm(f"{project.get('name') or ''} {project.get('description') or ''}")
         if company in text:
             out.append(project)
@@ -1037,6 +1052,51 @@ def _bullets_for_job(
     return chosen[:cap]
 
 
+FREELANCE_MAX = 3
+FREELANCE_MIN_HITS = 2
+_TECH_VERSION_RE = re.compile(r"\s+v?\d+(?:\.\d+)*$")
+
+
+def _project_tech_hit(tech: str, vacancy: str) -> bool:
+    """¿La vacante pide esta tecnología? «React» no cuenta si la vacante solo dice «React Native»."""
+    base = _TECH_VERSION_RE.sub("", tech).strip()
+    haystack = vacancy or ""
+    if _norm(base) == "react":
+        haystack = re.sub(r"react[\s-]*native|react[\s-]*navigation", " ", haystack, flags=re.IGNORECASE)
+    return _tech_in_vacancy(base, haystack)
+
+
+def _freelance_projects(master: dict, vacancy: str) -> list[ProjectItem]:
+    """Hasta 3 proyectos freelance que más aportan a la vacante; ninguno si no tienen relación.
+
+    Entra un proyecto si comparte al menos 2 tecnologías con la vacante. Puntaje: 2 por cada
+    tecnología en común y 1 por dominio o plataforma que la vacante menciona. El stack muestra
+    primero lo que pide la vacante, sin versiones.
+    """
+    scored: list[tuple[int, int, ProjectItem]] = []
+    for index, project in enumerate(master.get("projects") or []):
+        if project.get("engagement") != "freelance":
+            continue
+        line = str(project.get("cv_line") or "").strip()
+        name = str(project.get("name") or "").strip()
+        if not line or not name:
+            continue
+        techs: list[str] = []
+        for tech in project.get("technologies") or []:
+            clean = _TECH_VERSION_RE.sub("", str(tech).strip()).strip()
+            if clean and clean not in techs:
+                techs.append(clean)
+        hits = [t for t in techs if _project_tech_hit(t, vacancy)]
+        if len(hits) < FREELANCE_MIN_HITS:
+            continue
+        context = [str(w) for w in (project.get("domain") or []) + (project.get("platforms") or [])]
+        score = 2 * len(hits) + sum(1 for w in context if _tech_in_vacancy(w, vacancy))
+        stack = hits + [t for t in techs if t not in hits]
+        scored.append((score, -index, ProjectItem(name=name, line=line, stack=", ".join(stack[:5]))))
+    scored.sort(key=lambda row: (row[0], row[1]), reverse=True)
+    return [row[2] for row in scored[:FREELANCE_MAX]]
+
+
 def _contact(master: dict) -> dict[str, str]:
     contact = master.get("contact") or {}
     return {
@@ -1065,10 +1125,23 @@ def _apply_language(
     locale: str,
     protected: list[str],
     translator: Optional[Translator],
+    mixed: Optional[set[str]] = None,
 ) -> tuple[dict[str, str], dict]:
-    """Detecta el idioma de cada texto visible y traduce solo los que no coinciden."""
+    """Detecta el idioma de cada texto visible y traduce solo los que no coinciden.
+
+    ``mixed``: textos que se sabe que mezclan idiomas (p. ej. un bullet en inglés al que
+    ``_fix_how`` le puso el «cómo» del perfil, que está en español). La detección los ve como
+    del idioma correcto por mayoría, así que se mandan a traducir siempre.
+    """
+    other = "es" if locale == "en" else "en"
+
+    def detected(text: str) -> str:
+        if mixed and text in mixed:
+            return other
+        return detect_language(text, protected)
+
     items = [
-        LanguageItem(path=path, text=text, detected=detect_language(text, protected))
+        LanguageItem(path=path, text=text, detected=detected(text))
         for path, text in fields.items()
         if str(text or "").strip()
     ]
@@ -1193,7 +1266,7 @@ def _quality_pass(
             out[path] = result.text
 
     proof = {"ran": False, "changed": [], "rejected": [], "error": ""}
-    targets = [p for p in out if kind_for_path(p) in {"summary", "bullet"} and out[p].strip()]
+    targets = [p for p in out if kind_for_path(p) in {"summary", "bullet", "project"} and out[p].strip()]
     if proofreader and targets:
         for attempt in range(2):
             if attempt == 0:
@@ -1430,13 +1503,22 @@ def _build_cv(
         fields[f"experience[{i}].role"] = job.role
         for j, bullet in enumerate(job.bullets):
             fields[f"experience[{i}].bullets[{j}]"] = bullet
+    projects = _freelance_projects(master, vacancy_text)
+    for i, project in enumerate(projects):
+        fields[f"projects[{i}].line"] = project.line
     for name, labels in stack_labels.items():
         for k, label in enumerate(labels):
             fields[f"stack.{name}[{k}]"] = label
     for k, word in enumerate(keywords):
         fields[f"keywords[{k}]"] = word
     protected = protected_terms(master)
-    fixed, language_report = _apply_language(fields, locale, protected, translator)
+    # Bullets a los que se les puso el «cómo» del perfil en otro idioma: se traducen completos.
+    mixed = {
+        str(item["fixed"])
+        for item in weak
+        if item.get("fixed") and detect_language(str(item.get("how") or ""), protected) not in {locale, "unknown"}
+    }
+    fixed, language_report = _apply_language(fields, locale, protected, translator, mixed)
 
     experience = [
         job.model_copy(
@@ -1457,6 +1539,7 @@ def _build_cv(
         }
     )
     keywords = [fixed[f"keywords[{k}]"] for k in range(len(keywords))]
+    projects = [p.model_copy(update={"line": fixed[f"projects[{i}].line"]}) for i, p in enumerate(projects)]
     title = _title_case_level(fixed["title"])
     percents = percent_metric_values(master)
     summary = attach_percent_signs(localize_cv_wording(fixed["summary"], locale), percents)
@@ -1474,6 +1557,8 @@ def _build_cv(
     for i, job in enumerate(experience):
         for j, bullet in enumerate(job.bullets):
             polish[f"experience[{i}].bullets[{j}]"] = bullet
+    for i, project in enumerate(projects):
+        polish[f"projects[{i}].line"] = project.line
     polished, quality = _quality_pass(polish, locale, protected, proofreader)
     title = polished["title"]
     summary = polished["summary"]
@@ -1483,6 +1568,7 @@ def _build_cv(
         )
         for i, job in enumerate(experience)
     ]
+    projects = [p.model_copy(update={"line": polished[f"projects[{i}].line"]}) for i, p in enumerate(projects)]
 
     report = {
         "title_family": family,
@@ -1508,6 +1594,7 @@ def _build_cv(
         location=contact["location"] or base.location,
         summary=summary,
         experience=experience or base.experience,
+        projects=projects,
         stack=stack,
         tech_skills=stack_to_tech_skills(stack),
         education=education_line(master, locale) or base.education,

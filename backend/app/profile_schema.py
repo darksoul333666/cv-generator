@@ -87,6 +87,8 @@ class Project(_Loose):
     description: str = ""
     technologies: List[str] = Field(default_factory=list)
     contribution: Literal["", "full", "frontend", "backend", "lead"] = ""
+    experienceId: Optional[str] = None
+    engagement: Optional[Literal["employment", "freelance", "personal"]] = None
 
 
 class Education(_Loose):
@@ -275,6 +277,11 @@ def validate_profile(raw: Any) -> tuple[list[str], list[str]]:
         for dup in _duplicates(rows):
             errors.append(f"{key}: id repetido «{dup}»")
     errors += _date_order_errors([e for e in raw.get("experience") or [] if isinstance(e, dict)])
+    exp_ids = {str(e.get("id")) for e in raw.get("experience") or [] if isinstance(e, dict)}
+    for proj in raw.get("projects") or []:
+        linked = proj.get("experienceId") if isinstance(proj, dict) else None
+        if linked and linked not in exp_ids:
+            errors.append(f"proyecto «{proj.get('name')}»: experienceId «{linked}» no existe en experience")
     if errors:
         return errors, []
 

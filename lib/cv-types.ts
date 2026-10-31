@@ -5,6 +5,13 @@ export type Experience = {
   bullets: string[];
 };
 
+/** Proyecto freelance (cliente sin relación laboral): nombre, una línea con su cifra y el stack. */
+export type FreelanceProject = {
+  name: string;
+  line: string;
+  stack: string;
+};
+
 export type TechSkills = {
   front: string[];
   back: string[];
@@ -46,6 +53,8 @@ export type CVData = {
   location?: string;
   summary: string;
   experience: Experience[];
+  /** Hasta 3, elegidos por la vacante. Vacío = la sección no se muestra. */
+  projects?: FreelanceProject[];
   stack: CVStack;
   tech_skills: TechSkills;
   education: string;

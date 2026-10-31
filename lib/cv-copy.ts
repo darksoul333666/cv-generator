@@ -5,6 +5,8 @@ export type CvLocale = "en" | "es";
 export type CvCopy = {
   summary: string;
   experience: string;
+  projects: string;
+  stack: string;
   skills: string;
   education: string;
   certifications: string;
@@ -24,6 +26,8 @@ const COPY: Record<CvLocale, CvCopy> = {
   en: {
     summary: "PROFESSIONAL SUMMARY",
     experience: "PROFESSIONAL EXPERIENCE",
+    projects: "FREELANCE PROJECTS",
+    stack: "Stack",
     skills: "TECHNICAL SKILLS",
     education: "EDUCATION",
     certifications: "CERTIFICATIONS & ACHIEVEMENTS",
@@ -41,6 +45,8 @@ const COPY: Record<CvLocale, CvCopy> = {
   es: {
     summary: "RESUMEN PROFESIONAL",
     experience: "EXPERIENCIA PROFESIONAL",
+    projects: "PROYECTOS FREELANCE",
+    stack: "Stack",
     skills: "HABILIDADES TÉCNICAS",
     education: "FORMACIÓN ACADÉMICA",
     certifications: "CERTIFICACIONES Y LOGROS",

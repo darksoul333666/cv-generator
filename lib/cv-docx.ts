@@ -104,6 +104,15 @@ export function buildCvDocument(data: CVData): Document {
     }
   }
 
+  const projects = (data.projects ?? []).filter((p) => p.name.trim() && p.line.trim());
+  if (projects.length) {
+    children.push(sectionTitle(copy.projects));
+    for (const p of projects) {
+      const stack = p.stack.trim() ? ` ${copy.stack}: ${p.stack}.` : "";
+      children.push(bullet(`${p.name} — ${p.line}${stack}`));
+    }
+  }
+
   children.push(sectionTitle(copy.skills));
   const skillRows: [string, string][] = [
     [copy.frontend, data.stack.frontend],

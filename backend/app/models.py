@@ -63,6 +63,14 @@ class MasterSkills(BaseModel):
     softSkills: List[str] = Field(default_factory=list)
 
 
+class ProjectItem(BaseModel):
+    """Proyecto freelance en el CV: nombre, una línea con su cifra y el stack."""
+
+    name: str
+    line: str = ""
+    stack: str = ""
+
+
 class CvDocument(BaseModel):
     """Perfil base (plantilla React / PDF) + metadatos para el matcher."""
 
@@ -77,6 +85,7 @@ class CvDocument(BaseModel):
     location: str = ""
     summary: str = ""
     experience: List[ExperienceItem] = Field(default_factory=list)
+    projects: List[ProjectItem] = Field(default_factory=list)
     stack: StackBlock = Field(default_factory=StackBlock)
     tech_skills: TechSkills = Field(default_factory=TechSkills)
     education: str = ""

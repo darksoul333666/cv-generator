@@ -395,6 +395,12 @@ def build_compact_profile(raw: dict) -> dict:
                 "description": cv_facing_text(str(item.get("description") or "")),
                 # Qué parte hizo el candidato: full, frontend, backend o lead. Vacío = no se sabe.
                 "contribution": project_contribution(item),
+                # Empleo al que pertenece el proyecto (id de experience[]). Vacío = proyecto propio.
+                "experience_id": item.get("experienceId") or None,
+                # employment (dentro de un empleo), freelance (cliente sin relación laboral) o personal.
+                "engagement": item.get("engagement") or ("employment" if item.get("experienceId") else ""),
+                # Línea lista para el CV (proyectos freelance): qué es y su cifra, en español.
+                "cv_line": cv_facing_text(str(item.get("cvLine") or "")),
                 "domain": item.get("domain") or [],
                 "platforms": item.get("platforms") or [],
                 "features": item.get("features") or [],
@@ -513,6 +519,7 @@ def build_compact_profile(raw: dict) -> dict:
             "A project's contribution is the candidate's part: full = built frontend and backend; frontend = only the frontend (never claim its backend, APIs, AI models or infrastructure); backend = only the backend; lead = technical leadership. Empty = unknown: do not say 'end-to-end' or 'full development'.",
             "If an experience has empty dates, the dates are unverified: do not write any date for it.",
             "Items in personal_products_not_employment are not jobs. Do not list them as employers.",
+            "Projects with engagement=freelance were built for clients without employment. Never list them or their clients as employers, and never put them inside another job's bullets.",
             "Copy company names and dates exactly from experience[].",
             "Write job titles without Freelance/Freelancer in the title.",
             "Do not put Fintech in UffPay job titles unless the JOB DESCRIPTION explicitly asks for fintech or financial-services experience.",
@@ -539,6 +546,8 @@ def metric_text(metric: Optional[dict]) -> str:
     unit = str(metric.get("unit") or "").strip()
     if unit.lower() in {"percent", "%"}:
         return f"{value}%"
+    if isinstance(value, int) and value >= 1000:
+        value = f"{value:,}"  # 20000 → 20,000
     return f"{value} {unit}".strip()
 
 
@@ -627,6 +636,7 @@ def profile_for_prompt(compact: dict) -> dict:
                 "is_employment": bool(item.get("is_employment")),
                 "technologies": item.get("technologies") or [],
                 "contribution": item.get("contribution") or "",
+                "engagement": item.get("engagement") or "",
                 "description": desc,
                 "unknown": item.get("unknown") or [],
             }

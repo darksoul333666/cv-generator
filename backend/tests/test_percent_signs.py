@@ -35,3 +35,11 @@ class PercentSignTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+def test_thousands_are_not_percentages():
+    from app.locale_util import attach_percent_signs
+
+    assert attach_percent_signs("cerca de 20,000 usuarios al día", {"20"}) == "cerca de 20,000 usuarios al día"
+    assert attach_percent_signs("con 20.000 usuarios", {"20"}) == "con 20.000 usuarios"
+    assert attach_percent_signs("entregas 20 más rápidas", {"20"}) == "entregas 20% más rápidas"

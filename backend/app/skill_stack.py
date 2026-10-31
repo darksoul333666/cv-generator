@@ -52,7 +52,7 @@ _FRONTEND_LANGS = {
     "html",
 }
 
-_BACKEND_LANGS = {"sql", "php", "java"}
+_BACKEND_LANGS = {"sql", "php", "java", "python"}
 
 _FRONTEND_FRAMEWORKS = {"react native", "ionic"}
 
