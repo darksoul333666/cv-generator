@@ -76,8 +76,7 @@ def tailor_writing_rules() -> str:
         "Do not invent employers, dates, clients or numbers. Do not attach a metric to a project unless the "
         "profile's metrics[] names that project.\n"
         "Do not add Freelance or Freelancer to job titles.\n"
-        "Do not put Fintech in the UffPay job title unless this job description explicitly asks for fintech "
-        "or financial-services experience.\n"
+        "Do not add industry labels such as Fintech to job titles; the system adds them when it applies.\n"
         "Never drop achievement metrics: if a job has a number in the master, one bullet of that job must keep "
         "that same number. Vary the verb; do not start every metric bullet with Reducción/Reduced.\n"
     )

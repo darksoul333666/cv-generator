@@ -113,6 +113,8 @@ export type Experience = {
   id: string;
   company: string;
   roles: string[];
+  /** Etiquetas que el título puede llevar si la vacante las pide (p. ej. «Fintech»). */
+  titleQualifiers?: string[];
   employmentType: string | null;
   startDate: string | null;
   endDate: string | null;
@@ -143,6 +145,15 @@ export const PROJECT_CONTRIBUTION_LABELS: Record<ProjectContribution, string> = 
   lead: "Liderazgo técnico",
 };
 
+export type ProjectEngagement = "" | "employment" | "freelance" | "personal";
+
+export const PROJECT_ENGAGEMENT_LABELS: Record<ProjectEngagement, string> = {
+  "": "Sin definir",
+  employment: "Dentro de un empleo",
+  freelance: "Freelance (cliente, sin relación laboral)",
+  personal: "Proyecto personal",
+};
+
 export type Project = {
   id: string;
   name: string;
@@ -162,7 +173,9 @@ export type Project = {
   isEmployment: boolean;
   contribution?: ProjectContribution;
   experienceId?: string | null;
-  engagement?: "employment" | "freelance" | "personal";
+  engagement?: ProjectEngagement;
+  /** Línea para el CV de un proyecto freelance (español). */
+  cvLine?: string;
   relevantForRoles?: string[];
   relevantWhenVacancyNeeds?: string[];
 };
@@ -170,6 +183,8 @@ export type Project = {
 export type Education = {
   id: string;
   degree: string;
+  /** Nombre oficial en inglés para los CVs en inglés. */
+  degreeEn?: string;
   institution: string;
   startDate: string | null;
   endDate: string | null;
@@ -339,7 +354,8 @@ export type MasterProfile = {
   certifications: Certification[];
   languages: Language[];
   metrics: Metric[];
-  skillAliases: Record<string, SkillAliasEntry>;
+  /** Formato viejo: los alias viven ahora en skillCatalog[].aliases. */
+  skillAliases?: Record<string, SkillAliasEntry>;
   positioningProfiles: Record<string, PositioningProfile>;
   conflicts: Conflict[];
   careerTimeline: CareerTimelineEntry[];

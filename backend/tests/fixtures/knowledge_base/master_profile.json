@@ -1608,7 +1608,10 @@
           "Monitoreo en producción con Sentry y AWS CloudWatch"
         ],
         "source": "Declarado por el usuario el 2026-10-30"
-      }
+      },
+      "titleQualifiers": [
+        "Fintech"
+      ]
     },
     {
       "id": "exp_grainchain",
@@ -2958,7 +2961,8 @@
       ],
       "evidence": [
         "Declarado por el usuario el 2026-10-27: Ingeniería terminada en 2022 en la UTCV. Ningún CV fuente la menciona. UNRESOLVED: año de inicio."
-      ]
+      ],
+      "degreeEn": "Bachelor of Engineering in Software Development and Management"
     },
     {
       "degree": "TSU en Desarrollo de Software Multiplataforma (también referido como TSU Desarrollo y Gestión de Software / Associate's Degree in Multiplatform Software Development)",

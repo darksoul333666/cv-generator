@@ -97,3 +97,15 @@ def test_cli_exit_codes(raw, tmp_path, capsys):
     bad.write_text(json.dumps(raw), encoding="utf-8")
     assert validate_cli(["x", str(bad)]) == 1
     assert "ERROR" in capsys.readouterr().out
+
+
+def test_aliases_come_from_the_skill_catalog(raw):
+    from app.compact_master import build_compact_profile
+
+    data = copy.deepcopy(raw)
+    data.pop("skillAliases", None)
+    for row in data["skillCatalog"]:
+        if row["canonical"] == "Node.js":
+            row["aliases"] = ["Node", "NodeJS"]
+    aliases = build_compact_profile(data)["skill_aliases"]
+    assert set(aliases["Node.js"]) >= {"Node", "NodeJS"}

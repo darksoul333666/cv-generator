@@ -47,6 +47,7 @@ def pack_optimizer(
         "locale": locale,
         "verification": {k: v for k, v in report.items() if k != "notes"},
         "quality_score": (report.get("quality") or {}).get("score"),
+        "review": report.get("review"),
     }
     if extra_meta:
         raw_meta.update(extra_meta)

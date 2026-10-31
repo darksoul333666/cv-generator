@@ -167,22 +167,11 @@ def apply_user_validation(raw: dict[str, Any], field: str, resolved_value: str) 
         yoe["evidenceLevel"] = "verified"
         numeric = re.sub(r"[^\d.]", "", resolved_value)
         yoe["value"] = float(numeric) if numeric else None
-    elif field == "experience.Grainchain.startDate":
-        ex = _find_exp(raw, "exp_grainchain")
-        ex["startDate"] = resolved_value
-        ex["userValidated"] = True
-        if ex.get("endDate"):
-            ex["dateStatus"] = "verified"
-        _sync_timeline(raw, "exp_grainchain")
-    elif field == "experience.UffPay.startDate":
-        # Antes guardaba el rango completo («2024-01 – 2024-07») dentro de startDate.
-        ex = _find_exp(raw, "exp_uffpay")
+    elif _EXP_DATE_FIELD_RE.match(field):
+        # «experience.<Empresa o id>.startDate|dates»: cualquier empleo, sin nombres en el código.
+        ex = _exp_for_field(raw, _EXP_DATE_FIELD_RE.match(field).group("key"))
         _set_validated_range(ex, resolved_value, "PUT /v1/master-profile/validations")
-        _sync_timeline(raw, "exp_uffpay")
-    elif field == "experience.MonkeyCave.dates":
-        ex = _find_exp(raw, "exp_monkey_cave")
-        _set_validated_range(ex, resolved_value, "PUT /v1/master-profile/validations")
-        _sync_timeline(raw, "exp_monkey_cave")
+        _sync_timeline(raw, ex.get("id"))
     elif field == "languages.English.level":
         for lang in raw.get("languages") or []:
             if lang.get("id") == "lang_english":
@@ -226,11 +215,36 @@ ALLOWED_EMPLOYMENT = {
     "onsite",
 }
 
-CONFLICT_FIELDS_BY_EXP = {
-    "exp_grainchain": ["experience.Grainchain.startDate"],
-    "exp_uffpay": ["experience.UffPay.startDate"],
-    "exp_monkey_cave": ["experience.MonkeyCave.dates"],
-}
+_EXP_DATE_FIELD_RE = re.compile(r"^experience\.(?P<key>[^.]+)\.(?P<kind>startDate|dates)$")
+
+
+def _compact_key(text: Any) -> str:
+    return re.sub(r"[^a-z0-9]+", "", str(text or "").lower())
+
+
+def _exp_for_field(raw: dict[str, Any], key: str) -> dict[str, Any]:
+    """Empleo de un campo de validación: por id («exp_uffpay») o por empresa («UffPay», «MonkeyCave»)."""
+    wanted = _compact_key(key)
+    for ex in raw.get("experience") or []:
+        if ex.get("id") == key or _compact_key(ex.get("company")) == wanted or _compact_key(ex.get("id")) == f"exp{wanted}":
+            return ex
+    raise HTTPException(status_code=400, detail=f"Experiencia no encontrada: {key}")
+
+
+def _conflict_fields_for(raw: dict[str, Any], exp_id: str) -> list[str]:
+    """Campos de conflicto de fechas que apuntan a este empleo."""
+    out: list[str] = []
+    for conflict in raw.get("conflicts") or []:
+        field = str((conflict or {}).get("field") or "")
+        m = _EXP_DATE_FIELD_RE.match(field)
+        if not m:
+            continue
+        try:
+            if _exp_for_field(raw, m.group("key")).get("id") == exp_id:
+                out.append(field)
+        except HTTPException:
+            continue
+    return out
 
 
 def _norm_date(value: Optional[str]) -> Optional[str]:
@@ -389,7 +403,7 @@ def apply_experience_edits(raw: dict[str, Any], items: list[ExperienceEditItem])
             ]
         )
         if start or end or item.current:
-            for field in CONFLICT_FIELDS_BY_EXP.get(item.id, []):
+            for field in _conflict_fields_for(raw, item.id):
                 _mark_conflict_resolved(raw, field, resolved_range)
 
     for ex in raw.get("experience") or []:
@@ -485,6 +499,11 @@ class ProjectContentIn(BaseModel):
     description: str = ""
     # Tu parte en el proyecto: full, frontend, backend, lead o vacío (sin definir).
     contribution: Literal["", "full", "frontend", "backend", "lead"] = ""
+    # Empleo al que pertenece (id de experience); None = proyecto propio o freelance.
+    experienceId: Optional[str] = None
+    engagement: Optional[Literal["", "employment", "freelance", "personal"]] = None
+    # Línea para el CV de un proyecto freelance (qué es y su cifra).
+    cvLine: str = ""
     technologies: List[str] = Field(default_factory=list)
 
 
@@ -849,6 +868,13 @@ def _apply_projects(raw: dict[str, Any], items: list[ProjectContentIn]) -> set[s
         row["type"] = item.type.strip() or row.get("type") or "project"
         row["description"] = item.description.strip()
         row["contribution"] = item.contribution
+        exp_ids = {str(e.get("id")) for e in raw.get("experience") or [] if isinstance(e, dict)}
+        if item.experienceId and item.experienceId not in exp_ids:
+            raise HTTPException(status_code=400, detail=f"El proyecto «{name}» apunta a un empleo que no existe")
+        row["experienceId"] = item.experienceId or None
+        if item.engagement is not None:
+            row["engagement"] = item.engagement or None
+        row["cvLine"] = item.cvLine.strip()
         row["technologies"] = _clean_str_list(item.technologies)
         _mark_user_fact(row)
         if "isEmployment" not in row:

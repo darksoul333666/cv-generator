@@ -124,9 +124,11 @@ def test_methodology_does_not_leak_into_bullets(master):
 
 
 def test_no_double_parentheses_in_fintech_title():
-    title = polish_experience_title("UffPay", "Full Stack (React Native + Backend)", VACANCY_ES)
+    title = polish_experience_title("UffPay", "Full Stack (React Native + Backend)", VACANCY_ES, ["Fintech"])
     assert title == "Full Stack (React Native + Backend, Fintech)"
-    assert polish_experience_title("UffPay", "React Native Developer", VACANCY_ES) == "React Native Developer (Fintech)"
+    assert polish_experience_title("UffPay", "React Native Developer", VACANCY_ES, ["Fintech"]) == "React Native Developer (Fintech)"
+    # Sin «Fintech» en titleQualifiers del perfil, el título no lo lleva aunque la vacante lo pida.
+    assert polish_experience_title("UffPay", "React Native Developer", VACANCY_ES) == "React Native Developer"
 
 
 def test_skills_have_no_duplicates_across_rows(master):

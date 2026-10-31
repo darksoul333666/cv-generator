@@ -8,7 +8,12 @@ import type {
   ProjectDraft,
 } from "@/lib/profile-draft";
 import { newProfileId } from "@/lib/profile-draft";
-import { PROJECT_CONTRIBUTION_LABELS, type ProjectContribution } from "@/lib/master-profile";
+import {
+  PROJECT_CONTRIBUTION_LABELS,
+  PROJECT_ENGAGEMENT_LABELS,
+  type ProjectContribution,
+  type ProjectEngagement,
+} from "@/lib/master-profile";
 import { CollapseRow, Field, SectionCard, TextButton, fieldClass } from "@/components/profile-form";
 
 type IdentityProps = {
@@ -90,7 +95,12 @@ type ListProps<T> = {
   onChange: (items: T[]) => void;
 };
 
-export function ProjectEditor({ items, onChange }: ListProps<ProjectDraft>) {
+type ProjectEditorProps = ListProps<ProjectDraft> & {
+  /** Empleos para ligar un proyecto hecho dentro de un empleo. */
+  jobs?: Array<{ id: string; company: string }>;
+};
+
+export function ProjectEditor({ items, onChange, jobs = [] }: ProjectEditorProps) {
   const patch = (id: string, partial: Partial<ProjectDraft>) => {
     onChange(items.map((row) => (row.id === id ? { ...row, ...partial } : row)));
   };
@@ -110,6 +120,9 @@ export function ProjectEditor({ items, onChange }: ListProps<ProjectDraft>) {
                 type: "",
                 description: "",
                 contribution: "",
+                experienceId: "",
+                engagement: "",
+                cvLine: "",
                 technologiesText: "",
               },
             ])
@@ -157,6 +170,47 @@ export function ProjectEditor({ items, onChange }: ListProps<ProjectDraft>) {
                   ))}
                 </select>
               </Field>
+              <Field label="Tipo de trabajo">
+                <select
+                  value={row.engagement}
+                  onChange={(e) => patch(row.id, { engagement: e.target.value as ProjectEngagement })}
+                  className={fieldClass}
+                >
+                  {(Object.keys(PROJECT_ENGAGEMENT_LABELS) as ProjectEngagement[]).map((key) => (
+                    <option key={key || "none"} value={key}>
+                      {PROJECT_ENGAGEMENT_LABELS[key]}
+                    </option>
+                  ))}
+                </select>
+              </Field>
+              {row.engagement === "employment" ? (
+                <Field label="Empleo">
+                  <select
+                    value={row.experienceId}
+                    onChange={(e) => patch(row.id, { experienceId: e.target.value })}
+                    className={fieldClass}
+                  >
+                    <option value="">Elige el empleo</option>
+                    {jobs.map((job) => (
+                      <option key={job.id} value={job.id}>
+                        {job.company || job.id}
+                      </option>
+                    ))}
+                  </select>
+                </Field>
+              ) : null}
+              {row.engagement === "freelance" ? (
+                <div className="sm:col-span-2">
+                  <Field label="Línea para el CV (qué es y su cifra)">
+                    <input
+                      value={row.cvLine}
+                      placeholder="App iOS/Android de videollamadas con 3,000 usuarios."
+                      onChange={(e) => patch(row.id, { cvLine: e.target.value })}
+                      className={fieldClass}
+                    />
+                  </Field>
+                </div>
+              ) : null}
               <div className="sm:col-span-2">
                 <Field label="Descripción">
                   <textarea

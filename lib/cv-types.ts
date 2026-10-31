@@ -128,6 +128,21 @@ export type HistoryDetail = {
   regenerated_from?: string | null;
   /** Fechas omitidas, bullets descartados y textos sin traducir (verificación del backend). */
   notes_to_verify?: string[];
+  /** Nota de redacción y palabras clave de la vacante. Ausente en CVs generados antes. */
+  review?: CvReview | null;
+};
+
+/** Revisión que el backend calcula al generar el CV (app/cv_review.py). */
+export type CvReview = {
+  quality_score: number | null;
+  quality_errors: number;
+  quality_warnings: number;
+  quality_issues: string[];
+  coverage: {
+    matched: string[];
+    missing: string[];
+    percent: number | null;
+  };
 };
 
 export function pickCvData(profile: CvProfile): CVData {

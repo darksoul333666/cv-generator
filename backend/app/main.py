@@ -370,6 +370,7 @@ def _tailor_from_history(item_id: str) -> TailorResponse:
         match_percent=record.match_percent,
         reason=record.reason,
         notes_to_verify=record.notes_to_verify,
+        raw_meta={"review": record.review} if record.review else {},
         saved_id=record.id,
         cv_name=record.cv_name or None,
         company_name=record.company_name or None,
@@ -525,6 +526,7 @@ async def get_cv_history_item(item_id: str) -> HistoryDetailOut:
             status="ready",
             notes_to_verify=record.notes_to_verify,
             regenerated_from=record.regenerated_from,
+            review=record.review,
         )
     job = get_queue_job(item_id)
     if job is None:
@@ -565,6 +567,7 @@ async def rename_cv_history_item(item_id: str, body: HistoryRenameIn) -> History
         vacancy_url=record.vacancy_url,
         notes_to_verify=record.notes_to_verify,
         regenerated_from=record.regenerated_from,
+        review=record.review,
     )
 
 

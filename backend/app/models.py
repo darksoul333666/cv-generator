@@ -212,6 +212,8 @@ class HistoryDetailOut(BaseModel):
     queue_position: Optional[int] = None
     notes_to_verify: List[str] = Field(default_factory=list)
     regenerated_from: Optional[str] = None
+    # Nota de redacción y palabras clave de la vacante (ver app/cv_review.py). None en CVs viejos.
+    review: Optional[Dict[str, Any]] = None
 
 
 class HistoryRegenerateIn(BaseModel):

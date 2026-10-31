@@ -22,6 +22,7 @@ import { localDayKey } from "@/lib/daily-goal";
 import { downloadCvDocx } from "@/lib/docx-client";
 import { downloadCvPdfWithPuppeteer } from "@/lib/pdf-client";
 import { CVTemplate } from "./cv-template";
+import { CvReviewPanel } from "./cv-review-panel";
 
 function formatWhen(iso: string): string {
   const d = new Date(iso);
@@ -771,6 +772,7 @@ export function HistoryWorkbench() {
                       {retrying ? "Reencolando…" : "Reintentar generación"}
                     </button>
                   ) : null}
+                  {detail.review ? <CvReviewPanel review={detail.review} /> : null}
                   {detail.notes_to_verify && detail.notes_to_verify.length > 0 ? (
                     <details className="rounded-md border border-amber-200 bg-amber-50 p-3 text-xs text-amber-900">
                       <summary className="cursor-pointer font-medium">

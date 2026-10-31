@@ -148,8 +148,6 @@ def format_period(
     return start_s or str(end_s or "")
 
 
-_TSU_DEGREE = "tsu en desarrollo de software multiplataforma"
-_ING_DEGREE = "ingeniería en desarrollo y gestión de software"
 
 
 _LANGUAGE_NAMES = {
@@ -182,13 +180,15 @@ def language_lines(master: dict, locale: Locale) -> list[str]:
 
 
 def education_line(master: dict, locale: Locale) -> str:
+    """«Título — Institución (año)». En inglés usa ``degree_en`` del perfil: «Bachelor … (Ingeniería …)»."""
     lines: list[str] = []
     for item in master.get("education") or []:
         if not isinstance(item, dict):
             continue
-        raw_degree = str(item.get("degree") or "").strip()
-        if "también referido" in raw_degree.lower():
-            raw_degree = raw_degree.split("(")[0].strip()
+        degree = str(item.get("degree") or "").strip()
+        degree_en = str(item.get("degree_en") or item.get("degreeEn") or "").strip()
+        if locale == "en" and degree_en:
+            degree = f"{degree_en} ({degree})" if degree else degree_en
         institution = str(item.get("institution") or "").strip()
         year = (
             item.get("graduation_year")
@@ -198,17 +198,6 @@ def education_line(master: dict, locale: Locale) -> str:
             or ""
         )
         year_s = str(year).strip()
-        degree = raw_degree
-        if locale == "en" and _TSU_DEGREE in raw_degree.lower():
-            degree = (
-                "Associate Degree in Multiplatform Software Development "
-                "(TSU en Desarrollo de Software Multiplataforma)"
-            )
-        elif locale == "en" and _ING_DEGREE in raw_degree.lower():
-            degree = (
-                "Bachelor of Engineering in Software Development and Management "
-                "(Ingeniería en Desarrollo y Gestión de Software)"
-            )
         parts = [p for p in (degree, institution) if p]
         line = " — ".join(parts)
         if year_s:
@@ -286,13 +275,18 @@ def vacancy_asks_fintech(vacancy_text: str) -> bool:
     return bool(_FINTECH_VACANCY_RE.search(vacancy_text or ""))
 
 
-def polish_experience_title(company: str, position: str, vacancy_text: str = "") -> str:
-    """Títulos serios: sin freelance; (Fintech) en UffPay solo si la vacante lo pide."""
+def polish_experience_title(
+    company: str,
+    position: str,
+    vacancy_text: str = "",
+    qualifiers: Optional[list[str]] = None,
+) -> str:
+    """Títulos serios: sin «Freelance». «Fintech» solo si el empleo lo tiene en ``titleQualifiers``
+    del perfil y la vacante pide fintech; si no, se quita."""
     title = strip_freelance_from_title(position)
-    if "uffpay" not in (company or "").lower():
-        return title
+    allowed = {str(q).strip().lower() for q in qualifiers or []}
     title = _FINTECH_TITLE_RE.sub("", title).strip(" ,—–-")
-    if vacancy_asks_fintech(vacancy_text) and "fintech" not in title.lower():
+    if "fintech" in allowed and vacancy_asks_fintech(vacancy_text) and "fintech" not in title.lower():
         if title.endswith(")"):
             # «Full Stack (React Native + Backend)» → «… + Backend, Fintech)», sin doble paréntesis.
             title = f"{title[:-1]}, Fintech)"

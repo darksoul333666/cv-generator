@@ -159,6 +159,7 @@ _EN_IRREGULAR = {
 _ES_IRREGULAR = {
     "reduje", "hice", "mantuve", "propuse", "introduje", "obtuve", "conduje", "dirigí", "construí", "distribuí",
     "produje", "traduje", "compuse", "dispuse", "supe", "tuve", "puse", "rehíce", "rehice", "deduje", "atraje",
+    "fui", "di", "estuve", "anduve", "vine", "quise", "pude",
 }
 _ES_PRETERITE = re.compile(r"^[a-záéíóúñ]+(?:é|ó|í)$", re.IGNORECASE)
 

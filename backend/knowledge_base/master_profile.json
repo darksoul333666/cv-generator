@@ -281,7 +281,10 @@
     {
       "id": "skill_javascript_es6",
       "canonical": "JavaScript (ES6+)",
-      "aliases": [],
+      "aliases": [
+        "JS",
+        "JavaScript"
+      ],
       "categories": [
         "languages"
       ],
@@ -1683,11 +1686,11 @@
         "mobile"
       ],
       "responsibilities": [
-        "App fintech en React Native para pagos, transferencias y recargas",
-        "Integración con Cybersource para procesamiento de pagos",
-        "Integración con Neonet para procesamiento de pagos",
-        "Backend con AdonisJS",
-        "Validaciones y mejoras de UX en flujos de pago"
+        "Desarrollé la app fintech en React Native para pagos, transferencias y recargas",
+        "Integré Cybersource para el procesamiento de pagos",
+        "Integré Neonet para el procesamiento de pagos",
+        "Desarrollé el backend con AdonisJS",
+        "Implementé validaciones y mejoras de UX en los flujos de pago"
       ],
       "technologies": [
         "React Native",
@@ -1700,7 +1703,7 @@
       ],
       "achievements": [
         {
-          "description": "Reducción de errores en flujos de pago: pagos rechazados, correos y mensajes que no se enviaban y cierres inesperados de la app",
+          "description": "Reduje los errores en los flujos de pago: pagos rechazados, correos y mensajes no enviados, y cierres inesperados de la app",
           "metric": {
             "value": 25.0,
             "unit": "percent",
@@ -1722,7 +1725,7 @@
           }
         },
         {
-          "description": "Optimización de tiempos de respuesta en APIs",
+          "description": "Optimicé los tiempos de respuesta de las APIs",
           "metric": {
             "value": 62.0,
             "unit": "percent",
@@ -1776,13 +1779,16 @@
       "roleScope": {
         "teamSize": 4,
         "highlights": [
-          "Desarrollo de punta a punta de la app móvil en React Native",
-          "Backend con AdonisJS además de la app",
-          "Integraciones de pago con Cybersource y Neonet",
-          "Monitoreo en producción con Sentry y AWS CloudWatch"
+          "Desarrollé de punta a punta la app móvil en React Native",
+          "Desarrollé el backend con AdonisJS además de la app",
+          "Integré los pagos con Cybersource y Neonet",
+          "Monitoreé producción con Sentry y AWS CloudWatch"
         ],
         "source": "Declarado por el usuario el 2026-10-30"
-      }
+      },
+      "titleQualifiers": [
+        "Fintech"
+      ]
     },
     {
       "id": "exp_grainchain",
@@ -1816,14 +1822,14 @@
         "enterprise"
       ],
       "responsibilities": [
-        "Desarrollo de dashboards financieros con Angular y Angular Material",
-        "Manejo de estado con NgRx para aplicaciones escalables",
-        "Optimización de tablas complejas y virtualización de datos; uso de charts y dashboards",
-        "Interfaces responsive para usabilidad en móvil",
-        "Internacionalización (i18n) con ngx-translate",
-        "Mejora de performance con lazy loading y change detection",
-        "Uso avanzado de Signals y RxJS",
-        "Colaboración con backend y cloud para despliegues"
+        "Desarrollé dashboards financieros con Angular y Angular Material",
+        "Manejé el estado con NgRx en aplicaciones escalables",
+        "Optimicé tablas complejas con virtualización de datos e integré charts en los dashboards",
+        "Construí interfaces responsive para su uso en móvil",
+        "Implementé la internacionalización (i18n) con ngx-translate",
+        "Mejoré el performance con lazy loading y change detection",
+        "Usé Signals y RxJS de forma avanzada",
+        "Colaboré con los equipos de backend y cloud en los despliegues"
       ],
       "technologies": [
         "Angular",
@@ -1835,7 +1841,7 @@
       ],
       "achievements": [
         {
-          "description": "Reducción del tiempo de carga de las tablas de préstamos de 8 s a 3 s",
+          "description": "Reduje el tiempo de carga de las tablas de préstamos de 8 s a 3 s",
           "metric": {
             "value": 62.0,
             "unit": "percent",
@@ -1885,9 +1891,9 @@
       "roleScope": {
         "teamSize": 4,
         "highlights": [
-          "Responsable principal del frontend",
-          "Decisiones de arquitectura del frontend: estructura, manejo de estado y patrones",
-          "Code reviews y mentoría a otros desarrolladores"
+          "Fui el responsable principal del frontend",
+          "Tomé las decisiones de arquitectura del frontend: estructura, manejo de estado y patrones",
+          "Hice code reviews y di mentoría a otros desarrolladores"
         ],
         "source": "Declarado por el usuario el 2026-10-30"
       }
@@ -1950,12 +1956,12 @@
         "food service"
       ],
       "responsibilities": [
-        "Desarrollo de aplicaciones para clientes enterprise: Volaris, Doña Tota, Golden Corral y Viva Aerobús",
-        "Funcionalidades escalables en entornos productivos",
-        "Aplicaciones web con React y Next.js (SSR, routing, performance)",
-        "Integración con APIs y mejora de UX en flujos críticos",
-        "Definición y seguimiento de métricas de calidad (deuda técnica, retrabajo, mantenibilidad)",
-        "Integración de Stripe Payments en aplicaciones fintech"
+        "Desarrollé aplicaciones para clientes enterprise: Volaris, Doña Tota, Golden Corral y Viva Aerobús",
+        "Entregué funcionalidades escalables en entornos productivos",
+        "Desarrollé aplicaciones web con React y Next.js (SSR, routing, performance)",
+        "Integré APIs y mejoré la UX en flujos críticos",
+        "Definí y di seguimiento a métricas de calidad (deuda técnica, retrabajo, mantenibilidad)",
+        "Integré Stripe Payments en aplicaciones fintech"
       ],
       "technologies": [
         "Angular",
@@ -1965,7 +1971,7 @@
       ],
       "achievements": [
         {
-          "description": "Reducción del tiempo de carga de vuelos en Volaris Manifest de 10 s a 3 s",
+          "description": "Reduje el tiempo de carga de vuelos en Volaris Manifest de 10 s a 3 s",
           "metric": {
             "value": 70.0,
             "unit": "percent",
@@ -1993,7 +1999,7 @@
           "project": "Volaris Manifest"
         },
         {
-          "description": "Entrega continua de features reduciendo tiempos de desarrollo",
+          "description": "Reduje los tiempos de desarrollo con entrega continua de features",
           "metric": {
             "value": 20.0,
             "unit": "percent",
@@ -2036,10 +2042,10 @@
       "roleScope": {
         "teamSize": "6–8",
         "highlights": [
-          "Frontend principal de Volaris Manifest",
-          "Trabajo simultáneo en proyectos de varios clientes: Volaris, Doña Tota, Tecnológico de Monterrey y Baker Tilly",
-          "Definición de métricas de calidad del equipo con DORA y story points",
-          "Code reviews y mentoría a otros desarrolladores"
+          "Fui el desarrollador frontend principal de Volaris Manifest",
+          "Trabajé en paralelo en proyectos de varios clientes: Volaris, Doña Tota, Tecnológico de Monterrey y Baker Tilly",
+          "Definí las métricas de calidad del equipo con DORA y story points",
+          "Hice code reviews y di mentoría a otros desarrolladores"
         ],
         "source": "Declarado por el usuario el 2026-10-30"
       }
@@ -2075,13 +2081,13 @@
         "leadership"
       ],
       "responsibilities": [
-        "Liderazgo técnico del equipo de desarrollo en proyectos frontend",
-        "Definición de arquitectura, stack y estándares de desarrollo",
-        "Code reviews, testing y organización de sprints",
-        "Asignación de actividades y revisión de avances individuales",
-        "Reuniones con cliente y gestión de aplicaciones en tienda",
-        "Selección de tecnologías y frameworks",
-        "Desarrollo de la app Hoppi en React Native CLI con backend en Express.js y MongoDB"
+        "Lideré técnicamente al equipo de desarrollo en proyectos frontend",
+        "Definí la arquitectura, el stack y los estándares de desarrollo",
+        "Hice code reviews y testing, y organicé los sprints",
+        "Asigné actividades y revisé los avances individuales",
+        "Dirigí reuniones con clientes y gestioné las aplicaciones en las tiendas",
+        "Seleccioné tecnologías y frameworks",
+        "Desarrollé la app Hoppi en React Native CLI con backend en Express.js y MongoDB"
       ],
       "technologies": [
         "SonarQube",
@@ -2095,7 +2101,7 @@
       ],
       "achievements": [
         {
-          "description": "Aumento de actividades cerradas por sprint",
+          "description": "Aumenté las actividades cerradas por sprint",
           "metric": {
             "value": 25.0,
             "unit": "percent",
@@ -2116,7 +2122,7 @@
           }
         },
         {
-          "description": "Reducción de bugs en producción y mejores tiempos de liberación",
+          "description": "Reduje los bugs en producción y mejoré los tiempos de liberación",
           "metric": {
             "value": null,
             "unit": "",
@@ -2136,7 +2142,7 @@
           }
         },
         {
-          "description": "Reducción del tiempo de carga del carrusel de usuarios de Hoppi de 28 s a 2 s",
+          "description": "Reduje el tiempo de carga del carrusel de usuarios de Hoppi de 28 s a 2 s",
           "metric": {
             "value": 92.0,
             "unit": "percent",
@@ -2168,7 +2174,7 @@
           "project": "Hoppi get together"
         },
         {
-          "description": "Publicación de Hoppi en Play Store y App Store: 5,000 descargas y más de 4,000 usuarios",
+          "description": "Publiqué Hoppi en Play Store y App Store: 5,000 descargas y más de 4,000 usuarios",
           "metric": {
             "value": 5000,
             "unit": "downloads",
@@ -2204,9 +2210,9 @@
       "roleScope": {
         "teamSize": 5,
         "highlights": [
-          "Liderazgo técnico de un equipo de 5 personas",
-          "Calidad de código con SonarQube y métricas DORA",
-          "Definición de estándares y patrones de arquitectura"
+          "Lideré técnicamente a un equipo de 5 personas",
+          "Mejoré la calidad del código con SonarQube y métricas DORA",
+          "Definí estándares y patrones de arquitectura"
         ],
         "source": "Declarado por el usuario el 2026-10-30"
       }
@@ -2234,16 +2240,16 @@
         "fullstack"
       ],
       "responsibilities": [
-        "Desarrollo del módulo de navegación (navbar) con categorías y productos",
-        "Código sostenible y escalable con equipos de backend, frontend, QA y DevOps",
-        "Creación de screens a partir de UX/maquetación",
-        "Desarrollo de módulos de lógica de negocio",
-        "Testing unitario",
-        "Módulos en API REST",
-        "Administración de base de datos",
-        "Despliegue a producción",
-        "Actualizaciones push/hot reloading",
-        "Servicios de envío de SMS/MAIL"
+        "Desarrollé el módulo de navegación (navbar) con categorías y productos",
+        "Escribí código sostenible y escalable junto a los equipos de backend, frontend, QA y DevOps",
+        "Creé pantallas a partir de diseños UX",
+        "Desarrollé módulos de lógica de negocio",
+        "Escribí pruebas unitarias",
+        "Desarrollé módulos de API REST",
+        "Administré la base de datos",
+        "Desplegué a producción",
+        "Implementé actualizaciones push y hot reloading",
+        "Implementé servicios de envío de SMS y correo"
       ],
       "technologies": [
         "React Native",
@@ -2284,11 +2290,11 @@
         "lending"
       ],
       "responsibilities": [
-        "Dos proyectos para Compartamos Banco: captación y registro de grupos de préstamo para autorización y liberación de créditos",
-        "Integración de Redux para estado",
-        "Código bajo requerimientos y reglas de negocio",
-        "Migración de core de Angular y dependencias",
-        "Módulos de actualización en tiempo real"
+        "Desarrollé dos proyectos para Compartamos Banco: captación y registro de grupos de préstamo para autorización y liberación de créditos",
+        "Integré Redux para el manejo de estado",
+        "Implementé requerimientos y reglas de negocio",
+        "Migré el core de Angular y sus dependencias",
+        "Desarrollé módulos de actualización en tiempo real"
       ],
       "technologies": [
         "Angular",
@@ -2296,7 +2302,7 @@
       ],
       "achievements": [
         {
-          "description": "Desarrollo del módulo de enrolamiento que usan los asesores en campo para registrar a las clientas de Compartamos Banco, con cerca de 20,000 usuarios procesados al día",
+          "description": "Desarrollé el módulo de enrolamiento que usan los asesores en campo para registrar a las clientas de Compartamos Banco, con cerca de 20,000 usuarios procesados al día",
           "metric": {
             "value": 20000,
             "unit": "users/day",
@@ -2348,11 +2354,11 @@
         "mobile"
       ],
       "responsibilities": [
-        "Diseño, planeación, codificación y despliegue de app móvil HVAC",
-        "Gestión de inventario, estadísticas de rentabilidad y envío de productos a e-commerce",
-        "UX/maquetación",
-        "Subida de media al servidor",
-        "Generación y lectura de códigos QR y de barras"
+        "Diseñé, planeé, desarrollé y desplegué la app móvil HVAC",
+        "Implementé la gestión de inventario, las estadísticas de rentabilidad y el envío de productos a e-commerce",
+        "Maqueté la UX de la app",
+        "Implementé la subida de archivos multimedia al servidor",
+        "Implementé la generación y lectura de códigos QR y de barras"
       ],
       "technologies": [
         "Ionic",
@@ -2361,7 +2367,7 @@
       ],
       "achievements": [
         {
-          "description": "Reducción del tiempo de inventario de 5 días a 1 día con la app Saldo HVAC, gestionando más de 1,100 productos",
+          "description": "Reduje el tiempo de inventario de 5 días a 1 día con la app Saldo HVAC, gestionando más de 1,100 productos",
           "metric": {
             "value": 80.0,
             "unit": "percent",
@@ -2401,12 +2407,12 @@
       "roleScope": {
         "teamSize": 5,
         "highlights": [
-          "Desarrollo Móvil usando Ionic",
-          "Desarrollo Angular",
-          "Publicación en Play Store",
-          "Publicación en App Store",
-          "Captura de fotos, videos y documentos desde Ionic",
-          "Capacitor"
+          "Desarrollé la app móvil con Ionic",
+          "Desarrollé con Angular",
+          "Publiqué la app en Play Store",
+          "Publiqué la app en App Store",
+          "Implementé la captura de fotos, videos y documentos desde Ionic",
+          "Usé Capacitor en la app Ionic"
         ],
         "source": "Declarado por el usuario el 2026-10-31"
       }
@@ -2438,10 +2444,10 @@
         "payments"
       ],
       "responsibilities": [
-        "Desarrollo móvil con Ionic para clientes de distribución de tecnología",
-        "UX/maquetación y creación de proyecto Ionic",
-        "Integración de métodos de pago (Stripe, Mercado Pago, PayPal)",
-        "Autenticación vía SMS"
+        "Desarrollé apps móviles con Ionic para clientes de distribución de tecnología",
+        "Maqueté la UX y creé el proyecto Ionic",
+        "Integré métodos de pago (Stripe, Mercado Pago, PayPal)",
+        "Implementé la autenticación vía SMS"
       ],
       "technologies": [
         "Ionic",
@@ -2454,7 +2460,7 @@
       ],
       "achievements": [
         {
-          "description": "App móvil con 400 usuarios para el pago de servicios de internet, soporte técnico y productos de tecnología",
+          "description": "Desarrollé una app móvil con 400 usuarios para el pago de servicios de internet, soporte técnico y productos de tecnología",
           "metric": {
             "value": 400,
             "unit": "users",
@@ -3307,7 +3313,8 @@
       "evidence": [
         "Declarado por el usuario el 2026-10-27: Ingeniería terminada en 2022 en la UTCV. Ningún CV fuente la menciona.",
         "Confirmado por el usuario el 2026-10-31: empezó en 2018."
-      ]
+      ],
+      "degreeEn": "Bachelor of Engineering in Software Development and Management"
     },
     {
       "degree": "Técnico en soporte y mantenimiento a equipo de cómputo",
@@ -3516,7 +3523,7 @@
       "value": 25.0,
       "unit": "percent",
       "type": "user_metric",
-      "description": "Reducción de errores en flujos de pago: pagos rechazados, correos y mensajes que no se enviaban y cierres inesperados de la app",
+      "description": "Reduje los errores en los flujos de pago: pagos rechazados, correos y mensajes no enviados, y cierres inesperados de la app",
       "company": "UffPay",
       "project": "",
       "status": "user_validated",
@@ -3537,7 +3544,7 @@
       "value": 62.0,
       "unit": "percent",
       "type": "user_metric",
-      "description": "Optimización de tiempos de respuesta en APIs",
+      "description": "Optimicé los tiempos de respuesta de las APIs",
       "company": "UffPay",
       "project": "",
       "status": "user_validated",
@@ -3566,7 +3573,7 @@
       "value": 62.0,
       "unit": "percent",
       "type": "user_metric",
-      "description": "Reducción del tiempo de carga de las tablas de préstamos de 8 s a 3 s",
+      "description": "Reduje el tiempo de carga de las tablas de préstamos de 8 s a 3 s",
       "company": "Grainchain Inc",
       "project": "",
       "status": "user_validated",
@@ -3587,7 +3594,7 @@
       "value": 70.0,
       "unit": "percent",
       "type": "user_metric",
-      "description": "Reducción del tiempo de carga de vuelos en Volaris Manifest de 10 s a 3 s",
+      "description": "Reduje el tiempo de carga de vuelos en Volaris Manifest de 10 s a 3 s",
       "company": "Lumston",
       "project": "Volaris Manifest",
       "status": "user_validated",
@@ -3608,7 +3615,7 @@
       "value": 20.0,
       "unit": "percent",
       "type": "user_metric",
-      "description": "Entrega continua de features reduciendo tiempos de desarrollo",
+      "description": "Reduje los tiempos de desarrollo con entrega continua de features",
       "company": "Lumston",
       "project": "",
       "status": "user_validated",
@@ -3629,7 +3636,7 @@
       "value": 25.0,
       "unit": "percent",
       "type": "user_metric",
-      "description": "Aumento de actividades cerradas por sprint",
+      "description": "Aumenté las actividades cerradas por sprint",
       "company": "Monkey Cave",
       "project": "",
       "status": "user_validated",
@@ -3650,7 +3657,7 @@
       "value": 92.0,
       "unit": "percent",
       "type": "user_metric",
-      "description": "Reducción del tiempo de carga del carrusel de usuarios de Hoppi de 28 s a 2 s",
+      "description": "Reduje el tiempo de carga del carrusel de usuarios de Hoppi de 28 s a 2 s",
       "company": "Monkey Cave",
       "project": "Hoppi get together",
       "status": "user_validated",
@@ -3668,7 +3675,7 @@
       "value": 5000,
       "unit": "downloads",
       "type": "scale",
-      "description": "Publicación de Hoppi en Play Store y App Store: 5,000 descargas y más de 4,000 usuarios",
+      "description": "Publiqué Hoppi en Play Store y App Store: 5,000 descargas y más de 4,000 usuarios",
       "company": "Monkey Cave",
       "project": "Hoppi get together",
       "status": "user_validated",
@@ -3686,7 +3693,7 @@
       "value": 20000,
       "unit": "users/day",
       "type": "scale",
-      "description": "Desarrollo del módulo de enrolamiento que usan los asesores en campo para registrar a las clientas de Compartamos Banco, con cerca de 20,000 usuarios procesados al día",
+      "description": "Desarrollé el módulo de enrolamiento que usan los asesores en campo para registrar a las clientas de Compartamos Banco, con cerca de 20,000 usuarios procesados al día",
       "company": "Multiplica",
       "project": "",
       "status": "user_validated",
@@ -3704,7 +3711,7 @@
       "value": 80.0,
       "unit": "percent",
       "type": "user_metric",
-      "description": "Reducción del tiempo de inventario de 5 días a 1 día con la app Saldo HVAC, gestionando más de 1,100 productos",
+      "description": "Reduje el tiempo de inventario de 5 días a 1 día con la app Saldo HVAC, gestionando más de 1,100 productos",
       "company": "Nano Degree",
       "project": "Saldo HVAC",
       "status": "user_validated",
@@ -3722,7 +3729,7 @@
       "value": 400,
       "unit": "users",
       "type": "scale",
-      "description": "App móvil con 400 usuarios para el pago de servicios de internet, soporte técnico y productos de tecnología",
+      "description": "Desarrollé una app móvil con 400 usuarios para el pago de servicios de internet, soporte técnico y productos de tecnología",
       "company": "Centro Tecnológico Zongolica",
       "project": "",
       "status": "user_validated",
@@ -3736,111 +3743,6 @@
       "requiresUserValidation": false
     }
   ],
-  "skillAliases": {
-    "Node.js": {
-      "id": "skill_nodejs",
-      "canonical": "Node.js",
-      "aliases": [
-        "Node",
-        "Node Js",
-        "NodeJS"
-      ]
-    },
-    "PostgreSQL": {
-      "id": "skill_postgresql",
-      "canonical": "PostgreSQL",
-      "aliases": [
-        "Postgres"
-      ]
-    },
-    "MongoDB": {
-      "id": "skill_mongodb",
-      "canonical": "MongoDB",
-      "aliases": [
-        "Mongo",
-        "Mongo DB"
-      ]
-    },
-    "React Native": {
-      "id": "skill_react_native",
-      "canonical": "React Native",
-      "aliases": [
-        "RN",
-        "ReactNative"
-      ]
-    },
-    "JavaScript": {
-      "id": "skill_javascript",
-      "canonical": "JavaScript",
-      "aliases": [
-        "JS",
-        "Javascript"
-      ]
-    },
-    "TypeScript": {
-      "id": "skill_typescript",
-      "canonical": "TypeScript",
-      "aliases": [
-        "TS"
-      ]
-    },
-    "Next.js": {
-      "id": "skill_nextjs",
-      "canonical": "Next.js",
-      "aliases": [
-        "Next",
-        "Next JS",
-        "Next Js"
-      ]
-    },
-    "NestJS": {
-      "id": "skill_nestjs",
-      "canonical": "NestJS",
-      "aliases": [
-        "Nest"
-      ]
-    },
-    "Express.js": {
-      "id": "skill_expressjs",
-      "canonical": "Express.js",
-      "aliases": [
-        "Express"
-      ]
-    },
-    "React": {
-      "id": "skill_react",
-      "canonical": "React",
-      "aliases": [
-        "React JS"
-      ]
-    },
-    "Stripe": {
-      "id": "skill_stripe",
-      "canonical": "Stripe",
-      "aliases": [
-        "Strip"
-      ]
-    },
-    "CCNA": {
-      "id": "skill_ccna",
-      "canonical": "CCNA",
-      "aliases": [
-        "CNNA"
-      ]
-    },
-    "Vue": {
-      "id": "skill_vue",
-      "canonical": "Vue",
-      "aliases": [
-        "Vue.js"
-      ]
-    },
-    "Angular": {
-      "id": "skill_angular",
-      "canonical": "Angular",
-      "aliases": []
-    }
-  },
   "positioningProfiles": {
     "Senior Angular Developer": {
       "id": "pos_senior_angular_developer",
@@ -5108,6 +5010,25 @@
           "Fatima's Bakery: más de 40 sucursales"
         ],
         "resolvedValue": "Sortalia 200 usuarios; Fatima's Bakery 15 sucursales; Desansiedad 3,000 usuarios; Pilsar más de 230 compras",
+        "resolvedAt": "2026-10-31",
+        "source": "user"
+      },
+      {
+        "field": "experience.wording",
+        "previousValues": [
+          "Hechos en forma de sustantivo"
+        ],
+        "resolvedValue": "Responsabilidades, logros y alcance reescritos con verbo en pasado (sin cambiar datos)",
+        "resolvedAt": "2026-10-31",
+        "source": "user"
+      },
+      {
+        "field": "schema",
+        "previousValues": [
+          "skillAliases",
+          "traducción del título y regla Fintech en el código"
+        ],
+        "resolvedValue": "Alias en skillCatalog; degreeEn en educación; titleQualifiers en UffPay",
         "resolvedAt": "2026-10-31",
         "source": "user"
       }

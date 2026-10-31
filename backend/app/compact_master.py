@@ -166,25 +166,30 @@ def _unique_skills(skills: dict) -> list[str]:
 
 
 def _skill_aliases(raw: dict) -> dict[str, list[str]]:
+    """Alias por skill. Fuente: ``skillCatalog[].aliases``; ``skillAliases`` (formato viejo) se
+    sigue leyendo si existe."""
     out: dict[str, list[str]] = {}
-    source = raw.get("skillAliases") or {}
-    if not isinstance(source, dict):
-        return out
-    for key, val in source.items():
-        if isinstance(val, dict):
-            canon = str(val.get("canonical") or key).strip()
-            aliases = [str(a).strip() for a in (val.get("aliases") or []) if str(a).strip()]
-        elif isinstance(val, list):
-            canon = str(key).strip()
-            aliases = [str(a).strip() for a in val if str(a).strip()]
-        else:
-            continue
+
+    def add(canon: str, aliases: list) -> None:
+        canon = str(canon or "").strip()
         if not canon:
-            continue
+            return
         bucket = out.setdefault(canon, [])
-        for alias in aliases:
-            if alias not in bucket:
+        for alias in aliases or []:
+            alias = str(alias).strip()
+            if alias and alias not in bucket and alias != canon:
                 bucket.append(alias)
+
+    for row in raw.get("skillCatalog") or []:
+        if isinstance(row, dict) and row.get("aliases"):
+            add(row.get("canonical"), row.get("aliases"))
+    legacy = raw.get("skillAliases") or {}
+    if isinstance(legacy, dict):
+        for key, val in legacy.items():
+            if isinstance(val, dict):
+                add(val.get("canonical") or key, val.get("aliases") or [])
+            elif isinstance(val, list):
+                add(key, val)
     return out
 
 
@@ -348,6 +353,8 @@ def build_compact_profile(raw: dict) -> dict:
                 "id": item.get("id"),
                 "company": company,
                 "positions": item.get("roles") or [],
+                # Etiquetas que el título puede llevar si la vacante las pide (p. ej. «Fintech»).
+                "title_qualifiers": item.get("titleQualifiers") or [],
                 "employment_type": item.get("employmentType"),
                 # Fechas en conflicto no salen: ni al modelo ni al CV.
                 "dates": dates_text,
@@ -421,6 +428,8 @@ def build_compact_profile(raw: dict) -> dict:
         education_out.append(
             {
                 "degree": item.get("degree"),
+                # Nombre oficial en inglés para los CVs en inglés (p. ej. «Bachelor of Engineering …»).
+                "degree_en": item.get("degreeEn") or None,
                 "institution": item.get("institution"),
                 "start_date": item.get("startDate"),
                 "end_date": item.get("endDate"),
@@ -522,7 +531,7 @@ def build_compact_profile(raw: dict) -> dict:
             "Projects with engagement=freelance were built for clients without employment. Never list them or their clients as employers, and never put them inside another job's bullets.",
             "Copy company names and dates exactly from experience[].",
             "Write job titles without Freelance/Freelancer in the title.",
-            "Do not put Fintech in UffPay job titles unless the JOB DESCRIPTION explicitly asks for fintech or financial-services experience.",
+            "Do not add industry labels such as Fintech to job titles: the system adds them when the profile allows it and the JOB DESCRIPTION asks for that industry.",
             "Only use metrics listed in metrics[] or in experience[].achievements.",
         ],
     }

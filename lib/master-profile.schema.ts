@@ -93,6 +93,7 @@ const experienceSchema = z.object({
   id: z.string().min(1),
   company: z.string().min(1),
   roles: z.array(z.string()),
+  titleQualifiers: z.array(z.string()).optional(),
   /** false: se queda en el perfil (línea de tiempo) pero no sale en CVs. */
   showInCv: z.boolean().optional(),
   showInCvNote: z.string().optional(),
@@ -153,7 +154,8 @@ const projectSchema = z.object({
   /** Empleo al que pertenece (id de experience). Vacío = proyecto propio. */
   experienceId: z.string().nullable().optional(),
   /** employment = hecho dentro de un empleo; freelance = para un cliente sin relación laboral. */
-  engagement: z.enum(["employment", "freelance", "personal"]).optional(),
+  engagement: z.enum(["", "employment", "freelance", "personal"]).optional(),
+  cvLine: z.string().optional(),
   relevantForRoles: z.array(z.string()).optional(),
   relevantWhenVacancyNeeds: z.array(z.string()).optional(),
 });
@@ -211,6 +213,7 @@ export const masterProfileSchema = z
       z.object({
         id: z.string(),
         degree: z.string(),
+        degreeEn: z.string().optional(),
         institution: z.string(),
         startDate: optionalDate,
         endDate: optionalDate,
@@ -265,7 +268,7 @@ export const masterProfileSchema = z
         canonical: z.string(),
         aliases: z.array(z.string()),
       }),
-    ),
+    ).optional(),
     positioningProfiles: z.record(
       z.string(),
       z.object({

@@ -230,3 +230,8 @@ def test_fullstack_is_spelled_one_way():
     assert clean_text("Fullstack Developer with React.").text == "Full Stack Developer with React."
     assert clean_text("Desarrollador fullstack.").text == "Desarrollador Full Stack."
     assert clean_text("Full Stack Developer.").text == "Full Stack Developer."
+
+
+def test_irregular_spanish_past_verbs_count_as_verbs():
+    for text in ("Fui el responsable principal del frontend.", "Di mentoría a 3 desarrolladores.", "Hice code reviews."):
+        assert find_issues("experience[0].bullets[0]", text, "bullet", "es") == []

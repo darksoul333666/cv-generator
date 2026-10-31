@@ -1412,6 +1412,7 @@ def _build_cv(
             source.get("company") or company,
             position or (known[0] if known else ""),
             vacancy_text,
+            source.get("title_qualifiers"),
         )
         bullets = [
             localize_cv_wording(str(b).strip(), locale)
@@ -1447,6 +1448,7 @@ def _build_cv(
             source.get("company") or key,
             _pick_position(known, known[0] if known else "", vacancy_text, target_role),
             vacancy_text,
+            source.get("title_qualifiers"),
         )
         role = localize_cv_wording(position, locale)
         built[key] = ExperienceItem(
@@ -1602,6 +1604,11 @@ def _build_cv(
         languages=language_lines(master, locale) or base.languages,
         locale=locale,
     )
+    # Revisión para la app: nota de redacción y palabras clave de la vacante que quedaron (o no).
+    from ..cv_review import build_review, keyword_coverage
+
+    report["coverage"] = keyword_coverage(cv, master, vacancy_text, data.get("keywords") or [])
+    report["review"] = build_review(report)
     return cv, report
 
 

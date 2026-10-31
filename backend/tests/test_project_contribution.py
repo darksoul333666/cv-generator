@@ -58,3 +58,18 @@ def test_projects_link_to_their_job(raw):
     lumston = next(e for e in compact["experience"] if e["company"] == "Lumston")
     assert "Acolyte" in [p["name"] for p in _linked_projects(grain, compact)]
     assert "Acolyte" not in [p["name"] for p in _linked_projects(lumston, compact)]
+
+
+def test_editor_saves_link_engagement_and_cv_line(raw):
+    data = copy.deepcopy(raw)
+    _apply_projects(data, [
+        ProjectContentIn(id="p1", name="Demo", engagement="employment", experienceId="exp_lumston"),
+        ProjectContentIn(id="p2", name="Side", engagement="freelance", cvLine="App con 300 usuarios."),
+    ])
+    p1, p2 = data["projects"]
+    assert (p1["experienceId"], p1["engagement"]) == ("exp_lumston", "employment")
+    assert (p2["experienceId"], p2["engagement"], p2["cvLine"]) == (None, "freelance", "App con 300 usuarios.")
+    from fastapi import HTTPException
+
+    with pytest.raises(HTTPException):
+        _apply_projects(copy.deepcopy(raw), [ProjectContentIn(id="p3", name="X", experienceId="exp_nope")])

@@ -7,6 +7,7 @@ import type {
   MasterProfile,
   Project,
   ProjectContribution,
+  ProjectEngagement,
 } from "./master-profile";
 
 export type AchievementDraft = {
@@ -34,6 +35,11 @@ export type ProjectDraft = {
   type: string;
   description: string;
   contribution: ProjectContribution;
+  /** Empleo al que pertenece; "" = proyecto propio o freelance. */
+  experienceId: string;
+  engagement: ProjectEngagement;
+  /** Línea para el CV (proyectos freelance): qué es y su cifra. */
+  cvLine: string;
   technologiesText: string;
 };
 
@@ -101,6 +107,9 @@ export type ProfileContentPayload = {
     type: string;
     description: string;
     contribution: ProjectContribution;
+    experienceId: string | null;
+    engagement: ProjectEngagement | null;
+    cvLine: string;
     technologies: string[];
   }>;
   education: Array<{
@@ -191,6 +200,9 @@ export function projectFromProfile(project: Project): ProjectDraft {
     type: project.type ?? "",
     description: project.description ?? "",
     contribution: project.contribution ?? "",
+    experienceId: project.experienceId ?? "",
+    engagement: project.engagement ?? (project.experienceId ? "employment" : ""),
+    cvLine: project.cvLine ?? "",
     technologiesText: (project.technologies ?? []).join("\n"),
   };
 }
@@ -290,6 +302,9 @@ export function contentFromDrafts(input: {
       type: row.type.trim(),
       description: row.description.trim(),
       contribution: row.contribution,
+      experienceId: row.engagement === "employment" ? row.experienceId || null : null,
+      engagement: row.engagement || null,
+      cvLine: row.cvLine.trim(),
       technologies: splitLines(row.technologiesText),
     })),
     education: input.education.map((row) => ({

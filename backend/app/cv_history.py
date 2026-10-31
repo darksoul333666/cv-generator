@@ -7,7 +7,7 @@ import uuid
 from datetime import datetime, timezone
 from pathlib import Path
 from threading import RLock
-from typing import Any, List, Optional
+from typing import Any, Dict, List, Optional
 
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -36,6 +36,8 @@ class GeneratedCvRecord(BaseModel):
     # Fechas omitidas, bullets descartados y textos que no se pudieron traducir.
     notes_to_verify: List[str] = Field(default_factory=list)
     regenerated_from: Optional[str] = None
+    # Nota de redacción y palabras clave de la vacante (app/cv_review.py).
+    review: Optional[Dict[str, Any]] = None
 
 
 class GeneratedCvSummary(BaseModel):
@@ -153,6 +155,7 @@ def append_generated_cv(
         company_name=(company_name or "").strip()[:200],
         vacancy_url=(vacancy_url or "").strip()[:2000] or None,
         notes_to_verify=list(tailor.notes_to_verify or []),
+        review=(tailor.raw_meta or {}).get("review"),
     )
     with _LOCK:
         raw_list = _load_raw()

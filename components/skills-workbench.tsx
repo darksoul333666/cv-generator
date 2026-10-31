@@ -374,7 +374,11 @@ export function SkillsWorkbench() {
             <>
           <IdentityEditor value={identity} onChange={setIdentity} />
           <ExperienceEditor items={experience} onChange={setExperience} />
-          <ProjectEditor items={projects} onChange={setProjects} />
+          <ProjectEditor
+            items={projects}
+            onChange={setProjects}
+            jobs={experience.map((job) => ({ id: job.id, company: job.company }))}
+          />
           <div className="grid gap-6 lg:grid-cols-2">
             <EducationEditor items={education} onChange={setEducation} />
             <CertificationEditor items={certifications} onChange={setCertifications} />

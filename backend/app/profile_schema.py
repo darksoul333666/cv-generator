@@ -88,7 +88,7 @@ class Project(_Loose):
     technologies: List[str] = Field(default_factory=list)
     contribution: Literal["", "full", "frontend", "backend", "lead"] = ""
     experienceId: Optional[str] = None
-    engagement: Optional[Literal["employment", "freelance", "personal"]] = None
+    engagement: Optional[Literal["", "employment", "freelance", "personal"]] = None
 
 
 class Education(_Loose):
