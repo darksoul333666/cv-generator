@@ -74,7 +74,7 @@ from .career_kb import (
     evidence_gaps,
     apply_profile_content,
     apply_user_validation,
-    sync_skill_catalog,
+    sync_skill_aliases,
 )
 from .models import (
     CvDocument,
@@ -206,7 +206,7 @@ def _apply_skills(raw: dict, skills: MasterSkills) -> None:
             detail="Rechazado: el payload de skills está vacío y borraría el perfil.",
         )
     raw["skills"] = dumped
-    sync_skill_catalog(raw, dumped)
+    sync_skill_aliases(raw, dumped)
 
 
 class MasterProfilePatchIn(BaseModel):

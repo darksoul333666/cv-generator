@@ -25,41 +25,26 @@ class ExperienceEditsIn(BaseModel):
     items: List[ExperienceEditItem]
 
 
-def slug_skill_id(name: str) -> str:
-    s = name.lower().replace(".", "").replace("++", "plus")
-    s = re.sub(r"[^a-z0-9]+", "_", s).strip("_")
-    return f"skill_{s}"[:72]
+def sync_skill_aliases(raw: dict[str, Any], skills: dict[str, list[str]]) -> None:
+    """Deja en ``skillAliases`` solo los alias de skills que siguen en ``skills``.
 
+    ``skills`` es la única lista de skills. ``skillCatalog`` (formato viejo: las mismas skills
+    repetidas con datos de relleno) se quita; sus alias pasan a ``skillAliases``."""
+    from .compact_master import _skill_aliases
 
-def sync_skill_catalog(raw: dict[str, Any], skills: dict[str, list[str]]) -> None:
-    catalog: list[dict[str, Any]] = list(raw.get("skillCatalog") or [])
-    by_name = {str(s.get("canonical", "")).lower(): s for s in catalog if s.get("canonical")}
-    aliases: dict[str, Any] = raw.get("skillAliases") or {}
-
-    for category, names in skills.items():
+    current = _skill_aliases(raw)
+    by_key = {name.strip().lower(): aliases for name, aliases in current.items()}
+    kept: dict[str, list[str]] = {}
+    for names in skills.values():
         for name in names:
-            key = name.strip().lower()
-            if not key:
-                continue
-            existing = by_name.get(key)
-            if existing:
-                cats = existing.setdefault("categories", [])
-                if category not in cats:
-                    cats.append(category)
-                continue
-            meta = aliases.get(name) or {}
-            entry = {
-                "id": meta.get("id") or slug_skill_id(name),
-                "canonical": name,
-                "aliases": list(meta.get("aliases") or []),
-                "categories": [category],
-                "evidenceLevel": "claimed",
-                "sourceCount": None,
-                "userValidated": False,
-            }
-            catalog.append(entry)
-            by_name[key] = entry
-    raw["skillCatalog"] = catalog
+            aliases = by_key.get(name.strip().lower())
+            if aliases and name not in kept:
+                kept[name] = aliases
+    raw.pop("skillCatalog", None)
+    if kept:
+        raw["skillAliases"] = kept
+    else:
+        raw.pop("skillAliases", None)
 
 
 def _find_exp(raw: dict[str, Any], exp_id: str) -> dict[str, Any]:

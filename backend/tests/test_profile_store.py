@@ -99,13 +99,27 @@ def test_cli_exit_codes(raw, tmp_path, capsys):
     assert "ERROR" in capsys.readouterr().out
 
 
-def test_aliases_come_from_the_skill_catalog(raw):
+def test_aliases_come_from_skill_aliases(raw):
     from app.compact_master import build_compact_profile
 
     data = copy.deepcopy(raw)
-    data.pop("skillAliases", None)
-    for row in data["skillCatalog"]:
-        if row["canonical"] == "Node.js":
-            row["aliases"] = ["Node", "NodeJS"]
+    data["skillAliases"] = {"Node.js": ["Node", "NodeJS"]}
     aliases = build_compact_profile(data)["skill_aliases"]
     assert set(aliases["Node.js"]) >= {"Node", "NodeJS"}
+
+
+def test_old_skill_catalog_is_replaced_by_skill_aliases_on_save(raw):
+    from app.career_kb import sync_skill_aliases
+
+    data = copy.deepcopy(raw)
+    data.pop("skillAliases", None)
+    data["skillCatalog"] = [
+        {"id": "skill_node", "canonical": "Node.js", "aliases": ["NodeJS"], "categories": ["backend"]},
+        {"id": "skill_gone", "canonical": "Delphi", "aliases": ["Object Pascal"], "categories": ["languages"]},
+        {"id": "skill_ts", "canonical": "TypeScript", "aliases": [], "categories": ["languages"]},
+    ]
+    sync_skill_aliases(data, data["skills"])
+    assert "skillCatalog" not in data
+    assert data["skillAliases"]["Node.js"] == ["NodeJS"]
+    assert "Delphi" not in data["skillAliases"]  # ya no está en skills
+    assert "TypeScript" not in data["skillAliases"]  # sin alias no hace falta

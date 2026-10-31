@@ -166,8 +166,8 @@ def _unique_skills(skills: dict) -> list[str]:
 
 
 def _skill_aliases(raw: dict) -> dict[str, list[str]]:
-    """Alias por skill. Fuente: ``skillCatalog[].aliases``; ``skillAliases`` (formato viejo) se
-    sigue leyendo si existe."""
+    """Alias por skill. Fuente: ``skillAliases`` ({skill: [alias, …]}). También lee los formatos
+    viejos: ``skillCatalog[].aliases`` y ``skillAliases`` con objetos {canonical, aliases}."""
     out: dict[str, list[str]] = {}
 
     def add(canon: str, aliases: list) -> None:

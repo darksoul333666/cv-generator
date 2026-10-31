@@ -129,6 +129,7 @@ class MasterProfileModel(_Loose):
     certifications: List[Certification] = Field(default_factory=list)
     languages: List[Language] = Field(default_factory=list)
     conflicts: List[dict] = Field(default_factory=list)
+    skillAliases: dict[str, Union[List[str], dict]] = Field(default_factory=dict)
 
 
 # --- Reglas de contenido ---------------------------------------------------------------------
@@ -226,12 +227,12 @@ def _tech_warnings(raw: dict) -> list[str]:
         for values in (skills.values() if isinstance(skills, dict) else [])
         for name in (values or [])
     }
+    from .compact_master import _skill_aliases
+
     known |= {
-        _base_tech(str(alias))
-        for row in raw.get("skillCatalog") or []
-        if isinstance(row, dict)
-        for alias in [row.get("canonical"), *(row.get("aliases") or [])]
-        if alias
+        _base_tech(str(name))
+        for canon, aliases in _skill_aliases(raw).items()
+        for name in [canon, *aliases]
     }
     warnings: list[str] = []
     missing: dict[str, list[str]] = {}
@@ -260,6 +261,18 @@ def _skill_duplicate_warnings(raw: dict) -> list[str]:
                 warnings.append(f"skill «{name}» está en {seen[key]} y en {category}")
             seen.setdefault(key, category)
     return warnings
+
+
+def _alias_warnings(raw: dict) -> list[str]:
+    aliases = raw.get("skillAliases") or {}
+    if not isinstance(aliases, dict):
+        return []
+    names = {str(n).strip().lower() for values in (raw.get("skills") or {}).values() for n in values or []}
+    return [
+        f"skillAliases: «{name}» no está en skills; sus alias no se usan"
+        for name in aliases
+        if str(name).strip().lower() not in names
+    ]
 
 
 def validate_profile(raw: Any) -> tuple[list[str], list[str]]:
@@ -294,6 +307,9 @@ def validate_profile(raw: Any) -> tuple[list[str], list[str]]:
         warnings += _metric_mismatch(exp)
     warnings += _tech_warnings(raw)
     warnings += _skill_duplicate_warnings(raw)
+    warnings += _alias_warnings(raw)
+    if raw.get("skillCatalog"):
+        warnings.append("skillCatalog es formato viejo: guarda las skills desde la app para quitarlo")
     open_conflicts = [c for c in raw.get("conflicts") or [] if isinstance(c, dict) and not c.get("userValidated")]
     if open_conflicts:
         warnings.append(f"{len(open_conflicts)} conflictos abiertos")

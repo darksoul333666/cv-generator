@@ -239,11 +239,73 @@ def _in_vacancy(name: str, vacancy: str, aliases: dict[str, list[str]]) -> bool:
     return any(_appears(n, vacancy) for n in _needles(name, aliases))
 
 
+_WORD_RE = re.compile(r"[A-Za-z0-9][A-Za-z0-9.+#]*")
+
+
+def _vacancy_words(original: str) -> list[str]:
+    """Palabras de la vacante tal como están escritas, y pares de palabras («Node JS»)."""
+    words = [w.rstrip(".") for w in _WORD_RE.findall(original or "")]
+    return [f"{a} {b}" for a, b in zip(words, words[1:])] + words
+
+
+def _is_variant(alias: str, name: str) -> bool:
+    """«NodeJS» y «Node.js», «Postgres» y «PostgreSQL»: la misma palabra escrita distinto.
+    «TS» o «RN» son abreviaturas, no variantes. Una variante más corta que la skill necesita
+    6+ letras: «Next», «Node» o «Nest» también son palabras comunes de una vacante."""
+    a, b = _compact(alias), _compact(name)
+    if len(a) < len(b) and len(a) < 6:
+        return False
+    return len(b) >= 3 and (a.startswith(b) or b.startswith(a))
+
+
+def _cased_like(word: str, model: str) -> str:
+    """Pone a ``word`` (en minúsculas) las mayúsculas de ``model`` letra por letra."""
+    cases = [c.isupper() for c in model if c.isalnum()]
+    out, i = [], 0
+    for ch in word:
+        if ch.isalnum() and i < len(cases):
+            out.append(ch.upper() if cases[i] else ch)
+            i += 1
+        else:
+            out.append(ch)
+    return "".join(out)
+
+
+def vacancy_spelling(name: str, aliases: dict[str, list[str]], original: str) -> str:
+    """La forma en que la vacante escribe una skill, si es una variante de la nuestra.
+
+    Un ATS compara texto: «NodeJS» en la vacante y «Node.js» en el CV cuentan como distintos.
+    Devuelve «» si la vacante no la menciona con otra ortografía."""
+    if not original:
+        return ""
+    forms = [name] + [a for a in aliases.get(name, []) if _is_variant(a, name)]
+    by_compact = {_compact(f): f for f in reversed(forms)}  # la primera forma gana
+    for word in _vacancy_words(original):
+        key = _compact(word)
+        if key not in by_compact:
+            continue
+        if re.search(rf"(?<![a-z0-9]){re.escape(word.lower())}(?![a-z0-9])", name.lower()):
+            return ""  # ya está dentro del nombre: «JavaScript» en «JavaScript (ES6+)»
+        known = by_compact[key]
+        if word.lower() == known.lower():
+            return known
+        if word == word.lower():
+            # «nodejs» → «NodeJS»: la forma conocida con más mayúsculas da el modelo.
+            same = [f for f in forms if _compact(f) == key]
+            model = max(same, key=lambda f: sum(c.isupper() for c in f))
+            return _cased_like(word, model)
+        return word
+    return ""
+
+
 def _display_name(
     name: str, vacancy: str, aliases: dict[str, list[str]], original: str = ""
 ) -> str:
     if not vacancy:
         return name
+    spelled = vacancy_spelling(name, aliases, original)
+    if spelled:
+        return spelled
     if _appears(name, vacancy):
         return name
     canon = _norm(name)

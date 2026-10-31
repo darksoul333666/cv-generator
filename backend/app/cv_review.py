@@ -8,15 +8,17 @@ Se guarda con cada CV del historial (``review``) para que la app la muestre ante
 
 Una palabra clave de la vacante sale de dos lugares: las skills del perfil que la vacante
 menciona (con sus alias: «Node» cuenta como «Node.js») y las palabras clave que extrajo el
-modelo de la vacante.
+modelo de la vacante. Si la vacante escribe una skill distinto («NodeJS»), se busca esa forma
+exacta en el CV, porque así la compara un ATS.
 """
 
 from __future__ import annotations
 
+import re
 from typing import Any, Iterable, Optional
 
 from .models import CvDocument
-from .skill_stack import _alias_index, _clean_overlay_name, _in_vacancy, _norm
+from .skill_stack import _alias_index, _clean_overlay_name, _in_vacancy, _norm, vacancy_spelling
 
 MAX_TERMS = 25
 
@@ -67,8 +69,16 @@ def keyword_coverage(
         return {"matched": [], "missing": [], "percent": None}
     aliases = _alias_index(master)
     text = _cv_text(cv)
-    matched = [t for t in terms if _in_vacancy(t, text, aliases)]
-    missing = [t for t in terms if t not in matched]
+    matched: list[str] = []
+    missing: list[str] = []
+    for term in terms:
+        # Un ATS compara texto: si la vacante dice «NodeJS», «Node.js» en el CV no cuenta.
+        spelled = vacancy_spelling(term, aliases, vacancy_text)
+        if spelled:
+            hit = bool(re.search(rf"(?<![a-z0-9]){re.escape(_norm(spelled))}(?![a-z0-9])", text))
+        else:
+            hit = _in_vacancy(term, text, aliases)
+        (matched if hit else missing).append(spelled or term)
     return {"matched": matched, "missing": missing, "percent": round(100 * len(matched) / len(terms))}
 
 

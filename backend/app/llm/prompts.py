@@ -77,6 +77,8 @@ def tailor_writing_rules() -> str:
         "profile's metrics[] names that project.\n"
         "Do not add Freelance or Freelancer to job titles.\n"
         "Do not add industry labels such as Fintech to job titles; the system adds them when it applies.\n"
+        "Write each technology the way the vacancy writes it (NodeJS, ReactJS, Postgres) when it spells it "
+        "differently from the profile; ATS filters compare the text literally.\n"
         "Never drop achievement metrics: if a job has a number in the master, one bullet of that job must keep "
         "that same number. Vary the verb; do not start every metric bullet with Reducción/Reduced.\n"
     )

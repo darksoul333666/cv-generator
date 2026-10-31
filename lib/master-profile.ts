@@ -347,15 +347,16 @@ export type MasterProfile = {
     summary: string;
   };
   skills: MasterSkills;
-  skillCatalog: Skill[];
+  /** Formato viejo: ya no se guarda; los alias viven en skillAliases. */
+  skillCatalog?: Skill[];
   experience: Experience[];
   projects: Project[];
   education: Education[];
   certifications: Certification[];
   languages: Language[];
   metrics?: Metric[];
-  /** Formato viejo: los alias viven ahora en skillCatalog[].aliases. */
-  skillAliases?: Record<string, SkillAliasEntry>;
+  /** Skill → otras formas de escribirla («Node.js»: ["NodeJS"]). El objeto es el formato viejo. */
+  skillAliases?: Record<string, string[] | SkillAliasEntry>;
   positioningProfiles: Record<string, PositioningProfile>;
   conflicts: Conflict[];
   careerTimeline?: CareerTimelineEntry[];

@@ -206,7 +206,8 @@ export const masterProfileSchema = z
       summary: z.string(),
     }),
     skills: masterSkillsSchema,
-    skillCatalog: z.array(skillSchema),
+    // Formato viejo: las mismas skills repetidas. Ya no se guarda; los alias viven en skillAliases.
+    skillCatalog: z.array(skillSchema).optional(),
     experience: z.array(experienceSchema),
     projects: z.array(projectSchema),
     education: z.array(
@@ -262,13 +263,19 @@ export const masterProfileSchema = z
     ),
     // Ya no se guarda: el backend las calcula de experience. Se acepta en perfiles viejos.
     metrics: z.array(metricSchema).optional(),
+    // Skill → otras formas de escribirla («Node.js»: ["NodeJS", "Node JS"]). Las usa el
+    // generador para reconocerla en la vacante y escribirla como la escribe la vacante.
     skillAliases: z.record(
       z.string(),
-      z.object({
-        id: z.string(),
-        canonical: z.string(),
-        aliases: z.array(z.string()),
-      }),
+      z.union([
+        z.array(z.string()),
+        // Formato viejo.
+        z.object({
+          id: z.string(),
+          canonical: z.string(),
+          aliases: z.array(z.string()),
+        }),
+      ]),
     ).optional(),
     positioningProfiles: z.record(
       z.string(),
@@ -373,7 +380,7 @@ export const masterProfileSchema = z
     collect(data.languages, "languages");
     collect(data.metrics ?? [], "metrics");
     collect(data.conflicts, "conflicts");
-    collect(data.skillCatalog, "skillCatalog");
+    collect(data.skillCatalog ?? [], "skillCatalog");
     collect(data.sources, "sources");
     collect(data.careerTimeline ?? [], "careerTimeline");
 
