@@ -20,6 +20,7 @@ from fastapi.exception_handlers import (
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 
+from .profile_store import ProfileValidationError, kb_dir as profile_kb_dir, write_profile
 from .cv_history import get_generated_cv, list_generated_summaries, update_generated_cv_name
 from .cv_queue import (
     BATCH_SIZE,
@@ -147,7 +148,7 @@ app.add_middleware(
 app.include_router(extension_router)
 
 def _kb_dir() -> Path:
-    return Path(__file__).resolve().parent.parent / "knowledge_base"
+    return profile_kb_dir()
 
 
 def _kb_path_for(cv_id: str) -> Path:
@@ -180,13 +181,14 @@ def _load_master_profile() -> dict:
 
 
 def _save_master_profile(raw: dict) -> None:
-    path = _master_profile_path()
-    tmp = path.with_name(path.name + ".tmp")
-    tmp.write_text(
-        json.dumps(raw, ensure_ascii=False, indent=2) + "\n",
-        encoding="utf-8",
-    )
-    os.replace(tmp, path)
+    """Valida, respalda el perfil anterior en knowledge_base/backups/ y escribe atómicamente."""
+    try:
+        write_profile(raw, _master_profile_path())
+    except ProfileValidationError as exc:
+        raise HTTPException(
+            status_code=422,
+            detail="El perfil tiene errores y no se guardó: " + "; ".join(exc.errors[:8]),
+        ) from exc
 
 
 def _skills_empty(skills: Optional[dict]) -> bool:

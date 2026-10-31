@@ -121,8 +121,8 @@ def test_all_english_cv_is_not_sent_to_translator(compact):
     grain = next(j for j in cv.experience if j.company == "Grainchain Inc")
     assert grain.bullets[:3] == data["experience"][0]["bullets"]
     assert all("Built financial dashboards" not in t for batch in calls for t in batch)
-    # Mismo texto; solo los años se ajustan a lo que muestran las fechas del CV (6.8 → 6+).
-    assert cv.summary == data["summary"].replace("7+", "6+")
+    # Mismo texto: las fechas visibles (CTZ desde 2019) respaldan el 7+.
+    assert cv.summary == data["summary"]
 
 
 def test_all_spanish_text_is_detected_as_spanish(protected):
@@ -288,7 +288,7 @@ def test_e2e_english_generation(monkeypatch):
     # Todo lo visible está en inglés (o es neutral: nombres, tecnologías).
     protected = protected_terms(load_compact_profile())
     wrong = [t for t in _visible_text(cv) if detect_language(t, protected) not in {"en", "unknown"}]
-    assert wrong == []
+    assert wrong == [], "\n".join(wrong)
     assert tailored.raw_meta["verification"]["language"]["status"] == "repaired"
 
     jobs = {job.company: job for job in cv.experience}
@@ -340,7 +340,7 @@ def test_e2e_spanish_generation(monkeypatch):
 
     protected = protected_terms(load_compact_profile())
     wrong = [t for t in _visible_text(cv) if detect_language(t, protected) not in {"es", "unknown"}]
-    assert wrong == []
+    assert wrong == [], "\n".join(wrong)
     assert tailored.raw_meta["verification"]["language"]["unresolved"] == []
 
     jobs = {job.company: job for job in cv.experience}
@@ -369,7 +369,7 @@ def test_e2e_failed_translation_keeps_content(monkeypatch):
     _match, tailored = _run_pipeline(monkeypatch, EN_VACANCY, fake)
     jobs = {job.company: job for job in tailored.cv.experience}
     assert "Reducción de errores en flujos de pago mediante validaciones y UX (25%)." in jobs["UffPay"].bullets
-    assert tailored.cv.summary.startswith("Senior Frontend Developer with 6+ years")
+    assert tailored.cv.summary.startswith("Senior Frontend Developer with 7+ years")
     assert any(n.startswith("Idioma: ") for n in tailored.notes_to_verify)
     assert len(fake.translation_batches) == 1  # error del proveedor: no se reintenta, se reporta
 
@@ -471,7 +471,15 @@ def test_hidden_job_without_role_does_not_block_profile_save():
 def _raw_with_open_conflict() -> dict:
     raw = _raw_master()
     uff = next(e for e in raw["experience"] if e["id"] == "exp_uffpay")
-    uff["dateConflict"]["status"] = "unresolved"
+    # Conflicto sintético: el perfil de prueba ya no tiene conflictos de fechas abiertos.
+    uff["dateConflict"] = {
+        "status": "unresolved",
+        "field": "experience.UffPay.startDate",
+        "candidates": [
+            {"startDate": "2024-01", "endDate": "2024-07", "current": False},
+            {"startDate": "2026-04", "endDate": None, "current": True},
+        ],
+    }
     uff["dateStatus"] = "conflicted"
     uff.pop("additionalPeriods", None)
     return raw
@@ -548,7 +556,7 @@ def test_projects_completed_by_the_user_are_sent(compact):
     # El 2026-10-30 el usuario agregó tecnologías a Safra Bank y Altos Aceros: ya entran.
     sent = {p["name"]: p for p in compact["projects"]}
     for name in ["Volaris Manifest", "Tecnológico de Monterrey", "Drizline", "Baker Tilly Legal Chatbot",
-                 "AI Video Creation and Editing Platform", "Blackeagle", "Safra Bank", "Altos Aceros"]:
+                 "Acolyte", "Blackeagle", "Safra Bank", "Altos Aceros"]:
         assert name in sent, name
     assert "NestJS" in sent["Safra Bank"]["technologies"]  # «Nest JS» normalizado
     assert "no se atribuye" not in sent["Safra Bank"]["description"]
@@ -556,10 +564,10 @@ def test_projects_completed_by_the_user_are_sent(compact):
 
 def test_project_internal_notes_are_not_sent_as_facts(compact):
     projects = {p["name"]: p for p in compact["projects"]}
-    video = projects["AI Video Creation and Editing Platform"]
+    video = projects["Acolyte"]
     assert "sin confirmar" not in video["description"]
     assert "EE.UU" not in video["description"] and "EE. UU" not in video["description"]
-    assert any("cliente" in u for u in video["unknown"])
+    assert any("pruebas" in u for u in video["unknown"])  # el cliente (Acolyte) ya se confirmó
     prompt = json.dumps(profile_for_prompt(compact), ensure_ascii=False)
     assert "no se atribuye" not in prompt
     assert "sin confirmarse" not in prompt

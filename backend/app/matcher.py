@@ -8,7 +8,9 @@ from .models import CvDocument
 
 
 def _kb_dir() -> Path:
-    return Path(__file__).resolve().parent.parent / "knowledge_base"
+    from .profile_store import kb_dir
+
+    return kb_dir()
 
 
 def load_all_cvs() -> list[CvDocument]:

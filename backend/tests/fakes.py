@@ -141,6 +141,17 @@ def optimizer_es() -> dict:
 # Traducciones que un modelo correcto devolvería. Solo cubren lo que el pipeline manda traducir.
 TRANSLATIONS = {
     "en": {
+        # Hechos de Nano Degree y CTZ en el perfil de prueba (31 oct 2026).
+        "Desarrollo Móvil usando Ionic en un equipo de 5 personas.":
+            "Built mobile features with Ionic in a 5-person team.",
+        "Diseño, planeación, codificación y despliegue de app móvil HVAC.":
+            "Designed, planned, built and deployed an HVAC mobile app.",
+        "Desarrollo móvil con Ionic para clientes de distribución de tecnología.":
+            "Built Ionic mobile apps for technology distribution clients.",
+        "UX/maquetación y creación de proyecto Ionic.":
+            "Built UX layouts and set up the Ionic project.",
+        "Integración de métodos de pago (Stripe, Mercado Pago, PayPal).":
+            "Integrated payment methods (Stripe, Mercado Pago, PayPal).",
         "Desarrollador Frontend Senior": "Senior Frontend Developer",
         "Reducción de errores en flujos de pago mediante validaciones y UX (25%).":
             "Reduced errors in payment flows through validations and UX improvements (25%).",
@@ -173,6 +184,7 @@ TRANSLATIONS = {
             "Continuous feature delivery that reduced development time through reusable components and architecture patterns such as Clean Architecture (20%).",
     },
     "es": {
+        "Frontend Developer Jr": "Desarrollador Frontend Jr",
         "Senior Frontend Developer": "Desarrollador Frontend Senior",
         "Technical Leader": "Líder técnico",
         "Senior Frontend Developer / Technical Leader": "Desarrollador Frontend Senior / Líder técnico",

@@ -179,8 +179,18 @@ def test_report_notes_explain_weak_bullets(compact):
 # --- Pantalla Evidencia: huecos y guardado ------------------------------------------------------
 
 
+def _raw_without_api_how() -> dict:
+    """El 30% de APIs de UffPay sin «cómo», como antes de que lo llenaras en Evidencia."""
+    raw = _raw()
+    uff = next(e for e in raw["experience"] if e["company"] == "UffPay")
+    for ach in uff["achievements"]:
+        if (ach.get("metric") or {}).get("value") == 30.0:
+            ach.pop("evidenceDetail", None)
+    return raw
+
+
 def test_gaps_list_what_is_still_missing():
-    gaps = evidence_gaps(_raw())
+    gaps = evidence_gaps(_raw_without_api_how())
     kinds = {(g["company"], g["kind"]) for g in gaps}
     assert ("UffPay", "achievement") in kinds  # el 30% de APIs aún no tiene cómo
     assert ("Corus", "hidden") in kinds
@@ -191,7 +201,7 @@ def test_gaps_list_what_is_still_missing():
 
 
 def test_saving_evidence_fills_the_gap_and_reaches_the_prompt():
-    raw = _raw()
+    raw = _raw_without_api_how()
     gap = next(g for g in evidence_gaps(raw) if g["company"] == "UffPay")
     apply_evidence(raw, EvidenceIn(
         experienceId=gap["experienceId"], achievementIndex=gap["achievementIndex"],
@@ -298,7 +308,9 @@ def test_tech_spelling_is_normalized_for_the_cv_only(compact):
     assert canonical_tech("Nest JS") == "NestJS"
     assert canonical_tech("React Native 0.74") == "React Native 0.74"
     assert canonical_tech("Botstrap") == "Bootstrap"
-    raw_safra = next(p for p in _raw()["projects"] if p["name"] == "Safra Bank")
-    assert "Codepipelines" in raw_safra["technologies"]  # el perfil guarda lo que escribió el usuario
-    sent = next(p for p in compact["projects"] if p["name"] == "Safra Bank")
+    raw = _raw()
+    safra = next(p for p in raw["projects"] if p["name"] == "Safra Bank")
+    safra["technologies"].append("Codepipelines")  # como lo escribiría alguien a mano
+    sent = next(p for p in build_compact_profile(raw)["projects"] if p["name"] == "Safra Bank")
     assert "AWS CodePipeline" in sent["technologies"]
+    assert "Codepipelines" not in sent["technologies"]

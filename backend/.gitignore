@@ -5,3 +5,4 @@ __pycache__/
 .master_profile.lock
 *.tmp
 
+knowledge_base/backups/

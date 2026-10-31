@@ -1,0 +1,4680 @@
+{
+  "schemaVersion": "2.0",
+  "profile": {
+    "fullName": "Jairo Antonio Camarillo Tinoco",
+    "professionalTitles": [
+      "Senior Angular Frontend Developer",
+      "Senior Frontend Developer",
+      "Senior Full Stack Engineer",
+      "Senior React Native Developer",
+      "Technical Leader",
+      "Fullstack Developer"
+    ],
+    "contact": {
+      "email": {
+        "value": "jairoantoniocamarillotinoco@gmail.com",
+        "status": "user_validated",
+        "evidenceLevel": "verified",
+        "sourceCount": 2,
+        "userValidated": true,
+        "candidates": [
+          {
+            "value": "jairoantoniocamarillotinoco@gmail.com",
+            "evidenceLevel": "documented",
+            "sourceRefs": [
+              "src_cv_frontend_en",
+              "src_cv_fullstack_en",
+              "src_cv_rn_en",
+              "src_kb_cv1"
+            ],
+            "userValidated": true
+          },
+          {
+            "value": "Jailiz123456@gmail.com",
+            "evidenceLevel": "mentioned",
+            "sourceRefs": [
+              "src_cv_historical"
+            ],
+            "userValidated": false
+          }
+        ]
+      },
+      "phone": {
+        "value": "+52 271 352 9511",
+        "status": "user_validated",
+        "evidenceLevel": "verified",
+        "sourceCount": 2,
+        "userValidated": true,
+        "candidates": [
+          {
+            "value": "+52 271 352 9511",
+            "evidenceLevel": "documented",
+            "sourceRefs": [
+              "src_cv_frontend_en",
+              "src_cv_fullstack_en",
+              "src_cv_rn_en",
+              "src_kb_cv1"
+            ],
+            "userValidated": true
+          },
+          {
+            "value": "271 217 0477",
+            "evidenceLevel": "mentioned",
+            "sourceRefs": [
+              "src_cv_historical"
+            ],
+            "userValidated": false
+          }
+        ]
+      },
+      "linkedin": {
+        "value": "linkedin.com/in/jairo-camarillo-218aaa216",
+        "status": "user_validated",
+        "evidenceLevel": "verified",
+        "sourceCount": 3,
+        "userValidated": true,
+        "candidates": [
+          {
+            "value": "linkedin.com/in/jairo-camarillo-218aaa216",
+            "evidenceLevel": "documented",
+            "sourceRefs": [
+              "src_cv_frontend_en",
+              "src_cv_fullstack_en",
+              "src_cv_rn_en"
+            ],
+            "userValidated": true
+          }
+        ]
+      },
+      "location": {
+        "value": "Mexico",
+        "status": "user_validated",
+        "evidenceLevel": "verified",
+        "sourceCount": 1,
+        "userValidated": true,
+        "candidates": [
+          {
+            "value": "Yanga, Veracruz, Mexico 94930",
+            "evidenceLevel": "mentioned",
+            "sourceRefs": [
+              "src_cv_historical"
+            ],
+            "userValidated": false
+          },
+          {
+            "value": "(omitido en CVs 2025–2026)",
+            "evidenceLevel": "mentioned",
+            "sourceRefs": [
+              "src_cv_frontend_en"
+            ],
+            "userValidated": false
+          }
+        ]
+      }
+    },
+    "summary": "Desarrollador senior de software con experiencia en web, móvil y APIs: Angular, React, Next.js, React Native y TypeScript en frontend; Node.js (NestJS, AdonisJS, Express) en backend; AWS, CI/CD y calidad de código. Experiencia en fintech, dashboards financieros e integraciones de pagos (Stripe, Cybersource, Neonet). Ha liderado equipos frontend, definido arquitectura y estándares, y mejorado el rendimiento de aplicaciones en producción."
+  },
+  "skills": {
+    "languages": [
+      "TypeScript",
+      "JavaScript (ES6+)",
+      "HTML5",
+      "CSS3",
+      "SCSS",
+      "SQL",
+      "PHP",
+      "Java",
+      "Python"
+    ],
+    "frontend": [
+      "Angular",
+      "Angular (14–20)",
+      "Angular Material",
+      "React",
+      "Next.js",
+      "Vue",
+      "RxJS",
+      "Signals",
+      "NgRx",
+      "Redux",
+      "MobX",
+      "Zustand",
+      "TailwindCSS",
+      "NativeWind",
+      "Bootstrap",
+      "Material UI",
+      "ngx-translate",
+      "SSR",
+      "lazy loading",
+      "virtualización de tablas",
+      "Responsive design"
+    ],
+    "backend": [
+      "Node.js",
+      "Express.js",
+      "AdonisJS",
+      "NestJS",
+      "REST APIs",
+      "Laravel",
+      "Prisma"
+    ],
+    "mobile": [
+      "React Native",
+      "Ionic",
+      "App Store",
+      "Play Console",
+      "CodePush",
+      "Firebase",
+      "React Navigation"
+    ],
+    "databases": [
+      "PostgreSQL",
+      "MongoDB",
+      "MySQL",
+      "SQL Optimization",
+      "Query Performance Tuning",
+      "Database Design",
+      "Indexing",
+      "Transactions"
+    ],
+    "cloud": [
+      "AWS S3",
+      "AWS EC2",
+      "AWS Cognito",
+      "AWS IAM",
+      "AWS CodePipeline",
+      "AWS CodeBuild",
+      "AWS Lambda",
+      "AWS API Gateway",
+      "AWS CloudFront",
+      "AWS CloudWatch",
+      "AWS EventBridge",
+      "AWS Glue",
+      "AWS Athena",
+      "Serverless",
+      "Cloudinary",
+      "Firebase Cloud Messaging"
+    ],
+    "devops": [
+      "Docker",
+      "CI/CD",
+      "GitHub Actions",
+      "Bitrise",
+      "Monitoring & Logging",
+      "SonarQube",
+      "ESLint",
+      "Code reviews",
+      "Sentry"
+    ],
+    "testing": [
+      "Jest",
+      "Karma",
+      "Jasmine",
+      "E2E",
+      "TDD",
+      "Unit Testing"
+    ],
+    "architecture": [
+      "MVVM",
+      "Clean Architecture",
+      "Microservices Architecture",
+      "Event-Driven Architecture",
+      "SOLID",
+      "Design Patterns",
+      "Agile",
+      "Scrum"
+    ],
+    "payments": [
+      "Stripe",
+      "Cybersource",
+      "Neonet",
+      "Mercado Pago",
+      "PayPal"
+    ],
+    "security": [
+      "JWT",
+      "Argon2",
+      "Helmet"
+    ],
+    "ai": [
+      "AWS Machine Learning Fundamentals"
+    ],
+    "softSkills": [
+      "Liderazgo técnico",
+      "Manejo de personal",
+      "Gestión de proyectos",
+      "Gestión de sprints",
+      "Reuniones con cliente",
+      "Adaptabilidad",
+      "Innovación",
+      "Incident management / RCA",
+      "Production support"
+    ]
+  },
+  "skillCatalog": [
+    {
+      "id": "skill_typescript",
+      "canonical": "TypeScript",
+      "aliases": [
+        "TS"
+      ],
+      "categories": [
+        "languages"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_javascript_es6",
+      "canonical": "JavaScript (ES6+)",
+      "aliases": [],
+      "categories": [
+        "languages"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_html5",
+      "canonical": "HTML5",
+      "aliases": [],
+      "categories": [
+        "languages"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_css3",
+      "canonical": "CSS3",
+      "aliases": [],
+      "categories": [
+        "languages"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_scss",
+      "canonical": "SCSS",
+      "aliases": [],
+      "categories": [
+        "languages"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_sql",
+      "canonical": "SQL",
+      "aliases": [],
+      "categories": [
+        "languages"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_php",
+      "canonical": "PHP",
+      "aliases": [],
+      "categories": [
+        "languages"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_java",
+      "canonical": "Java",
+      "aliases": [],
+      "categories": [
+        "languages"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_angular",
+      "canonical": "Angular",
+      "aliases": [],
+      "categories": [
+        "frontend"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_angular_14_20",
+      "canonical": "Angular (14–20)",
+      "aliases": [],
+      "categories": [
+        "frontend"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_angular_material",
+      "canonical": "Angular Material",
+      "aliases": [],
+      "categories": [
+        "frontend"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_react",
+      "canonical": "React",
+      "aliases": [
+        "React JS"
+      ],
+      "categories": [
+        "frontend"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_nextjs",
+      "canonical": "Next.js",
+      "aliases": [
+        "Next",
+        "Next JS",
+        "Next Js"
+      ],
+      "categories": [
+        "frontend"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_vue",
+      "canonical": "Vue",
+      "aliases": [
+        "Vue.js"
+      ],
+      "categories": [
+        "frontend"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_rxjs",
+      "canonical": "RxJS",
+      "aliases": [],
+      "categories": [
+        "frontend"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_signals",
+      "canonical": "Signals",
+      "aliases": [],
+      "categories": [
+        "frontend"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_ngrx",
+      "canonical": "NgRx",
+      "aliases": [],
+      "categories": [
+        "frontend"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_redux",
+      "canonical": "Redux",
+      "aliases": [],
+      "categories": [
+        "frontend"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_mobx",
+      "canonical": "MobX",
+      "aliases": [],
+      "categories": [
+        "frontend"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_zustand",
+      "canonical": "Zustand",
+      "aliases": [],
+      "categories": [
+        "frontend"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_tailwindcss",
+      "canonical": "TailwindCSS",
+      "aliases": [],
+      "categories": [
+        "frontend"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_nativewind",
+      "canonical": "NativeWind",
+      "aliases": [],
+      "categories": [
+        "frontend"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_bootstrap",
+      "canonical": "Bootstrap",
+      "aliases": [],
+      "categories": [
+        "frontend"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_material_ui",
+      "canonical": "Material UI",
+      "aliases": [],
+      "categories": [
+        "frontend"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_ngx_translate",
+      "canonical": "ngx-translate",
+      "aliases": [],
+      "categories": [
+        "frontend"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_ssr",
+      "canonical": "SSR",
+      "aliases": [],
+      "categories": [
+        "frontend"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_lazy_loading",
+      "canonical": "lazy loading",
+      "aliases": [],
+      "categories": [
+        "frontend"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_virtualizaci_n_de_tablas",
+      "canonical": "virtualización de tablas",
+      "aliases": [],
+      "categories": [
+        "frontend"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_responsive_design",
+      "canonical": "Responsive design",
+      "aliases": [],
+      "categories": [
+        "frontend"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_nodejs",
+      "canonical": "Node.js",
+      "aliases": [
+        "Node",
+        "Node Js",
+        "NodeJS"
+      ],
+      "categories": [
+        "backend"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_expressjs",
+      "canonical": "Express.js",
+      "aliases": [
+        "Express"
+      ],
+      "categories": [
+        "backend"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_adonisjs",
+      "canonical": "AdonisJS",
+      "aliases": [],
+      "categories": [
+        "backend"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_nestjs",
+      "canonical": "NestJS",
+      "aliases": [
+        "Nest"
+      ],
+      "categories": [
+        "backend"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_rest_apis",
+      "canonical": "REST APIs",
+      "aliases": [],
+      "categories": [
+        "backend"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_laravel",
+      "canonical": "Laravel",
+      "aliases": [],
+      "categories": [
+        "backend"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_prisma",
+      "canonical": "Prisma",
+      "aliases": [],
+      "categories": [
+        "backend"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_react_native",
+      "canonical": "React Native",
+      "aliases": [
+        "RN",
+        "ReactNative"
+      ],
+      "categories": [
+        "mobile"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_ionic",
+      "canonical": "Ionic",
+      "aliases": [],
+      "categories": [
+        "mobile"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_app_store",
+      "canonical": "App Store",
+      "aliases": [],
+      "categories": [
+        "mobile"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_play_console",
+      "canonical": "Play Console",
+      "aliases": [],
+      "categories": [
+        "mobile"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_codepush",
+      "canonical": "CodePush",
+      "aliases": [],
+      "categories": [
+        "mobile"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_firebase",
+      "canonical": "Firebase",
+      "aliases": [],
+      "categories": [
+        "mobile"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_react_navigation",
+      "canonical": "React Navigation",
+      "aliases": [],
+      "categories": [
+        "mobile"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_postgresql",
+      "canonical": "PostgreSQL",
+      "aliases": [
+        "Postgres"
+      ],
+      "categories": [
+        "databases"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_mongodb",
+      "canonical": "MongoDB",
+      "aliases": [
+        "Mongo",
+        "Mongo DB"
+      ],
+      "categories": [
+        "databases"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_mysql",
+      "canonical": "MySQL",
+      "aliases": [],
+      "categories": [
+        "databases"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_sql_optimization",
+      "canonical": "SQL Optimization",
+      "aliases": [],
+      "categories": [
+        "databases"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_query_performance_tuning",
+      "canonical": "Query Performance Tuning",
+      "aliases": [],
+      "categories": [
+        "databases"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_database_design",
+      "canonical": "Database Design",
+      "aliases": [],
+      "categories": [
+        "databases"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_indexing",
+      "canonical": "Indexing",
+      "aliases": [],
+      "categories": [
+        "databases"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_transactions",
+      "canonical": "Transactions",
+      "aliases": [],
+      "categories": [
+        "databases"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_aws_s3",
+      "canonical": "AWS S3",
+      "aliases": [],
+      "categories": [
+        "cloud"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_aws_ec2",
+      "canonical": "AWS EC2",
+      "aliases": [],
+      "categories": [
+        "cloud"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_aws_cognito",
+      "canonical": "AWS Cognito",
+      "aliases": [],
+      "categories": [
+        "cloud"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_aws_iam",
+      "canonical": "AWS IAM",
+      "aliases": [],
+      "categories": [
+        "cloud"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_aws_codepipeline",
+      "canonical": "AWS CodePipeline",
+      "aliases": [],
+      "categories": [
+        "cloud"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_aws_codebuild",
+      "canonical": "AWS CodeBuild",
+      "aliases": [],
+      "categories": [
+        "cloud"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_aws_lambda",
+      "canonical": "AWS Lambda",
+      "aliases": [],
+      "categories": [
+        "cloud"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_aws_api_gateway",
+      "canonical": "AWS API Gateway",
+      "aliases": [],
+      "categories": [
+        "cloud"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_aws_cloudfront",
+      "canonical": "AWS CloudFront",
+      "aliases": [],
+      "categories": [
+        "cloud"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_aws_cloudwatch",
+      "canonical": "AWS CloudWatch",
+      "aliases": [],
+      "categories": [
+        "cloud"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_aws_eventbridge",
+      "canonical": "AWS EventBridge",
+      "aliases": [],
+      "categories": [
+        "cloud"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_aws_glue",
+      "canonical": "AWS Glue",
+      "aliases": [],
+      "categories": [
+        "cloud"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_aws_athena",
+      "canonical": "AWS Athena",
+      "aliases": [],
+      "categories": [
+        "cloud"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_serverless",
+      "canonical": "Serverless",
+      "aliases": [],
+      "categories": [
+        "cloud"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_cloudinary",
+      "canonical": "Cloudinary",
+      "aliases": [],
+      "categories": [
+        "cloud"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_firebase_cloud_messaging",
+      "canonical": "Firebase Cloud Messaging",
+      "aliases": [],
+      "categories": [
+        "cloud"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_docker",
+      "canonical": "Docker",
+      "aliases": [],
+      "categories": [
+        "devops"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_ci_cd",
+      "canonical": "CI/CD",
+      "aliases": [],
+      "categories": [
+        "devops"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_github_actions",
+      "canonical": "GitHub Actions",
+      "aliases": [],
+      "categories": [
+        "devops"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_bitrise",
+      "canonical": "Bitrise",
+      "aliases": [],
+      "categories": [
+        "devops"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_monitoring_logging",
+      "canonical": "Monitoring & Logging",
+      "aliases": [],
+      "categories": [
+        "devops"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_sonarqube",
+      "canonical": "SonarQube",
+      "aliases": [],
+      "categories": [
+        "devops"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_eslint",
+      "canonical": "ESLint",
+      "aliases": [],
+      "categories": [
+        "devops"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_code_reviews",
+      "canonical": "Code reviews",
+      "aliases": [],
+      "categories": [
+        "devops",
+        "softSkills"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_jest",
+      "canonical": "Jest",
+      "aliases": [],
+      "categories": [
+        "testing"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_karma",
+      "canonical": "Karma",
+      "aliases": [],
+      "categories": [
+        "testing"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_jasmine",
+      "canonical": "Jasmine",
+      "aliases": [],
+      "categories": [
+        "testing"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_e2e",
+      "canonical": "E2E",
+      "aliases": [],
+      "categories": [
+        "testing"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_tdd",
+      "canonical": "TDD",
+      "aliases": [],
+      "categories": [
+        "testing"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_unit_testing",
+      "canonical": "Unit Testing",
+      "aliases": [],
+      "categories": [
+        "testing"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_mvvm",
+      "canonical": "MVVM",
+      "aliases": [],
+      "categories": [
+        "architecture"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_clean_architecture",
+      "canonical": "Clean Architecture",
+      "aliases": [],
+      "categories": [
+        "architecture"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_microservices_architecture",
+      "canonical": "Microservices Architecture",
+      "aliases": [],
+      "categories": [
+        "architecture"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_event_driven_architecture",
+      "canonical": "Event-Driven Architecture",
+      "aliases": [],
+      "categories": [
+        "architecture"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_solid",
+      "canonical": "SOLID",
+      "aliases": [],
+      "categories": [
+        "architecture"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_design_patterns",
+      "canonical": "Design Patterns",
+      "aliases": [],
+      "categories": [
+        "architecture"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_agile",
+      "canonical": "Agile",
+      "aliases": [],
+      "categories": [
+        "architecture"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_scrum",
+      "canonical": "Scrum",
+      "aliases": [],
+      "categories": [
+        "architecture"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_stripe",
+      "canonical": "Stripe",
+      "aliases": [
+        "Strip"
+      ],
+      "categories": [
+        "payments"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_cybersource",
+      "canonical": "Cybersource",
+      "aliases": [],
+      "categories": [
+        "payments"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_neonet",
+      "canonical": "Neonet",
+      "aliases": [],
+      "categories": [
+        "payments"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_mercado_pago",
+      "canonical": "Mercado Pago",
+      "aliases": [],
+      "categories": [
+        "payments"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_paypal",
+      "canonical": "PayPal",
+      "aliases": [],
+      "categories": [
+        "payments"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_jwt",
+      "canonical": "JWT",
+      "aliases": [],
+      "categories": [
+        "security"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_argon2",
+      "canonical": "Argon2",
+      "aliases": [],
+      "categories": [
+        "security"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_helmet",
+      "canonical": "Helmet",
+      "aliases": [],
+      "categories": [
+        "security"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_aws_machine_learning_fundamentals",
+      "canonical": "AWS Machine Learning Fundamentals",
+      "aliases": [],
+      "categories": [
+        "ai"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_liderazgo_t_cnico",
+      "canonical": "Liderazgo técnico",
+      "aliases": [],
+      "categories": [
+        "softSkills"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_manejo_de_personal",
+      "canonical": "Manejo de personal",
+      "aliases": [],
+      "categories": [
+        "softSkills"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_gesti_n_de_proyectos",
+      "canonical": "Gestión de proyectos",
+      "aliases": [],
+      "categories": [
+        "softSkills"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_gesti_n_de_sprints",
+      "canonical": "Gestión de sprints",
+      "aliases": [],
+      "categories": [
+        "softSkills"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_reuniones_con_cliente",
+      "canonical": "Reuniones con cliente",
+      "aliases": [],
+      "categories": [
+        "softSkills"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_adaptabilidad",
+      "canonical": "Adaptabilidad",
+      "aliases": [],
+      "categories": [
+        "softSkills"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_innovaci_n",
+      "canonical": "Innovación",
+      "aliases": [],
+      "categories": [
+        "softSkills"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_incident_management_rca",
+      "canonical": "Incident management / RCA",
+      "aliases": [],
+      "categories": [
+        "softSkills"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_production_support",
+      "canonical": "Production support",
+      "aliases": [],
+      "categories": [
+        "softSkills"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": false
+    },
+    {
+      "id": "skill_python",
+      "canonical": "Python",
+      "aliases": [],
+      "categories": [
+        "languages"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": true
+    },
+    {
+      "id": "skill_sentry",
+      "canonical": "Sentry",
+      "aliases": [],
+      "categories": [
+        "devops"
+      ],
+      "evidenceLevel": "documented",
+      "sourceCount": null,
+      "userValidated": true
+    }
+  ],
+  "experience": [
+    {
+      "id": "exp_uffpay",
+      "company": "UffPay",
+      "roles": [
+        "Frontend",
+        "React Native Developer",
+        "Full Stack (React Native + Backend)"
+      ],
+      "employmentType": "freelance",
+      "startDate": "2026-04",
+      "endDate": null,
+      "dateStatus": "verified",
+      "sourceValues": {
+        "startDate": [
+          "2023-01",
+          "2024-01"
+        ],
+        "endDate": [
+          "2024-07"
+        ]
+      },
+      "originalValues": {
+        "startDate": "2023-01",
+        "endDate": "2024-07",
+        "employmentType": "freelance"
+      },
+      "userValidated": true,
+      "conflicts": [],
+      "domain": [
+        "fintech",
+        "payments",
+        "mobile"
+      ],
+      "responsibilities": [
+        "App fintech en React Native para pagos, transferencias y recargas",
+        "Integración con Cybersource para procesamiento de pagos",
+        "Integración con Neonet para procesamiento de pagos",
+        "Backend con AdonisJS",
+        "Validaciones y mejoras de UX en flujos de pago"
+      ],
+      "technologies": [
+        "React Native",
+        "AdonisJS",
+        "Cybersource",
+        "Neonet",
+        "Redux",
+        "Sentry",
+        "AWS CloudWatch"
+      ],
+      "achievements": [
+        {
+          "description": "Reducción de errores en flujos de pago: pagos rechazados, correos y mensajes que no se enviaban y cierres inesperados de la app",
+          "metric": {
+            "value": 25.0,
+            "unit": "percent",
+            "type": "user_metric"
+          },
+          "status": "user_validated",
+          "evidenceLevel": "claimed",
+          "safeForCV": true,
+          "requiresUserValidation": false,
+          "evidenceDetail": {
+            "action": "Validaciones, mejoras de UX y depuración de fallas en producción",
+            "technologies": [
+              "Sentry",
+              "AWS CloudWatch",
+              "DevTools"
+            ],
+            "measurement": "Seguimiento de errores con Sentry, logs de CloudWatch y reportes",
+            "source": "Declarado por el usuario el 2026-10-30"
+          }
+        },
+        {
+          "description": "Optimización de tiempos de respuesta en APIs",
+          "metric": {
+            "value": 30.0,
+            "unit": "percent",
+            "type": "user_metric"
+          },
+          "status": "user_validated",
+          "evidenceLevel": "claimed",
+          "safeForCV": true,
+          "requiresUserValidation": false,
+          "evidenceDetail": {
+            "context": "Por medio de React Dev tools se analizaron los tiempos de renderizado de cada componente, en Sentry se analizaron los reportes de crasheos y como estos se redujeron",
+            "action": "Paginación de peticiones Virtualización Indexación en base de datos Uso de caché en consultas concurrentes",
+            "measurement": "React Dev tools, Sentry",
+            "source": "Declarado por el usuario el 2026-10-31",
+            "note": "2026-10-31: se quitaron before 8 s / after 3 s porque son la medición de Grainchain (8 s → 3 s = 62%, no 30%). Pendiente: cifra y medición real de las APIs."
+          }
+        }
+      ],
+      "evidence": [
+        "cvs/CV-JairoCamarillo-Frontend-English.docx (1).pdf",
+        "cvs/CV-JairoCamarillo-FullStack.docx (2).pdf",
+        "cvs/CV-JairoCamarillo-ReactNative _ English.docx (2).pdf",
+        "backend/knowledge_base/cv_1.json",
+        "Desktop/UffPagoApp/README.md"
+      ],
+      "sourceRefs": [
+        "src_cv_frontend_en",
+        "src_cv_fullstack_en",
+        "src_cv_rn_en",
+        "src_kb_cv1",
+        "src_uffpay_app"
+      ],
+      "evidenceLevel": "verified",
+      "sourceCount": 5,
+      "current": true,
+      "sortOrder": 0,
+      "additionalPeriods": [
+        {
+          "startDate": "2024-01",
+          "endDate": "2024-07",
+          "note": "Primera etapa, en paralelo con Lumston."
+        }
+      ],
+      "roleScope": {
+        "teamSize": 4,
+        "highlights": [
+          "Desarrollo de punta a punta de la app móvil en React Native",
+          "Backend con AdonisJS además de la app",
+          "Integraciones de pago con Cybersource y Neonet",
+          "Monitoreo en producción con Sentry y AWS CloudWatch"
+        ],
+        "source": "Declarado por el usuario el 2026-10-30"
+      }
+    },
+    {
+      "id": "exp_grainchain",
+      "company": "Grainchain Inc",
+      "roles": [
+        "Senior Frontend Developer"
+      ],
+      "employmentType": "full-time",
+      "startDate": "2025-06",
+      "endDate": "2026-04",
+      "dateStatus": "verified",
+      "sourceValues": {
+        "startDate": [
+          "2025-01",
+          "2025-06"
+        ],
+        "endDate": [
+          "2026-04"
+        ]
+      },
+      "originalValues": {
+        "startDate": "2025-01",
+        "endDate": "2026-04",
+        "employmentType": null
+      },
+      "userValidated": true,
+      "conflicts": [],
+      "domain": [
+        "fintech",
+        "financial dashboards",
+        "enterprise"
+      ],
+      "responsibilities": [
+        "Desarrollo de dashboards financieros con Angular y Angular Material",
+        "Manejo de estado con NgRx para aplicaciones escalables",
+        "Optimización de tablas complejas y virtualización de datos; uso de charts y dashboards",
+        "Interfaces responsive para usabilidad en móvil",
+        "Internacionalización (i18n) con ngx-translate",
+        "Mejora de performance con lazy loading y change detection",
+        "Uso avanzado de Signals y RxJS",
+        "Colaboración con backend y cloud para despliegues"
+      ],
+      "technologies": [
+        "Angular",
+        "Angular Material",
+        "NgRx",
+        "RxJS",
+        "Signals",
+        "ngx-translate"
+      ],
+      "achievements": [
+        {
+          "description": "Reducción del tiempo de carga de las tablas de préstamos de 8 s a 3 s",
+          "metric": {
+            "value": 62.0,
+            "unit": "percent",
+            "type": "user_metric"
+          },
+          "status": "user_validated",
+          "evidenceLevel": "claimed",
+          "safeForCV": true,
+          "requiresUserValidation": false,
+          "evidenceDetail": {
+            "context": "Tablas de préstamos de unas 100 filas que tardaban 8 s en cargar",
+            "action": "Virtual scroll y paginación",
+            "measurement": "Tiempo de carga antes y después del cambio",
+            "before": {
+              "value": 8,
+              "unit": "s"
+            },
+            "after": {
+              "value": 3,
+              "unit": "s"
+            },
+            "note": "El perfil decía 35%; el usuario lo reemplazó por la medición 8 s → 3 s (62%, redondeado hacia abajo de 62.5%).",
+            "source": "Declarado por el usuario el 2026-10-30"
+          }
+        }
+      ],
+      "evidence": [
+        "cvs/CV-JairoCamarillo-Frontend-English.docx (1).pdf",
+        "cvs/CV-JairoCamarillo-FullStack.docx (2).pdf",
+        "cvs/CV-JairoCamarillo-ReactNative _ English.docx (2).pdf",
+        "backend/knowledge_base/cv_1.json",
+        "backend/knowledge_base/cv_2.json",
+        "backend/knowledge_base/cv_3.json"
+      ],
+      "sourceRefs": [
+        "src_cv_frontend_en",
+        "src_cv_fullstack_en",
+        "src_cv_rn_en",
+        "src_kb_cv1",
+        "src_kb_cv2",
+        "src_kb_cv3"
+      ],
+      "evidenceLevel": "verified",
+      "sourceCount": 6,
+      "current": false,
+      "sortOrder": 1,
+      "roleScope": {
+        "teamSize": 4,
+        "highlights": [
+          "Responsable principal del frontend",
+          "Decisiones de arquitectura del frontend: estructura, manejo de estado y patrones",
+          "Code reviews y mentoría a otros desarrolladores"
+        ],
+        "source": "Declarado por el usuario el 2026-10-30"
+      }
+    },
+    {
+      "id": "exp_corus",
+      "company": "Corus",
+      "roles": [],
+      "employmentType": null,
+      "startDate": "2025-08",
+      "endDate": "2026-01",
+      "current": false,
+      "dateStatus": "verified",
+      "sourceValues": {},
+      "originalValues": {},
+      "userValidated": true,
+      "conflicts": [],
+      "domain": [
+        "consulting"
+      ],
+      "responsibilities": [],
+      "technologies": [],
+      "achievements": [],
+      "evidence": [
+        "Declarado por el usuario el 2026-10-27: consultora, Ago 2025 – Ene 2026, en paralelo con Grainchain. No hay documentos. UNRESOLVED: cargo, actividades y tecnologías."
+      ],
+      "sourceRefs": [
+        "user"
+      ],
+      "evidenceLevel": "claimed",
+      "sourceCount": 1,
+      "showInCv": false,
+      "showInCvNote": "Registrada para que la línea de tiempo cuadre. No sale en CVs hasta tener cargo y actividades (decisión del usuario).",
+      "sortOrder": 2
+    },
+    {
+      "id": "exp_lumston",
+      "company": "Lumston",
+      "roles": [
+        "Frontend Developer",
+        "React Native Developer",
+        "Full Stack / Frontend Developer"
+      ],
+      "employmentType": "full-time",
+      "startDate": "2023-05",
+      "endDate": "2025-06",
+      "dateStatus": "verified",
+      "sourceValues": {},
+      "originalValues": {
+        "startDate": "2023-05",
+        "endDate": "2025-06",
+        "employmentType": null
+      },
+      "userValidated": true,
+      "conflicts": [],
+      "domain": [
+        "enterprise",
+        "airlines",
+        "banking",
+        "fintech",
+        "food service"
+      ],
+      "responsibilities": [
+        "Desarrollo de aplicaciones para clientes enterprise: Volaris, Doña Tota, Golden Corral y Viva Aerobús",
+        "Funcionalidades escalables en entornos productivos",
+        "Aplicaciones web con React y Next.js (SSR, routing, performance)",
+        "Integración con APIs y mejora de UX en flujos críticos",
+        "Definición y seguimiento de métricas de calidad (deuda técnica, retrabajo, mantenibilidad)",
+        "Integración de Stripe Payments en aplicaciones fintech"
+      ],
+      "technologies": [
+        "Angular",
+        "React",
+        "Next.js",
+        "React Native",
+        "Stripe"
+      ],
+      "achievements": [
+        {
+          "description": "Reducción del tiempo de carga de vuelos en Volaris Manifest de 10 s a 3 s",
+          "metric": {
+            "value": 70.0,
+            "unit": "percent",
+            "type": "user_metric"
+          },
+          "status": "user_validated",
+          "evidenceLevel": "claimed",
+          "safeForCV": true,
+          "requiresUserValidation": false,
+          "evidenceDetail": {
+            "context": "Carga de vuelos en la app de manifiestos de Volaris",
+            "action": "Lazy loading y paginación",
+            "measurement": "Tiempo de carga antes y después del cambio",
+            "before": {
+              "value": 10,
+              "unit": "s"
+            },
+            "after": {
+              "value": 3,
+              "unit": "s"
+            },
+            "note": "El perfil decía 30%; el usuario lo reemplazó por la medición 10 s → 3 s (70%).",
+            "source": "Declarado por el usuario el 2026-10-30"
+          },
+          "project": "Volaris Manifest"
+        },
+        {
+          "description": "Entrega continua de features reduciendo tiempos de desarrollo",
+          "metric": {
+            "value": 20.0,
+            "unit": "percent",
+            "type": "user_metric"
+          },
+          "status": "user_validated",
+          "evidenceLevel": "claimed",
+          "safeForCV": true,
+          "requiresUserValidation": false,
+          "evidenceDetail": {
+            "action": "Componentes reutilizables y patrones de arquitectura como Clean Architecture",
+            "technologies": [
+              "Clean Architecture"
+            ],
+            "measurement": "Story points y métricas DORA (código nuevo, recode y rework)",
+            "source": "Declarado por el usuario el 2026-10-30"
+          }
+        }
+      ],
+      "evidence": [
+        "cvs/CV-JairoCamarillo-Frontend-English.docx (1).pdf",
+        "cvs/CV-JairoCamarillo-FullStack.docx (2).pdf",
+        "cvs/CV-JairoCamarillo-ReactNative _ English.docx (2).pdf",
+        "backend/knowledge_base/cv_1.json",
+        "backend/knowledge_base/cv_2.json",
+        "backend/knowledge_base/cv_3.json"
+      ],
+      "sourceRefs": [
+        "src_cv_frontend_en",
+        "src_cv_fullstack_en",
+        "src_cv_rn_en",
+        "src_kb_cv1",
+        "src_kb_cv2",
+        "src_kb_cv3"
+      ],
+      "evidenceLevel": "verified",
+      "sourceCount": 6,
+      "current": false,
+      "sortOrder": 3,
+      "roleScope": {
+        "teamSize": "6–8",
+        "highlights": [
+          "Frontend principal de Volaris Manifest",
+          "Trabajo simultáneo en proyectos de varios clientes: Volaris, Doña Tota, Tecnológico de Monterrey y Baker Tilly",
+          "Definición de métricas de calidad del equipo con DORA y story points",
+          "Code reviews y mentoría a otros desarrolladores"
+        ],
+        "source": "Declarado por el usuario el 2026-10-30"
+      }
+    },
+    {
+      "id": "exp_monkey_cave",
+      "company": "Monkey Cave",
+      "roles": [
+        "Senior Frontend Developer / Technical Leader",
+        "Technical Leader"
+      ],
+      "employmentType": "freelance",
+      "startDate": "2022-01",
+      "endDate": "2023-05",
+      "dateStatus": "verified",
+      "sourceValues": {
+        "ranges": [
+          "2020-01 – 2023-01",
+          "2020-06 – 2022-01",
+          "2022-01 – actualidad (CV histórico)"
+        ]
+      },
+      "originalValues": {
+        "startDate": "2020-01",
+        "endDate": "2023-01",
+        "employmentType": "remote"
+      },
+      "userValidated": true,
+      "conflicts": [],
+      "domain": [
+        "software consultancy",
+        "frontend",
+        "leadership"
+      ],
+      "responsibilities": [
+        "Liderazgo técnico del equipo de desarrollo en proyectos frontend",
+        "Definición de arquitectura, stack y estándares de desarrollo",
+        "Code reviews, testing y organización de sprints",
+        "Asignación de actividades y revisión de avances individuales",
+        "Reuniones con cliente y gestión de aplicaciones en tienda",
+        "Selección de tecnologías y frameworks"
+      ],
+      "technologies": [
+        "SonarQube"
+      ],
+      "achievements": [
+        {
+          "description": "Aumento de actividades cerradas por sprint",
+          "metric": {
+            "value": 25.0,
+            "unit": "percent",
+            "type": "user_metric"
+          },
+          "status": "user_validated",
+          "evidenceLevel": "claimed",
+          "safeForCV": true,
+          "requiresUserValidation": false,
+          "evidenceDetail": {
+            "action": "Code reviews, estándares y patrones de arquitectura, métricas DORA y SonarQube",
+            "technologies": [
+              "SonarQube"
+            ],
+            "measurement": "Actividades cerradas por sprint",
+            "note": "Antes decía «Mejora de eficiencia del equipo»; el usuario precisó que el 25% es de actividades cerradas por sprint.",
+            "source": "Declarado por el usuario el 2026-10-30"
+          }
+        },
+        {
+          "description": "Reducción de bugs en producción y mejores tiempos de liberación",
+          "metric": {
+            "value": null,
+            "unit": "",
+            "type": ""
+          },
+          "status": "user_validated",
+          "evidenceLevel": "claimed",
+          "safeForCV": true,
+          "requiresUserValidation": false,
+          "evidenceDetail": {
+            "action": "Métricas DORA, SonarQube, estándares y patrones de arquitectura",
+            "technologies": [
+              "SonarQube"
+            ],
+            "measurement": "Sin cifra: mejora observada por el equipo",
+            "source": "Declarado por el usuario el 2026-10-30"
+          }
+        }
+      ],
+      "evidence": [
+        "cvs/CV-JairoCamarillo-Frontend-English.docx (1).pdf",
+        "cvs/CV-JairoCamarillo-FullStack.docx (2).pdf",
+        "cvs/CV-JairoCamarillo-ReactNative _ English.docx (2).pdf",
+        "cvs/JairoCamarilloCV.pdf"
+      ],
+      "sourceRefs": [
+        "src_cv_frontend_en",
+        "src_cv_fullstack_en",
+        "src_cv_rn_en",
+        "src_cv_historical"
+      ],
+      "evidenceLevel": "verified",
+      "sourceCount": 4,
+      "current": false,
+      "sortOrder": 4,
+      "roleScope": {
+        "teamSize": 5,
+        "highlights": [
+          "Liderazgo técnico de un equipo de 5 personas",
+          "Calidad de código con SonarQube y métricas DORA",
+          "Definición de estándares y patrones de arquitectura"
+        ],
+        "source": "Declarado por el usuario el 2026-10-30"
+      }
+    },
+    {
+      "id": "exp_deva_software",
+      "company": "Deva Software",
+      "roles": [
+        "Fullstack Developer (React Native, NodeJS)"
+      ],
+      "employmentType": "remote",
+      "startDate": "2021-06",
+      "endDate": "2022-01",
+      "dateStatus": "verified",
+      "sourceValues": {},
+      "originalValues": {
+        "startDate": "2021-06",
+        "endDate": "2022-01",
+        "employmentType": "remote"
+      },
+      "userValidated": true,
+      "conflicts": [],
+      "domain": [
+        "software consultancy",
+        "fullstack"
+      ],
+      "responsibilities": [
+        "Código sostenible y escalable con equipos de backend, frontend, QA y DevOps",
+        "Creación de screens a partir de UX/maquetación",
+        "Desarrollo de módulos de lógica de negocio",
+        "Testing unitario",
+        "Módulos en API REST",
+        "Administración de base de datos",
+        "Despliegue a producción",
+        "Actualizaciones push/hot reloading",
+        "Servicios de envío de SMS/MAIL"
+      ],
+      "technologies": [
+        "React Native",
+        "Node.js"
+      ],
+      "achievements": [],
+      "evidence": [
+        "cvs/JairoCamarilloCV.pdf"
+      ],
+      "sourceRefs": [
+        "src_cv_historical"
+      ],
+      "evidenceLevel": "verified",
+      "sourceCount": 1,
+      "current": false,
+      "sortOrder": 5
+    },
+    {
+      "id": "exp_multiplica",
+      "company": "Multiplica",
+      "roles": [
+        "Angular Developer"
+      ],
+      "employmentType": "remote",
+      "startDate": "2021-02",
+      "endDate": "2021-06",
+      "dateStatus": "verified",
+      "sourceValues": {},
+      "originalValues": {
+        "startDate": "2021-02",
+        "endDate": "2021-06",
+        "employmentType": "remote"
+      },
+      "userValidated": true,
+      "conflicts": [],
+      "domain": [
+        "banking",
+        "lending"
+      ],
+      "responsibilities": [
+        "Dos proyectos para Compartamos Banco: captación y registro de grupos de préstamo para autorización y liberación de créditos",
+        "Integración de Redux para estado",
+        "Código bajo requerimientos y reglas de negocio",
+        "Migración de core de Angular y dependencias",
+        "Módulos de actualización en tiempo real"
+      ],
+      "technologies": [
+        "Angular",
+        "Redux"
+      ],
+      "achievements": [],
+      "evidence": [
+        "cvs/JairoCamarilloCV.pdf"
+      ],
+      "sourceRefs": [
+        "src_cv_historical"
+      ],
+      "evidenceLevel": "verified",
+      "sourceCount": 1,
+      "current": false,
+      "sortOrder": 6
+    },
+    {
+      "id": "exp_nano_degree",
+      "company": "Nano Degree",
+      "roles": [
+        "Ionic Developer"
+      ],
+      "employmentType": "remote",
+      "startDate": "2020-01",
+      "endDate": "2021-02",
+      "dateStatus": "verified",
+      "sourceValues": {},
+      "originalValues": {
+        "startDate": "2020-01",
+        "endDate": "2021-02",
+        "employmentType": "remote"
+      },
+      "userValidated": true,
+      "conflicts": [],
+      "domain": [
+        "HVAC",
+        "inventory",
+        "e-commerce",
+        "mobile"
+      ],
+      "responsibilities": [
+        "Diseño, planeación, codificación y despliegue de app móvil HVAC",
+        "Gestión de inventario, estadísticas de rentabilidad y envío de productos a e-commerce",
+        "UX/maquetación",
+        "Subida de media al servidor",
+        "Generación y lectura de códigos QR y de barras"
+      ],
+      "technologies": [
+        "Ionic",
+        "Angular",
+        "Capacitor"
+      ],
+      "achievements": [],
+      "evidence": [
+        "cvs/JairoCamarilloCV.pdf"
+      ],
+      "sourceRefs": [
+        "src_cv_historical"
+      ],
+      "evidenceLevel": "verified",
+      "sourceCount": 1,
+      "current": false,
+      "sortOrder": 7,
+      "roleScope": {
+        "teamSize": 5,
+        "highlights": [
+          "Desarrollo Móvil usando Ionic",
+          "Desarrollo Angular",
+          "Publicación en Play Store",
+          "Publicación en App Store",
+          "Captura de fotos, videos y documentos desde Ionic",
+          "Capacitor"
+        ],
+        "source": "Declarado por el usuario el 2026-10-31"
+      }
+    },
+    {
+      "id": "exp_ctz",
+      "company": "Centro Tecnológico Zongolica",
+      "roles": [
+        "Mobile Developer Jr",
+        "Fullstack Developer Jr",
+        "Frontend Developer Jr",
+        "Backend Developer Jr"
+      ],
+      "employmentType": "onsite",
+      "startDate": "2019-04",
+      "endDate": "2019-11",
+      "dateStatus": "verified",
+      "sourceValues": {},
+      "originalValues": {
+        "startDate": "2019-04",
+        "endDate": "2019-11",
+        "employmentType": "onsite"
+      },
+      "userValidated": true,
+      "conflicts": [],
+      "domain": [
+        "retail technology",
+        "mobile",
+        "payments"
+      ],
+      "responsibilities": [
+        "Desarrollo móvil con Ionic para clientes de distribución de tecnología",
+        "UX/maquetación y creación de proyecto Ionic",
+        "Integración de métodos de pago (Stripe, Mercado Pago, PayPal)",
+        "Autenticación vía SMS"
+      ],
+      "technologies": [
+        "Ionic",
+        "Angular",
+        "Stripe",
+        "Mercado Pago",
+        "PayPal",
+        "HTML5",
+        "JavaScript"
+      ],
+      "achievements": [],
+      "evidence": [
+        "cvs/JairoCamarilloCV.pdf"
+      ],
+      "sourceRefs": [
+        "src_cv_historical"
+      ],
+      "evidenceLevel": "verified",
+      "sourceCount": 1,
+      "current": false,
+      "sortOrder": 8,
+      "roleScope": {
+        "teamSize": 3,
+        "highlights": [],
+        "source": "Declarado por el usuario el 2026-10-31"
+      }
+    }
+  ],
+  "projects": [
+    {
+      "id": "project_uffpay",
+      "name": "UffPay",
+      "type": "fintech-mobile",
+      "description": "Aplicación nativa Android/iOS de UffPay para pagos, transferencias y recargas, con estado en Redux, pipeline en Bitrise, backend en AdonisJS e integraciones de pago con Cybersource y Neonet.",
+      "domain": [
+        "fintech",
+        "payments",
+        "mobile"
+      ],
+      "platforms": [
+        "iOS",
+        "Android"
+      ],
+      "features": [
+        "Pagos",
+        "Transferencias",
+        "Recargas",
+        "Apps nativas Android e iOS"
+      ],
+      "technologies": [
+        "React Native",
+        "Redux",
+        "TypeScript",
+        "AdonisJS",
+        "Cybersource",
+        "Neonet",
+        "Bitrise"
+      ],
+      "scale": "high-traffic fintech (claim en summaries de CV; no hay cifra de usuarios en fuentes)",
+      "status": "verified",
+      "evidenceLevel": "documented",
+      "sourceCount": 3,
+      "userValidated": true,
+      "evidence": [
+        "cvs/CV-JairoCamarillo-Frontend-English.docx (1).pdf",
+        "cvs/CV-JairoCamarillo-ReactNative _ English.docx (2).pdf",
+        "Desktop/UffPagoApp/README.md"
+      ],
+      "sourceRefs": [
+        "src_cv_frontend_en",
+        "src_cv_rn_en",
+        "src_uffpay_app"
+      ],
+      "isEmployment": false,
+      "contribution": "full"
+    },
+    {
+      "id": "project_sortalia",
+      "name": "SORTALIA",
+      "type": "mobile-application, web-application",
+      "description": "Plataforma de sorteos de lujo (mobile + web) para explorar ediciones, comprar boletos, gestionar números, historial, notificaciones y administración básica.",
+      "domain": [
+        "e-commerce",
+        "lottery/raffle",
+        "luxury",
+        "payments"
+      ],
+      "platforms": [
+        "iOS",
+        "Android",
+        "Web"
+      ],
+      "features": [
+        "Registro e inicio de sesión",
+        "Exploración de sorteos activos",
+        "Compra de boletos y asignación de números",
+        "Historial de compras y mis boletos",
+        "Notificaciones",
+        "Administración básica de sorteos",
+        "Pagos seguros (alcance descrito en README)"
+      ],
+      "technologies": [
+        "React Native",
+        "TypeScript",
+        "NativeWind",
+        "React Navigation",
+        "Zustand",
+        "Axios",
+        "Next.js",
+        "TailwindCSS",
+        "NestJS",
+        "Node.js",
+        "PostgreSQL",
+        "Prisma",
+        "JWT",
+        "Argon2",
+        "Zod",
+        "Helmet",
+        "Firebase Cloud Messaging",
+        "Cloudinary"
+      ],
+      "scale": "MVP (según README_OBJECTIVE_PROJECT y sortalia-api README)",
+      "status": "claimed",
+      "evidenceLevel": "claimed",
+      "sourceCount": 3,
+      "userValidated": true,
+      "evidence": [
+        "Desktop/Sortalia/README_OBJECTIVE_PROJECT.md",
+        "Desktop/sortalia-api/README.md",
+        "Desktop/Sortalia/package.json",
+        "Confirmado por el usuario el 2026-10-31: el backend está hecho solo con NestJS (sin Express.js)."
+      ],
+      "sourceRefs": [
+        "src_sortalia_objective",
+        "src_sortalia_api",
+        "src_sortalia_pkg"
+      ],
+      "isEmployment": false,
+      "relevantForRoles": [
+        "Senior Frontend Developer",
+        "Senior Full Stack Engineer",
+        "Senior React Native Developer"
+      ],
+      "relevantWhenVacancyNeeds": [
+        "React Native",
+        "Next.js",
+        "NestJS",
+        "PostgreSQL",
+        "Prisma",
+        "payments",
+        "authentication",
+        "mobile + web"
+      ],
+      "contribution": "full"
+    },
+    {
+      "id": "project_fatimas_bakery",
+      "name": "Fatima's Bakery",
+      "type": "web-application",
+      "description": "Web de ventas, pedidos, tickets, CFDI 3.0, nómina e inventario. Stack: Angular, Laravel y PostgreSQL.",
+      "domain": [
+        "food distribution",
+        "POS",
+        "payroll",
+        "inventory",
+        "invoicing"
+      ],
+      "platforms": [
+        "Web"
+      ],
+      "features": [
+        "Registro de ventas e impresión de tickets",
+        "Factura digital CFDI 3.0",
+        "Registro de pedidos",
+        "Pagos de nómina",
+        "Inventario de insumos y mermas",
+        "Permisos por rol"
+      ],
+      "technologies": [
+        "Angular",
+        "Laravel",
+        "PostgreSQL"
+      ],
+      "scale": "más de 40 sucursales (claim del CV histórico)",
+      "status": "mentioned",
+      "evidenceLevel": "mentioned",
+      "sourceCount": 2,
+      "userValidated": true,
+      "evidence": [
+        "cvs/JairoCamarilloCV.pdf",
+        "Actualización 2026-10-27: el usuario declaró Angular, Laravel y PostgreSQL. Responsabilidades personales, pruebas y fechas siguen sin confirmarse.",
+        "Confirmado por el usuario el 2026-10-27: desarrollo completo. No se inventó stack adicional.",
+        "Confirmado por el usuario el 2026-10-31 (revisión de contribuciones): desarrollo completo."
+      ],
+      "sourceRefs": [
+        "src_cv_historical",
+        "src_user_project_update_2026_10_27"
+      ],
+      "isEmployment": false,
+      "contribution": "full"
+    },
+    {
+      "id": "project_hoppi",
+      "name": "Hoppi get together",
+      "type": "mobile-app",
+      "description": "App iOS/Android para publicar planes, verlos en un mapa, unirse, chatear y armar teams por intereses.",
+      "domain": [
+        "lifestyle",
+        "social",
+        "maps"
+      ],
+      "platforms": [
+        "iOS",
+        "Android"
+      ],
+      "features": [
+        "Publicación de planes",
+        "Mapa para unirse a planes",
+        "Chat entre usuarios",
+        "Teams por intereses"
+      ],
+      "technologies": [],
+      "scale": null,
+      "status": "mentioned",
+      "evidenceLevel": "mentioned",
+      "sourceCount": 2,
+      "userValidated": true,
+      "evidence": [
+        "cvs/JairoCamarilloCV.pdf",
+        "Actualización 2026-10-27: la descripción de producto coincide con el registro existente. Stack, responsabilidades personales y fechas siguen sin confirmarse. No se creó un segundo proyecto Hoppi.",
+        "Confirmado por el usuario el 2026-10-27: desarrollo completo. No se inventó stack adicional.",
+        "Confirmado por el usuario el 2026-10-31 (revisión de contribuciones): desarrollo completo."
+      ],
+      "sourceRefs": [
+        "src_cv_historical",
+        "src_user_project_update_2026_10_27"
+      ],
+      "isEmployment": false,
+      "contribution": "full"
+    },
+    {
+      "id": "project_desansiedad",
+      "name": "Desansiedad",
+      "type": "mobile-app",
+      "description": "App iOS/Android de videollamada con especialistas, biblioteca de contenido y ejercicios de relajación.",
+      "domain": [
+        "health",
+        "telemedicine",
+        "mental health"
+      ],
+      "platforms": [
+        "iOS",
+        "Android"
+      ],
+      "features": [
+        "Videollamada con especialista",
+        "Biblioteca de contenido",
+        "Ejercicios de relajación"
+      ],
+      "technologies": [
+        "React Native 0.74",
+        "Express.js",
+        "TypeScript",
+        "WebSockets",
+        "WebRTC",
+        "Figma"
+      ],
+      "scale": null,
+      "status": "mentioned",
+      "evidenceLevel": "mentioned",
+      "sourceCount": 2,
+      "userValidated": true,
+      "evidence": [
+        "cvs/JairoCamarilloCV.pdf",
+        "Actualización 2026-10-27: no hubo hechos nuevos verificados para Desansiedad. Se conserva el registro existente.",
+        "Confirmado por el usuario el 2026-10-27: desarrollo completo. No se inventó stack adicional.",
+        "Confirmado por el usuario el 2026-10-31 (revisión de contribuciones): desarrollo completo."
+      ],
+      "sourceRefs": [
+        "src_cv_historical",
+        "src_user_project_update_2026_10_27"
+      ],
+      "isEmployment": false,
+      "contribution": "full"
+    },
+    {
+      "id": "project_saldo_hvac",
+      "name": "Saldo HVAC",
+      "type": "mobile-app",
+      "description": "Nano Degree. App HVAC: activos, productos, P&L, inventario por cámara o código de barras y rezago en e-commerce.",
+      "domain": [
+        "HVAC",
+        "inventory",
+        "e-commerce",
+        "analytics"
+      ],
+      "platforms": [
+        "iOS",
+        "Android"
+      ],
+      "features": [
+        "Gestión de activos, productos y servicios",
+        "Balance de ganancias y pérdidas semanal y mensual",
+        "Inventario con cámara y códigos de barra",
+        "Publicación de inventario rezagado en e-commerce"
+      ],
+      "technologies": [
+        "Ionic",
+        "Angular",
+        "TypeScript",
+        "Bootstrap"
+      ],
+      "scale": null,
+      "status": "mentioned",
+      "evidenceLevel": "mentioned",
+      "sourceCount": 2,
+      "userValidated": true,
+      "evidence": [
+        "cvs/JairoCamarilloCV.pdf",
+        "Actualización 2026-10-27: no hubo hechos nuevos verificados para Saldo HVAC. Se conserva el registro existente.",
+        "Confirmado por el usuario el 2026-10-27: desarrollo completo. No se inventó stack adicional.",
+        "Confirmado por el usuario el 2026-10-31: app desarrollada para la empresa Nano Degree.",
+        "Confirmado por el usuario el 2026-10-31 (revisión de contribuciones): desarrollo completo."
+      ],
+      "sourceRefs": [
+        "src_cv_historical",
+        "src_user_project_update_2026_10_27"
+      ],
+      "isEmployment": false,
+      "contribution": "full"
+    },
+    {
+      "id": "project_pilsar",
+      "name": "Pilsar",
+      "type": "pwa",
+      "description": "PWA de catálogo doméstico con pagos por transferencia, instalable en escritorio y móvil.",
+      "domain": [
+        "e-commerce",
+        "retail"
+      ],
+      "platforms": [
+        "Web",
+        "Windows",
+        "macOS",
+        "Android",
+        "iOS"
+      ],
+      "features": [
+        "Catálogo de productos",
+        "Compra por transferencias electrónicas y otros medios de pago",
+        "Instalable como PWA"
+      ],
+      "technologies": [
+        "React",
+        "TypeScript",
+        "TailwindCSS"
+      ],
+      "scale": null,
+      "status": "mentioned",
+      "evidenceLevel": "mentioned",
+      "sourceCount": 2,
+      "userValidated": true,
+      "evidence": [
+        "cvs/JairoCamarilloCV.pdf",
+        "Actualización 2026-10-27: no hubo hechos nuevos verificados para Pilsar. Se conserva el registro existente.",
+        "Confirmado por el usuario el 2026-10-27: desarrollo completo. No se inventó stack adicional.",
+        "Confirmado por el usuario el 2026-10-31 (revisión de contribuciones): desarrollo completo."
+      ],
+      "sourceRefs": [
+        "src_cv_historical",
+        "src_user_project_update_2026_10_27"
+      ],
+      "isEmployment": false,
+      "contribution": "full"
+    },
+    {
+      "id": "project_volaris_manifest",
+      "name": "Volaris Manifest",
+      "type": "web-application",
+      "description": "Lumston, cliente Volaris. Frontend principal en Angular 16: manifiestos de vuelo, formularios dinámicos, validación, APIs y PDF con pdfmake.",
+      "domain": [
+        "aviation"
+      ],
+      "platforms": [
+        "Web"
+      ],
+      "features": [
+        "Formularios dinámicos para capturar, revisar y actualizar información de vuelo",
+        "Plantillas de formulario y validación por campo",
+        "Validación del estado del formulario antes del envío al API",
+        "Integración con APIs para obtener los datos requeridos",
+        "Generación y descarga de PDF con pdfmake para impresión y firma"
+      ],
+      "technologies": [
+        "Angular 16",
+        "TypeScript",
+        "REST APIs",
+        "pdfmake"
+      ],
+      "scale": null,
+      "status": "claimed",
+      "evidenceLevel": "claimed",
+      "sourceCount": 1,
+      "userValidated": true,
+      "evidence": [
+        "User project update 2026-10-27",
+        "Rol declarado por el usuario: Main Frontend Developer.",
+        "UNRESOLVED: herramientas de pruebas.",
+        "UNRESOLVED: fechas del proyecto.",
+        "Empresa Lumston y cliente Volaris son entidades distintas.",
+        "Confirmado por el usuario el 2026-10-27: Angular 16 y pdfmake (lo escribió como pdf.make)."
+      ],
+      "sourceRefs": [
+        "src_user_project_update_2026_10_27"
+      ],
+      "isEmployment": false,
+      "relevantForRoles": [
+        "Senior Angular Developer",
+        "Senior Frontend Developer"
+      ],
+      "relevantWhenVacancyNeeds": [
+        "Angular",
+        "TypeScript",
+        "dynamic forms",
+        "REST APIs",
+        "PDF"
+      ],
+      "contribution": "frontend"
+    },
+    {
+      "id": "project_tecnologico_monterrey",
+      "name": "Tecnológico de Monterrey",
+      "type": "web-application",
+      "description": "Lumston, cliente Tecnológico de Monterrey. Implementó frontend y backend: Angular 16, guards, interceptores, Redux, NestJS y AWS Lambda.",
+      "domain": [
+        "education"
+      ],
+      "platforms": [
+        "Web"
+      ],
+      "features": [
+        "Gestión de tareas y actividades",
+        "Acceso por rol y route guards",
+        "Interceptores HTTP ligados a la sesión",
+        "Estado de la aplicación con Redux",
+        "Implementación de frontend y backend"
+      ],
+      "technologies": [
+        "Angular 16",
+        "Redux",
+        "NestJS",
+        "AWS Lambda"
+      ],
+      "scale": null,
+      "status": "claimed",
+      "evidenceLevel": "claimed",
+      "sourceCount": 1,
+      "userValidated": true,
+      "evidence": [
+        "User project update 2026-10-27",
+        "UNRESOLVED: base de datos.",
+        "UNRESOLVED: servicios de AWS además de Lambda.",
+        "UNRESOLVED: herramientas de pruebas.",
+        "UNRESOLVED: fechas del proyecto.",
+        "Empresa Lumston y cliente Tecnológico de Monterrey son entidades distintas."
+      ],
+      "sourceRefs": [
+        "src_user_project_update_2026_10_27"
+      ],
+      "isEmployment": false,
+      "relevantForRoles": [
+        "Senior Angular Developer",
+        "Senior Frontend Developer",
+        "Senior Full Stack Engineer"
+      ],
+      "relevantWhenVacancyNeeds": [
+        "Angular",
+        "Redux",
+        "NestJS",
+        "AWS Lambda",
+        "route guards"
+      ],
+      "contribution": "full"
+    },
+    {
+      "id": "project_drizline_dona_tota",
+      "name": "Drizline",
+      "type": "web-application",
+      "description": "Lumston, Drizline para Doña Tota. Angular 18: frontend, backend, Redux, login Microsoft con Amplify y 2FA.",
+      "domain": [
+        "restaurant_technology"
+      ],
+      "platforms": [
+        "Web"
+      ],
+      "features": [
+        "Operación para varias empresas y sucursales",
+        "Sincronización de menús, disponibilidad y pedidos",
+        "Integraciones de producto con DiDi, Uber Eats y Rappi",
+        "Login de Microsoft con AWS Amplify",
+        "Autenticación de dos factores",
+        "Estado de la aplicación con Redux"
+      ],
+      "technologies": [
+        "Angular 18",
+        "TailwindCSS",
+        "Redux",
+        "NestJS",
+        "AWS Lambda",
+        "AWS Amplify"
+      ],
+      "scale": null,
+      "status": "claimed",
+      "evidenceLevel": "claimed",
+      "sourceCount": 1,
+      "userValidated": true,
+      "evidence": [
+        "User project update 2026-10-27",
+        "UNRESOLVED: servicios de AWS además de Lambda y Amplify.",
+        "UNRESOLVED: herramientas de pruebas.",
+        "UNRESOLVED: fechas del proyecto.",
+        "DiDi, Uber Eats y Rappi son integraciones del producto. No convertir cada una en un logro personal distinto del trabajo de sincronización descrito.",
+        "Empresa Lumston, producto Drizline y cliente Doña Tota son entidades distintas.",
+        "Confirmado por el usuario el 2026-10-27: Angular 18 y desarrollo completo.",
+        "Confirmado por el usuario el 2026-10-31 (revisión de contribuciones): desarrollo completo."
+      ],
+      "sourceRefs": [
+        "src_user_project_update_2026_10_27"
+      ],
+      "isEmployment": false,
+      "relevantForRoles": [
+        "Senior Angular Developer",
+        "Senior Frontend Developer",
+        "Senior Full Stack Engineer"
+      ],
+      "relevantWhenVacancyNeeds": [
+        "Angular",
+        "Tailwind CSS",
+        "Redux",
+        "NestJS",
+        "AWS Amplify",
+        "authentication"
+      ],
+      "contribution": "full"
+    },
+    {
+      "id": "project_bakertilly_legal_chatbot",
+      "name": "Baker Tilly Legal Chatbot",
+      "type": "web-application",
+      "description": "Lumston, Baker Tilly. Chatbot legal en Angular 15; entrenamiento con Amazon SageMaker y buckets de S3.",
+      "domain": [
+        "legal_technology"
+      ],
+      "platforms": [
+        "Web"
+      ],
+      "features": [
+        "Consulta de información de casos en un chatbot",
+        "Frontend Angular 15",
+        "Documentos legales vectorizados para recuperar información",
+        "Entrenamiento con Amazon SageMaker y buckets de S3"
+      ],
+      "technologies": [
+        "Angular 15",
+        "Amazon SageMaker",
+        "AWS S3"
+      ],
+      "scale": "Cientos de archivos legales (declarado por el usuario, no auditado)",
+      "status": "claimed",
+      "evidenceLevel": "claimed",
+      "sourceCount": 1,
+      "userValidated": true,
+      "evidence": [
+        "User project update 2026-10-27",
+        "UNRESOLVED: base de datos vectorial o servicio de vectorización.",
+        "UNRESOLVED: modelo o proveedor del chatbot.",
+        "UNRESOLVED: herramientas de pruebas y fechas.",
+        "Empresa Lumston y cliente Baker Tilly son entidades distintas.",
+        "Confirmado por el usuario el 2026-10-27: desarrollo completo; entrenamiento con SageMaker y buckets de S3.",
+        "UNRESOLVED: nombre del modelo y si la base vectorial es distinta de S3.",
+        "Confirmado por el usuario el 2026-10-31 (revisión de contribuciones): desarrollo completo."
+      ],
+      "sourceRefs": [
+        "src_user_project_update_2026_10_27"
+      ],
+      "isEmployment": false,
+      "relevantForRoles": [
+        "Senior Angular Developer",
+        "Senior Frontend Developer"
+      ],
+      "relevantWhenVacancyNeeds": [
+        "Angular",
+        "AWS"
+      ],
+      "contribution": "full"
+    },
+    {
+      "id": "project_healthcare_ai_video",
+      "name": "Acolyte",
+      "type": "web-application",
+      "description": "Lumston, cliente Acolyte. Frontend en React de una plataforma para crear videos a partir de prompts y editarlos con imágenes, video, música y evaluaciones.",
+      "domain": [
+        "healthcare_technology"
+      ],
+      "platforms": [
+        "Web"
+      ],
+      "features": [
+        "Generación de videos a partir de prompts",
+        "Edición del video generado en el frontend",
+        "Incorporación de imágenes, video y música",
+        "Creación de encuestas y evaluaciones"
+      ],
+      "technologies": [
+        "React",
+        "React Context API",
+        "AWS Cognito",
+        "AWS Amplify",
+        "Canvas",
+        "React Navigation"
+      ],
+      "scale": null,
+      "status": "claimed",
+      "evidenceLevel": "claimed",
+      "sourceCount": 1,
+      "userValidated": true,
+      "evidence": [
+        "User project update 2026-10-27",
+        "evidenceLevel: user_described_but_incomplete.",
+        "UNRESOLVED: versión de React, estado, pruebas y fechas.",
+        "Confirmado por el usuario el 2026-10-31: proyecto desarrollado en Lumston.",
+        "Confirmado por el usuario el 2026-10-31: Acolyte es la «plataforma de video»; el nombre del proyecto es Acolyte.",
+        "Confirmado por el usuario el 2026-10-31: Acolyte es también el nombre del cliente.",
+        "Confirmado por el usuario el 2026-10-31: su contribución fue solo el frontend. El backend (Django) y la generación de video (OpenAI) son del proyecto, no trabajo suyo; no atribuírselos."
+      ],
+      "sourceRefs": [
+        "src_user_project_update_2026_10_27"
+      ],
+      "isEmployment": false,
+      "relevantForRoles": [
+        "Senior Frontend Developer"
+      ],
+      "relevantWhenVacancyNeeds": [
+        "React"
+      ],
+      "contribution": "frontend"
+    },
+    {
+      "id": "project_altos_aceros",
+      "name": "Altos Aceros",
+      "type": "web-application",
+      "description": "Lumston, cliente Altos Aceros. Aplicación en Angular 15 con NestJS, Bootstrap y RxJS.",
+      "domain": [],
+      "platforms": [],
+      "features": [],
+      "technologies": [
+        "Angular 15",
+        "NestJS",
+        "Bootstrap",
+        "RxJS"
+      ],
+      "scale": null,
+      "status": "claimed",
+      "evidenceLevel": "claimed",
+      "sourceCount": 1,
+      "userValidated": true,
+      "evidence": [
+        "User project update 2026-10-27",
+        "Se conserva el nombre porque el usuario lo incluyó. No se inventan detalles.",
+        "Confirmado por el usuario el 2026-10-27: desarrollo completo. UNRESOLVED: propósito, tipo de aplicación y tecnologías.",
+        "Confirmado por el usuario el 2026-10-31 (revisión de contribuciones): desarrollo completo."
+      ],
+      "sourceRefs": [
+        "src_user_project_update_2026_10_27"
+      ],
+      "isEmployment": false,
+      "relevantForRoles": [],
+      "relevantWhenVacancyNeeds": [],
+      "contribution": "full"
+    },
+    {
+      "id": "project_grainchain_safra",
+      "name": "Safra Bank",
+      "type": "web-application",
+      "description": "Grainchain, cliente Safra Bank. Plataforma web en Angular 19 con Signals, interceptores e i18n, y backend en NestJS.",
+      "domain": [
+        "financial_technology"
+      ],
+      "platforms": [
+        "Web"
+      ],
+      "features": [
+        "Interceptores HTTP",
+        "Internacionalización (i18n)"
+      ],
+      "technologies": [
+        "Angular 19",
+        "TypeScript",
+        "Signals",
+        "NestJS",
+        "AWS CodeCommit",
+        "AWS CodePipeline"
+      ],
+      "scale": null,
+      "status": "claimed",
+      "evidenceLevel": "claimed",
+      "sourceCount": 1,
+      "userValidated": true,
+      "evidence": [
+        "User project update 2026-10-27",
+        "UNRESOLVED: alcance de Safra Bank.",
+        "UNRESOLVED: si la mejora de tablas (8 s → 3 s) pertenece a este proyecto. Hoy projectId de metric_exp_grainchain_0 es null.",
+        "Confirmado por el usuario el 2026-10-27: desarrollo completo. La mejora de tablas sigue solo en Grainchain.",
+        "Confirmado por el usuario el 2026-10-31 (revisión de contribuciones): desarrollo completo.",
+        "UNRESOLVED: la mejora de tablas (8 s → 3 s) es de Grainchain; no atribuirla a Safra Bank."
+      ],
+      "sourceRefs": [
+        "src_user_project_update_2026_10_27"
+      ],
+      "isEmployment": false,
+      "relevantForRoles": [],
+      "relevantWhenVacancyNeeds": [],
+      "contribution": "full"
+    },
+    {
+      "id": "project_blackeagle",
+      "name": "Blackeagle",
+      "type": "administrative-banking-platform",
+      "description": "Plataforma bancaria administrativa: usuarios, tarjetas, datos y transacciones. Next.js 15, NestJS, Python y reconocimiento facial.",
+      "domain": [
+        "financial_technology"
+      ],
+      "platforms": [
+        "Web"
+      ],
+      "features": [
+        "Gestión de usuarios, tarjetas, datos financieros y transacciones",
+        "Desarrollo completo de la plataforma",
+        "Servicio de reconocimiento facial como parte del sistema",
+        "Reconocimiento facial"
+      ],
+      "technologies": [
+        "Next.js 15",
+        "NestJS",
+        "Python"
+      ],
+      "scale": null,
+      "status": "claimed",
+      "evidenceLevel": "claimed",
+      "sourceCount": 1,
+      "userValidated": true,
+      "evidence": [
+        "User project update 2026-10-27",
+        "UNRESOLVED: base de datos, autenticación, pruebas y fechas.",
+        "UNRESOLVED: si Blackeagle pertenece a Hoppi / Get Together. No se atribuye empresa hasta confirmarlo.",
+        "Confirmado por el usuario el 2026-10-27: desarrollo completo.",
+        "Confirmado por el usuario el 2026-10-31 (revisión de contribuciones): desarrollo completo."
+      ],
+      "sourceRefs": [
+        "src_user_project_update_2026_10_27"
+      ],
+      "isEmployment": false,
+      "relevantForRoles": [
+        "Senior Frontend Developer",
+        "Senior Full Stack Engineer"
+      ],
+      "relevantWhenVacancyNeeds": [
+        "Next.js",
+        "NestJS",
+        "Python"
+      ],
+      "contribution": "full"
+    }
+  ],
+  "education": [
+    {
+      "degree": "Ingeniería en Desarrollo y Gestión de Software",
+      "institution": "Universidad Tecnológica del Centro de Veracruz",
+      "startDate": null,
+      "endDate": "2022",
+      "graduationYear": 2022,
+      "status": "user_validated",
+      "id": "edu_ing_utcv",
+      "evidenceLevel": "claimed",
+      "sourceCount": 1,
+      "userValidated": true,
+      "sourceRefs": [
+        "user"
+      ],
+      "evidence": [
+        "Declarado por el usuario el 2026-10-27: Ingeniería terminada en 2022 en la UTCV. Ningún CV fuente la menciona. UNRESOLVED: año de inicio."
+      ]
+    },
+    {
+      "degree": "TSU en Desarrollo de Software Multiplataforma (también referido como TSU Desarrollo y Gestión de Software / Associate's Degree in Multiplatform Software Development)",
+      "institution": "Universidad Tecnológica del Centro de Veracruz",
+      "startDate": "2019",
+      "endDate": "2022",
+      "graduationYear": 2022,
+      "status": "verified",
+      "id": "edu_tsu_utcv",
+      "evidenceLevel": "documented",
+      "sourceCount": 3,
+      "userValidated": true,
+      "sourceRefs": [
+        "src_cv_frontend_en",
+        "src_cv_historical"
+      ],
+      "showInCv": false,
+      "showInCvNote": "El usuario pidió el 2026-10-27 mostrar solo la Ingeniería en los CVs. El TSU se conserva en el perfil."
+    },
+    {
+      "degree": "Técnico en soporte y mantenimiento a equipo de cómputo",
+      "institution": "Centro de estudios tecnológicos industriales y de servicios 164",
+      "startDate": null,
+      "endDate": null,
+      "graduationYear": null,
+      "status": "mentioned",
+      "id": "edu_tecnico_cetis_164",
+      "evidenceLevel": "mentioned",
+      "sourceCount": 1,
+      "userValidated": true,
+      "sourceRefs": [
+        "src_cv_historical"
+      ],
+      "showInCv": false,
+      "showInCvNote": "El usuario pidió el 2026-10-30 ocultarlo en los CVs. Se conserva en el perfil."
+    },
+    {
+      "degree": "Técnico en Informática",
+      "institution": "Escuela Secundaria Técnica",
+      "startDate": null,
+      "endDate": null,
+      "graduationYear": null,
+      "status": "mentioned",
+      "id": "edu_tecnico_informatica",
+      "evidenceLevel": "mentioned",
+      "sourceCount": 1,
+      "userValidated": true,
+      "sourceRefs": [
+        "src_cv_historical"
+      ],
+      "showInCv": false,
+      "showInCvNote": "El usuario pidió el 2026-10-30 ocultarlo en los CVs. Se conserva en el perfil."
+    }
+  ],
+  "certifications": [
+    {
+      "name": "AWS Machine Learning Certification",
+      "issuer": "AWS",
+      "year": 2024,
+      "status": "verified",
+      "id": "cert_aws_ml",
+      "evidenceLevel": "documented",
+      "sourceCount": 3,
+      "userValidated": true,
+      "sourceRefs": [
+        "src_cv_frontend_en",
+        "src_cv_rn_en"
+      ]
+    },
+    {
+      "name": "Stripe Developer Certification",
+      "issuer": "Stripe",
+      "year": 2024,
+      "status": "verified",
+      "id": "cert_stripe_dev",
+      "evidenceLevel": "documented",
+      "sourceCount": 3,
+      "userValidated": true,
+      "sourceRefs": [
+        "src_cv_frontend_en",
+        "src_cv_rn_en"
+      ]
+    },
+    {
+      "name": "NDG Linux Essentials",
+      "issuer": "NDG / Cisco Networking Academy",
+      "year": 2020,
+      "status": "claimed",
+      "id": "cert_ndg_linux",
+      "evidenceLevel": "claimed",
+      "sourceCount": 2,
+      "userValidated": true,
+      "sourceRefs": [
+        "src_cv_frontend_en",
+        "src_cv_rn_en"
+      ]
+    },
+    {
+      "name": "CCNA: Switching and Routing",
+      "issuer": "Cisco",
+      "year": 2020,
+      "status": "verified",
+      "id": "cert_ccna",
+      "evidenceLevel": "documented",
+      "sourceCount": 3,
+      "userValidated": true,
+      "sourceRefs": [
+        "src_cv_frontend_en",
+        "src_cv_rn_en"
+      ]
+    },
+    {
+      "name": "IT Essentials: Hardware and Software",
+      "issuer": "Cisco",
+      "year": 2019,
+      "status": "mentioned",
+      "id": "cert_it_essentials",
+      "evidenceLevel": "mentioned",
+      "sourceCount": 1,
+      "userValidated": true,
+      "sourceRefs": [
+        "src_cv_historical"
+      ]
+    },
+    {
+      "name": "Tercer lugar — Olimpiada de Programación",
+      "issuer": "",
+      "year": 2017,
+      "status": "verified",
+      "id": "cert_olympiad_programming_2017",
+      "evidenceLevel": "documented",
+      "sourceCount": 3,
+      "userValidated": true,
+      "sourceRefs": [
+        "src_cv_frontend_en",
+        "src_cv_rn_en"
+      ]
+    },
+    {
+      "name": "Olimpiada de Conocimiento Nivel Media Superior — Finalista",
+      "issuer": "",
+      "year": 2016,
+      "status": "mentioned",
+      "id": "cert_olympiad_conocimiento_2016",
+      "evidenceLevel": "mentioned",
+      "sourceCount": 1,
+      "userValidated": true,
+      "sourceRefs": [
+        "src_cv_historical"
+      ]
+    },
+    {
+      "name": "Campeonato Estatal de Ortografía — Primer lugar",
+      "issuer": "",
+      "year": 2014,
+      "status": "mentioned",
+      "id": "cert_ortografia_2014",
+      "evidenceLevel": "mentioned",
+      "sourceCount": 1,
+      "userValidated": true,
+      "sourceRefs": [
+        "src_cv_historical"
+      ]
+    },
+    {
+      "name": "Olimpiada de Conocimiento Infantil — Primer lugar",
+      "issuer": "",
+      "year": 2011,
+      "status": "mentioned",
+      "id": "cert_olympiad_infantil_2011",
+      "evidenceLevel": "mentioned",
+      "sourceCount": 1,
+      "userValidated": true,
+      "sourceRefs": [
+        "src_cv_historical"
+      ]
+    }
+  ],
+  "languages": [
+    {
+      "id": "lang_spanish",
+      "language": "Spanish",
+      "level": "Native",
+      "status": "user_validated",
+      "evidenceLevel": "verified",
+      "sourceCount": 0,
+      "userValidated": true,
+      "conflicts": [],
+      "sourceValues": [
+        "native (inferred from document language)"
+      ],
+      "originalValues": {
+        "level": "native"
+      },
+      "sourceRefs": [
+        "src_cv_historical"
+      ]
+    },
+    {
+      "id": "lang_english",
+      "language": "English",
+      "level": "B2",
+      "status": "user_validated",
+      "evidenceLevel": "verified",
+      "sourceCount": 2,
+      "userValidated": true,
+      "conflicts": [],
+      "sourceValues": [
+        "professional proficiency",
+        "B1"
+      ],
+      "originalValues": {
+        "level": "B2"
+      },
+      "sourceRefs": [
+        "src_cv_frontend_en",
+        "src_cv_historical"
+      ]
+    }
+  ],
+  "metrics": [
+    {
+      "id": "metric_exp_uffpay_0",
+      "value": 25.0,
+      "unit": "percent",
+      "type": "user_metric",
+      "description": "Reducción de errores en flujos de pago: pagos rechazados, correos y mensajes que no se enviaban y cierres inesperados de la app",
+      "company": "UffPay",
+      "project": "",
+      "status": "user_validated",
+      "confidence": "high",
+      "experienceId": "exp_uffpay",
+      "projectId": null,
+      "evidenceLevel": "claimed",
+      "sourceCount": 1,
+      "userValidated": true,
+      "safeForCV": true,
+      "requiresUserValidation": false,
+      "sourceRefs": [
+        "user"
+      ]
+    },
+    {
+      "id": "metric_exp_uffpay_1",
+      "value": 30.0,
+      "unit": "percent",
+      "type": "user_metric",
+      "description": "Optimización de tiempos de respuesta en APIs",
+      "company": "UffPay",
+      "project": "",
+      "status": "user_validated",
+      "confidence": "high",
+      "experienceId": "exp_uffpay",
+      "projectId": null,
+      "evidenceLevel": "claimed",
+      "sourceCount": 1,
+      "userValidated": true,
+      "safeForCV": true,
+      "requiresUserValidation": false,
+      "sourceRefs": [
+        "user"
+      ]
+    },
+    {
+      "id": "metric_exp_grainchain_0",
+      "value": 62.0,
+      "unit": "percent",
+      "type": "user_metric",
+      "description": "Reducción del tiempo de carga de las tablas de préstamos de 8 s a 3 s",
+      "company": "Grainchain Inc",
+      "project": "",
+      "status": "user_validated",
+      "confidence": "high",
+      "experienceId": "exp_grainchain",
+      "projectId": null,
+      "evidenceLevel": "claimed",
+      "sourceCount": 1,
+      "userValidated": true,
+      "safeForCV": true,
+      "requiresUserValidation": false,
+      "sourceRefs": [
+        "user"
+      ]
+    },
+    {
+      "id": "metric_exp_lumston_0",
+      "value": 70.0,
+      "unit": "percent",
+      "type": "user_metric",
+      "description": "Reducción del tiempo de carga de vuelos en Volaris Manifest de 10 s a 3 s",
+      "company": "Lumston",
+      "project": "Volaris Manifest",
+      "status": "user_validated",
+      "confidence": "high",
+      "experienceId": "exp_lumston",
+      "projectId": "project_volaris_manifest",
+      "evidenceLevel": "claimed",
+      "sourceCount": 1,
+      "userValidated": true,
+      "safeForCV": true,
+      "requiresUserValidation": false,
+      "sourceRefs": [
+        "user"
+      ]
+    },
+    {
+      "id": "metric_exp_lumston_1",
+      "value": 20.0,
+      "unit": "percent",
+      "type": "user_metric",
+      "description": "Entrega continua de features reduciendo tiempos de desarrollo",
+      "company": "Lumston",
+      "project": "",
+      "status": "user_validated",
+      "confidence": "high",
+      "experienceId": "exp_lumston",
+      "projectId": null,
+      "evidenceLevel": "claimed",
+      "sourceCount": 1,
+      "userValidated": true,
+      "safeForCV": true,
+      "requiresUserValidation": false,
+      "sourceRefs": [
+        "user"
+      ]
+    },
+    {
+      "id": "metric_exp_monkey_cave_0",
+      "value": 25.0,
+      "unit": "percent",
+      "type": "user_metric",
+      "description": "Aumento de actividades cerradas por sprint",
+      "company": "Monkey Cave",
+      "project": "",
+      "status": "user_validated",
+      "confidence": "high",
+      "experienceId": "exp_monkey_cave",
+      "projectId": null,
+      "evidenceLevel": "claimed",
+      "sourceCount": 1,
+      "userValidated": true,
+      "safeForCV": true,
+      "requiresUserValidation": false,
+      "sourceRefs": [
+        "user"
+      ]
+    }
+  ],
+  "skillAliases": {
+    "Node.js": {
+      "id": "skill_nodejs",
+      "canonical": "Node.js",
+      "aliases": [
+        "Node",
+        "Node Js",
+        "NodeJS"
+      ]
+    },
+    "PostgreSQL": {
+      "id": "skill_postgresql",
+      "canonical": "PostgreSQL",
+      "aliases": [
+        "Postgres"
+      ]
+    },
+    "MongoDB": {
+      "id": "skill_mongodb",
+      "canonical": "MongoDB",
+      "aliases": [
+        "Mongo",
+        "Mongo DB"
+      ]
+    },
+    "React Native": {
+      "id": "skill_react_native",
+      "canonical": "React Native",
+      "aliases": [
+        "RN",
+        "ReactNative"
+      ]
+    },
+    "JavaScript": {
+      "id": "skill_javascript",
+      "canonical": "JavaScript",
+      "aliases": [
+        "JS",
+        "Javascript"
+      ]
+    },
+    "TypeScript": {
+      "id": "skill_typescript",
+      "canonical": "TypeScript",
+      "aliases": [
+        "TS"
+      ]
+    },
+    "Next.js": {
+      "id": "skill_nextjs",
+      "canonical": "Next.js",
+      "aliases": [
+        "Next",
+        "Next JS",
+        "Next Js"
+      ]
+    },
+    "NestJS": {
+      "id": "skill_nestjs",
+      "canonical": "NestJS",
+      "aliases": [
+        "Nest"
+      ]
+    },
+    "Express.js": {
+      "id": "skill_expressjs",
+      "canonical": "Express.js",
+      "aliases": [
+        "Express"
+      ]
+    },
+    "React": {
+      "id": "skill_react",
+      "canonical": "React",
+      "aliases": [
+        "React JS"
+      ]
+    },
+    "Stripe": {
+      "id": "skill_stripe",
+      "canonical": "Stripe",
+      "aliases": [
+        "Strip"
+      ]
+    },
+    "CCNA": {
+      "id": "skill_ccna",
+      "canonical": "CCNA",
+      "aliases": [
+        "CNNA"
+      ]
+    },
+    "Vue": {
+      "id": "skill_vue",
+      "canonical": "Vue",
+      "aliases": [
+        "Vue.js"
+      ]
+    },
+    "Angular": {
+      "id": "skill_angular",
+      "canonical": "Angular",
+      "aliases": []
+    }
+  },
+  "positioningProfiles": {
+    "Senior Angular Developer": {
+      "id": "pos_senior_angular_developer",
+      "preferredTitle": "Senior Angular Developer",
+      "prioritySkills": [
+        "Angular",
+        "TypeScript",
+        "NgRx",
+        "RxJS",
+        "Signals",
+        "Angular Material",
+        "ngx-translate",
+        "Jest"
+      ],
+      "priorityExperience": [
+        "exp_grainchain",
+        "exp_lumston",
+        "exp_monkey_cave"
+      ],
+      "priorityExperienceLabels": [
+        "Grainchain Inc",
+        "Lumston",
+        "Monkey Cave"
+      ],
+      "priorityProjects": [
+        "project_volaris_manifest",
+        "project_tecnologico_monterrey",
+        "project_drizline_dona_tota",
+        "project_bakertilly_legal_chatbot"
+      ],
+      "priorityProjectLabels": [
+        "Volaris Manifest",
+        "Tecnológico de Monterrey",
+        "Drizline",
+        "Baker Tilly Legal Chatbot"
+      ],
+      "secondarySkills": [
+        "React",
+        "Next.js",
+        "REST APIs",
+        "AWS S3",
+        "CI/CD"
+      ],
+      "sellingPoints": [
+        "Dashboards financieros Angular + NgRx",
+        "Performance de tablas: 8 s → 3 s con virtual scroll y paginación (Grainchain)",
+        "i18n, Signals, RxJS",
+        "Formularios, validación y PDF con pdfmake en Volaris Manifest (Angular 16)",
+        "Angular 16, guards, interceptores y Redux en Tecnológico de Monterrey",
+        "Entrenamiento del chatbot de Baker Tilly con SageMaker y buckets de S3"
+      ],
+      "avoidUnlessRelevant": [
+        "PHP",
+        "Laravel",
+        "Java",
+        "Ionic",
+        "Mercado Pago",
+        "PayPal",
+        "Vue"
+      ],
+      "summaryFocus": [
+        "financial dashboards",
+        "enterprise applications",
+        "performance",
+        "state management"
+      ],
+      "keywordStrategy": [
+        "Angular",
+        "TypeScript",
+        "NgRx",
+        "RxJS",
+        "Signals",
+        "Angular Material",
+        "dashboards",
+        "fintech",
+        "i18n",
+        "performance"
+      ]
+    },
+    "Senior Frontend Developer": {
+      "id": "pos_senior_frontend_developer",
+      "preferredTitle": "Senior Frontend Developer",
+      "prioritySkills": [
+        "Angular",
+        "React",
+        "Next.js",
+        "TypeScript",
+        "TailwindCSS",
+        "Redux",
+        "NgRx",
+        "SSR"
+      ],
+      "priorityExperience": [
+        "exp_grainchain",
+        "exp_lumston",
+        "exp_uffpay",
+        "exp_monkey_cave"
+      ],
+      "priorityExperienceLabels": [
+        "Grainchain Inc",
+        "Lumston",
+        "UffPay",
+        "Monkey Cave"
+      ],
+      "priorityProjects": [
+        "project_volaris_manifest",
+        "project_tecnologico_monterrey",
+        "project_drizline_dona_tota",
+        "project_bakertilly_legal_chatbot",
+        "project_uffpay",
+        "project_sortalia",
+        "project_blackeagle",
+        "project_healthcare_ai_video"
+      ],
+      "priorityProjectLabels": [
+        "Volaris Manifest",
+        "Tecnológico de Monterrey",
+        "Drizline",
+        "Baker Tilly Legal Chatbot",
+        "UffPay",
+        "SORTALIA",
+        "Blackeagle"
+      ],
+      "secondarySkills": [
+        "React Native",
+        "Node.js",
+        "Stripe",
+        "AWS S3"
+      ],
+      "sellingPoints": [
+        "Angular + React/Next.js en producción",
+        "Performance y SSR",
+        "Stripe y fintech",
+        "Formularios, validación, APIs y PDF con pdfmake en Volaris Manifest (Angular 16)",
+        "Drizline en Angular 18: Redux, Tailwind CSS y login de Microsoft"
+      ],
+      "avoidUnlessRelevant": [
+        "PHP",
+        "Laravel",
+        "Java",
+        "Ionic"
+      ],
+      "summaryFocus": [
+        "Angular + React/Next.js",
+        "performance",
+        "SSR",
+        "fintech"
+      ],
+      "keywordStrategy": [
+        "Angular",
+        "React",
+        "Next.js",
+        "TypeScript",
+        "SSR",
+        "responsive",
+        "performance",
+        "Stripe"
+      ]
+    },
+    "Senior React Native Developer": {
+      "id": "pos_senior_react_native_developer",
+      "preferredTitle": "Senior React Native Developer",
+      "prioritySkills": [
+        "React Native",
+        "TypeScript",
+        "Redux",
+        "MobX",
+        "Firebase",
+        "CodePush",
+        "App Store",
+        "Play Console"
+      ],
+      "priorityExperience": [
+        "exp_uffpay",
+        "exp_lumston",
+        "exp_deva_software",
+        "exp_monkey_cave"
+      ],
+      "priorityExperienceLabels": [
+        "UffPay",
+        "Lumston",
+        "Deva Software",
+        "Monkey Cave"
+      ],
+      "priorityProjects": [
+        "project_uffpay",
+        "project_sortalia",
+        "project_hoppi",
+        "project_desansiedad"
+      ],
+      "priorityProjectLabels": [
+        "UffPay",
+        "SORTALIA",
+        "Hoppi get together",
+        "Desansiedad"
+      ],
+      "secondarySkills": [
+        "AdonisJS",
+        "Node.js",
+        "Cybersource",
+        "Neonet",
+        "Zustand"
+      ],
+      "sellingPoints": [
+        "Fintech móvil UffPay",
+        "Pagos Cybersource/Neonet",
+        "Publicación en tiendas y CodePush"
+      ],
+      "avoidUnlessRelevant": [
+        "Angular Material",
+        "PHP",
+        "Laravel",
+        "AWS Glue",
+        "AWS Athena"
+      ],
+      "summaryFocus": [
+        "fintech mobile",
+        "payments",
+        "store release",
+        "performance"
+      ],
+      "keywordStrategy": [
+        "React Native",
+        "TypeScript",
+        "Redux",
+        "MobX",
+        "fintech",
+        "payments",
+        "App Store",
+        "Play Console",
+        "CodePush",
+        "Firebase"
+      ]
+    },
+    "Senior Full Stack Engineer": {
+      "id": "pos_senior_full_stack_engineer",
+      "preferredTitle": "Senior Full Stack Engineer",
+      "prioritySkills": [
+        "Angular",
+        "TypeScript",
+        "Node.js",
+        "NestJS",
+        "AdonisJS",
+        "PostgreSQL",
+        "REST APIs",
+        "Docker",
+        "AWS Lambda",
+        "AWS EC2"
+      ],
+      "priorityExperience": [
+        "exp_uffpay",
+        "exp_lumston",
+        "exp_grainchain",
+        "exp_deva_software",
+        "exp_monkey_cave"
+      ],
+      "priorityExperienceLabels": [
+        "UffPay",
+        "Lumston",
+        "Grainchain Inc",
+        "Deva Software",
+        "Monkey Cave"
+      ],
+      "priorityProjects": [
+        "project_tecnologico_monterrey",
+        "project_drizline_dona_tota",
+        "project_uffpay",
+        "project_sortalia",
+        "project_fatimas_bakery",
+        "project_blackeagle",
+        "project_bakertilly_legal_chatbot"
+      ],
+      "priorityProjectLabels": [
+        "Tecnológico de Monterrey",
+        "Drizline",
+        "UffPay",
+        "SORTALIA",
+        "Fatima's Bakery",
+        "Blackeagle",
+        "Baker Tilly Legal Chatbot"
+      ],
+      "secondarySkills": [
+        "MongoDB",
+        "Express.js",
+        "Prisma",
+        "GitHub Actions"
+      ],
+      "sellingPoints": [
+        "De UI a API y AWS",
+        "AdonisJS + React Native en UffPay",
+        "NestJS/PostgreSQL/Prisma en SORTALIA",
+        "Soporte y performance listados en CV Full Stack",
+        "Frontend y backend con NestJS y AWS Lambda en Tecnológico de Monterrey y Drizline",
+        "Entrenamiento del chatbot de Baker Tilly con SageMaker y buckets de S3"
+      ],
+      "avoidUnlessRelevant": [
+        "Ionic",
+        "Java"
+      ],
+      "summaryFocus": [
+        "UI to API",
+        "AWS",
+        "NestJS/AdonisJS",
+        "PostgreSQL"
+      ],
+      "keywordStrategy": [
+        "Angular",
+        "Node.js",
+        "NestJS",
+        "PostgreSQL",
+        "AWS",
+        "TypeScript",
+        "REST APIs",
+        "microservices",
+        "Docker"
+      ]
+    }
+  },
+  "conflicts": [],
+  "careerTimeline": [
+    {
+      "id": "tl_exp_uffpay",
+      "experienceId": "exp_uffpay",
+      "company": "UffPay",
+      "role": "Frontend",
+      "roles": [
+        "Frontend",
+        "React Native Developer",
+        "Full Stack (React Native + Backend)"
+      ],
+      "startDate": "2026-04",
+      "endDate": null,
+      "dateStatus": "verified",
+      "sourceValues": {
+        "startDate": [
+          "2023-01",
+          "2024-01"
+        ],
+        "endDate": [
+          "2024-07"
+        ]
+      },
+      "userValidated": true,
+      "kind": "employment",
+      "current": true,
+      "additionalPeriods": [
+        {
+          "startDate": "2024-01",
+          "endDate": "2024-07"
+        }
+      ]
+    },
+    {
+      "id": "tl_exp_grainchain",
+      "experienceId": "exp_grainchain",
+      "company": "Grainchain Inc",
+      "role": "Senior Frontend Developer",
+      "roles": [
+        "Senior Frontend Developer"
+      ],
+      "startDate": "2025-06",
+      "endDate": "2026-04",
+      "dateStatus": "verified",
+      "sourceValues": {
+        "startDate": [
+          "2025-01",
+          "2025-06"
+        ],
+        "endDate": [
+          "2026-04"
+        ]
+      },
+      "userValidated": true,
+      "kind": "employment",
+      "current": false
+    },
+    {
+      "id": "tl_exp_corus",
+      "experienceId": "exp_corus",
+      "company": "Corus",
+      "role": "",
+      "roles": [],
+      "startDate": "2025-08",
+      "endDate": "2026-01",
+      "dateStatus": "verified",
+      "sourceValues": {},
+      "userValidated": true,
+      "kind": "employment",
+      "current": false
+    },
+    {
+      "id": "tl_exp_lumston",
+      "experienceId": "exp_lumston",
+      "company": "Lumston",
+      "role": "Frontend Developer",
+      "roles": [
+        "Frontend Developer",
+        "React Native Developer",
+        "Full Stack / Frontend Developer"
+      ],
+      "startDate": "2023-05",
+      "endDate": "2025-06",
+      "dateStatus": "verified",
+      "sourceValues": {},
+      "userValidated": true,
+      "kind": "employment",
+      "current": false
+    },
+    {
+      "id": "tl_exp_monkey_cave",
+      "experienceId": "exp_monkey_cave",
+      "company": "Monkey Cave",
+      "role": "Senior Frontend Developer / Technical Leader",
+      "roles": [
+        "Senior Frontend Developer / Technical Leader",
+        "Technical Leader"
+      ],
+      "startDate": "2022-01",
+      "endDate": "2023-05",
+      "dateStatus": "verified",
+      "sourceValues": {
+        "ranges": [
+          "2020-01 – 2023-01",
+          "2020-06 – 2022-01",
+          "2022-01 – actualidad (CV histórico)"
+        ]
+      },
+      "userValidated": true,
+      "kind": "employment",
+      "current": false
+    },
+    {
+      "id": "tl_exp_deva_software",
+      "experienceId": "exp_deva_software",
+      "company": "Deva Software",
+      "role": "Fullstack Developer (React Native, NodeJS)",
+      "roles": [
+        "Fullstack Developer (React Native, NodeJS)"
+      ],
+      "startDate": "2021-06",
+      "endDate": "2022-01",
+      "dateStatus": "verified",
+      "sourceValues": {},
+      "userValidated": true,
+      "kind": "employment",
+      "current": false
+    },
+    {
+      "id": "tl_exp_multiplica",
+      "experienceId": "exp_multiplica",
+      "company": "Multiplica",
+      "role": "Angular Developer",
+      "roles": [
+        "Angular Developer"
+      ],
+      "startDate": "2021-02",
+      "endDate": "2021-06",
+      "dateStatus": "verified",
+      "sourceValues": {},
+      "userValidated": true,
+      "kind": "employment",
+      "current": false
+    },
+    {
+      "id": "tl_exp_nano_degree",
+      "experienceId": "exp_nano_degree",
+      "company": "Nano Degree",
+      "role": "Ionic Developer",
+      "roles": [
+        "Ionic Developer"
+      ],
+      "startDate": "2020-01",
+      "endDate": "2021-02",
+      "dateStatus": "verified",
+      "sourceValues": {},
+      "userValidated": true,
+      "kind": "employment",
+      "current": false
+    },
+    {
+      "id": "tl_exp_ctz",
+      "experienceId": "exp_ctz",
+      "company": "Centro Tecnológico Zongolica",
+      "role": "Mobile Developer Jr",
+      "roles": [
+        "Mobile Developer Jr",
+        "Fullstack Developer Jr",
+        "Frontend Developer Jr",
+        "Backend Developer Jr"
+      ],
+      "startDate": "2019-04",
+      "endDate": "2019-11",
+      "dateStatus": "verified",
+      "sourceValues": {},
+      "userValidated": true,
+      "kind": "employment",
+      "current": false
+    }
+  ],
+  "yearsOfExperience": {
+    "value": 7.4,
+    "source": "computed_from_user_validated_dates",
+    "status": "computed",
+    "evidenceLevel": "verified",
+    "sourceValues": [
+      "7+",
+      "6+",
+      "4"
+    ],
+    "userValidated": true,
+    "note": "Valor del perfil completo (incluye 2019). El CV usa el menor entre este valor y lo que muestran las fechas visibles."
+  },
+  "userValidation": {
+    "pending": [
+      "Confirmar base de datos y servicios AWS además de Lambda en Tecnológico de Monterrey.",
+      "Baker Tilly: falta el nombre del modelo. El entrenamiento confirmado es SageMaker y buckets de S3.",
+      "Altos Aceros: la contribución es desarrollo completo. Faltan propósito, tipo de aplicación y tecnologías.",
+      "Safra Bank: la contribución es desarrollo completo. Faltan alcance y stack. La mejora de tablas (8 s → 3 s) no se atribuye a este proyecto.",
+      "Blackeagle: la contribución es desarrollo completo. Falta confirmar si la empresa es Hoppi / Get Together.",
+      "UffPay: falta el cómo y la medición del 30% en tiempos de respuesta de APIs."
+    ],
+    "resolved": [
+      {
+        "field": "profile.contact.email",
+        "previousValues": [
+          "jairoantoniocamarillotinoco@gmail.com",
+          "Jailiz123456@gmail.com"
+        ],
+        "resolvedValue": "jairoantoniocamarillotinoco@gmail.com",
+        "resolvedAt": "2026-08-20",
+        "source": "user"
+      },
+      {
+        "field": "profile.contact.phone",
+        "previousValues": [
+          "+52 271 352 9511",
+          "271 217 0477"
+        ],
+        "resolvedValue": "+52 271 352 9511",
+        "resolvedAt": "2026-08-20",
+        "source": "user"
+      },
+      {
+        "field": "profile.contact.location",
+        "previousValues": [
+          "Yanga Veracruz 94930 (solo CV histórico)",
+          "omitido en CVs 2025–2026"
+        ],
+        "resolvedValue": "omitido en CVs 2025–2026",
+        "resolvedAt": "2026-08-20",
+        "source": "user"
+      },
+      {
+        "field": "yearsOfExperience",
+        "previousValues": [
+          "7+",
+          "6+",
+          "4"
+        ],
+        "resolvedValue": "7+",
+        "resolvedAt": "2026-08-20",
+        "source": "user"
+      },
+      {
+        "field": "experience.Grainchain.startDate",
+        "previousValues": [
+          "2025-01",
+          "2025-06"
+        ],
+        "resolvedValue": "2025-06",
+        "resolvedAt": "2026-08-20",
+        "source": "user"
+      },
+      {
+        "field": "experience.UffPay.startDate",
+        "previousValues": [
+          "2023-01",
+          "2024-01"
+        ],
+        "resolvedValue": "2024-01",
+        "resolvedAt": "2026-08-20",
+        "source": "user"
+      },
+      {
+        "field": "experience.MonkeyCave.dates",
+        "previousValues": [
+          "2020-01 – 2023-01",
+          "2020-06 – 2022-01",
+          "2022-01 – actualidad (CV histórico)"
+        ],
+        "resolvedValue": "2020-01 – 2023-01",
+        "resolvedAt": "2026-08-20",
+        "source": "user"
+      },
+      {
+        "field": "experience.Lumston.mobileStack",
+        "previousValues": [
+          "Angular y Next.js (CVs Frontend/Full Stack)",
+          "React Native (CV RN)"
+        ],
+        "resolvedValue": "Angular y Next.js (CVs Frontend/Full Stack)",
+        "resolvedAt": "2026-08-20",
+        "source": "user"
+      },
+      {
+        "field": "experience.earlyCareer",
+        "previousValues": [
+          "CVs 2025–2026 consolidan 2020–2023 como Monkey Cave",
+          "CV histórico separa Deva Software, Multiplica, Nano Degree, CTZ"
+        ],
+        "resolvedValue": "CVs 2025–2026 consolidan 2020–2023 como Monkey Cave",
+        "resolvedAt": "2026-08-20",
+        "source": "user"
+      },
+      {
+        "field": "languages.English.level",
+        "previousValues": [
+          "professional proficiency",
+          "B1"
+        ],
+        "resolvedValue": "professional proficiency",
+        "resolvedAt": "2026-08-20",
+        "source": "user"
+      },
+      {
+        "field": "certifications.NDG Linux Essentials",
+        "previousValues": [
+          "presente en CV RN, knowledge_base y CV histórico",
+          "ausente en PDF Frontend English y PDF Full Stack"
+        ],
+        "resolvedValue": "presente en CV RN, knowledge_base y CV histórico",
+        "resolvedAt": "2026-08-20",
+        "source": "user"
+      },
+      {
+        "field": "skills.Vue",
+        "previousValues": [
+          "listado en PDF Frontend English",
+          "ausente en el resto de CVs"
+        ],
+        "resolvedValue": "listado en PDF Frontend English",
+        "resolvedAt": "2026-08-20",
+        "source": "user"
+      },
+      {
+        "field": "skills.fullstackOnlyCloudAndSupport",
+        "previousValues": [
+          "Lambda, API Gateway, CloudFront, CloudWatch, Glue, Athena, L3/L4 support, RCA: solo CV Full Stack skills list",
+          "no aparecen como bullets de experiencia en otros CVs"
+        ],
+        "resolvedValue": "Lambda, API Gateway, CloudFront, CloudWatch, Glue, Athena, L3/L4 support, RCA: solo CV Full Stack skills list",
+        "resolvedAt": "2026-08-20",
+        "source": "user"
+      },
+      {
+        "field": "projects.historical.technologies",
+        "previousValues": [
+          "El PDF histórico muestra bloques compartidos 'Tecnologías aplicadas' (React Native, Express.js, MongoDB, Angular, Laravel, Postgres, Ionic, MySQL, React) sin asignar stack único a cada proyecto"
+        ],
+        "resolvedValue": "El PDF histórico muestra bloques compartidos 'Tecnologías aplicadas' (React Native, Express.js, MongoDB, Angular, Laravel, Postgres, Ionic, MySQL, React) sin asignar stack único a cada proyecto",
+        "resolvedAt": "2026-08-20",
+        "source": "user"
+      },
+      {
+        "field": "projects.SORTALIA.backend",
+        "previousValues": [
+          "README_OBJECTIVE_PROJECT.md: Node.js + Express.js + Prisma",
+          "sortalia-api/README.md: NestJS + TypeScript + PostgreSQL + Prisma"
+        ],
+        "resolvedValue": "README_OBJECTIVE_PROJECT.md: Node.js + Express.js + Prisma",
+        "resolvedAt": "2026-08-20",
+        "source": "user"
+      },
+      {
+        "field": "metrics.Grainchain.render_time_reduction",
+        "previousValues": [
+          "35% en CV RN, knowledge_base y summary Frontend",
+          "no está en los bullets de Grainchain del PDF Frontend/Full Stack (ahí se habla de charts/dashboards)"
+        ],
+        "resolvedValue": "35% en CV RN, knowledge_base y summary Frontend",
+        "resolvedAt": "2026-08-20",
+        "source": "user"
+      },
+      {
+        "field": "experience.Grainchain.startDate",
+        "previousValues": [
+          "2025-01",
+          "2025-06"
+        ],
+        "resolvedValue": "2025-06 – 2026-04",
+        "resolvedAt": "2026-08-20",
+        "source": "user"
+      },
+      {
+        "field": "experience.UffPay.startDate",
+        "previousValues": [
+          "2023-01",
+          "2024-01"
+        ],
+        "resolvedValue": "2024-01 – 2024-07",
+        "resolvedAt": "2026-08-20",
+        "source": "user"
+      },
+      {
+        "field": "experience",
+        "previousValues": [],
+        "resolvedValue": "order_dates_employmentType",
+        "resolvedAt": "2026-08-20",
+        "source": "user"
+      },
+      {
+        "field": "experience.Grainchain.startDate",
+        "previousValues": [
+          "2025-01",
+          "2025-06"
+        ],
+        "resolvedValue": "2025-06 – 2026-04",
+        "resolvedAt": "2026-08-20",
+        "source": "user"
+      },
+      {
+        "field": "experience.UffPay.startDate",
+        "previousValues": [
+          "2023-01",
+          "2024-01"
+        ],
+        "resolvedValue": "2024-01 – 2024-07",
+        "resolvedAt": "2026-08-20",
+        "source": "user"
+      },
+      {
+        "field": "experience",
+        "previousValues": [],
+        "resolvedValue": "order_dates_employmentType",
+        "resolvedAt": "2026-08-20",
+        "source": "user"
+      },
+      {
+        "field": "experience.Grainchain.startDate",
+        "previousValues": [
+          "2025-01",
+          "2025-06"
+        ],
+        "resolvedValue": "2025-06 – 2026-04",
+        "resolvedAt": "2026-08-20",
+        "source": "user"
+      },
+      {
+        "field": "experience.UffPay.startDate",
+        "previousValues": [
+          "2023-01",
+          "2024-01"
+        ],
+        "resolvedValue": "2024-01 – 2024-07",
+        "resolvedAt": "2026-08-20",
+        "source": "user"
+      },
+      {
+        "field": "experience",
+        "previousValues": [],
+        "resolvedValue": "order_dates_employmentType",
+        "resolvedAt": "2026-08-20",
+        "source": "user"
+      },
+      {
+        "field": "experience.Grainchain.startDate",
+        "previousValues": [
+          "2025-01",
+          "2025-06"
+        ],
+        "resolvedValue": "2025-06 – 2026-04",
+        "resolvedAt": "2026-08-20",
+        "source": "user"
+      },
+      {
+        "field": "experience.UffPay.startDate",
+        "previousValues": [
+          "2023-01",
+          "2024-01"
+        ],
+        "resolvedValue": "2024-01 – 2024-07",
+        "resolvedAt": "2026-08-20",
+        "source": "user"
+      },
+      {
+        "field": "experience",
+        "previousValues": [],
+        "resolvedValue": "order_dates_employmentType",
+        "resolvedAt": "2026-08-20",
+        "source": "user"
+      },
+      {
+        "field": "experience.UffPay.startDate",
+        "previousValues": [
+          "2023-01",
+          "2024-01"
+        ],
+        "resolvedValue": "2026-04 – Actualidad",
+        "resolvedAt": "2026-08-20",
+        "source": "user"
+      },
+      {
+        "field": "experience.Grainchain.startDate",
+        "previousValues": [
+          "2025-01",
+          "2025-06"
+        ],
+        "resolvedValue": "2025-06 – 2026-04",
+        "resolvedAt": "2026-08-20",
+        "source": "user"
+      },
+      {
+        "field": "experience.MonkeyCave.dates",
+        "previousValues": [
+          "2020-01 – 2023-01",
+          "2020-06 – 2022-01",
+          "2022-01 – actualidad (CV histórico)"
+        ],
+        "resolvedValue": "2022-01 – 2023-05",
+        "resolvedAt": "2026-08-20",
+        "source": "user"
+      },
+      {
+        "field": "experience",
+        "previousValues": [],
+        "resolvedValue": "order_dates_employmentType",
+        "resolvedAt": "2026-08-20",
+        "source": "user"
+      },
+      {
+        "field": "experience.UffPay.startDate",
+        "previousValues": [
+          "2023-01",
+          "2024-01"
+        ],
+        "resolvedValue": "2026-04 – Actualidad",
+        "resolvedAt": "2026-08-20",
+        "source": "user"
+      },
+      {
+        "field": "experience.Grainchain.startDate",
+        "previousValues": [
+          "2025-01",
+          "2025-06"
+        ],
+        "resolvedValue": "2025-06 – 2026-04",
+        "resolvedAt": "2026-08-20",
+        "source": "user"
+      },
+      {
+        "field": "experience.MonkeyCave.dates",
+        "previousValues": [
+          "2020-01 – 2023-01",
+          "2020-06 – 2022-01",
+          "2022-01 – actualidad (CV histórico)"
+        ],
+        "resolvedValue": "2022-01 – 2023-05",
+        "resolvedAt": "2026-08-20",
+        "source": "user"
+      },
+      {
+        "field": "experience",
+        "previousValues": [],
+        "resolvedValue": "order_dates_employmentType",
+        "resolvedAt": "2026-08-20",
+        "source": "user"
+      },
+      {
+        "field": "profile.content",
+        "previousValues": [],
+        "resolvedValue": "identity_experience_education",
+        "resolvedAt": "2026-10-05",
+        "source": "user"
+      },
+      {
+        "field": "profile.content",
+        "previousValues": [],
+        "resolvedValue": "identity_experience_education",
+        "resolvedAt": "2026-10-05",
+        "source": "user"
+      },
+      {
+        "field": "profile.content",
+        "previousValues": [],
+        "resolvedValue": "identity_experience_education",
+        "resolvedAt": "2026-10-05",
+        "source": "user"
+      },
+      {
+        "field": "profile.content",
+        "previousValues": [],
+        "resolvedValue": "identity_experience_education",
+        "resolvedAt": "2026-10-05",
+        "source": "user"
+      },
+      {
+        "field": "profile.content",
+        "previousValues": [],
+        "resolvedValue": "identity_experience_education",
+        "resolvedAt": "2026-10-05",
+        "source": "user"
+      },
+      {
+        "field": "profile.content",
+        "previousValues": [],
+        "resolvedValue": "identity_experience_education",
+        "resolvedAt": "2026-10-05",
+        "source": "user"
+      },
+      {
+        "field": "profile.content",
+        "previousValues": [],
+        "resolvedValue": "identity_experience_education",
+        "resolvedAt": "2026-10-05",
+        "source": "user"
+      },
+      {
+        "field": "experience.UffPay.startDate",
+        "previousValues": [],
+        "resolvedValue": "2024-01 – 2024-07 y 2026-04 – Actualidad (dos etapas)",
+        "resolvedAt": "2026-10-27",
+        "source": "user"
+      },
+      {
+        "field": "experience.MonkeyCave.dates",
+        "previousValues": [],
+        "resolvedValue": "2022-01 – 2023-05",
+        "resolvedAt": "2026-10-27",
+        "source": "user"
+      },
+      {
+        "field": "experience.Corus",
+        "previousValues": [],
+        "resolvedValue": "2025-08 – 2026-01, no se muestra en CVs",
+        "resolvedAt": "2026-10-27",
+        "source": "user"
+      },
+      {
+        "field": "metrics.Grainchain.render_time_reduction",
+        "previousValues": [
+          "35%"
+        ],
+        "resolvedValue": "8 s → 3 s (62%)",
+        "resolvedAt": "2026-10-30",
+        "source": "user"
+      },
+      {
+        "field": "metrics.Lumston.load_time_reduction",
+        "previousValues": [
+          "30%"
+        ],
+        "resolvedValue": "10 s → 3 s (70%), Volaris Manifest",
+        "resolvedAt": "2026-10-30",
+        "source": "user"
+      },
+      {
+        "field": "profile.content",
+        "previousValues": [],
+        "resolvedValue": "identity_experience_education",
+        "resolvedAt": "2026-10-30",
+        "source": "user"
+      },
+      {
+        "field": "profile.content",
+        "previousValues": [],
+        "resolvedValue": "identity_experience_education",
+        "resolvedAt": "2026-10-30",
+        "source": "user"
+      },
+      {
+        "field": "education.cvVisibility",
+        "previousValues": [],
+        "resolvedValue": "Ocultar CETIS 164 y Escuela Secundaria Técnica en CVs",
+        "resolvedAt": "2026-10-30",
+        "source": "user"
+      },
+      {
+        "field": "certifications.AWS Machine Learning Certification.year",
+        "previousValues": [],
+        "resolvedValue": "2024",
+        "resolvedAt": "2026-10-30",
+        "source": "user"
+      },
+      {
+        "field": "profile.content",
+        "previousValues": [],
+        "resolvedValue": "identity_experience_education",
+        "resolvedAt": "2026-10-31",
+        "source": "user"
+      },
+      {
+        "field": "profile.content",
+        "previousValues": [],
+        "resolvedValue": "identity_experience_education",
+        "resolvedAt": "2026-10-31",
+        "source": "user"
+      },
+      {
+        "field": "profile.content",
+        "previousValues": [],
+        "resolvedValue": "identity_experience_education",
+        "resolvedAt": "2026-10-31",
+        "source": "user"
+      },
+      {
+        "field": "profile.content",
+        "previousValues": [],
+        "resolvedValue": "identity_experience_education",
+        "resolvedAt": "2026-10-31",
+        "source": "user"
+      },
+      {
+        "field": "experience.UffPay.Neonet",
+        "previousValues": [
+          "Neonet: aparece en CVs Frontend/Full Stack y knowledge_base cv_1/cv_3; el CV RN solo menciona Cybersource"
+        ],
+        "resolvedValue": "Integró Neonet en UffPay",
+        "resolvedAt": "2026-10-31",
+        "source": "user"
+      },
+      {
+        "field": "projects.Saldo HVAC.company",
+        "previousValues": [
+          "Relación con el proyecto Saldo HVAC no está explícita en el texto (mismo dominio HVAC)"
+        ],
+        "resolvedValue": "Nano Degree",
+        "resolvedAt": "2026-10-31",
+        "source": "user"
+      },
+      {
+        "field": "languages.Spanish.level",
+        "previousValues": [
+          "Ningún CV declara explícitamente español nativo; se infiere del idioma de varios documentos. Requiere validación si se quiere afirmar en un CV."
+        ],
+        "resolvedValue": "Native",
+        "resolvedAt": "2026-10-31",
+        "source": "user"
+      },
+      {
+        "field": "projects.SORTALIA.backend",
+        "previousValues": [
+          "README_OBJECTIVE_PROJECT.md: Node.js + Express.js + Prisma",
+          "sortalia-api/README.md: NestJS + TypeScript + PostgreSQL + Prisma"
+        ],
+        "resolvedValue": "NestJS",
+        "resolvedAt": "2026-10-31",
+        "source": "user"
+      },
+      {
+        "field": "projects.Acolyte.company",
+        "previousValues": [],
+        "resolvedValue": "Lumston",
+        "resolvedAt": "2026-10-31",
+        "source": "user"
+      },
+      {
+        "field": "projects.Acolyte.name",
+        "previousValues": [
+          "Plataforma de video"
+        ],
+        "resolvedValue": "Acolyte",
+        "resolvedAt": "2026-10-31",
+        "source": "user"
+      },
+      {
+        "field": "projects.Acolyte.client",
+        "previousValues": [],
+        "resolvedValue": "Acolyte",
+        "resolvedAt": "2026-10-31",
+        "source": "user"
+      },
+      {
+        "field": "projects.Acolyte.stack",
+        "previousValues": [],
+        "resolvedValue": "OpenAI (generación de video) y backend con Django",
+        "resolvedAt": "2026-10-31",
+        "source": "user"
+      },
+      {
+        "field": "projects.Acolyte.contribution",
+        "previousValues": [
+          "Desarrollo completo"
+        ],
+        "resolvedValue": "Solo frontend",
+        "resolvedAt": "2026-10-31",
+        "source": "user"
+      },
+      {
+        "field": "projects.contribution",
+        "previousValues": [],
+        "resolvedValue": "Desarrollo completo en: Drizline, Baker Tilly Legal Chatbot, Altos Aceros, Safra Bank, Blackeagle, Fatima's Bakery, Hoppi get together, Desansiedad, Saldo HVAC, Pilsar",
+        "resolvedAt": "2026-10-31",
+        "source": "user"
+      },
+      {
+        "field": "projects.contribution",
+        "previousValues": [
+          "«Desarrollo completo» dentro de la descripción"
+        ],
+        "resolvedValue": "Campo contribution: full en 12 proyectos, frontend en Acolyte y Volaris Manifest",
+        "resolvedAt": "2026-10-31",
+        "source": "user"
+      },
+      {
+        "field": "profile.cleanup",
+        "previousValues": [],
+        "resolvedValue": "Fase 2 de la revisión: llaves sin uso, notas internas, grafías, skills, métricas obsoletas",
+        "resolvedAt": "2026-10-31",
+        "source": "user"
+      }
+    ],
+    "lastUpdated": "2026-10-31"
+  },
+  "cvGenerationRules": {
+    "neverInvent": true,
+    "neverResolveConflictsAutomatically": true,
+    "neverUseInferredAsFact": true,
+    "preferUserValidated": true,
+    "preferDocumentedEvidence": true,
+    "adaptToJobDescription": true,
+    "suppressIrrelevantSkills": true,
+    "preserveCareerHistory": true,
+    "omitContactFields": [
+      "location"
+    ],
+    "omitContactFieldsNote": "Regla de presentación validada por el usuario (conflicts: profile.contact.location → «omitido en CVs 2025–2026», 2026-08-20). profile.contact.location conserva el dato («Mexico»); solo no se imprime en el CV.",
+    "overlappingEmploymentNote": "El usuario confirmó (2026-10-27) que tuvo varios empleos al mismo tiempo. Los solapes de fechas no son errores."
+  },
+  "sources": [
+    {
+      "name": "CV-JairoCamarillo-Frontend-English.docx (1).pdf",
+      "type": "cv-pdf",
+      "language": "en",
+      "scope": [
+        "profile",
+        "experience",
+        "skills",
+        "education",
+        "certifications"
+      ],
+      "id": "src_cv_frontend_en"
+    },
+    {
+      "name": "CV-JairoCamarillo-FullStack.docx (2).pdf",
+      "type": "cv-pdf",
+      "language": "en",
+      "scope": [
+        "profile",
+        "experience",
+        "skills",
+        "education",
+        "certifications"
+      ],
+      "id": "src_cv_fullstack_en"
+    },
+    {
+      "name": "CV-JairoCamarillo-ReactNative _ English.docx (2).pdf",
+      "type": "cv-pdf",
+      "language": "en",
+      "scope": [
+        "profile",
+        "experience",
+        "skills",
+        "education",
+        "certifications"
+      ],
+      "id": "src_cv_rn_en"
+    },
+    {
+      "name": "JairoCamarilloCV.pdf",
+      "type": "cv-pdf-historical",
+      "language": "es",
+      "scope": [
+        "profile",
+        "experience",
+        "projects",
+        "education",
+        "certifications",
+        "languages",
+        "skills"
+      ],
+      "id": "src_cv_historical"
+    },
+    {
+      "name": "backend/knowledge_base/cv_1.json",
+      "type": "knowledge-base",
+      "language": "es",
+      "scope": [
+        "frontend-positioning"
+      ],
+      "id": "src_kb_cv1",
+      "status": "removed",
+      "note": "Archivo eliminado del repositorio en el commit ebc18f7 (2026-10-27). Se conserva como referencia histórica de evidencia; recuperable con git show ebc18f7~1:backend/knowledge_base/cv_1.json. Ya no se lee en tiempo de ejecución."
+    },
+    {
+      "name": "backend/knowledge_base/cv_2.json",
+      "type": "knowledge-base",
+      "language": "es",
+      "scope": [
+        "react-native-positioning"
+      ],
+      "id": "src_kb_cv2",
+      "status": "removed",
+      "note": "Archivo eliminado del repositorio en el commit ebc18f7 (2026-10-27). Se conserva como referencia histórica de evidencia; recuperable con git show ebc18f7~1:backend/knowledge_base/cv_2.json. Ya no se lee en tiempo de ejecución."
+    },
+    {
+      "name": "backend/knowledge_base/cv_3.json",
+      "type": "knowledge-base",
+      "language": "es",
+      "scope": [
+        "fullstack-positioning"
+      ],
+      "id": "src_kb_cv3",
+      "status": "removed",
+      "note": "Archivo eliminado del repositorio en el commit ebc18f7 (2026-10-27). Se conserva como referencia histórica de evidencia; recuperable con git show ebc18f7~1:backend/knowledge_base/cv_3.json. Ya no se lee en tiempo de ejecución."
+    },
+    {
+      "name": "Desktop/Sortalia/README_OBJECTIVE_PROJECT.md",
+      "type": "project-description",
+      "language": "es",
+      "scope": [
+        "projects",
+        "skills"
+      ],
+      "id": "src_sortalia_objective"
+    },
+    {
+      "name": "Desktop/sortalia-api/README.md",
+      "type": "project-description",
+      "language": "es",
+      "scope": [
+        "projects",
+        "skills"
+      ],
+      "id": "src_sortalia_api"
+    },
+    {
+      "name": "Desktop/UffPagoApp/README.md",
+      "type": "project-description",
+      "language": "en",
+      "scope": [
+        "projects"
+      ],
+      "id": "src_uffpay_app"
+    },
+    {
+      "id": "src_sortalia_pkg",
+      "name": "Desktop/Sortalia/package.json",
+      "type": "project-description",
+      "language": "en",
+      "scope": [
+        "projects",
+        "skills"
+      ]
+    },
+    {
+      "id": "src_user_project_update_2026_10_27",
+      "name": "User project profile update 2026-10-27",
+      "type": "user-update",
+      "language": "en",
+      "scope": [
+        "projects"
+      ]
+    }
+  ]
+}

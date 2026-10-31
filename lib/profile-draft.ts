@@ -6,6 +6,7 @@ import type {
   Language,
   MasterProfile,
   Project,
+  ProjectContribution,
 } from "./master-profile";
 
 export type AchievementDraft = {
@@ -32,6 +33,7 @@ export type ProjectDraft = {
   name: string;
   type: string;
   description: string;
+  contribution: ProjectContribution;
   technologiesText: string;
 };
 
@@ -98,6 +100,7 @@ export type ProfileContentPayload = {
     name: string;
     type: string;
     description: string;
+    contribution: ProjectContribution;
     technologies: string[];
   }>;
   education: Array<{
@@ -187,6 +190,7 @@ export function projectFromProfile(project: Project): ProjectDraft {
     name: project.name ?? "",
     type: project.type ?? "",
     description: project.description ?? "",
+    contribution: project.contribution ?? "",
     technologiesText: (project.technologies ?? []).join("\n"),
   };
 }
@@ -285,6 +289,7 @@ export function contentFromDrafts(input: {
       name: row.name.trim(),
       type: row.type.trim(),
       description: row.description.trim(),
+      contribution: row.contribution,
       technologies: splitLines(row.technologiesText),
     })),
     education: input.education.map((row) => ({

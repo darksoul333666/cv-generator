@@ -6,6 +6,8 @@ Cada caso reproduce una frase real de ese PDF.
 from __future__ import annotations
 
 import collections
+import re
+import json
 
 import pytest
 
@@ -41,7 +43,18 @@ def _jobs(cv) -> dict:
     return {j.company: j for j in cv.experience}
 
 
+def _without_api_how(master: dict) -> dict:
+    """El 30% de APIs de UffPay sin «cómo»: así estaba cuando se escribió esta prueba."""
+    copy = json.loads(json.dumps(master))
+    uff = next(e for e in copy["experience"] if e["company"] == "UffPay")
+    for ach in uff["achievements"]:
+        if (ach.get("metric") or {}).get("value") == 30.0:
+            ach["detail"] = {}
+    return copy
+
+
 def test_invented_how_for_unbacked_metric_is_removed(master):
+    master = _without_api_how(master)
     data = {
         "target_role": "Ingeniero Full Stack Senior",
         "summary": (
@@ -189,7 +202,8 @@ def test_skill_rows_do_not_explode_with_vacancy_terms(master):
     overlay = [f"Concepto {i}" for i in range(20)] + ["DLQ", "Idempotencia", "Rate limiting", "Kubernetes"]
     stack = build_stack_from_master(master, VACANCY_ES, overlay=overlay)
     for row, value in stack.model_dump().items():
-        assert len([p for p in value.split(",") if p.strip()]) <= 12, row
+        # Se cuentan elementos, no comas: «AWS (S3, EC2, IAM)» es uno.
+        assert len([p for p in re.split(r",(?![^()]*\))", value) if p.strip()]) <= 12, row
 
 
 # --- Segundo PDF regenerado («regenerado 1») ----------------------------------------------------

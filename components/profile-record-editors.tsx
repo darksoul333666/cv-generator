@@ -8,6 +8,7 @@ import type {
   ProjectDraft,
 } from "@/lib/profile-draft";
 import { newProfileId } from "@/lib/profile-draft";
+import { PROJECT_CONTRIBUTION_LABELS, type ProjectContribution } from "@/lib/master-profile";
 import { CollapseRow, Field, SectionCard, TextButton, fieldClass } from "@/components/profile-form";
 
 type IdentityProps = {
@@ -108,6 +109,7 @@ export function ProjectEditor({ items, onChange }: ListProps<ProjectDraft>) {
                 name: "",
                 type: "",
                 description: "",
+                contribution: "",
                 technologiesText: "",
               },
             ])
@@ -141,6 +143,19 @@ export function ProjectEditor({ items, onChange }: ListProps<ProjectDraft>) {
                   onChange={(e) => patch(row.id, { type: e.target.value })}
                   className={fieldClass}
                 />
+              </Field>
+              <Field label="Tu parte en el proyecto">
+                <select
+                  value={row.contribution}
+                  onChange={(e) => patch(row.id, { contribution: e.target.value as ProjectContribution })}
+                  className={fieldClass}
+                >
+                  {(Object.keys(PROJECT_CONTRIBUTION_LABELS) as ProjectContribution[]).map((key) => (
+                    <option key={key || "none"} value={key}>
+                      {PROJECT_CONTRIBUTION_LABELS[key]}
+                    </option>
+                  ))}
+                </select>
               </Field>
               <div className="sm:col-span-2">
                 <Field label="Descripción">

@@ -177,6 +177,12 @@ _LANGUAGE_NAMES = {
 }
 
 
+_LEVEL_NAMES = {
+    "en": {"native": "Native", "nativo": "Native", "nativa": "Native"},
+    "es": {"native": "Nativo", "nativo": "Nativo", "nativa": "Nativo"},
+}
+
+
 def language_lines(master: dict, locale: Locale) -> list[str]:
     """Idiomas con nivel declarado. El nivel CEFR (B2) se conserva en ambos idiomas."""
     names = _LANGUAGE_NAMES.get(locale, _LANGUAGE_NAMES["es"])
@@ -189,6 +195,7 @@ def language_lines(master: dict, locale: Locale) -> list[str]:
         if not raw_name or not level:
             continue
         name = names.get(raw_name.lower(), raw_name)
+        level = _LEVEL_NAMES.get(locale, _LEVEL_NAMES["es"]).get(level.lower(), level)
         lines.append(f"{name} — {level}")
     return lines
 

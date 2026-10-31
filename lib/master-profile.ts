@@ -133,6 +133,16 @@ export type Experience = {
   sourceCount: number;
 };
 
+export type ProjectContribution = "" | "full" | "frontend" | "backend" | "lead";
+
+export const PROJECT_CONTRIBUTION_LABELS: Record<ProjectContribution, string> = {
+  "": "Sin definir",
+  full: "Desarrollo completo",
+  frontend: "Solo frontend",
+  backend: "Solo backend",
+  lead: "Liderazgo técnico",
+};
+
 export type Project = {
   id: string;
   name: string;
@@ -150,6 +160,7 @@ export type Project = {
   evidence: string[];
   sourceRefs: string[];
   isEmployment: boolean;
+  contribution?: ProjectContribution;
   relevantForRoles?: string[];
   relevantWhenVacancyNeeds?: string[];
 };
@@ -166,6 +177,9 @@ export type Education = {
   sourceCount: number;
   userValidated: boolean;
   sourceRefs: string[];
+  evidence?: string[];
+  showInCv?: boolean;
+  showInCvNote?: string;
 };
 
 export type Certification = {
@@ -269,33 +283,6 @@ export type UserValidation = {
   lastUpdated: string | null;
 };
 
-export type JobMatchingConfig = {
-  enabled: boolean;
-  matchingWeights: {
-    technicalSkills: number;
-    experience: number;
-    seniority: number;
-    domain: number;
-    keywords: number;
-    projects: number;
-    languages: number;
-  };
-  minimumApplyScore: number;
-};
-
-export type JobProfile = {
-  targetTitle: string;
-  matchScore: number | null;
-  matchedSkills: string[];
-  missingSkills: string[];
-  matchedExperience: string[];
-  matchedProjects: string[];
-  recommendedKeywords: string[];
-  suppressedKeywords: string[];
-  recommendedAchievements: string[];
-  warnings: string[];
-};
-
 export type CvGenerationRules = {
   neverInvent: boolean;
   neverResolveConflictsAutomatically: boolean;
@@ -305,6 +292,9 @@ export type CvGenerationRules = {
   adaptToJobDescription: boolean;
   suppressIrrelevantSkills: boolean;
   preserveCareerHistory: boolean;
+  omitContactFields?: string[];
+  omitContactFieldsNote?: string;
+  overlappingEmploymentNote?: string;
 };
 
 export type Source = {
@@ -313,15 +303,8 @@ export type Source = {
   type: string;
   language: string;
   scope: string[];
-};
-
-export type TargetRole = {
-  id: string;
-  title: string;
-  priority: string;
-  keywords: string[];
-  positioning: string;
-  sellingPoints: string[];
+  status?: string;
+  note?: string;
 };
 
 export type YearsOfExperience = {
@@ -341,17 +324,7 @@ export type MasterProfile = {
     professionalTitles: string[];
     contact: ContactProfile;
     summary: string;
-    contactHistory?: {
-      note: string;
-      previouslyDisplayed: {
-        email: string;
-        phone: string;
-        linkedin: string;
-        location: string;
-      };
-    };
   };
-  targetRoles: TargetRole[];
   skills: MasterSkills;
   skillCatalog: Skill[];
   experience: Experience[];
@@ -361,25 +334,12 @@ export type MasterProfile = {
   languages: Language[];
   metrics: Metric[];
   skillAliases: Record<string, SkillAliasEntry>;
-  skillAliasIndex: Record<string, string>;
   positioningProfiles: Record<string, PositioningProfile>;
   conflicts: Conflict[];
   careerTimeline: CareerTimelineEntry[];
   yearsOfExperience: YearsOfExperience;
   userValidation: UserValidation;
-  jobMatching: JobMatchingConfig;
-  jobProfile: JobProfile;
   cvGenerationRules: CvGenerationRules;
-  evidenceRules: {
-    safeToClaimStatuses: string[];
-    mentionOnlyStatuses: string[];
-    historicalStatuses: string[];
-    neverInvent: boolean;
-    neverResolveConflictsAutomatically: boolean;
-    neverUseInferredAsFact?: boolean;
-    preferUserValidated?: boolean;
-    userValidationPriority?: string[];
-  };
   sources: Source[];
 };
 
@@ -419,15 +379,3 @@ export const emptyMasterSkills = (): MasterSkills => ({
   softSkills: [],
 });
 
-export const emptyJobProfile = (): JobProfile => ({
-  targetTitle: "",
-  matchScore: null,
-  matchedSkills: [],
-  missingSkills: [],
-  matchedExperience: [],
-  matchedProjects: [],
-  recommendedKeywords: [],
-  suppressedKeywords: [],
-  recommendedAchievements: [],
-  warnings: [],
-});

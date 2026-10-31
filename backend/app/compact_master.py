@@ -30,7 +30,9 @@ _UNSAFE_STATUS = {"inferred", "conflicted", "requires_validation"}
 
 
 def kb_dir() -> Path:
-    return Path(__file__).resolve().parent.parent / "knowledge_base"
+    from .profile_store import kb_dir as _store_kb_dir
+
+    return _store_kb_dir()
 
 
 def _fmt_month(ym: Optional[str]) -> Optional[str]:
@@ -391,6 +393,8 @@ def build_compact_profile(raw: dict) -> dict:
                 "is_employment": bool(item.get("isEmployment")),
                 "status": item.get("status"),
                 "description": cv_facing_text(str(item.get("description") or "")),
+                # Qué parte hizo el candidato: full, frontend, backend o lead. Vacío = no se sabe.
+                "contribution": project_contribution(item),
                 "domain": item.get("domain") or [],
                 "platforms": item.get("platforms") or [],
                 "features": item.get("features") or [],
@@ -506,6 +510,7 @@ def build_compact_profile(raw: dict) -> dict:
             "An experience bullet may only use responsibilities, achievements, technologies and metrics listed for that job.",
             "Do not attribute a metric to a project unless metrics[].project names that project.",
             "Items listed in a project's unknown[] are not known. Do not state them.",
+            "A project's contribution is the candidate's part: full = built frontend and backend; frontend = only the frontend (never claim its backend, APIs, AI models or infrastructure); backend = only the backend; lead = technical leadership. Empty = unknown: do not say 'end-to-end' or 'full development'.",
             "If an experience has empty dates, the dates are unverified: do not write any date for it.",
             "Items in personal_products_not_employment are not jobs. Do not list them as employers.",
             "Copy company names and dates exactly from experience[].",
@@ -514,6 +519,14 @@ def build_compact_profile(raw: dict) -> dict:
             "Only use metrics listed in metrics[] or in experience[].achievements.",
         ],
     }
+
+
+PROJECT_CONTRIBUTIONS = ("full", "frontend", "backend", "lead")
+
+
+def project_contribution(item: dict) -> str:
+    value = str(item.get("contribution") or "").strip().lower()
+    return value if value in PROJECT_CONTRIBUTIONS else ""
 
 
 def metric_text(metric: Optional[dict]) -> str:
@@ -613,6 +626,7 @@ def profile_for_prompt(compact: dict) -> dict:
                 "type": item.get("type"),
                 "is_employment": bool(item.get("is_employment")),
                 "technologies": item.get("technologies") or [],
+                "contribution": item.get("contribution") or "",
                 "description": desc,
                 "unknown": item.get("unknown") or [],
             }

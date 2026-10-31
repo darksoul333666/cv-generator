@@ -1,4 +1,5 @@
 import { MASTER_SKILL_KINDS, type MasterSkillKind, type MasterSkills } from "@/lib/cv-types";
+import { PROJECT_CONTRIBUTION_LABELS } from "@/lib/master-profile";
 import { splitLines, type CertificationDraft, type EducationDraft, type ExperienceDraft, type IdentityDraft, type LanguageDraft, type ProjectDraft } from "@/lib/profile-draft";
 
 const SKILL_LABELS: Record<MasterSkillKind, string> = {
@@ -145,6 +146,7 @@ export function ProfilePreview({
                   <h3 className="text-sm font-bold text-[#2D3748]">
                     {row.name.trim()}
                     {row.type.trim() ? ` — ${row.type.trim()}` : ""}
+                    {row.contribution ? ` · ${PROJECT_CONTRIBUTION_LABELS[row.contribution]}` : ""}
                   </h3>
                   {row.description.trim() ? (
                     <p className="text-sm">{row.description.trim()}</p>

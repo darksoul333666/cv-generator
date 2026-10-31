@@ -148,6 +148,8 @@ const projectSchema = z.object({
   evidence: z.array(z.string()),
   sourceRefs: z.array(z.string()),
   isEmployment: z.boolean(),
+  /** Tu parte en el proyecto. Vacío = sin definir. */
+  contribution: z.enum(["", "full", "frontend", "backend", "lead"]).optional(),
   relevantForRoles: z.array(z.string()).optional(),
   relevantWhenVacancyNeeds: z.array(z.string()).optional(),
 });
@@ -183,33 +185,6 @@ const conflictSchema = z.object({
   evidenceLevel: evidenceLevelSchema,
 });
 
-const jobMatchingSchema = z.object({
-  enabled: z.boolean(),
-  matchingWeights: z.object({
-    technicalSkills: z.number(),
-    experience: z.number(),
-    seniority: z.number(),
-    domain: z.number(),
-    keywords: z.number(),
-    projects: z.number(),
-    languages: z.number(),
-  }),
-  minimumApplyScore: z.number(),
-});
-
-const jobProfileSchema = z.object({
-  targetTitle: z.string(),
-  matchScore: z.number().nullable(),
-  matchedSkills: z.array(z.string()),
-  missingSkills: z.array(z.string()),
-  matchedExperience: z.array(z.string()),
-  matchedProjects: z.array(z.string()),
-  recommendedKeywords: z.array(z.string()),
-  suppressedKeywords: z.array(z.string()),
-  recommendedAchievements: z.array(z.string()),
-  warnings: z.array(z.string()),
-});
-
 export const masterProfileSchema = z
   .object({
     schemaVersion: z.string().min(1),
@@ -223,28 +198,7 @@ export const masterProfileSchema = z
         location: contactFieldSchema,
       }),
       summary: z.string(),
-      contactHistory: z
-        .object({
-          note: z.string(),
-          previouslyDisplayed: z.object({
-            email: z.string(),
-            phone: z.string(),
-            linkedin: z.string(),
-            location: z.string(),
-          }),
-        })
-        .optional(),
     }),
-    targetRoles: z.array(
-      z.object({
-        id: z.string(),
-        title: z.string(),
-        priority: z.string(),
-        keywords: z.array(z.string()),
-        positioning: z.string(),
-        sellingPoints: z.array(z.string()),
-      }),
-    ),
     skills: masterSkillsSchema,
     skillCatalog: z.array(skillSchema),
     experience: z.array(experienceSchema),
@@ -262,6 +216,9 @@ export const masterProfileSchema = z
         sourceCount: z.number(),
         userValidated: z.boolean(),
         sourceRefs: z.array(z.string()),
+        evidence: z.array(z.string()).optional(),
+        showInCv: z.boolean().optional(),
+        showInCvNote: z.string().optional(),
       }),
     ),
     certifications: z.array(
@@ -301,7 +258,6 @@ export const masterProfileSchema = z
         aliases: z.array(z.string()),
       }),
     ),
-    skillAliasIndex: z.record(z.string(), z.string()),
     positioningProfiles: z.record(
       z.string(),
       z.object({
@@ -358,8 +314,6 @@ export const masterProfileSchema = z
       ),
       lastUpdated: z.string().nullable(),
     }),
-    jobMatching: jobMatchingSchema,
-    jobProfile: jobProfileSchema,
     cvGenerationRules: z.object({
       neverInvent: z.boolean(),
       neverResolveConflictsAutomatically: z.boolean(),
@@ -369,16 +323,9 @@ export const masterProfileSchema = z
       adaptToJobDescription: z.boolean(),
       suppressIrrelevantSkills: z.boolean(),
       preserveCareerHistory: z.boolean(),
-    }),
-    evidenceRules: z.object({
-      safeToClaimStatuses: z.array(z.string()),
-      mentionOnlyStatuses: z.array(z.string()),
-      historicalStatuses: z.array(z.string()),
-      neverInvent: z.boolean(),
-      neverResolveConflictsAutomatically: z.boolean(),
-      neverUseInferredAsFact: z.boolean().optional(),
-      preferUserValidated: z.boolean().optional(),
-      userValidationPriority: z.array(z.string()).optional(),
+      omitContactFields: z.array(z.string()).optional(),
+      omitContactFieldsNote: z.string().optional(),
+      overlappingEmploymentNote: z.string().optional(),
     }),
     sources: z.array(
       z.object({
@@ -387,6 +334,8 @@ export const masterProfileSchema = z
         type: z.string(),
         language: z.string(),
         scope: z.array(z.string()),
+        status: z.string().optional(),
+        note: z.string().optional(),
       }),
     ),
   })
@@ -414,7 +363,6 @@ export const masterProfileSchema = z
     collect(data.skillCatalog, "skillCatalog");
     collect(data.sources, "sources");
     collect(data.careerTimeline, "careerTimeline");
-    collect(data.targetRoles, "targetRoles");
 
     for (const kind of MASTER_SKILL_KINDS) {
       const names = data.skills[kind] ?? [];

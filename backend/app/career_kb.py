@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import re
 from datetime import date
-from typing import Any, List, Optional
+from typing import Any, List, Literal, Optional
 
 from fastapi import HTTPException
 from pydantic import BaseModel, Field
@@ -483,6 +483,8 @@ class ProjectContentIn(BaseModel):
     name: str = Field(min_length=1)
     type: str = ""
     description: str = ""
+    # Tu parte en el proyecto: full, frontend, backend, lead o vacío (sin definir).
+    contribution: Literal["", "full", "frontend", "backend", "lead"] = ""
     technologies: List[str] = Field(default_factory=list)
 
 
@@ -846,6 +848,7 @@ def _apply_projects(raw: dict[str, Any], items: list[ProjectContentIn]) -> set[s
         row["name"] = name
         row["type"] = item.type.strip() or row.get("type") or "project"
         row["description"] = item.description.strip()
+        row["contribution"] = item.contribution
         row["technologies"] = _clean_str_list(item.technologies)
         _mark_user_fact(row)
         if "isEmployment" not in row:
