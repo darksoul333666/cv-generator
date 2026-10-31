@@ -353,12 +353,12 @@ export type MasterProfile = {
   education: Education[];
   certifications: Certification[];
   languages: Language[];
-  metrics: Metric[];
+  metrics?: Metric[];
   /** Formato viejo: los alias viven ahora en skillCatalog[].aliases. */
   skillAliases?: Record<string, SkillAliasEntry>;
   positioningProfiles: Record<string, PositioningProfile>;
   conflicts: Conflict[];
-  careerTimeline: CareerTimelineEntry[];
+  careerTimeline?: CareerTimelineEntry[];
   yearsOfExperience: YearsOfExperience;
   userValidation: UserValidation;
   cvGenerationRules: CvGenerationRules;

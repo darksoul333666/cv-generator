@@ -260,7 +260,8 @@ export const masterProfileSchema = z
         sourceRefs: z.array(z.string()),
       }),
     ),
-    metrics: z.array(metricSchema),
+    // Ya no se guarda: el backend las calcula de experience. Se acepta en perfiles viejos.
+    metrics: z.array(metricSchema).optional(),
     skillAliases: z.record(
       z.string(),
       z.object({
@@ -287,6 +288,7 @@ export const masterProfileSchema = z
       }),
     ),
     conflicts: z.array(conflictSchema),
+    // Ya no se guarda: se calcula de experience. Se acepta en perfiles viejos.
     careerTimeline: z.array(
       z.object({
         id: z.string(),
@@ -302,7 +304,7 @@ export const masterProfileSchema = z
         kind: z.string(),
         current: z.boolean().optional(),
       }),
-    ),
+    ).optional(),
     yearsOfExperience: z.object({
       value: z.number().nullable(),
       source: z.string().nullable(),
@@ -369,11 +371,11 @@ export const masterProfileSchema = z
     collect(data.education, "education");
     collect(data.certifications, "certifications");
     collect(data.languages, "languages");
-    collect(data.metrics, "metrics");
+    collect(data.metrics ?? [], "metrics");
     collect(data.conflicts, "conflicts");
     collect(data.skillCatalog, "skillCatalog");
     collect(data.sources, "sources");
-    collect(data.careerTimeline, "careerTimeline");
+    collect(data.careerTimeline ?? [], "careerTimeline");
 
     for (const kind of MASTER_SKILL_KINDS) {
       const names = data.skills[kind] ?? [];

@@ -70,13 +70,8 @@ def _find_exp(raw: dict[str, Any], exp_id: str) -> dict[str, Any]:
 
 
 def _sync_timeline(raw: dict[str, Any], exp_id: str) -> None:
-    ex = _find_exp(raw, exp_id)
-    for row in raw.get("careerTimeline") or []:
-        if row.get("experienceId") == exp_id:
-            row["startDate"] = ex.get("startDate")
-            row["endDate"] = ex.get("endDate")
-            row["dateStatus"] = ex.get("dateStatus")
-            row["userValidated"] = True
+    """La línea de tiempo ya no se guarda: se calcula de ``experience``. Se quita si quedó."""
+    raw.pop("careerTimeline", None)
 
 
 def _set_contact(raw: dict[str, Any], key: str, value: str) -> None:
@@ -411,24 +406,7 @@ def apply_experience_edits(raw: dict[str, Any], items: list[ExperienceEditItem])
             ordered.append(ex)
     raw["experience"] = ordered
 
-    by_id = {ex["id"]: ex for ex in ordered if ex.get("id")}
-    tl_by = {row.get("experienceId"): row for row in raw.get("careerTimeline") or []}
-    new_tl: list[dict[str, Any]] = []
-    for ex in ordered:
-        eid = ex.get("id")
-        row = tl_by.get(eid)
-        if not row:
-            continue
-        row["startDate"] = ex.get("startDate")
-        row["endDate"] = ex.get("endDate")
-        row["dateStatus"] = ex.get("dateStatus")
-        row["userValidated"] = True
-        row["current"] = bool(ex.get("current"))
-        new_tl.append(row)
-    for row in raw.get("careerTimeline") or []:
-        if row.get("experienceId") not in by_id:
-            new_tl.append(row)
-    raw["careerTimeline"] = new_tl
+    raw.pop("careerTimeline", None)  # ya no se guarda; se calcula de experience
 
     _maybe_compute_yoe(raw)
     uv = raw.setdefault(
@@ -753,31 +731,7 @@ def _apply_experience_content(raw: dict[str, Any], items: list[ExperienceContent
         ordered.append(ex)
 
     raw["experience"] = ordered
-    old_rows = {
-        row.get("experienceId"): row
-        for row in raw.get("careerTimeline") or []
-        if isinstance(row, dict)
-    }
-    timeline: list[dict[str, Any]] = []
-    for ex in ordered:
-        roles = ex.get("roles") or []
-        row = old_rows.get(ex["id"]) or {
-            "id": f"tl_{ex['id']}",
-            "experienceId": ex["id"],
-            "sourceValues": {},
-            "kind": "employment",
-        }
-        row["company"] = ex["company"]
-        row["role"] = roles[0] if roles else ""
-        row["roles"] = roles
-        row["startDate"] = ex.get("startDate")
-        row["endDate"] = ex.get("endDate")
-        row["dateStatus"] = ex.get("dateStatus")
-        row["userValidated"] = True
-        row["current"] = bool(ex.get("current"))
-        row["kind"] = row.get("kind") or "employment"
-        timeline.append(row)
-    raw["careerTimeline"] = timeline
+    raw.pop("careerTimeline", None)  # ya no se guarda; se calcula de experience
     _sync_experience_metrics(raw, ordered)
     _maybe_compute_yoe(raw)
     return ordered
@@ -794,46 +748,24 @@ def _project_id(raw: dict[str, Any], name: Any) -> Optional[str]:
 
 
 def _sync_experience_metrics(raw: dict[str, Any], experiences: list[dict[str, Any]]) -> None:
+    """Las cifras de los empleos se calculan al leer (``compact_master.experience_metrics``).
+
+    Aquí solo se conservan cifras viejas que no son de un empleo y cuya empresa sigue existiendo;
+    si no queda ninguna, ``metrics`` desaparece del perfil.
+    """
     kept_companies = {str(ex.get("company") or "").strip().lower() for ex in experiences}
     kept: list[dict[str, Any]] = []
     for metric in raw.get("metrics") or []:
-        if not isinstance(metric, dict):
-            continue
-        if metric.get("experienceId"):
+        if not isinstance(metric, dict) or metric.get("experienceId"):
             continue
         company = str(metric.get("company") or "").strip().lower()
         if company and company not in kept_companies:
             continue
         kept.append(metric)
-    for ex in experiences:
-        for index, ach in enumerate(ex.get("achievements") or []):
-            metric = ach.get("metric") or {}
-            value = metric.get("value")
-            if value is None:
-                continue
-            unit = str(metric.get("unit") or "").strip() or "count"
-            kept.append(
-                {
-                    "id": f"metric_{ex['id']}_{index}",
-                    "value": value,
-                    "unit": unit,
-                    "type": str(metric.get("type") or "user_metric"),
-                    "description": ach.get("description") or "",
-                    "company": ex.get("company") or "",
-                    "project": ach.get("project") or "",
-                    "status": "user_validated",
-                    "confidence": "high",
-                    "experienceId": ex["id"],
-                    "projectId": _project_id(raw, ach.get("project")),
-                    "evidenceLevel": "claimed",
-                    "sourceCount": 1,
-                    "userValidated": True,
-                    "safeForCV": True,
-                    "requiresUserValidation": False,
-                    "sourceRefs": ["user"],
-                }
-            )
-    raw["metrics"] = kept
+    if kept:
+        raw["metrics"] = kept
+    else:
+        raw.pop("metrics", None)
 
 
 def _apply_projects(raw: dict[str, Any], items: list[ProjectContentIn]) -> set[str]:

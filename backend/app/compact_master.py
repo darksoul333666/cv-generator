@@ -465,7 +465,7 @@ def build_compact_profile(raw: dict) -> dict:
         )
 
     metrics_out = []
-    for item in raw.get("metrics") or []:
+    for item in all_metrics(raw):
         if not isinstance(item, dict) or not _safe_fact(item):
             continue
         if item.get("safeForCV") is False:
@@ -535,6 +535,62 @@ def build_compact_profile(raw: dict) -> dict:
             "Only use metrics listed in metrics[] or in experience[].achievements.",
         ],
     }
+
+
+def _project_id_by_name(raw: dict, name: Any) -> Optional[str]:
+    key = str(name or "").strip().lower()
+    if not key:
+        return None
+    for project in raw.get("projects") or []:
+        if isinstance(project, dict) and str(project.get("name") or "").strip().lower() == key:
+            return project.get("id")
+    return None
+
+
+def experience_metrics(raw: dict) -> list[dict]:
+    """Cifras de los logros de cada empleo, calculadas al leer el perfil.
+
+    Antes vivían copiadas en ``raw["metrics"]`` y había que sincronizarlas en cada guardado;
+    ahora la única fuente es ``experience[].achievements[].metric``.
+    """
+    out: list[dict] = []
+    for ex in raw.get("experience") or []:
+        if not isinstance(ex, dict):
+            continue
+        for index, ach in enumerate(ex.get("achievements") or []):
+            if not isinstance(ach, dict):
+                continue
+            metric = ach.get("metric") or {}
+            value = metric.get("value")
+            if value is None:
+                continue
+            out.append(
+                {
+                    "id": f"metric_{ex.get('id')}_{index}",
+                    "value": value,
+                    "unit": str(metric.get("unit") or "").strip() or "count",
+                    "type": str(metric.get("type") or "user_metric"),
+                    "description": ach.get("description") or "",
+                    "company": ex.get("company") or "",
+                    "project": ach.get("project") or "",
+                    "status": ach.get("status") or "user_validated",
+                    "confidence": "high",
+                    "experienceId": ex.get("id"),
+                    "projectId": _project_id_by_name(raw, ach.get("project")),
+                    "evidenceLevel": ach.get("evidenceLevel") or "claimed",
+                    "userValidated": True,
+                    "safeForCV": ach.get("safeForCV") is not False,
+                }
+            )
+    return out
+
+
+def all_metrics(raw: dict) -> list[dict]:
+    """Cifras de los logros + cifras viejas de ``raw["metrics"]`` que no son de un empleo."""
+    legacy = [
+        m for m in raw.get("metrics") or [] if isinstance(m, dict) and not m.get("experienceId")
+    ]
+    return legacy + experience_metrics(raw)
 
 
 PROJECT_CONTRIBUTIONS = ("full", "frontend", "backend", "lead")

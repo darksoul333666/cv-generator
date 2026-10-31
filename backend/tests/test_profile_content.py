@@ -152,8 +152,12 @@ class ProfileContentTests(unittest.TestCase):
         self.assertEqual(raw["experience"][0]["achievements"][0]["metric"]["value"], 20)
         self.assertEqual(raw["projects"], [])
         self.assertEqual(raw["education"][0]["degree"], "Licenciatura en Informática")
-        self.assertEqual(raw["metrics"][0]["company"], "Nueva SA")
-        self.assertEqual(raw["metrics"][0]["value"], 20)
+        from app.compact_master import all_metrics
+
+        metrics = all_metrics(raw)  # se calculan de los logros; ya no se guardan aparte
+        self.assertEqual(metrics[0]["company"], "Nueva SA")
+        self.assertEqual(metrics[0]["value"], 20)
+        self.assertNotIn("careerTimeline", raw)
         self.assertEqual(raw["positioningProfiles"]["dev"]["priorityExperience"], [])
         line = education_line({"education": raw["education"]}, "en")
         self.assertIn("Licenciatura en Informática", line)

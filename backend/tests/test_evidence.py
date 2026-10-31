@@ -44,7 +44,9 @@ def test_metrics_now_match_the_users_measurements():
     monkey = by_id["exp_monkey_cave"]["achievements"][0]
     assert monkey["description"] == "Aumento de actividades cerradas por sprint"
     # Ya no queda el 35% como cifra de Grainchain en ningún lado que el generador lea.
-    metrics = {m["id"]: m for m in raw["metrics"]}
+    from app.compact_master import all_metrics
+
+    metrics = {m["id"]: m for m in all_metrics(raw)}  # se calculan de los logros
     assert metrics["metric_exp_grainchain_0"]["value"] == 62
     assert metrics["metric_exp_lumston_0"]["project"] == "Volaris Manifest"
 
@@ -258,6 +260,13 @@ def _content_from(raw: dict) -> "object":
              ]}
             for e in raw["experience"]
         ],
+        # La app manda los proyectos al guardar; sin ellos, el guardado los vaciaría.
+        "projects": [
+            {"id": p["id"], "name": p["name"], "type": p.get("type", ""), "description": p.get("description", ""),
+             "technologies": p.get("technologies", []), "contribution": p.get("contribution", ""),
+             "experienceId": p.get("experienceId"), "engagement": p.get("engagement"), "cvLine": p.get("cvLine", "")}
+            for p in raw.get("projects") or []
+        ],
     })
 
 
@@ -271,7 +280,9 @@ def test_saving_profile_from_skills_keeps_evidence_and_project_link():
     assert grain["evidenceDetail"]["action"] == "Virtual scroll y paginación"
     volaris = next(a for a in by_id["exp_lumston"]["achievements"] if a.get("project") == "Volaris Manifest")
     assert volaris["evidenceDetail"]["before"] == {"value": 10, "unit": "s"}
-    metric = next(m for m in raw["metrics"] if m["id"] == "metric_exp_lumston_0")
+    from app.compact_master import all_metrics
+
+    metric = next(m for m in all_metrics(raw) if m["id"] == "metric_exp_lumston_0")
     assert metric["project"] == "Volaris Manifest" and metric["projectId"] == "project_volaris_manifest"
     assert not any(g["kind"] == "achievement" and g["company"] == "Grainchain Inc" for g in evidence_gaps(raw))
 
