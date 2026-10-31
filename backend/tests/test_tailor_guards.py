@@ -1,6 +1,7 @@
 """El armado del CV no depende de que el modelo ordene, traduzca o recorte empleos."""
 
-from app.llm.cv_builder import _bullets_for_job, result_to_cv
+from app.llm.cv_bullets import _bullets_for_job
+from app.llm.cv_builder import result_to_cv
 from app.locale_util import cert_names
 from app.models import CvDocument
 from app.skill_stack import build_stack_from_master

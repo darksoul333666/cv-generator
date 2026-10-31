@@ -9,7 +9,9 @@ from fastapi import HTTPException
 
 from app.career_kb import EvidenceIn, apply_evidence, evidence_gaps
 from app.compact_master import build_compact_profile, kb_dir, load_compact_profile, profile_for_prompt
-from app.llm.cv_builder import _build_cv, _bullets_for_job, _fact_sentences
+from app.llm.cv_builder import _build_cv
+from app.llm.cv_bullets import _bullets_for_job
+from app.llm.cv_facts import _fact_sentences
 from app.llm.prompts import tailor_writing_rules
 from app.models import CvDocument
 

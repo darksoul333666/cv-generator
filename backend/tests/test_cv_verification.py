@@ -37,12 +37,9 @@ from app.language_guard import (
     repair_language,
     translation_problem,
 )
-from app.llm.cv_builder import (
-    _build_cv,
-    _bullets_for_job,
-    _focus_line,
-    _real_bullets,
-)
+from app.llm.cv_builder import _build_cv
+from app.llm.cv_bullets import _bullets_for_job
+from app.llm.cv_facts import _focus_line, _real_bullets
 from app.models import CvDocument
 
 from fakes import (

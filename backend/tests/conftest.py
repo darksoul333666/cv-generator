@@ -33,4 +33,4 @@ def _fixture_kb(tmp_path_factory) -> Path:
 @pytest.fixture(autouse=True)
 def _fixed_today(monkeypatch):
     # Enero 2019 – octubre 2026: el perfil de prueba incluye CTZ (2019).
-    monkeypatch.setattr("app.llm.cv_builder._today_ym", lambda: "2026-10")
+    monkeypatch.setattr("app.llm.cv_years._today_ym", lambda: "2026-10")

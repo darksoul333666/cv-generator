@@ -43,7 +43,7 @@ def test_editor_saves_contribution_and_rejects_invalid_values(raw):
 
 
 def test_projects_link_to_their_job(raw):
-    from app.llm.cv_builder import _linked_projects
+    from app.llm.cv_claims import _linked_projects
 
     compact = build_compact_profile(raw)
     grain = next(e for e in compact["experience"] if e["company"] == "Grainchain Inc")
