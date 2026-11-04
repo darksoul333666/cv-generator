@@ -235,7 +235,18 @@ def _needles(name: str, aliases: dict[str, list[str]]) -> list[str]:
     return out
 
 
-def _in_vacancy(name: str, vacancy: str, aliases: dict[str, list[str]]) -> bool:
+def _acronym_missing(name: str, original: str) -> bool:
+    """«SOLID» es una sigla; «solid backend logic» no la menciona. Una sigla en mayúsculas solo
+    cuenta si la vacante también la escribe en mayúsculas."""
+    word = name.strip()
+    if not original or len(word) < 3 or not word.isalpha() or not word.isupper():
+        return False
+    return not re.search(rf"(?<![A-Za-z]){re.escape(word)}(?![A-Za-z])", original)
+
+
+def _in_vacancy(name: str, vacancy: str, aliases: dict[str, list[str]], original: str = "") -> bool:
+    if _acronym_missing(name, original):
+        return False
     return any(_appears(n, vacancy) for n in _needles(name, aliases))
 
 
@@ -245,7 +256,9 @@ _WORD_RE = re.compile(r"[A-Za-z0-9][A-Za-z0-9.+#]*")
 def _vacancy_words(original: str) -> list[str]:
     """Palabras de la vacante tal como están escritas, y pares de palabras («Node JS»)."""
     words = [w.rstrip(".") for w in _WORD_RE.findall(original or "")]
-    return [f"{a} {b}" for a, b in zip(words, words[1:])] + words
+    # Un par solo cuenta si así aparece en el texto: «CI/CD» no es «CI CD».
+    pairs = [f"{a} {b}" for a, b in zip(words, words[1:]) if f"{a} {b}" in (original or "")]
+    return pairs + words
 
 
 def _is_variant(alias: str, name: str) -> bool:
@@ -426,12 +439,13 @@ def _sort_row(
     vacancy: str,
     aliases: dict[str, list[str]],
     cap: bool = True,
+    original: str = "",
 ) -> list[str]:
     matched: list[str] = []
     rest: list[str] = []
     for name in names:
         skip = _is_technique(name) or _norm(name) in _SKIP_UNLESS_HIT
-        hit = _in_vacancy(name, vacancy, aliases)
+        hit = _in_vacancy(name, vacancy, aliases, original)
         if skip and not hit:
             continue
         if hit:
@@ -624,13 +638,14 @@ def _merge_row(
     overlay: list[str],
     vacancy: str = "",
     aliases: Optional[dict[str, list[str]]] = None,
+    original: str = "",
 ) -> list[str]:
     """Primero lo del perfil que pide la vacante, luego lo que agregó el modelo, luego el resto."""
     if not overlay:
         return base
     seen = {_norm(n) for n in overlay}
     rest = [n for n in base if _norm(n) not in seen]
-    hits = [n for n in rest if vacancy and _in_vacancy(n, vacancy, aliases or {})]
+    hits = [n for n in rest if vacancy and _in_vacancy(n, vacancy, aliases or {}, original)]
     others = [n for n in rest if n not in hits]
     # Lo que pide la vacante entra, pero una fila no pasa de _PER_ROW + 2: más parece relleno.
     merged = hits + overlay[:_OVERLAY_PER_ROW] + others
@@ -757,6 +772,33 @@ def _dedupe_spellings(rows: list[list[str]]) -> list[list[str]]:
     return out
 
 
+def _in_inventory(name: str, inventory: set[str], aliases: dict[str, list[str]]) -> bool:
+    lookup = _alias_lookup(aliases)
+    compact_inventory = {_compact(n) for n in inventory}
+    items = _inner_items(name) or [name]
+    return all(
+        _norm(item) in inventory
+        or lookup.get(_norm(item)) in inventory
+        or _compact(item) in compact_inventory
+        for item in items
+    )
+
+
+def missing_vacancy_skills(master: dict, overlay: Optional[Iterable[str]]) -> list[str]:
+    """Skills que el modelo sacó de la vacante y que no están en el perfil."""
+    aliases = _alias_index(master)
+    inventory = {_norm(n) for n in (master.get("skill_inventory") or [])}
+    for names in (master.get("skills") or {}).values() if isinstance(master.get("skills"), dict) else []:
+        if isinstance(names, list):
+            inventory.update(_norm(n) for n in names)
+    out: list[str] = []
+    for raw in overlay or []:
+        name = _clean_overlay_name(str(raw))
+        if name and not _in_inventory(name, inventory, aliases) and name not in out:
+            out.append(name)
+    return out
+
+
 def build_stack_from_master(
     master: dict,
     vacancy_text: str = "",
@@ -778,22 +820,16 @@ def build_stack_from_master(
         if isinstance(names, list):
             inventory.update(_norm(n) for n in names)
     extra = _dedupe_overlay(rows, extra, aliases, inventory)
-    frontend = _merge_row(_sort_row(rows["frontend"], vacancy, aliases), extra["frontend"], vacancy, aliases)
-    styling = _merge_row(_sort_row(rows["styling"], vacancy, aliases), extra["styling"], vacancy, aliases)
-    backend = _merge_row(_sort_row(rows["backend"], vacancy, aliases), extra["backend"], vacancy, aliases)
-    state = _merge_row(_sort_row(rows["state"], vacancy, aliases), extra["state"], vacancy, aliases)
-    cloud = _merge_row(
-        _fold_aws(_sort_row(rows["cloud"], vacancy, aliases, cap=False), vacancy)[:_PER_ROW],
-        extra["cloud"],
-        vacancy,
-        aliases,
-    )
-    mobile = _merge_row(_sort_row(rows["mobile"], vacancy, aliases), extra["mobile"], vacancy, aliases)
-    architecture = _merge_row(
-        _sort_row(rows["architecture"], vacancy, aliases), extra["architecture"], vacancy, aliases
-    )
-    testing = _merge_row(_sort_row(rows["testing"], vacancy, aliases), extra["testing"], vacancy, aliases)
-    quality = _merge_row(_sort_row(rows["quality"], vacancy, aliases), extra["quality"], vacancy, aliases)
+
+    def row(name: str) -> list[str]:
+        ranked = _sort_row(rows[name], vacancy, aliases, original=original)
+        return _merge_row(ranked, extra[name], vacancy, aliases, original)
+
+    frontend, styling, backend, state = row("frontend"), row("styling"), row("backend"), row("state")
+    cloud_ranked = _sort_row(rows["cloud"], vacancy, aliases, cap=False, original=original)
+    cloud = _merge_row(_fold_aws(cloud_ranked, vacancy)[:_PER_ROW], extra["cloud"], vacancy, aliases, original)
+    mobile, architecture = row("mobile"), row("architecture")
+    testing, quality = row("testing"), row("quality")
     (frontend, mobile, styling, backend, state, cloud, architecture, testing, quality) = _dedupe_spellings(
         [frontend, mobile, styling, backend, state, cloud, architecture, testing, quality]
     )
@@ -837,7 +873,7 @@ def vacancy_skill_keywords(
             if isinstance(values, list):
                 inventory.extend(str(x).strip() for x in values if str(x).strip())
     for name in inventory:
-        if _in_vacancy(name, vacancy, aliases):
+        if _in_vacancy(name, vacancy, aliases, vacancy_text):
             key = _norm(name)
             if key not in seen:
                 seen.add(key)

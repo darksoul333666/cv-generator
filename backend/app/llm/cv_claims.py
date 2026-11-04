@@ -316,6 +316,17 @@ def _foreign_tech(bullet: str, source: dict, master: dict) -> str:
     return ""
 
 
+def _stems_of(text: str) -> set[str]:
+    return {w[:5] for w in re.findall(r"[a-z0-9]+", _plain(text)) if len(w) >= 4}
+
+
+def _stem_backed(term: str, stems: set[str]) -> bool:
+    """Cada palabra del término (4+ letras) tiene su raíz en el perfil del empleo, en cualquier
+    idioma: «Pagination» ↔ «paginación», «Virtualization» ↔ «virtualización»."""
+    words = [w for w in re.findall(r"[a-z0-9]+", _plain(term)) if len(w) >= 4]
+    return bool(words) and all(w[:5] in stems for w in words)
+
+
 def _claim_problem(
     bullet: str, source: dict, master: dict, vacancy_only: list[str]
 ) -> str:
@@ -328,8 +339,14 @@ def _claim_problem(
     problem = _project_metric_problem(bullet, master)
     if problem:
         return problem
+    blob_stems: Optional[set[str]] = None
     for term in vacancy_only:
         if not _mentions(term, bullet):
+            continue
+        # «Pagination» en inglés y «paginación» en el perfil son lo mismo: no viene de la vacante.
+        if blob_stems is None:
+            blob_stems = _stems_of(_job_blob(source, master))
+        if _stem_backed(term, blob_stems):
             continue
         # «con NestJS, patrones de ASP.NET Core» sí; «construí la API con .NET» no.
         if framed_as_equivalent(bullet, term, _job_terms(source, master), master):

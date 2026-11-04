@@ -40,7 +40,7 @@ def _vacancy_terms(master: dict, vacancy_text: str, model_keywords: Iterable[str
         for values in (master.get("skills") or {}).values():
             inventory.extend(str(v) for v in values or [])
     for name in inventory:
-        if vacancy and _in_vacancy(str(name), vacancy, aliases):
+        if vacancy and _in_vacancy(str(name), vacancy, aliases, vacancy_text):
             add(str(name))
     for raw in model_keywords or []:
         name = _clean_overlay_name(str(raw))
@@ -78,7 +78,10 @@ def keyword_coverage(
             hit = bool(re.search(rf"(?<![a-z0-9]){re.escape(_norm(spelled))}(?![a-z0-9])", text))
         else:
             hit = _in_vacancy(term, text, aliases)
-        (matched if hit else missing).append(spelled or term)
+        label = spelled or term
+        if label in matched or label in missing:
+            continue
+        (matched if hit else missing).append(label)
     return {"matched": matched, "missing": missing, "percent": round(100 * len(matched) / len(terms))}
 
 
